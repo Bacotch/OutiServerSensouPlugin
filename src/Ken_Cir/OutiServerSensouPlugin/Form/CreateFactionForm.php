@@ -4,7 +4,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Form;
 
 use Error;
 use Exception;
-use jojoe77777\FormAPI\CustomForm;
+use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use pocketmine\Player;
 
 /**

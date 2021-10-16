@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/OutiServerPlugin.iml" filepath="$PROJECT_DIR$/.idea/OutiServerPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/OutiServerSensouPlugin.iml" filepath="$PROJECT_DIR$/.idea/OutiServerSensouPlugin.iml" />
     </modules>
   </component>
 </project>

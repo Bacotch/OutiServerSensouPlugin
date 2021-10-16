@@ -7,7 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Form;
 use DateTime;
 use Error;
 use Exception;
-use jojoe77777\FormAPI\CustomForm;
+use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use pocketmine\Player;
 
 final class SendMailForm extends FormBase
