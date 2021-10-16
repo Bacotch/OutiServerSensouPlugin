@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin;
+namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Commands\CreateFactionCommand;
-use OutiServerPlugin\Commands\SendMailCommand;
-use OutiServerPlugin\Tasks\DiscordBot;
-use OutiServerPlugin\Tasks\PlayerInfoScoreBoard;
-use OutiServerPlugin\Utils\Database;
-use OutiServerPlugin\Utils\Logger;
+use Ken_Cir\OutiServerSensouPlugin\Commands\CreateFactionCommand;
+use Ken_Cir\OutiServerSensouPlugin\Commands\SendMailCommand;
+use Ken_Cir\OutiServerSensouPlugin\Tasks\DiscordBot;
+use Ken_Cir\OutiServerSensouPlugin\Tasks\PlayerInfoScoreBoard;
+use Ken_Cir\OutiServerSensouPlugin\Utils\Database;
+use Ken_Cir\OutiServerSensouPlugin\Utils\Logger;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
@@ -113,7 +113,7 @@ class Main extends PluginBase
                 }
             ), 5, 1);
 
-            $this->getServer()->getCommandMap()->registerAll("OutiServerPlugin", [new CreateFactionCommand($this), new SendMailCommand($this)]);
+            $this->getServer()->getCommandMap()->registerAll("OutiServerSensouPlugin", [new CreateFactionCommand($this), new SendMailCommand($this)]);
 
             $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard($this), 5);
 

@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Form;
+namespace Ken_Cir\OutiServerSensouPlugin\Form;
 
 use DateTime;
 use Error;
 use Exception;
 use jojoe77777\FormAPI\CustomForm;
-use OutiServerPlugin\Tasks\SendMailAllPlayer;
 use pocketmine\Player;
 
 final class SendMailForm extends FormBase

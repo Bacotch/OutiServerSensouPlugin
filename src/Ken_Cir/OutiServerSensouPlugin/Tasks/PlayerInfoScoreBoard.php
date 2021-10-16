@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetDisplayObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetScorePacket;

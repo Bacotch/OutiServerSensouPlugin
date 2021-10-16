@@ -1,10 +1,10 @@
 #name, main, version and api are required
-name: OutiServerPlugin
-main: OutiServerPlugin\Main
+name: OutiServerSensouPlugin
+main: Ken_Cir\OutiServerSensouPlugin\Main
 description: おうちサーバー用プラグイン 戦争バージョン
 author: Ken_Cir
 version: 0.0.1
-api: 3.0.0
+api: 3.24.0
 
 permissions:
   outiserver.default:

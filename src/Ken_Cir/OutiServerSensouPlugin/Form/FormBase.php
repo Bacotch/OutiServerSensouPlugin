@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Form;
+namespace Ken_Cir\OutiServerSensouPlugin\Form;
 
-use OutiServerPlugin\Main;
-use pocketmine\Player;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 
 abstract class FormBase
 {

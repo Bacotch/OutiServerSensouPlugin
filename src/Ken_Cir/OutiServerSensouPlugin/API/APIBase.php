@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\API;
+namespace Ken_Cir\OutiServerSensouPlugin\API;
 
-use OutiServerPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\Player;
 
 /**

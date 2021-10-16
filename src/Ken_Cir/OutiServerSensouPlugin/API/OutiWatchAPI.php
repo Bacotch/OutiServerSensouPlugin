@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\API;
+namespace Ken_Cir\OutiServerSensouPlugin\API;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Form\CreateFactionForm;
-use OutiServerPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Form\CreateFactionForm;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\Player;
 
 class OutiWatchAPI extends APIBase

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Utils;
+namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
-use OutiServerPlugin\Tasks\LogDiscordSend;
+use Ken_Cir\OutiServerSensouPlugin\Tasks\LogDiscordSend;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;

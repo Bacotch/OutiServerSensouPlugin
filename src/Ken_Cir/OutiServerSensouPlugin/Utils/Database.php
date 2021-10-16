@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Utils;
+namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use SQLite3;
 use SQLiteException;
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin;
+namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Database\PlayerDatabase;
-use OutiServerPlugin\Tasks\LogDiscordSend;
-use OutiServerPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerDatabase;
+use Ken_Cir\OutiServerSensouPlugin\Tasks\LogDiscordSend;
+use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;

@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Commands;
+namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Form\CreateFactionForm;
-use OutiServerPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Form\SendMailForm;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class CreateFactionCommand extends CommandBase
+class SendMailCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
-        parent::__construct($plugin, "createfaction", "派閥を作る、既にどこかの派閥に入っている場合は使えない", "/createfaction");
+        parent::__construct($plugin, "/sendmail", "プレイヤーにメールを送信する", "/sendmail");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
@@ -26,9 +26,8 @@ class CreateFactionCommand extends CommandBase
                 return;
             }
 
-            $player = $sender->getPlayer();
-            $form = new CreateFactionForm($this->plugin);
-            $form->execute($player);
+            $form = new SendMailForm($this->plugin);
+            $form->execute($sender);
         } catch (Error | Exception $error) {
             $this->plugin->logger->error($error, $sender);
         }

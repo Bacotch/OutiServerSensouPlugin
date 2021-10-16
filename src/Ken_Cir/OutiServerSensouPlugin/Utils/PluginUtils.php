@@ -1,6 +1,6 @@
 <?php
 
-namespace OutiServerPlugin\Utils;
+namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
 class PluginUtils
 {

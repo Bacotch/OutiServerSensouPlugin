@@ -1,6 +1,6 @@
 <?php
 
-namespace OutiServerPlugin\Form;
+namespace Ken_Cir\OutiServerSensouPlugin\Form;
 
 use Error;
 use Exception;

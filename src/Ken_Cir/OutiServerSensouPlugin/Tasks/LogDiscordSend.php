@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
 
 use DateTime;
 use DateTimeZone;

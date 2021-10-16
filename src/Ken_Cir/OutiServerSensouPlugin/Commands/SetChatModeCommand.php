@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OutiServerPlugin\Commands;
+namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Error;
 use Exception;
-use OutiServerPlugin\Main;
-use OutiServerPlugin\Tasks\LogDiscordSend;
+use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Tasks\LogDiscordSend;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
