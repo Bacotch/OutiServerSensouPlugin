@@ -1,0 +1,15 @@
+#name, main, version and api are required
+name: OutiServerPlugin
+main: OutiServerPlugin\Main
+description: おうちサーバー用プラグイン 戦争バージョン
+author: Ken_Cir
+version: 0.0.1
+api: 3.0.0
+
+permissions:
+  outiserver.default:
+    description: おうち鯖 デフォルト権限
+    default: true
+  outiserver.test:
+    description: テスト権限
+    default: op

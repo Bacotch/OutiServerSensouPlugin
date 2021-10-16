@@ -1,0 +1,7 @@
+{
+    "name": "ken_cir/outiserverplugin",
+    "description": "おうち鯖専属プラグイン",
+    "require": {
+        "team-reflex/discord-php": "^5.1.3"
+    }
+}
