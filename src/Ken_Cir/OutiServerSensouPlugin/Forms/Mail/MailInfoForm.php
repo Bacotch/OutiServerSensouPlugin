@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Forms;
+namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 
 use Error;
 use Exception;
-
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\ModalForm;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-
 use Ken_Cir\OutiServerSensouPlugin\Tasks\ReturnForm;
 use pocketmine\Player;
 
-final class MailForm
+/**
+ * メール閲覧フォーム
+ */
+final class MailInfoForm
 {
     public function __construct()
     {
@@ -35,7 +36,7 @@ final class MailForm
                     if ($data === null) return true;
                     $this->info($player, current(array_slice($mail_data, $data, $data + 1)));
                 } catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                    Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
                 return true;
@@ -53,7 +54,7 @@ final class MailForm
             $player->sendForm($form);
         }
         catch (Error | Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e);
+            Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }
 
@@ -77,7 +78,7 @@ final class MailForm
                     }
                 }
                 catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                    Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
             });
 
@@ -88,7 +89,7 @@ final class MailForm
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getPluginLogger()->error($error, $player);
         }
     }
 }

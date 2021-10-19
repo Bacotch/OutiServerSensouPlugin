@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Forms;
+namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
@@ -18,7 +18,10 @@ use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
 
 use pocketmine\Player;
 
-class FactionInfoForm
+/**
+ * 派閥詳細表示フォーム
+ */
+final class FactionInfoForm
 {
     public function __construct()
     {

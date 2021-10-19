@@ -6,14 +6,14 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
-
+use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
-
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -24,8 +24,15 @@ use pocketmine\Server;
  */
 final class EventListener implements Listener
 {
+    /**
+     * @var array
+     * おうちウォッチを二重で表示させない用
+     */
+    private array $check;
+
     public function __construct()
     {
+        $this->check = [];
     }
 
     /**
@@ -37,6 +44,9 @@ final class EventListener implements Listener
         try {
             $player = $event->getPlayer();
             PlayerDataManager::getInstance()->create($player);
+            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            $player_data->addIp($player->getAddress());
+            $player_data->save();
             PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
         }
         catch (Error | Exception $error) {
@@ -71,6 +81,7 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
+            unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました");
         }
@@ -129,5 +140,31 @@ final class EventListener implements Listener
         } catch (Error | Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e);
         }
+    }
+
+    /**
+     * @param PlayerInteractEvent $event
+     * プレイヤーがブロック（空気を含む？）を操作またはタッチしたときに呼び出される
+     */
+    public function onInteract(PlayerInteractEvent $event)
+    {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        if ($event->getAction() === 1) {
+            if (!isset($this->check[$player->getName()]) and $item->getName() === "OutiWatch") {
+                $this->check[$player->getName()] = true;
+                $form = new OutiWatchForm();
+                $form->execute($player, $this);
+            }
+        }
+
+    }
+
+    /**
+     * @param string $name
+     */
+    public function unsetCheck(string $name): void
+    {
+        unset($this->check[$name]);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace Ken_Cir\OutiServerSensouPlugin\Forms;
+declare(strict_types=1);
+
+namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use DateTime;
 use Error;
@@ -9,12 +11,13 @@ use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\ModalForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
 use pocketmine\Player;
 use pocketmine\Server;
 
+/**
+ * 派閥削除フォーム
+ */
 final class DeleteFactionForm
 {
     public function __construct()
@@ -43,6 +46,7 @@ final class DeleteFactionForm
                             $time->format("Y年m月d日 H時i分")
                         );
                         $faction_player->setFaction("");
+                        $faction_player->save();
                     }
                     FactionDataManager::getInstance()->delete($player_data->getFaction());
                     $player->sendMessage("§a[システム] 派閥 $faction_name を削除しました");

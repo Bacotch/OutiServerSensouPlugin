@@ -3,7 +3,6 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/../../PocketMine-MP.phar" />
-      <path value="$PROJECT_DIR$/../FormAPI" />
       <path value="$PROJECT_DIR$/vendor/trafficcophp/bytebuffer" />
       <path value="$PROJECT_DIR$/vendor/team-reflex/discord-php" />
       <path value="$PROJECT_DIR$/vendor/react/promise" />

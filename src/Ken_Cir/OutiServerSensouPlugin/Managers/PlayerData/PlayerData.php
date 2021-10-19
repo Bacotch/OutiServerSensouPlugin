@@ -108,11 +108,13 @@ final class PlayerData
     }
 
     /**
-     * @param string[]
+     * @param string
+     * IPを追加
      */
-    public function setIp(array $ip): void
+    public function addIp(string $ip): void
     {
-        $this->ip = $ip;
+        if (isset($this->getIp()[$ip])) return;
+        $this->ip[] = $ip;
     }
 
     /**

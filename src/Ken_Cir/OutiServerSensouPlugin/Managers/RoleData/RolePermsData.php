@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Managers\RoleData;
 
+
 final class RolePermsData
 {
     /**

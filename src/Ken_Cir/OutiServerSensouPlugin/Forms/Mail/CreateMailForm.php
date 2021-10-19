@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Forms;
+namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 
 use DateTime;
 use Error;
 use Exception;
-
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-
 use Ken_Cir\OutiServerSensouPlugin\Tasks\ReturnForm;
 use pocketmine\Player;
 
-final class SendMailForm
+/**
+ * メール作成フォーム
+ */
+final class CreateMailForm
 {
     public function __construct()
     {
@@ -68,7 +69,8 @@ final class SendMailForm
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
             $player->sendForm($form);
-        } catch (Error | Exception $error) {
+        }
+        catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

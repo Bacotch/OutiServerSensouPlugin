@@ -7,17 +7,20 @@ namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 use Error;
 use Exception;
 
-use Ken_Cir\OutiServerSensouPlugin\Forms\MailForm;
+use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class MailCommand extends CommandBase
+/**
+ * おうちウォッチフォームを出すコマンド
+ */
+class OutiWatchCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
-        parent::__construct($plugin, "mail", "メール確認", "/mail", []);
+        parent::__construct($plugin, "outiwatch", "おうちウォッチフォームを出すコマンド", "/outiwatch", []);
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
@@ -28,9 +31,8 @@ class MailCommand extends CommandBase
                 return;
             }
 
-            $player = $sender->getPlayer();
-            $form = new MailForm();
-            $form->execute($player);
+            $form = new OutiWatchForm();
+            $form->execute($sender);
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);

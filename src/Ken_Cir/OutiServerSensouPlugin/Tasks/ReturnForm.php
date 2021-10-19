@@ -6,11 +6,12 @@ namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
 
 use Error;
 use Exception;
-
 use Ken_Cir\OutiServerSensouPlugin\Main;
-
 use pocketmine\scheduler\Task;
 
+/**
+ * 一定時間後フォームに移動させる用のTask
+ */
 final class ReturnForm extends Task
 {
     private $callable;

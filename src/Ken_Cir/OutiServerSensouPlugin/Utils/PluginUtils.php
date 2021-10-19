@@ -10,6 +10,9 @@ use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Message;
 use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Webhook;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
+/**
+ * おうち鯖プラグイン ユーティリティ
+ */
 final class PluginUtils
 {
     private function __construct()
@@ -59,7 +62,7 @@ final class PluginUtils
             $webhook->send($message);
         }
         catch (Error | Exception $error) {
-            echo "Discordにログを送信できませんでした\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}" . PHP_EOL;
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 }
