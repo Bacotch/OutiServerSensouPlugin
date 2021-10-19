@@ -9,6 +9,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\FactionRoleData\FactionRoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Tasks\DiscordBot;
@@ -79,6 +80,12 @@ final class Main extends PluginBase
     private MailManager $mailManager;
 
     /**
+     * @var FactionRoleDataManager
+     * 派閥ロールデータマネージャー
+     */
+    private FactionRoleDataManager $factionRoleDataManager;
+
+    /**
      * プラグインがロードされた時に呼び出される
      */
     public function onLoad()
@@ -125,11 +132,12 @@ final class Main extends PluginBase
             $this->database->executeGeneric("players.init");
             $this->database->executeGeneric("factions.init");
             $this->database->executeGeneric("mails.init");
-            $this->database->executeGeneric("roles.init");
+            $this->database->executeGeneric("faction_roles.init");
             $this->database->waitAll();
             $this->playerDataManager = new PlayerDataManager();
             $this->factionDataManager = new FactionDataManager();
             $this->mailManager = new MailManager();
+            $this->factionRoleDataManager = new FactionRoleDataManager();
 
             $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
                 function (): void {
@@ -268,5 +276,14 @@ final class Main extends PluginBase
     public function getMailManager(): MailManager
     {
         return $this->mailManager;
+    }
+
+    /**
+     * @return FactionRoleDataManager
+     * 派閥ロールデータマネージャーを返す
+     */
+    public function getFactionRoleDataManager(): FactionRoleDataManager
+    {
+        return $this->factionRoleDataManager;
     }
 }

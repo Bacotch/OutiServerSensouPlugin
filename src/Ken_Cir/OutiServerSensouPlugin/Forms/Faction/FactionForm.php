@@ -42,7 +42,7 @@ final class FactionForm
                     }
                     elseif ($data === 1) {
                         // どこにも所属していない時は作成に飛ばす
-                        if ($player_data->getFaction() === "") {
+                        if ($player_data->getFaction() === -1) {
                             $form = new CreateFactionForm();
                         }
                         // 所属していてリーダーなら削除に飛ばす
@@ -57,14 +57,14 @@ final class FactionForm
                     }
                     elseif ($data === 2) {
                         // どこかに所属しているなら詳細表示フォームに飛ばす
-                        if ($player_data->getFaction() !== "") {
+                        if ($player_data->getFaction() !== -1) {
                             $form = new FactionInfoForm();
                             $form->execute($player);
                         }
                     }
                     elseif ($data === 3) {
                         // どこかに所属しているならチャットモード変更フォームに飛ばす
-                        if ($player_data->getFaction() !== "") {
+                        if ($player_data->getFaction() !== -1) {
                             $form = new ChangeChatModeForm();
                             $form->execute($player);
                         }
@@ -78,7 +78,7 @@ final class FactionForm
 
             $form->setTitle("派閥");
             $form->addButton("戻る");
-            if ($player_data->getFaction() === "") {
+            if ($player_data->getFaction() === -1) {
                 $form->addButton("§b派閥の作成");
             }
             else {

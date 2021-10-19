@@ -7,6 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetDisplayObjectivePacket;
@@ -43,10 +44,11 @@ final class PlayerInfoScoreBoard extends Task
                 $this->sendData($player, "§c現在時刻: " . date("G時i分s秒"), 3);
                 $this->sendData($player, "§6持ってるアイテムid: " . $player->getInventory()->getItemInHand()->getId() . ":" . $player->getInventory()->getItemInHand()->getDamage(), 4);
                 $this->sendData($player, "§dPing: " . $player->getPing() . "ms", 5);
-                if ($player_data->getFaction() === "") {
+                if ($player_data->getFaction() === -1) {
                     $this->sendData($player, "§a所属派閥: 無所属", 6);
                 } else {
-                    $this->sendData($player, "§a所属派閥: {$player_data->getFaction()}", 6);
+                    $faction_data = FactionDataManager::getInstance()->get($player_data->getFaction());
+                    $this->sendData($player, "§a所属派閥: {$faction_data->getName()}", 6);
                 }
             }
         }

@@ -32,7 +32,7 @@ final class ReportForm
                     if ($data === null) return true;
                     elseif (!isset($data[0]) or !isset($data[1])) return true;
                     PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**REPORT**\n{$player->getName()} からのレポート\nレポート対象のプレイヤー名: $data[0]\nレポート内容: $data[1]");
-                    $player->sendMessage("[システム] レポートを送信しました");
+                    $player->sendMessage("§a[システム] レポートを送信しました");
                 }
                 catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);

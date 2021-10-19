@@ -32,10 +32,11 @@ final class DeleteFactionForm
     {
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            $form = new ModalForm(function(Player $player, $data) use ($player_data) {
+            $faction_data = FactionDataManager::getInstance()->get($player_data->getFaction());
+            $form = new ModalForm(function(Player $player, $data) use ($faction_data, $player_data) {
                 if ($data === true) {
-                    $faction_name = $player_data->getFaction();
-                    $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($faction_name);
+                    $faction_name = $faction_data->getName();
+                    $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
                     $time = new DateTime('now');
                     foreach ($faction_players as $faction_player) {
                         MailManager::getInstance()->create(
@@ -45,7 +46,7 @@ final class DeleteFactionForm
                             "システム",
                             $time->format("Y年m月d日 H時i分")
                         );
-                        $faction_player->setFaction("");
+                        $faction_player->setFaction(-1);
                         $faction_player->save();
                     }
                     FactionDataManager::getInstance()->delete($player_data->getFaction());
@@ -56,7 +57,7 @@ final class DeleteFactionForm
             });
 
             $form->setTitle("派閥 {$player_data->getFaction()} の削除");
-            $form->setContent("§6 派閥 {$player_data->getFaction()} を削除してもよろしいですか？\n削除してしまったら復元できません");
+            $form->setContent("§6 派閥 {$faction_data->getName()} を削除してもよろしいですか？\n削除してしまったら復元できません");
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);

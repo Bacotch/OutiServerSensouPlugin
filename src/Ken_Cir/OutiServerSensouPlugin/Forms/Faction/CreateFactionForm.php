@@ -30,7 +30,7 @@ final class CreateFactionForm
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             // 既に派閥所属済みの場合は
-            if ($player_data->getFaction() !== "") {
+            if ($player_data->getFaction() !== -1) {
                 $player->sendMessage("§cあなたは既に派閥 {$player_data->getFaction()} に所属しています");
                 return;
             }
@@ -39,8 +39,8 @@ final class CreateFactionForm
                 try {
                     if ($data === null) return true;
                     elseif (!isset($data[0]) or !isset($data[1])) return true;
-                    FactionDataManager::getInstance()->create($data[0], $player->getName(), (int)$data[1]);
-                    $player_data->setFaction($data[0]);
+                    $id = FactionDataManager::getInstance()->create($data[0], $player->getName(), (int)$data[1]);
+                    $player_data->setFaction($id);
                     $player_data->save();
                     $player->sendMessage("§a[システム]派閥 $data[0] を作成しました\n派閥の詳細は /factioninfo で確認できます");
                 } catch (Error | Exception $e) {

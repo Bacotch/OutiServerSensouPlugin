@@ -49,7 +49,7 @@ final class FactionInfoForm
             });
 
             $form->setTitle("§b派閥の詳細表示フォーム");
-            $form->addButton(PluginUtils::getChatColor($faction_data->getColor()) . "{$player_data->getFaction()}");
+            $form->addButton(PluginUtils::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {
@@ -63,12 +63,12 @@ final class FactionInfoForm
             $form = new ModalForm(function(Player $player, $data){
             });
 
-            $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($faction_data->getName());
+            $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($faction_data->getId());
             $faction_players_name = array_map(function (PlayerData $playerData) {
                 return $playerData->getName();
             }, $faction_players);
             $color = PluginUtils::getChatColor($faction_data->getColor());
-            $form->setTitle("派閥 {$color} {$faction_data->getName()} の詳細");
+            $form->setTitle("派閥 $color {$faction_data->getName()} の詳細");
             $form->setContent("§6 派閥名: {$faction_data->getName()}\n§aリーダー: {$faction_data->getOwner()}\n§d総人数: " . count($faction_players) . "人\n§b派閥所属プレイヤー§f\n" . join("\n", $faction_players_name));
             $form->setButton1("閉じる");
             $form->setButton1("閉じる");

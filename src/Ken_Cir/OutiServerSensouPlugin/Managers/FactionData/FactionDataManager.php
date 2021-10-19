@@ -26,7 +26,6 @@ final class FactionDataManager
 
     /**
      * @var int
-     * ID
      */
     private int $seq;
 
@@ -34,12 +33,26 @@ final class FactionDataManager
     {
         self::$instance = $this;
         $this->faction_datas = [];
+        Main::getInstance()->getDatabase()->executeSelect("factions.seq",
+            [],
+            function (array $row) {
+            if (count($row) < 1)  {
+                $this->seq = 0;
+                return;
+            }
+                foreach ($row as $data) {
+                    $this->seq = $data["seq"];
+                }
+            }, function (SqlError $error) {
+                Main::getInstance()->getPluginLogger()->error($error);
+            });
+        Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect("factions.load",
             [],
             function (array $row) {
                 try {
                     foreach ($row as $data) {
-                        $this->faction_datas[$data["name"]] = new FactionData($data["name"], $data["owner"], $data["color"], $data["roles"]);
+                        $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"]);
                     }
                 }
                 catch (Error | Exception $error) {
@@ -59,14 +72,14 @@ final class FactionDataManager
     }
 
     /**
-     * @param string $name
+     * @param int $id
      * @return bool|FactionData
      * 派閥データの取得
      */
-    public function get(string $name): bool|FactionData
+    public function get(int $id): bool|FactionData
     {
-        if (!isset($this->faction_datas[$name])) return false;
-        return $this->faction_datas[$name];
+        if (!isset($this->faction_datas[$id])) return false;
+        return $this->faction_datas[$id];
     }
 
     /**
@@ -74,40 +87,42 @@ final class FactionDataManager
      * @param string $owner
      * @param int $color
      * 派閥データを作成する
+     * @return int
      */
-    public function create(string $name, string $owner, int $color)
+    public function create(string $name, string $owner, int $color): int
     {
         Main::getInstance()->getDatabase()->executeInsert("factions.create",
             [
                 "name" => $name,
                 "owner" => strtolower($owner),
-                "color" => $color,
-                "roles" => serialize([])
+                "color" => $color
             ],
             null,
             function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
-        $this->faction_datas[$name] = new FactionData($name, strtolower($owner), $color, serialize([]));
+
+        $this->seq++;
+        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, strtolower($owner), $color);
+        return $this->seq;
     }
 
     /**
-     * @param string $name
-     * 派閥データを削除する
+     * @param int $id
      */
-    public function delete(string $name)
+    public function delete(int $id)
     {
-        if (!$this->get($name)) return;
+        if (!$this->get($id)) return;
         Main::getInstance()->getDatabase()->executeGeneric("factions.delete",
             [
-                "name" => $name
+                "id" => $id
             ],
             null,
             function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
-        unset($this->faction_datas[$name]);
+        unset($this->faction_datas[$id]);
     }
 }

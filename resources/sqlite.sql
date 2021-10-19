@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS players
 (
     name TEXT PRIMARY KEY,
     ip TEXT,
-    faction TEXT,
-    chatmode TEXT,
+    faction INTEGER,
+    chatmode INTEGER,
     drawscoreboard INTEGER
 );
 -- # }
@@ -15,10 +15,8 @@ CREATE TABLE IF NOT EXISTS players
 -- # { create
 -- #    :name string
 -- #    :ip string
--- #    :faction string
--- #    :chatmode string
 -- #    :drawscoreboard int
-INSERT INTO players VALUES (:name, :ip, :faction, :chatmode, :drawscoreboard);
+INSERT INTO players VALUES (:name, :ip, -1, -1, :drawscoreboard);
 -- # }
 
 -- # { load
@@ -27,8 +25,8 @@ SELECT * FROM players;
 
 -- # { update
 -- #    :ip string
--- #    :faction string
--- #    :chatmode string
+-- #    :faction int
+-- #    :chatmode int
 -- #    :drawscoreboard int
 -- #    :name string
 UPDATE players SET ip = :ip, faction = :faction, chatmode = :chatmode, drawscoreboard = :drawscoreboard WHERE name = :name;
@@ -48,10 +46,10 @@ DROP TABLE IF EXISTS players;
 -- # { init
 CREATE TABLE IF NOT EXISTS factions
 (
-    name TEXT PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
     owner TEXT,
-    color INTEGER,
-    roles TEXT
+    color INTEGER
 );
 -- # }
 
@@ -59,8 +57,11 @@ CREATE TABLE IF NOT EXISTS factions
 -- #    :name string
 -- #    :owner string
 -- #    :color int
--- #    :roles string
-INSERT INTO factions VALUES (:name, :owner, :color, :roles);
+INSERT INTO factions (name, owner, color) VALUES (:name, :owner, :color);
+-- # }
+
+-- # { seq
+SELECT seq FROM sqlite_sequence WHERE name = 'factions';
 -- # }
 
 -- # { load
@@ -68,15 +69,16 @@ SELECT * FROM factions;
 -- # }
 
 -- # { update
+-- #    :name string
 -- #    :owner string
 -- #    :color int
--- #    :name string
-UPDATE factions SET owner = :owner, color = :color, roles = :roles WHERE name = :name;
+-- #    :id int
+UPDATE factions SET name = :name, owner = :owner, color = :color WHERE id = :id;
 -- # }
 
 -- # { delete
--- #    :name string
-DELETE FROM factions WHERE name = :name;
+-- #    :id int
+DELETE FROM factions WHERE id = :id;
 -- # }
 
 -- # { drop
@@ -131,7 +133,7 @@ DROP TABLE IF EXISTS mails;
 -- # }
 -- # }
 
--- # { roles
+-- # { faction_roles
 -- # { init
 CREATE TABLE IF NOT EXISTS faction_roles
 (

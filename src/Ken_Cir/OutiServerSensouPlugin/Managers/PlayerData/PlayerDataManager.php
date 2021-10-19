@@ -74,8 +74,6 @@ final class PlayerDataManager
             [
                 "name" => strtolower($player->getName()),
                 "ip" => serialize([$player->getAddress()]),
-                "faction" => "",
-                "chatmode" => "全体",
                 "drawscoreboard" => 1
             ],
             null,
@@ -83,7 +81,7 @@ final class PlayerDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
-        $this->player_datas[strtolower($player->getName())] = new PlayerData(strtolower($player->getName()), serialize([$player->getAddress()]), "", "全体", 1);
+        $this->player_datas[strtolower($player->getName())] = new PlayerData(strtolower($player->getName()), serialize([$player->getAddress()]), -1, -1, 1);
         PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
     }
 
@@ -108,14 +106,14 @@ final class PlayerDataManager
     }
 
     /**
-     * @param string $name
+     * @param int $id
      * @return PlayerData[]
      * nameに所属している派閥メンバーを返す
      */
-    public function getFactionPlayers(string $name): array
+    public function getFactionPlayers(int $id): array
     {
-        return array_filter($this->player_datas, function ($playerData) use ($name) {
-            return $playerData->getFaction() === $name;
+        return array_filter($this->player_datas, function ($playerData) use ($id) {
+            return $playerData->getFaction() === $id;
         });
     }
 }

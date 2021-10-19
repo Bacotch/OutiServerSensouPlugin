@@ -25,16 +25,16 @@ final class PlayerData
     private array $ip;
 
     /**
-     * @var string
+     * @var int
      * 所属派閥名
      */
-    private string $faction;
+    private int $faction;
 
     /**
-     * @var string
+     * @var int
      * チャットモード
      */
-    private string $chatmode;
+    private int $chatmode;
 
     /**
      * @var int
@@ -49,7 +49,7 @@ final class PlayerData
      * @param string $chatmode
      * @param int $drawscoreboard
      */
-    public function __construct(string $name, string $ip, string $faction, string $chatmode, int $drawscoreboard)
+    public function __construct(string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard)
     {
         $this->name = $name;
         $this->ip = unserialize($ip);
@@ -118,33 +118,33 @@ final class PlayerData
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getFaction(): string
+    public function getFaction(): int
     {
         return $this->faction;
     }
 
     /**
-     * @param string $faction
+     * @param int $faction
      */
-    public function setFaction(string $faction): void
+    public function setFaction(int $faction): void
     {
         $this->faction = $faction;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getChatmode(): string
+    public function getChatmode(): int
     {
         return $this->chatmode;
     }
 
     /**
-     * @param string $chatmode
+     * @param int $chatmode
      */
-    public function setChatmode(string $chatmode): void
+    public function setChatmode(int $chatmode): void
     {
         $this->chatmode = $chatmode;
     }

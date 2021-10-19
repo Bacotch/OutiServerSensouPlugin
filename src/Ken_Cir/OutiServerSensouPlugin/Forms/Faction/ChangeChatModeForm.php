@@ -32,7 +32,7 @@ final class ChangeChatModeForm
                     $player_data = PlayerDataManager::getInstance()->get($player->getName());
                     if ($data === null) return true;
                     elseif ($data[0] === 0) {
-                        $player_data->setChatmode("全体");
+                        $player_data->setChatmode(-1);
                         $player->sendMessage("§a[システム] チャットモードを§f全体§aに変更しました");
                     }
                     elseif ($data[0] === 1) {

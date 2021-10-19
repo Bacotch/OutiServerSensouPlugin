@@ -32,7 +32,7 @@ final class RequestForm
                     if ($data === null) return true;
                     elseif (!isset($data[0])) return true;
                     PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**要望**\n{$player->getName()} からの要望\n$data[0]");
-                    $player->sendMessage("[システム] 要望を送信しました");
+                    $player->sendMessage("§a[システム] 要望を送信しました");
                 }
                 catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);

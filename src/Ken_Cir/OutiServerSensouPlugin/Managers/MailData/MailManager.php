@@ -28,6 +28,10 @@ final class MailManager
         Main::getInstance()->getDatabase()->executeSelect("mails.seq",
             [],
             function (array $row) {
+                if (count($row) < 1)  {
+                    $this->seq = 0;
+                    return;
+                }
                 foreach ($row as $data) {
                     $this->seq = $data["seq"];
                 }

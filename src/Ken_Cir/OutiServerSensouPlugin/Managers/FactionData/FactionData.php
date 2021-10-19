@@ -6,10 +6,15 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
 
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 
 final class FactionData
 {
+    /**
+     * @var int
+     * 派閥ID
+     */
+    private int $id;
+
     /**
      * @var string
      * 派閥名
@@ -29,23 +34,17 @@ final class FactionData
     private int $color;
 
     /**
-     * @var RoleDataManager
-     * ロールマネージャー
-     */
-    private RoleDataManager $roleDataManager;
-
-    /**
+     * @param int $id
      * @param string $name
      * @param string $owner
      * @param int $color
-     * @param array $roles
      */
-    public function __construct(string $name, string $owner, int $color, string $roles)
+    public function __construct(int $id, string $name, string $owner, int $color)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->owner = $owner;
         $this->color = $color;
-        $this->roleDataManager = new RoleDataManager(unserialize($roles));
     }
 
     /**
@@ -55,10 +54,10 @@ final class FactionData
     {
         Main::getInstance()->getDatabase()->executeChange("factions.update",
             [
+                "name" => $this->name,
                 "owner" => $this->owner,
                 "color" => $this->color,
-                "roles" => serialize($this->roleDataManager->getRoleDatas()),
-                "name" => $this->name,
+                "id" => $this->id
             ],
             null,
             function (SqlError $error) {
@@ -68,11 +67,27 @@ final class FactionData
     }
 
     /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     /**
@@ -105,13 +120,5 @@ final class FactionData
     public function setColor(int $color): void
     {
         $this->color = $color;
-    }
-
-    /**
-     * @return RoleDataManager
-     */
-    public function getRoleDataManager(): RoleDataManager
-    {
-        return $this->roleDataManager;
     }
 }

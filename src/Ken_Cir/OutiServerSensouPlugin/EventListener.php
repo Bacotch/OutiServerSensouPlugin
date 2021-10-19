@@ -100,17 +100,17 @@ final class EventListener implements Listener
             $player = $event->getPlayer();
             $message = $event->getMessage();
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            if ($player_data->getFaction() === "") {
+            if ($player_data->getFaction() === -1) {
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
             }
             else {
                 $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
                 $color = PluginUtils::getChatColor($faction->getColor());
-                $event->setFormat("{$color}[{$player_data->getFaction()}]§f[{$player->getName()}] $message");
+                $event->setFormat("{$color}[{$faction->getName()}]§f[{$player->getName()}] $message");
             }
 
             // 派閥専用チャットの場合は
-            if ($player_data->getChatmode() !== "全体") {
+            if ($player_data->getChatmode() !== -1) {
                 $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
                 $server = Server::getInstance();
 
