@@ -2,7 +2,14 @@
 
 namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
-class PluginUtils
+use DateTime;
+use DateTimeZone;
+use Error;
+use Exception;
+use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Message;
+use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Webhook;
+
+final class PluginUtils
 {
     private function __construct()
     {
@@ -33,5 +40,25 @@ class PluginUtils
             15 => "§f",
             default => "",
         };
+    }
+
+    static public function sendDiscordLog(string $url, string $content)
+    {
+        try {
+            if ($url === "" or $content === "") return;
+            try {
+                $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
+            } catch (Exception) {
+                return;
+            }
+
+            $webhook = new Webhook($url);
+            $message = new Message();
+            $message->setContent("```[{$time->format('Y-m-d H:i:sP')}]: $content```");
+            $webhook->send($message);
+        }
+        catch (Error | Exception $error) {
+            echo "Discordにログを送信できませんでした\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}" . PHP_EOL;
+        }
     }
 }

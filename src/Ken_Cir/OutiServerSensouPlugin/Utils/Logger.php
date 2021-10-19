@@ -4,38 +4,14 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
-use Ken_Cir\OutiServerSensouPlugin\Tasks\LogDiscordSend;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\Player;
 use pocketmine\Server;
-use pocketmine\utils\Config;
 
-class Logger
+final class Logger
 {
-    /**
-     * @var Config
-     * コンフィグインスタンス
-     */
-    private Config $config;
-
-    /**
-     * @param Config $config
-     * 初期化
-     */
-    public function __construct(Config $config)
+    public function __construct()
     {
-        $this->config = $config;
-    }
-
-    /**
-     * @param string $message
-     * ログ出力
-     */
-    public function info(string $message)
-    {
-        Server::getInstance()->getLogger()->info($message);
-        Server::getInstance()->getAsyncPool()->submitTask(
-            new LogDiscordSend($this->config, $message, LogDiscordSend::SERVER)
-        );
     }
 
     /**
@@ -45,10 +21,11 @@ class Logger
      */
     public function error($error, ?Player $player = null)
     {
-        Server::getInstance()->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
-        Server::getInstance()->getAsyncPool()->submitTask(
-            new LogDiscordSend($this->config, "ファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}", LogDiscordSend::ERROR)
+        PluginUtils::sendDiscordLog(
+            Main::getInstance()->getPluginConfig()->get("Discord_Error_Webhook", ""),
+            "ファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}"
         );
+        Server::getInstance()->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
 
         // もしPlayerインスタンスが引数に指定されていたら
         if ($player instanceof Player) {

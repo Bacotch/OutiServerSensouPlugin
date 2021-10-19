@@ -7,17 +7,17 @@ namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 use Error;
 use Exception;
 
-use Ken_Cir\OutiServerSensouPlugin\Forms\CreateFactionForm;
+use Ken_Cir\OutiServerSensouPlugin\Forms\MailForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class CreateFactionCommand extends CommandBase
+class MailCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
-        parent::__construct($plugin, "createfaction", "派閥を作る、既にどこかの派閥に入っている場合は使えない", "/createfaction");
+        parent::__construct($plugin, "/mail", "メール確認", "/mail", []);
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
@@ -29,9 +29,10 @@ class CreateFactionCommand extends CommandBase
             }
 
             $player = $sender->getPlayer();
-            $form = new CreateFactionForm();
+            $form = new MailForm();
             $form->execute($player);
-        } catch (Error | Exception $error) {
+        }
+        catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

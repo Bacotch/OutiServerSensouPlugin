@@ -8,7 +8,6 @@ use Discord\Discord;
 use Discord\Exceptions\IntentException;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
-use Discord\Parts\Embed\Embed;
 use Discord\Parts\User\Member;
 use pocketmine\Thread;
 use pocketmine\utils\TextFormat;
@@ -144,11 +143,6 @@ class DiscordBot extends Thread
         $discord->on('ready', function (Discord $discord) {
             $this->started = true;
             echo "Bot is ready." . PHP_EOL;
-            $embed = new Embed($discord);
-            $embed->setTitle("テスト");
-            $discord->getChannel("897421937444282398")->sendEmbed(
-                $embed
-            );
 
             $discord->on('message', function (Message $message) use ($discord) {
                 if ($message->author instanceof Member ? $message->author->user->bot : $message->author->bot or $message->type !== Message::TYPE_NORMAL or $message->channel->type !== Channel::TYPE_TEXT or $message->content === "") return;

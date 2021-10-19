@@ -2,16 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Form;
+namespace Ken_Cir\OutiServerSensouPlugin\Forms;
 
 use DateTime;
 use Error;
 use Exception;
+
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
+
+use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\Player;
 
-final class SendMailForm extends FormBase
+final class SendMailForm
 {
+    public function __construct()
+    {
+    }
+
     /**
      * @param Player $player
      * フォーム実行
@@ -26,21 +34,26 @@ final class SendMailForm extends FormBase
                     $author = $player->getName();
                     $time = new DateTime('now');
                     // 送信者名義を「運営」に
-                    if (isset($data[4]) and $data[4]) {
+                    if ($data[4]) {
                         $author = "運営";
                     }
                     // 全員に送信する
-                    if (isset($data[3]) and $data[3]) {
-                        $this->plugin->database->addAllPlayerMail( $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                    if ($data[3]) {
+                       // $this->plugin->database->addAllPlayerMail( $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                         $player->sendMessage("§a[システム] プレイヤー全員にメールを送信しました");
                         return true;
                     }
 
-                    $this->plugin->database->addPlayerMail($data[2], $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                    $player_data = PlayerDataManager::getInstance()->get($data[2]);
+                    if (!$player_data) {
+                        $player->sendMessage("§a[システム] §c$data[2] のプレイヤーデータが見つかりません");
+                        return true;
+                    }
+                    $player_data->getMailManager()->create($data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                    $player_data->save();
                     $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
-                    return true;
                 } catch (Error | Exception $e) {
-                    $this->plugin->logger->error($e, $player);
+                    Main::getInstance()->getPluginLogger()->error($e);
                 }
 
                 return true;
@@ -56,7 +69,7 @@ final class SendMailForm extends FormBase
             }
             $player->sendForm($form);
         } catch (Error | Exception $error) {
-            $this->plugin->logger->error($error, $player);
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 }

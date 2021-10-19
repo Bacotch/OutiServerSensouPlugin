@@ -1,7 +1,6 @@
 ---
 # ---プラグイン設定---
 
-
 # ---Discord関係設定---
 # BotのToken
 Discord_Bot_Token: ""

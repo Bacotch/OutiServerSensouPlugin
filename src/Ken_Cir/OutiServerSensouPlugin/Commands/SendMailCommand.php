@@ -6,12 +6,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\Form\SendMailForm;
+
+use Ken_Cir\OutiServerSensouPlugin\Forms\SendMailForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class SendMailCommand extends CommandBase
+final class SendMailCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
@@ -26,10 +28,10 @@ class SendMailCommand extends CommandBase
                 return;
             }
 
-            $form = new SendMailForm($this->plugin);
+            $form = new SendMailForm();
             $form->execute($sender);
         } catch (Error | Exception $error) {
-            $this->plugin->logger->error($error, $sender);
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 }

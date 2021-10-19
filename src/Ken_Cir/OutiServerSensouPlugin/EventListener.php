@@ -6,9 +6,11 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\Database\PlayerDatabase;
-use Ken_Cir\OutiServerSensouPlugin\Tasks\LogDiscordSend;
+
+use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -19,19 +21,10 @@ use pocketmine\Server;
 /**
  * PMMPイベント処理クラス
  */
-class EventListener implements Listener
+final class EventListener implements Listener
 {
-    /**
-     * @var Main
-     */
-    private Main $plugin;
-
-    /**
-     * @param Main $plugin
-     */
-    public function __construct(Main $plugin)
+    public function __construct()
     {
-        $this->plugin = $plugin;
     }
 
     /**
@@ -42,11 +35,11 @@ class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            $this->plugin->getServer()->getAsyncPool()->submitTask(
-                new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました", LogDiscordSend::PLAYER)
-            );
-        } catch (Error | Exception $error) {
-            $this->plugin->logger->error($error);
+            PlayerDataManager::getInstance()->create($player);
+            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 
@@ -58,16 +51,14 @@ class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            $this->plugin->database->addPlayer($player->getName(), $player->getAddress());
-            if (($mail_count = $this->plugin->database->getPlayerNewMail($player->getName())) > 0) {
+            if (($mail_count = PlayerDataManager::getInstance()->get($player->getName())->getMailManager()->unReadCount()) > 0) {
                 $player->sendMessage("§a未読メールが{$mail_count}件あります");
             }
-            $this->plugin->discord_client->sendChatMessage("{$player->getName()}がサーバーに参加しました");
-            $this->plugin->getServer()->getAsyncPool()->submitTask(
-                new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()}\nIP {$player->getAddress()} がサーバーに参加しました", LogDiscordSend::PLAYER)
-            );
+
+            Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
+            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーに参加しました");
         } catch (Error | Exception $error) {
-            $this->plugin->logger->error($error);
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 
@@ -79,12 +70,11 @@ class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            $this->plugin->discord_client->sendChatMessage("{$player->getName()}がサーバーから退出しました");
-            $this->plugin->getServer()->getAsyncPool()->submitTask(
-                new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました", LogDiscordSend::PLAYER)
-            );
-        } catch (Error | Exception $error) {
-            $this->plugin->logger->error($error);
+            Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
+            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました");
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 
@@ -97,26 +87,26 @@ class EventListener implements Listener
         try {
             $player = $event->getPlayer();
             $message = $event->getMessage();
-            $player_data = $this->plugin->database->getPlayer($player->getName());
-            if ($player_data["faction"]) {
-                $faction = $this->plugin->database->getFactionById($player_data["faction"]);
-                $color = PluginUtils::getChatColor((int)$faction["color"]);
-                $event->setFormat("{$color}[{$faction["name"]}]§f[{$player->getName()}] $message");
-            } else {
-                $event->setFormat("§f[無所属]§f[{$player->getName()}] $message");
+            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            if ($player_data->getFaction() === "") {
+                $event->setFormat("§f[無所属][{$player->getName()}] $message");
+            }
+            else {
+                $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
+                $color = PluginUtils::getChatColor($faction->getColor());
+                $event->setFormat("{$color}[{$player_data->getFaction()}]§f[{$player->getName()}] $message");
             }
 
             // 派閥専用チャットの場合は
-            if ($player_data["chatmode"] !== -1) {
-                $faction = $this->plugin->database->getFactionById($player_data["faction"]);
-                $faction_players = $this->plugin->database->getPlayerfaction($faction["id"]);
+            if ($player_data->getChatmode() !== "全体") {
+                $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
                 $server = Server::getInstance();
 
                 // 同じ派閥にメッセージを送る
                 if ($faction_players) {
                     foreach ($faction_players as $f_p) {
-                        $faction_player = $server->getPlayer($f_p["name"]);
-                        $faction_player->sendMessage($event->getMessage());
+                        $faction_player = $server->getPlayer($f_p->getName());
+                        $faction_player->sendMessage($event->getFormat());
                     }
                 }
 
@@ -124,25 +114,19 @@ class EventListener implements Listener
                 foreach ($server->getOnlinePlayers() as $onlinePlayer) {
                     if (!$onlinePlayer->isOp()) continue;
                     // メッセージ送信済みの場合は
-                    elseif ($this->plugin->database->getPlayer($onlinePlayer->getName())["faction"] === $faction["id"]) continue;
-                    $onlinePlayer->sendMessage($event->getMessage());
+                    elseif (PlayerDataManager::getInstance()->get($onlinePlayer->getName())->getFaction() === $player_data->getFaction()) continue;
+                    $onlinePlayer->sendMessage($event->getFormat());
                 }
 
                 // ログに記録
-                $this->plugin->getServer()->getAsyncPool()->submitTask(
-                    new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()}のチャットメッセージ\n範囲: {$faction["name"]} 派閥\nメッセージ: $message", LogDiscordSend::SERVER)
-                );
-
+                Main::getInstance()->getLogger()->info($event->getFormat());
                 $event->setCancelled();
                 return;
             }
 
-            $this->plugin->discord_client->sendChatMessage("{$event->getFormat()} >> {$event->getMessage()}");
-            $this->plugin->getServer()->getAsyncPool()->submitTask(
-                new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()}のチャットメッセージ\n範囲: 全体\nメッセージ: $message", LogDiscordSend::SERVER)
-            );
+            Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
         } catch (Error | Exception $e) {
-            $this->plugin->logger->error($e);
+            Main::getInstance()->getPluginLogger()->error($e);
         }
     }
 }

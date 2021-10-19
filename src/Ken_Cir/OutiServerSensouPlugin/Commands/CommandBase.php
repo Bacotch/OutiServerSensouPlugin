@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Ken_Cir\OutiServerSensouPlugin\Main;
+
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
@@ -20,7 +21,6 @@ abstract class CommandBase extends Command implements PluginIdentifiableCommand
 
     /**
      * コマンドを作成する
-     *
      * @param Main $plugin
      * @param string $name
      * @param string $description

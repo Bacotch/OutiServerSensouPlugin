@@ -6,12 +6,15 @@ namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Error;
 use Exception;
+
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Tasks\LogDiscordSend;
+use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
+
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
-class SetChatModeCommand extends CommandBase
+final class SetChatModeCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
@@ -32,29 +35,26 @@ class SetChatModeCommand extends CommandBase
             }
 
             $player = $sender->getPlayer();
+            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            if (!$player_data) return;
 
             if ($args[0] === "全体") {
-                $this->plugin->database->set_Player_ChatMode($player->getName(), -1);
-                $sender->sendMessage("チャットモードを 全体 に切り替えました");
-                $this->plugin->getServer()->getAsyncPool()->submitTask(
-                    new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()} がチャットモードを 全体 に切り替えました", LogDiscordSend::PLUGIN)
-                );
+                $player_data->setChatmode("全体");
+                $sender->sendMessage("§a[システム] §fチャットモードを 全体 に切り替えました");
+
             } else {
-                $faction = $this->plugin->database->get_faction_byName($args[0]);
-                if (!$faction) {
+                $faction_data = FactionDataManager::getInstance()->get($args[0]);
+                if (!$faction_data) {
                     $sender->sendMessage("派閥 $args[0] は存在しません");
-                } elseif ($this->plugin->database->get_Player($player->getName())["faction"] !== $faction["id"]) {
+                } elseif ($player_data->getFaction() !== $args[0]) {
                     $sender->sendMessage("あなたは派閥 $args[0] に所属していません");
                 } else {
-                    $this->plugin->database->set_Player_faction($player->getName(), $faction["id"]);
+                    $player_data->setChatmode($faction_data->getName());
                     $sender->sendMessage("チャットモードを派閥 $args[0] のチャットに切り替えました");
-                    $this->plugin->getServer()->getAsyncPool()->submitTask(
-                        new LogDiscordSend($this->plugin->config, "\nPlayer {$player->getName()} がチャットモードを 派閥 $args[0] に切り替えました", LogDiscordSend::PLUGIN)
-                    );
                 }
             }
         } catch (Error | Exception $error) {
-            $this->plugin->logger->error($error, $sender);
+            Main::getInstance()->getPluginLogger()->error($error);
         }
     }
 }

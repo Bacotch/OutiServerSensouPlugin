@@ -36,8 +36,8 @@ class Database
 
         try {
             $this->db = new SQLite3($dir);
-            $this->db->exec("DROP TABLE players");
-            $this->db->exec("DROP TABLE factions");
+            # $this->db->exec("DROP TABLE players");
+            # $this->db->exec("DROP TABLE factions");
             $this->db->exec("CREATE TABLE IF NOT EXISTS players (name TEXT PRIMARY KEY, ip TEXT, faction INTEGER, chatmode INTEGER, drawscoreboard INTEGER, mails TEXT)");
             $this->db->exec("CREATE TABLE IF NOT EXISTS factions (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, owner TEXT, color INTEGER)");
         } catch (SQLiteException | Error | Exception $error) {
