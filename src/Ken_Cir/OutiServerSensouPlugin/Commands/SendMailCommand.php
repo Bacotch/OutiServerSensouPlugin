@@ -17,7 +17,7 @@ final class SendMailCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
-        parent::__construct($plugin, "/sendmail", "プレイヤーにメールを送信する", "/sendmail");
+        parent::__construct($plugin, "sendmail", "プレイヤーにメールを送信する", "/sendmail");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)

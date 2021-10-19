@@ -17,7 +17,7 @@ use Threaded;
 /**
  * DiscordBot用のスレッド
  */
-class DiscordBot extends Thread
+final class DiscordBot extends Thread
 {
     /**
      * @var bool

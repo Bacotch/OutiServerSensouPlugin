@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS players
     ip TEXT,
     faction TEXT,
     chatmode TEXT,
-    drawscoreboard INTEGER,
-    mails TEXT
+    drawscoreboard INTEGER
 );
 -- # }
 
@@ -19,8 +18,7 @@ CREATE TABLE IF NOT EXISTS players
 -- #    :faction string
 -- #    :chatmode string
 -- #    :drawscoreboard int
--- #    :mails string
-INSERT INTO players VALUES (:name, :ip, :faction, :chatmode, :drawscoreboard, :mails);
+INSERT INTO players VALUES (:name, :ip, :faction, :chatmode, :drawscoreboard);
 -- # }
 
 -- # { load
@@ -32,9 +30,8 @@ SELECT * FROM players;
 -- #    :faction string
 -- #    :chatmode string
 -- #    :drawscoreboard int
--- #    :mails string
 -- #    :name string
-UPDATE players SET ip = :ip, faction = :faction, chatmode = :chatmode, drawscoreboard = :drawscoreboard, mails = :mails WHERE name = :name;
+UPDATE players SET ip = :ip, faction = :faction, chatmode = :chatmode, drawscoreboard = :drawscoreboard WHERE name = :name;
 -- # }
 
 -- # { delete
@@ -89,11 +86,47 @@ DROP TABLE IF EXISTS factions;
 
 -- # { mails
 -- # { init
-CREATE TABLE IF NOT EXISTS factions
+CREATE TABLE IF NOT EXISTS mails
 (
-    name TEXT PRIMARY KEY,
-    owner TEXT,
-    color INTEGER,
-    roles TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    title TEXT,
+    content TEXT,
+    author TEXT,
+    date TEXT,
+    read INTEGER
 );
+-- # }
+
+-- # { create
+-- #    :name string
+-- #    :title string
+-- #    :content string
+-- #    :author string
+-- #    :date string
+INSERT INTO mails (name, title, content, author, date, read) VALUES (:name, :title, :content, :author, :date, 0);
+-- # }
+
+-- # { seq
+SELECT seq FROM sqlite_sequence WHERE name = 'mails';
+-- # }
+
+-- # { load
+SELECT * FROM mails;
+-- # }
+
+-- # { update
+-- #    :read int
+-- #    :id int
+UPDATE mails SET read = :read WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE FROM mails WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS mails;
+-- # }
 -- # }

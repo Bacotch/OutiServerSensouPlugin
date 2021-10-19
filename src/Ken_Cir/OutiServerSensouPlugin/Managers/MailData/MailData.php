@@ -11,7 +11,8 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 
 final class MailData
 {
-
+    private int $id;
+    private string $name;
     /**
      * @var string
      * メールタイトル
@@ -20,10 +21,12 @@ final class MailData
     private string $content;
     private string $author;
     private string $date;
-    private bool $read;
+    private int $read;
 
-    public function __construct(string $title, string $content, string $author, string $date, bool $read)
+    public function __construct(int $id, string $name, string $title, string $content, string $author, string $date, int $read)
     {
+        $this->id = $id;
+        $this->name = $name;
         $this->title = $title;
         $this->content = $content;
         $this->author = $author;
@@ -31,16 +34,20 @@ final class MailData
         $this->read = $read;
     }
 
-
-    public function toArray()
+    /**
+     * @return int
+     */
+    public function getId(): int
     {
-        return array(
-            "title" => $this->title,
-            "content" => $this->content,
-            "author" => $this->author,
-            "date" => $this->date,
-            "read" => $this->read
-        );
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**
@@ -80,7 +87,7 @@ final class MailData
      */
     public function isRead(): bool
     {
-        return $this->read;
+        return (bool)$this->read;
     }
 
     /**
@@ -88,6 +95,21 @@ final class MailData
      */
     public function setRead(bool $read): void
     {
-        $this->read = $read;
+        try {
+            $this->read = (int)$read;
+            Main::getInstance()->getDatabase()->executeChange("mails.update",
+                [
+                    "read" => $this->read,
+                    "id" => $this->id
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
     }
 }

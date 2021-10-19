@@ -17,7 +17,7 @@ class MailCommand extends CommandBase
 {
     public function __construct(Main $plugin)
     {
-        parent::__construct($plugin, "/mail", "メール確認", "/mail", []);
+        parent::__construct($plugin, "mail", "メール確認", "/mail", []);
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)

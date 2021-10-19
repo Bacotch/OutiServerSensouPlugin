@@ -11,9 +11,9 @@ use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\ModalForm;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 
+use Ken_Cir\OutiServerSensouPlugin\Tasks\ReturnForm;
 use pocketmine\Player;
 
 final class MailForm
@@ -29,23 +29,11 @@ final class MailForm
     public function execute(Player $player)
     {
         try {
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            $mails = [];
-            foreach ($player_data->getMailManager()->getAll() as $mail) {
-                array_unshift($mails, $mail);
-            }
-            $form = new SimpleForm(function (Player $player, $data) use ($player_data) {
+            $mail_data = MailManager::getInstance()->getPlayerName($player->getName());
+            $form = new SimpleForm(function (Player $player, $data) use ($mail_data) {
                 try {
                     if ($data === null) return true;
-                    $count = 0;
-                    foreach ($player_data->getMailManager()->getAll() as $mail) {
-                        if ($count === $data) {
-                            $this->info($player, $mail, $player_data);
-                            break;
-                        }
-
-                        $count++;
-                    }
+                    $this->info($player, current(array_slice($mail_data, $data, $data + 1)));
                 } catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e);
                 }
@@ -53,8 +41,8 @@ final class MailForm
                 return true;
             });
 
-            $form->setTitle("§bメールフォーム");
-            foreach ($player_data->getMailManager()->getAll() as $mail) {
+            $form->setTitle("メールフォーム");
+            foreach ($mail_data as $mail) {
                 if ($mail->isRead()) {
                     $form->addButton("§0[{$mail->getDate()}] {$mail->getTitle()}");
                 }
@@ -73,17 +61,24 @@ final class MailForm
      * @param Player $player
      * @param MailData $mailData
      */
-    private function info(Player $player, MailData $mailData, PlayerData $playerData)
+    private function info(Player $player, MailData $mailData)
     {
         try {
-            $form = new ModalForm(function(Player $player, $data) use ($playerData, $mailData) {
-                if ($data === true) {
-                    $playerData->getMailManager()->delete($mailData->getTitle());
+            $form = new ModalForm(function(Player $player, $data) use ($mailData) {
+                try {
+                    if ($data === true) {
+                        MailManager::getInstance()->delete($mailData->getId());
+                        $player->sendMessage("§a[システム] 削除しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
+                    }
+                    else {
+                        $mailData->setRead(true);
+                        $this->execute($player);
+                    }
                 }
-                else {
-                    $mailData->setRead(true);
+                catch (Error | Exception $e) {
+                    Main::getInstance()->getPluginLogger()->error($e);
                 }
-                $playerData->save();
             });
 
             $form->setTitle("メール {$mailData->getTitle()}");

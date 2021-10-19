@@ -8,6 +8,7 @@ use Error;
 use Exception;
 
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
 
@@ -51,7 +52,7 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            if (($mail_count = PlayerDataManager::getInstance()->get($player->getName())->getMailManager()->unReadCount()) > 0) {
+            if (($mail_count = MailManager::getInstance()->unReadCount($player->getName())) > 0) {
                 $player->sendMessage("§a未読メールが{$mail_count}件あります");
             }
 

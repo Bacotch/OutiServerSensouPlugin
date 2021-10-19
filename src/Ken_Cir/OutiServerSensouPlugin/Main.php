@@ -15,6 +15,7 @@ use Ken_Cir\OutiServerSensouPlugin\Commands\SendMailCommand;
 use Ken_Cir\OutiServerSensouPlugin\Commands\SetChatModeCommand;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Tasks\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Tasks\PlayerInfoScoreBoard;
@@ -78,6 +79,15 @@ final class Main extends PluginBase
      */
     private FactionDataManager $factionDataManager;
 
+    /**
+     * @var MailManager
+     * メールデータマネージャー
+     */
+    private MailManager $mailManager;
+
+    /**
+     * プラグインがロードされた時に呼び出される
+     */
     public function onLoad()
     {
         self::$instance = $this;
@@ -120,9 +130,11 @@ final class Main extends PluginBase
             */
             $this->database->executeGeneric("players.init");
             $this->database->executeGeneric("factions.init");
+            $this->database->executeGeneric("mails.init");
             $this->database->waitAll();
             $this->playerDataManager = new PlayerDataManager();
             $this->factionDataManager = new FactionDataManager();
+            $this->mailManager = new MailManager();
 
             unset($token);
 

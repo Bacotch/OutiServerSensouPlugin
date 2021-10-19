@@ -9,7 +9,6 @@ use Exception;
 
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 
 final class PlayerData
 {
@@ -43,8 +42,6 @@ final class PlayerData
      */
     private int $drawscoreboard;
 
-    private MailManager $mailManager;
-
     /**
      * @param string $name
      * @param string $ip
@@ -52,14 +49,13 @@ final class PlayerData
      * @param string $chatmode
      * @param int $drawscoreboard
      */
-    public function __construct(string $name, string $ip, string $faction, string $chatmode, int $drawscoreboard, array $mails)
+    public function __construct(string $name, string $ip, string $faction, string $chatmode, int $drawscoreboard)
     {
         $this->name = $name;
         $this->ip = unserialize($ip);
         $this->faction = $faction;
         $this->chatmode = $chatmode;
         $this->drawscoreboard = $drawscoreboard;
-        $this->mailManager = new MailManager($mails);
     }
 
     /**
@@ -74,7 +70,6 @@ final class PlayerData
                     "faction" => $this->faction,
                     "chatmode" => $this->chatmode,
                     "drawscoreboard" => $this->drawscoreboard,
-                    "mails" => serialize($this->mailManager->getMailDatas()),
                     "name" => $this->name
                 ],
                 null,
@@ -166,13 +161,5 @@ final class PlayerData
     public function setDrawscoreboard(int $drawscoreboard): void
     {
         $this->drawscoreboard = $drawscoreboard;
-    }
-
-    /**
-     * @return MailManager
-     */
-    public function getMailManager(): MailManager
-    {
-        return $this->mailManager;
     }
 }

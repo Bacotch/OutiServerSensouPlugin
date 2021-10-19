@@ -24,11 +24,12 @@ final class PlayerDataManager
     public function __construct()
     {
         self::$instance = $this;
+        $this->player_datas = [];
         Main::getInstance()->getDatabase()->executeSelect("players.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["mails"]);
+                    $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"]);
                 }
             }, function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
@@ -41,6 +42,14 @@ final class PlayerDataManager
     public static function getInstance(): PlayerDataManager
     {
         return self::$instance;
+    }
+
+    /**
+     * @return PlayerData[]
+     */
+    public function getPlayerDatas(): array
+    {
+        return $this->player_datas;
     }
 
     /**

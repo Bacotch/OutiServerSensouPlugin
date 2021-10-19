@@ -33,6 +33,7 @@ final class FactionDataManager
     public function __construct()
     {
         self::$instance = $this;
+        $this->faction_datas = [];
         Main::getInstance()->getDatabase()->executeSelect("factions.load",
             [],
             function (array $row) {

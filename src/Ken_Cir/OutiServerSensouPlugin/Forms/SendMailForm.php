@@ -9,9 +9,11 @@ use Error;
 use Exception;
 
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
-
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
+
+use Ken_Cir\OutiServerSensouPlugin\Tasks\ReturnForm;
 use pocketmine\Player;
 
 final class SendMailForm
@@ -39,19 +41,17 @@ final class SendMailForm
                     }
                     // 全員に送信する
                     if ($data[3]) {
-                       // $this->plugin->database->addAllPlayerMail( $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                        foreach (PlayerDataManager::getInstance()->getPlayerDatas() as $playerData) {
+                            MailManager::getInstance()->create($playerData->getName(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                        }
                         $player->sendMessage("§a[システム] プレイヤー全員にメールを送信しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return true;
                     }
 
-                    $player_data = PlayerDataManager::getInstance()->get($data[2]);
-                    if (!$player_data) {
-                        $player->sendMessage("§a[システム] §c$data[2] のプレイヤーデータが見つかりません");
-                        return true;
-                    }
-                    $player_data->getMailManager()->create($data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
-                    $player_data->save();
+                    MailManager::getInstance()->create($data[2], $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                     $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                 } catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e);
                 }
