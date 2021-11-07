@@ -37,9 +37,11 @@ jobs:
         with:
           name: PHAR
           path: ./outiserverpmmpplugin.phar
+      - name: Zip output
+        run: zip ./cl.zip ./outiserverpmmpplugin.phar
       - name: file send to discord
         uses: tsickert/discord-webhook@v4.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          filename: ./outiserverpmmpplugin.phar
+          filename: ./cl.zip
 
