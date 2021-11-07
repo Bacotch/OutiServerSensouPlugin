@@ -47,4 +47,7 @@ jobs:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
           content: "CIチェックが終了しました\n簡易ビルドは正常に完了しました\n差分: ${{ github.event.compare}}"
           filename: ./cl.zip
+          username: ${{ github.event.sender.login }}
+          avatar-url: ${{ github.event.sender.avatar_url }}
+
 
