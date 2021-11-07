@@ -39,10 +39,12 @@ jobs:
           path: ./outiserverpmmpplugin.phar
       - name: Zip output
         run: zip ./cl.zip ./outiserverpmmpplugin.phar
+      - name: commit message
+        run: echo github.event.head_commit
       - name: file send to discord
         uses: tsickert/discord-webhook@v4.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          content: "${{ github.event.head_commit.message }}"
+          content: "CIチェックが終了しました\n簡易ビルドは正常に完了しました\n差分: ${{ github.event.compare}}"
           filename: ./cl.zip
 
