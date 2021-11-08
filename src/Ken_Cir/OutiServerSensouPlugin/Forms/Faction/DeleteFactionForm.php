@@ -18,7 +18,7 @@ use pocketmine\Server;
 /**
  * 派閥削除フォーム
  */
-final class DeleteFactionForm
+class DeleteFactionForm
 {
     public function __construct()
     {

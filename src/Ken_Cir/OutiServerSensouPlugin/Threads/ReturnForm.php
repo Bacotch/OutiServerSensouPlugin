@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
 use Error;
 use Exception;
@@ -12,7 +12,7 @@ use pocketmine\scheduler\Task;
 /**
  * 一定時間後フォームに移動させる用のTask
  */
-final class ReturnForm extends Task
+class ReturnForm extends Task
 {
     private $callable;
     private array $args;

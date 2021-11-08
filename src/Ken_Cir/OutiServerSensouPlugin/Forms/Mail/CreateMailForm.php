@@ -11,13 +11,13 @@ use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Tasks\ReturnForm;
+use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\Player;
 
 /**
  * メール作成フォーム
  */
-final class CreateMailForm
+class CreateMailForm
 {
     public function __construct()
     {

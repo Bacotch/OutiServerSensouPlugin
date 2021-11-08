@@ -13,10 +13,23 @@ use pocketmine\Server;
 /**
  * おうち鯖プラグインログ関係クラス
  */
-final class Logger
+class Logger
 {
+    private bool $debug_mode = true;
+
     public function __construct()
     {
+    }
+
+    /**
+     * @param string $message
+     *
+     */
+    public function info(string $message)
+    {
+      if ($this->debug_mode) {
+          Server::getInstance()->broadcastMessage("[DEBUG] $message");
+      }
     }
 
     /**
@@ -36,6 +49,10 @@ final class Logger
             // もしPlayerインスタンスが引数に指定されていたら
             if ($player instanceof Player) {
                 $player->sendMessage("§c処理中にエラーが発生しました\n{$error->getMessage()}");
+            }
+
+            if ($this->debug_mode) {
+                Server::getInstance()->broadcastMessage("[DEBUG] エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
             }
         }
         catch (Error | Exception $error) {

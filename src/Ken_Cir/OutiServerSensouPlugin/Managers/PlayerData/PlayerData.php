@@ -10,7 +10,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
-final class PlayerData
+class PlayerData
 {
     /**
      * @var string

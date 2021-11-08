@@ -16,7 +16,7 @@ use pocketmine\Player;
 /**
  * おうちウォッチ
  */
-final class OutiWatchForm
+class OutiWatchForm
 {
     public function __construct()
     {

@@ -7,7 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\MailData;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
-final class MailManager
+class MailManager
 {
     /**
      * @var MailManager $this

@@ -7,7 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
-final class FactionData
+class FactionData
 {
     /**
      * @var int

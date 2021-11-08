@@ -14,7 +14,7 @@ use pocketmine\Player;
 /**
  * チャットモード変更フォーム
  */
-final class ChangeChatModeForm
+class ChangeChatModeForm
 {
     public function __construct()
     {

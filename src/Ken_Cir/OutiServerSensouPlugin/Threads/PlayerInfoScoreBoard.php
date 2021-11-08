@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
 use Error;
 use Exception;
@@ -20,7 +20,7 @@ use pocketmine\Server;
 /**
  * 秒実行Task
  */
-final class PlayerInfoScoreBoard extends Task
+class PlayerInfoScoreBoard extends Task
 {
     public function __construct()
     {

@@ -6,23 +6,28 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Entity\Skeleton;
+use Ken_Cir\OutiServerSensouPlugin\Entity\Zombie;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\Player;
 use pocketmine\Server;
 
 /**
  * PMMPイベント処理クラス
  */
-final class EventListener implements Listener
+class EventListener implements Listener
 {
     /**
      * @var array
@@ -48,8 +53,7 @@ final class EventListener implements Listener
             $player_data->addIp($player->getAddress());
             $player_data->save();
             PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -84,8 +88,7 @@ final class EventListener implements Listener
             unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました");
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -102,8 +105,7 @@ final class EventListener implements Listener
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             if ($player_data->getFaction() === -1) {
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
-            }
-            else {
+            } else {
                 $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
                 $color = PluginUtils::getChatColor($faction->getColor());
                 $event->setFormat("{$color}[{$faction->getName()}]§f[{$player->getName()}] $message");
@@ -158,6 +160,25 @@ final class EventListener implements Listener
             }
         }
 
+    }
+
+    /**
+     * @param EntityDamageEvent $ev
+     * ダメージ
+     */
+    public function onDamage(EntityDamageEvent $ev)
+    {
+        $entity = $ev->getEntity();
+        if ($ev instanceof EntityDamageByEntityEvent) {
+            $damager = $ev->getDamager();
+            if ($damager instanceof Player) {
+                if ($entity instanceof Zombie or $entity instanceof Skeleton) {
+                    if (!$entity->hasTarget()) {
+                        $entity->setTarget($damager);
+                    }
+                }
+            }
+        }
     }
 
     /**

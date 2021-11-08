@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 /**
  * 派閥データマネージャー
  */
-final class FactionDataManager
+class FactionDataManager
 {
     /**
      * @var FactionDataManager $this

@@ -14,7 +14,7 @@ use pocketmine\Player;
 /**
  * 要望フォーム
  */
-final class ReportForm
+class ReportForm
 {
     public function __construct()
     {

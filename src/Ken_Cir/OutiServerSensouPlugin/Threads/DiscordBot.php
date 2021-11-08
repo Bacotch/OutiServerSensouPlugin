@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
 use Discord\Discord;
 use Discord\Exceptions\IntentException;
@@ -17,7 +17,7 @@ use Threaded;
 /**
  * DiscordBot用のスレッド
  */
-final class DiscordBot extends Thread
+class DiscordBot extends Thread
 {
     /**
      * @var bool
