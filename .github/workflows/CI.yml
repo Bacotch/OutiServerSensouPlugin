@@ -29,7 +29,7 @@ jobs:
       - name: Composer validate
         run: composer validate
       - name: Install dependencies
-        run: composer install --no-dev --prefer-dist --no-progress --no-suggest
+        run: composer install --no-interaction --no-ansi --no-dev
       - name: Build source code
         run: php -dphar.readonly=0 ~/DevTools.phar --make ./ --out ./outiserverpmmpplugin.phar
       - name: Upload artifact
