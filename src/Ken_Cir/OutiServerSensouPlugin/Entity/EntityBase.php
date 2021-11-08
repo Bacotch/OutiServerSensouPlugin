@@ -2,6 +2,7 @@
 
 namespace Ken_Cir\OutiServerSensouPlugin\Entity;
 
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\entity\Monster;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -16,8 +17,8 @@ abstract class EntityBase extends Monster
 
     public const NETWORK_ID = null;
 
-    protected $target = null;
-    protected bool $isNeutral = true;
+    protected ?Player $target = null;
+    protected bool $isNeutral = false;
 
     protected float $speed = 0.28;
     protected int $coolTime = 0;
@@ -55,6 +56,7 @@ abstract class EntityBase extends Monster
     {
         $level = $this->getLevel();
         $time = $level->getTimeOfDay();
+        // ゾンビやスケルトンは昼間では焼死するのでkill
         if(0 <= $time && $time < Level::TIME_NIGHT){
             $this->kill();
         }
@@ -68,14 +70,12 @@ abstract class EntityBase extends Monster
             $this->attackTime = 0;
 
         if($this->getTarget() == null) {
-            if ($this->isNeutral) return $hasUpdate;//中立の状態なら処理を終了
-
-            $preTarget = $this->findClosestPlayer(10);
+            $preTarget = $this->findClosestPlayer(35);
             if ($preTarget === null) {
-                $this->isNeutral = true;//中立状態に設定
-                return $hasUpdate;//プレイヤーが近くにいなければ処理を終了
-            } else {
-                $this->isNeutral = false;//中立状態を解除
+                return $hasUpdate;
+            }
+            else {
+                Main::getInstance()->getPluginLogger()->info("プレイヤーロックオン");
                 $this->target = $preTarget;
             }
         }
@@ -94,7 +94,8 @@ abstract class EntityBase extends Monster
                 $this->coolTime = 23;
             }
             return $hasUpdate;
-        } else if ($this->distance($target) >= 5) {//5ブロックより遠ければ
+        }
+        else if ($this->distance($target) >= 5) {//5ブロックより遠ければ
             $preTarget = $this->findClosestPlayer(10);//10ブロック以内の一番近いプレイヤーを取得
             if ($preTarget === null) {//プレイヤーが近くにいなければ
                 $this->target = null;//ターゲットを空にして、処理をやめる。

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Entity;
 
+/**
+ * スケルトン
+ */
 class Skeleton extends EntityBase
 {
     public const NETWORK_ID = self::SKELETON;

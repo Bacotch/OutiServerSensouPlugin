@@ -15,7 +15,6 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\FactionRoleData\FactionRoleDataManag
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
-use Ken_Cir\OutiServerSensouPlugin\Threads\EntityMove;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
 use Ken_Cir\OutiServerSensouPlugin\Utils\Logger;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\DataConnector;
@@ -182,7 +181,6 @@ class Main extends PluginBase
                 ]);
 
             $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
-            $this->getScheduler()->scheduleRepeatingTask(new EntityMove(), 20);
 
             // ---Mobを追加する
             Entity::registerEntity(Zombie::class, false, ['Zombie', 'minecraft:zombie']);
