@@ -11,7 +11,7 @@ use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Tasks\ReturnForm;
+use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\Player;
 
 /**

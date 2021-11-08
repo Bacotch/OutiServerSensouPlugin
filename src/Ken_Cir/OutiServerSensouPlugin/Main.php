@@ -7,16 +7,20 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
+use Ken_Cir\OutiServerSensouPlugin\Entity\Skeleton;
+use Ken_Cir\OutiServerSensouPlugin\Entity\Zombie;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionRoleData\FactionRoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Tasks\DiscordBot;
-use Ken_Cir\OutiServerSensouPlugin\Tasks\PlayerInfoScoreBoard;
+use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
+use Ken_Cir\OutiServerSensouPlugin\Threads\EntityMove;
+use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
 use Ken_Cir\OutiServerSensouPlugin\Utils\Logger;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\DataConnector;
 use pocketmine\command\ConsoleCommandSender;
+use pocketmine\entity\Entity;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
@@ -178,6 +182,11 @@ final class Main extends PluginBase
                 ]);
 
             $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
+            $this->getScheduler()->scheduleRepeatingTask(new EntityMove(), 20);
+
+            // ---Mobを追加する
+            Entity::registerEntity(Zombie::class, false, ['Zombie', 'minecraft:zombie']);
+            Entity::registerEntity(Skeleton::class, false, ['Skeleton', 'minecraft:skeleton']);
 
             $this->discord_client->sendChatMessage("サーバーが起動しました！");
             $this->enabled = true;
