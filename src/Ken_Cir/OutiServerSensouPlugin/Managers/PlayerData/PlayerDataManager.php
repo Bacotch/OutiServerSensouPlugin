@@ -9,7 +9,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
 use pocketmine\Player;
 
-final class PlayerDataManager
+class PlayerDataManager
 {
     /**
      * @var PlayerDataManager $this

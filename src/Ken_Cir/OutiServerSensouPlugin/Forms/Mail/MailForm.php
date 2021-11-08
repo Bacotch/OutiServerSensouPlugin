@@ -14,7 +14,7 @@ use pocketmine\Player;
 /**
  * メール関係フォーム
  */
-final class MailForm
+class MailForm
 {
     public function __construct()
     {

@@ -9,7 +9,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
-final class MailData
+class MailData
 {
     private int $id;
     private string $name;

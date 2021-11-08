@@ -18,7 +18,7 @@ use pocketmine\Player;
 /**
  * 派閥関係フォーム
  */
-final class FactionForm
+class FactionForm
 {
     public function __construct()
     {

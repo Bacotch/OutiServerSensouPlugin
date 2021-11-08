@@ -13,7 +13,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 /**
  * おうち鯖プラグイン ユーティリティ
  */
-final class PluginUtils
+class PluginUtils
 {
     private function __construct()
     {

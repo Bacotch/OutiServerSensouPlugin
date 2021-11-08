@@ -17,7 +17,7 @@ use pocketmine\Player;
 /**
  * メール閲覧フォーム
  */
-final class MailInfoForm
+class MailInfoForm
 {
     public function __construct()
     {

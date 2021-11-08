@@ -16,7 +16,7 @@ use pocketmine\Player;
 /**
  * 派閥脱退フォーム
  */
-final class LeaveFactionForm
+class LeaveFactionForm
 {
     public function __construct()
     {

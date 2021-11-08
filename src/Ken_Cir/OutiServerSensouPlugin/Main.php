@@ -28,7 +28,7 @@ use pocketmine\utils\Config;
 /**
  * プラグインメインクラス
  */
-final class Main extends PluginBase
+class Main extends PluginBase
 {
     /**
      * @var Main $this

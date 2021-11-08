@@ -15,7 +15,7 @@ use pocketmine\Player;
 /**
  * 派閥作成フォーム
  */
-final class CreateFactionForm
+class CreateFactionForm
 {
     public function __construct()
     {

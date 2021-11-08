@@ -13,7 +13,7 @@ use pocketmine\Server;
 /**
  * エンティティの移動関係タス９
  */
-final class EntityMove extends Task
+class EntityMove extends Task
 {
     public function __construct()
     {

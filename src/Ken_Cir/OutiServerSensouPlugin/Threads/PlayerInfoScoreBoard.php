@@ -20,7 +20,7 @@ use pocketmine\Server;
 /**
  * 秒実行Task
  */
-final class PlayerInfoScoreBoard extends Task
+class PlayerInfoScoreBoard extends Task
 {
     public function __construct()
     {

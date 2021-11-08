@@ -13,7 +13,7 @@ use pocketmine\Server;
 /**
  * おうち鯖プラグインログ関係クラス
  */
-final class Logger
+class Logger
 {
     public function __construct()
     {

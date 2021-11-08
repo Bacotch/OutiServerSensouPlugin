@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 /**
  * 派閥のロールデータ
  */
-final class FactionRoleData
+class FactionRoleData
 {
     /**
      * @var int

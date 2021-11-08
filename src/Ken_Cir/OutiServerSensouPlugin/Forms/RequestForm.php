@@ -14,7 +14,7 @@ use pocketmine\Player;
 /**
  * 要望フォーム
  */
-final class RequestForm
+class RequestForm
 {
     public function __construct()
     {
