@@ -18,6 +18,8 @@ jobs:
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
+          php_version: 8.0
+          php_extensions: ext-pthreads
           command: install --no-interaction --no-ansi --no-dev
       - name: Build source code
         run: php -dphar.readonly=0 ~/DevTools.phar --make ./ --out ./outiserverpmmpplugin.phar
