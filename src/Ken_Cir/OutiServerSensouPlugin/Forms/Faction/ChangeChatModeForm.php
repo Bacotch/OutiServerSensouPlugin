@@ -39,7 +39,6 @@ class ChangeChatModeForm
                         $player_data->setChatmode($player_data->getFaction());
                         $player->sendMessage("§a[システム] チャットモードを§f所属派閥と友好関係派閥§aに変更しました");
                     }
-                    $player_data->save();
                 } catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e);
                 }

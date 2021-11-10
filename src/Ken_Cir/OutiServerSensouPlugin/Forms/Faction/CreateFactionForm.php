@@ -41,7 +41,6 @@ class CreateFactionForm
                     elseif (!isset($data[0]) or !isset($data[1])) return true;
                     $id = FactionDataManager::getInstance()->create($data[0], $player->getName(), (int)$data[1]);
                     $player_data->setFaction($id);
-                    $player_data->save();
                     $player->sendMessage("§a[システム]派閥 $data[0] を作成しました\n派閥の詳細は /factioninfo で確認できます");
                 } catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e);
@@ -51,7 +50,7 @@ class CreateFactionForm
             });
 
             $form->setTitle("§d派閥作成フォーム");
-            $form->addInput("§a派閥名§c(一度設定すると変更できません)", "name");
+            $form->addInput("§a派閥名§c", "name");
             $form->addDropdown("§e派閥チャットカラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"]);
             $player->sendForm($form);
         } catch (Error | Exception $error) {

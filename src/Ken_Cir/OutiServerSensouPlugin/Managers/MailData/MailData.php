@@ -8,25 +8,59 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use function strtolower;
 
+/**
+ * メールデータ
+ */
 class MailData
 {
+    /**
+     * @var int
+     * メール識別用ID
+     */
     private int $id;
+
+    /**
+     * @var string
+     * メール送信相手
+     */
     private string $name;
+
     /**
      * @var string
      * メールタイトル
      */
     private string $title;
+
+    /**
+     * @var string
+     * メール内容
+     */
     private string $content;
+
+    /**
+     * @var string
+     * メール送信者
+     */
     private string $author;
+
+    /**
+     * @var string
+     * メール送信日時
+     */
     private string $date;
+
+    /**
+     * @var int
+     * メールが未読であるか
+     */
     private int $read;
 
     public function __construct(int $id, string $name, string $title, string $content, string $author, string $date, int $read)
     {
         $this->id = $id;
-        $this->name = $name;
+        $this->name = strtolower($name);
         $this->title = $title;
         $this->content = $content;
         $this->author = $author;

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
 
-use Error;
-use Exception;
-
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
-use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
+use function unserialize;
+use function in_array;
+use function array_values;
+use function strtolower;
 
 class PlayerData
 {
@@ -43,44 +43,27 @@ class PlayerData
     private int $drawscoreboard;
 
     /**
+     * @var int[]
+     * 所持ロールID配列
+     */
+    private array $roles;
+
+    /**
      * @param string $name
      * @param string $ip
-     * @param string $faction
-     * @param string $chatmode
+     * @param int $faction
+     * @param int $chatmode
      * @param int $drawscoreboard
+     * @param string $roles
      */
-    public function __construct(string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard)
+    public function __construct(string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles)
     {
-        $this->name = $name;
+        $this->name = strtolower($name);
         $this->ip = unserialize($ip);
         $this->faction = $faction;
         $this->chatmode = $chatmode;
         $this->drawscoreboard = $drawscoreboard;
-    }
-
-    /**
-     * データをdb上にupdateする
-     */
-    public function save()
-    {
-        try {
-            Main::getInstance()->getDatabase()->executeChange("players.update",
-                [
-                    "ip" => serialize($this->ip),
-                    "faction" => $this->faction,
-                    "chatmode" => $this->chatmode,
-                    "drawscoreboard" => $this->drawscoreboard,
-                    "name" => $this->name
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
-                }
-            );
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
+        $this->roles = unserialize($roles);
     }
 
     /**
@@ -89,14 +72,6 @@ class PlayerData
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = strtolower($name);
     }
 
     /**
@@ -113,7 +88,7 @@ class PlayerData
      */
     public function addIp(string $ip): void
     {
-        if (isset($this->getIp()[$ip])) return;
+        if (in_array($ip, $this->getIp(), true)) return;
         $this->ip[] = $ip;
     }
 
@@ -163,5 +138,188 @@ class PlayerData
     public function setDrawscoreboard(int $drawscoreboard): void
     {
         $this->drawscoreboard = $drawscoreboard;
+    }
+
+    /**
+     * @param int $id
+     * ロールを追加する
+     */
+    public function addRole(int $id): void
+    {
+        if (in_array($id, $this->roles, true)) return;
+        $this->roles[] = $id;
+    }
+
+    /**
+     * @param array $ids
+     * ロールを追加する
+     */
+    public function addRoles(array $ids): void
+    {
+        foreach ($ids as $id) {
+            if (in_array($id, $this->roles, true)) return;
+            $this->roles[] = $id;
+        }
+    }
+
+    /**
+     * @return int[]
+     * 所持しているロールを取得する
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * 指定したロールを所持しているか確認する
+     */
+    public function hasRole(int $id): bool
+    {
+        return  in_array($id, $this->roles, true);
+    }
+
+    /**
+     * @param int $id
+     * ロールを剥奪する
+     */
+    public function removeRole(int $id): void
+    {
+        foreach ($this->roles as $key => $role) {
+            if ($role === $id) {
+                unset($this->roles[$key]);
+            }
+        }
+
+        $this->roles = array_values($this->roles);
+    }
+
+    /**
+     * @param int[] $ids
+     * ロールを剥奪する
+     */
+    public function removeRoles(array $ids): void
+    {
+        foreach ($this->roles as $key => $role) {
+            if (in_array($role, $ids, true)) {
+                unset($this->roles[$key]);
+            }
+        }
+
+        $this->roles = array_values($this->roles);
+    }
+
+    /**
+     * @return bool
+     * 宣戦布告権限があるかどうか
+     */
+    public function isSensenHukoku(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isSensenHukoku()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 派閥にプレイヤー招待権限があるかどうか
+     */
+    public function isInvitePlayer(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isInvitePlayer()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 派閥プレイヤー全員に一括でメール送信権限があるかどうか
+     */
+    public function isSendmailAllFactionPlayer(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isSendmailAllFactionPlayer()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 敵対派閥と友好派閥（制限あり）の設定権限
+     */
+    public function isFreandFactionManager(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isFreandFactionManager()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 派閥からプレイヤーを追放権限
+     */
+    public function isKickFactionPlayer(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isKickFactionPlayer()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 派閥の土地管理権限
+     */
+    public function isLandManager(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isLandManager()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 派閥銀行管理権限があるかどうか
+     */
+    public function isBankManager(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isBankManager()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     * 派閥ロール管理権限があるかどうか
+     */
+    public function isRoleManager(): bool
+    {
+        foreach ($this->roles as $role) {
+            $roleData = RoleDataManager::getInstance()->get($role);
+            if ($roleData->isRoleManager()) return true;
+        }
+
+        return false;
     }
 }

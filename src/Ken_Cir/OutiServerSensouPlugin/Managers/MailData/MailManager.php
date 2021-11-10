@@ -6,6 +6,8 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\MailData;
 
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use function count;
+use function strtolower;
 
 class MailManager
 {

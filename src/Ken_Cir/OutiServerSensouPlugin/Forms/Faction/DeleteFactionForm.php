@@ -47,7 +47,6 @@ class DeleteFactionForm
                             $time->format("Y年m月d日 H時i分")
                         );
                         $faction_player->setFaction(-1);
-                        $faction_player->save();
                     }
                     FactionDataManager::getInstance()->delete($player_data->getFaction());
                     $player->sendMessage("§a[システム] 派閥 $faction_name を削除しました");

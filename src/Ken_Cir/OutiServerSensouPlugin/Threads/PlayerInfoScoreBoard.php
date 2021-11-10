@@ -18,7 +18,8 @@ use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
 /**
- * 秒実行Task
+ * プレイヤースコアボードタスク
+ * ラグが発生すると面倒なのでバックグラウンドと分けています
  */
 class PlayerInfoScoreBoard extends Task
 {
@@ -32,7 +33,6 @@ class PlayerInfoScoreBoard extends Task
     public function onRun(int $currentTick)
     {
         try {
-            // ---スコアボード処理---
             foreach (Server::getInstance()->getOnlinePlayers() as $player) {
                 $player_data = PlayerDataManager::getInstance()->get($player->getName());
                 if (!$player_data) continue;

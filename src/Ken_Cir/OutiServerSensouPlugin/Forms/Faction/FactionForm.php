@@ -7,12 +7,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 use Error;
 use Exception;
 
+use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role\RoleManagerForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use pocketmine\Player;
 
 /**
@@ -63,10 +65,37 @@ class FactionForm
                         }
                     }
                     elseif ($data === 3) {
+                        // どこかに所属しているなら詳細表示フォームに飛ばす
+                        if ($player_data->getFaction() !== -1) {
+                            $form = new MyInfoForm();
+                            $form->execute($player);
+                        }
+                    }
+                    elseif ($data === 4) {
                         // どこかに所属しているならチャットモード変更フォームに飛ばす
                         if ($player_data->getFaction() !== -1) {
                             $form = new ChangeChatModeForm();
                             $form->execute($player);
+                        }
+                    }
+                    elseif ($data === 5) {
+                        // どこかに所属している
+                        if ($player_data->getFaction() !== -1) {
+                            // 役職管理権限があるなら役職管理フォームに飛ばす
+                            if ($faction_data->getOwner() === $player_data->getName()) {
+                                $form = new RoleManagerForm();
+                                $form->execute($player);
+                            }
+                            else {
+                                foreach ($player_data->getRoles() as $role) {
+                                    $role_data = RoleDataManager::getInstance()->get($role);
+                                    if ($role_data->isRoleManager()) {
+                                        $form = new RoleManagerForm();
+                                        $form->execute($player);
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 } catch (Error | Exception $e) {
@@ -78,17 +107,33 @@ class FactionForm
 
             $form->setTitle("派閥");
             $form->addButton("戻る");
+            // どこの派閥にも所属していないなら
             if ($player_data->getFaction() === -1) {
                 $form->addButton("§b派閥の作成");
             }
             else {
+                // 所属派閥所有者なら
                 if ($faction_data->getOwner() === $player_data->getName()) {
                     $form->addButton("§c派閥の削除");
-                } else {
+                }
+                else {
                     $form->addButton("§e派閥から脱退");
                 }
                 $form->addButton("§d派閥の詳細表示");
+                $form->addButton("自分の詳細表示");
                 $form->addButton("§eチャットモード変更");
+                if ($faction_data->getOwner() === $player_data->getName()) {
+                    $form->addButton("§3役職の管理");
+                }
+                else {
+                    foreach ($player_data->getRoles() as $role) {
+                        $role_data = RoleDataManager::getInstance()->get($role);
+                        if ($role_data->isRoleManager()) {
+                            $form->addButton("§3役職の管理");
+                            break;
+                        }
+                    }
+                }
             }
             $player->sendForm($form);
         }

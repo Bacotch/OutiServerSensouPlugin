@@ -59,12 +59,12 @@ class OutiWatchForm
                 return true;
             });
 
-            $form->setTitle("OutiWatchCommand");
-            $form->addButton("閉じる");
-            $form->addButton("派閥");
-            $form->addButton("メール");
-            $form->addButton("レポート");
-            $form->addButton("要望");
+            $form->setTitle("おうちウォッチ");
+            $form->addButton("§c閉じる");
+            $form->addButton("§d派閥");
+            $form->addButton("§eメール");
+            $form->addButton("§4レポート");
+            $form->addButton("§6要望");
             $player->sendForm($form);
         } catch (Error | Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);

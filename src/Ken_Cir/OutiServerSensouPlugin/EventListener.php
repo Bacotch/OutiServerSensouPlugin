@@ -21,6 +21,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\Server;
 
@@ -51,9 +52,9 @@ class EventListener implements Listener
             PlayerDataManager::getInstance()->create($player);
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getAddress());
-            $player_data->save();
             PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
-        } catch (Error | Exception $error) {
+        }
+        catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -72,7 +73,8 @@ class EventListener implements Listener
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
             PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーに参加しました");
-        } catch (Error | Exception $error) {
+        }
+        catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -156,6 +158,7 @@ class EventListener implements Listener
             if (!isset($this->check[$player->getName()]) and $item->getName() === "OutiWatch") {
                 $this->check[$player->getName()] = true;
                 $form = new OutiWatchForm();
+
                 $form->execute($player, $this);
             }
         }
