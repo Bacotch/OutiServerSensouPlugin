@@ -37,8 +37,8 @@ jobs:
         with:
           add-labels: "Status: Closed"
           remove-labels: "Status: Backlog, Status: In Progress"
-      - name: CheckMsg
-        run: echo '${{ toJSON(github) }}'
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
 
   assign_issue_to_project:
     name: Assign issues to project
