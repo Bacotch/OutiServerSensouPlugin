@@ -1,0 +1,59 @@
+name: Label pull request
+
+on:
+  pull_request:
+    types:
+      - reopened
+      - opened
+      - closed
+      - assigned
+
+env:
+  PROJECT_NAME: TODO
+
+jobs:
+  dump_context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
+
+  assign_issue_to_project:
+    name: Assign issues to project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign issues to project
+        uses: technote-space/create-project-card-action@v1
+        if: "github.event.action == 'opened'"
+        with:
+          PROJECT: ${{env.PROJECT_NAME}}
+          COLUMN: 未処理
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+  move_assigned_card:
+    runs-on: ubuntu-latest
+    name: Move assigned card
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.1
+        if: "github.event.action == 'assigned'"
+        with:
+          project: ${{env.PROJECT_NAME}}
+          column: 進行中 or 作業中Issue・Pull Request
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - uses: alex-page/github-project-automation-plus@v0.8.1
+        if: "github.event.action == 'reopened'"
+        with:
+          project: ${{env.PROJECT_NAME}}
+          column: 進行中 or 作業中Issue・Pull Request
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+  move_the_card_when_the_issue_is_closed:
+    runs-on: ubuntu-latest
+    name: Move the card when the issue is closed
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.1
+        if: "github.event.action == 'closed'"
+        with:
+          project: ${{env.PROJECT_NAME}}
+          column: 完了済み
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

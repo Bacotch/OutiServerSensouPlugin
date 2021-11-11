@@ -12,6 +12,11 @@ env:
   PROJECT_NAME: TODO
 
 jobs:
+  dump_context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
   issue_labels:
     runs-on: ubuntu-latest
     permissions:
