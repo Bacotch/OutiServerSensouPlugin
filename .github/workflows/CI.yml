@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [ master, develop ]
   pull_request:
     branches: [ master, develop ]
 
@@ -35,5 +37,3 @@ jobs:
         with:
           name: PHAR
           path: ./outiserverpmmpplugin.phar
-      - name: Zip output
-        run: zip ./cl.zip ./outiserverpmmpplugin.phar
