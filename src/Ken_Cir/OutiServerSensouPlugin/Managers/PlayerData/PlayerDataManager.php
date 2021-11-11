@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
 
+use Error;
+use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\Player;
+use function strtolower;
+use function serialize;
+use function array_filter;
+use function in_array;
 
-final class PlayerDataManager
+class PlayerDataManager
 {
     /**
      * @var PlayerDataManager $this
@@ -29,7 +35,7 @@ final class PlayerDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"]);
+                    $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"]);
                 }
             }, function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
@@ -81,8 +87,8 @@ final class PlayerDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
-        $this->player_datas[strtolower($player->getName())] = new PlayerData(strtolower($player->getName()), serialize([$player->getAddress()]), -1, -1, 1);
-        PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
+        $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getAddress()]), -1, -1, 1, serialize([]));
+        OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
     }
 
     /**
@@ -91,18 +97,49 @@ final class PlayerDataManager
      */
     public function delete(string $name)
     {
-        if (!$this->get($name)) return;
-        Main::getInstance()->getDatabase()->executeGeneric("players.delete",
-            [
-                "name" => strtolower($name)
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+        try {
+            if (!$this->get($name)) return;
+            Main::getInstance()->getDatabase()->executeGeneric("players.delete",
+                [
+                    "name" => strtolower($name)
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
+            unset($this->player_datas[strtolower($name)]);
+            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
+    }
+
+    public function save(): void
+    {
+        try {
+            foreach ($this->player_datas as $player_data) {
+                Main::getInstance()->getDatabase()->executeChange("players.update",
+                    [
+                        "ip" => serialize($player_data->getIp()),
+                        "faction" => $player_data->getFaction(),
+                        "chatmode" => $player_data->getChatmode(),
+                        "drawscoreboard" => $player_data->getDrawscoreboard(),
+                        "roles" => serialize($player_data->getRoles()),
+                        "name" => $player_data->getName()
+                    ],
+                    null,
+                    function (SqlError $error) {
+                        Main::getInstance()->getPluginLogger()->error($error);
+                    }
+                );
             }
-        );
-        unset($this->player_datas[strtolower($name)]);
-        PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
+
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
     }
 
     /**
@@ -114,6 +151,17 @@ final class PlayerDataManager
     {
         return array_filter($this->player_datas, function ($playerData) use ($id) {
             return $playerData->getFaction() === $id;
+        });
+    }
+
+    /**
+     * @return PlayerData[]
+     * 指定したロールIDを所持しているプレイヤーを返す
+     */
+    public function getRolePlayers(int $id): array
+    {
+        return array_filter($this->player_datas, function ($playerData) use ($id) {
+            return in_array($id, $playerData->getRoles(), true);
         });
     }
 }

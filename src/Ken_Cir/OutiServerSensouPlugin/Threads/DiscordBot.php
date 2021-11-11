@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
 use Discord\Discord;
 use Discord\Exceptions\IntentException;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
+use Discord\Parts\User\Activity;
 use Discord\Parts\User\Member;
 use pocketmine\Thread;
 use pocketmine\utils\TextFormat;
@@ -17,7 +18,7 @@ use Threaded;
 /**
  * DiscordBot用のスレッド
  */
-final class DiscordBot extends Thread
+class DiscordBot extends Thread
 {
     /**
      * @var bool
@@ -116,7 +117,7 @@ final class DiscordBot extends Thread
         try {
             $discord = new Discord([
                 "token" => $this->token,
-                "loop" => $loop,
+                "loop" => $loop
             ]);
         } catch (IntentException $error) {
             echo "エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}" . PHP_EOL;
@@ -143,6 +144,10 @@ final class DiscordBot extends Thread
         $discord->on('ready', function (Discord $discord) {
             $this->started = true;
             echo "Bot is ready." . PHP_EOL;
+            $activity = new Activity($discord);
+            $activity->name = "マインクラフト for おうち鯖";
+            $activity->type = Activity::TYPE_PLAYING;
+            $discord->updatePresence($activity);
 
             $discord->on('message', function (Message $message) use ($discord) {
                 if ($message->author instanceof Member ? $message->author->user->bot : $message->author->bot or $message->type !== Message::TYPE_NORMAL or $message->channel->type !== Channel::TYPE_TEXT or $message->content === "") return;

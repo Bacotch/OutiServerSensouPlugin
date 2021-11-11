@@ -2,59 +2,61 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
+namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
+use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\Player;
 
 /**
- * メール関係フォーム
+ * 役職管理フォーム
  */
-class MailForm
+class RoleManagerForm
 {
     public function __construct()
     {
     }
 
-    /**
-     * @param Player $player
-     * フォーム実行
-     */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $form = new SimpleForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        $form = new OutiWatchForm();
+                        $form = new FactionForm();
                         $form->execute($player);
                     }
                     elseif ($data === 1) {
-                        $form = new CreateMailForm();
+                        $form = new CreateRoleForm();
                         $form->execute($player);
                     }
                     elseif ($data === 2) {
-                        $form = new MailInfoForm();
+                        $form = new EditRoleForm();
                         $form->execute($player);
                     }
-                } catch (Error | Exception $e) {
+                    elseif ($data === 3) {
+                        $form = new EditMemberRole();
+                        $form->execute($player);
+                    }
+                }
+                catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
                 return true;
             });
-
-            $form->setTitle("メール");
+            $form->setTitle("§3派閥役職管理フォーム");
             $form->addButton("戻る");
-            $form->addButton("§aメールを作成");
-            $form->addButton("§bメールを閲覧・削除");
+            $form->addButton("§d役職の作成");
+            $form->addButton("役職の編集");
+            $form->addButton("派閥メンバー役職操作");
             $player->sendForm($form);
-        } catch (Error | Exception $e) {
+        }
+        catch (Error | Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }

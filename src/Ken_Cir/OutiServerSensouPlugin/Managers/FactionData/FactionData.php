@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
 
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
-use Ken_Cir\OutiServerSensouPlugin\Main;
+use function strtolower;
 
-final class FactionData
+class FactionData
 {
     /**
      * @var int
@@ -43,27 +42,8 @@ final class FactionData
     {
         $this->id = $id;
         $this->name = $name;
-        $this->owner = $owner;
+        $this->owner = strtolower($owner);
         $this->color = $color;
-    }
-
-    /**
-     * データをdb上にupdateする
-     */
-    public function save()
-    {
-        Main::getInstance()->getDatabase()->executeChange("factions.update",
-            [
-                "name" => $this->name,
-                "owner" => $this->owner,
-                "color" => $this->color,
-                "id" => $this->id
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
-            }
-        );
     }
 
     /**
@@ -87,7 +67,7 @@ final class FactionData
      */
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->name = strtolower($name);
     }
 
     /**

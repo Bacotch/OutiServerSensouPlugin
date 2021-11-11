@@ -16,7 +16,7 @@ use pocketmine\Player;
 /**
  * 派閥脱退フォーム
  */
-final class LeaveFactionForm
+class LeaveFactionForm
 {
     public function __construct()
     {
@@ -46,7 +46,6 @@ final class LeaveFactionForm
                     }
 
                     $player_data->setFaction(-1);
-                    $player_data->save();
                     $player->sendMessage("§a[システム] 派閥 {$player_data->getFaction()} から脱退しました");
                 }
             });

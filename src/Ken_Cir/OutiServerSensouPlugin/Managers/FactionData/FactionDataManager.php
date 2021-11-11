@@ -8,11 +8,12 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use function strtolower;
 
 /**
  * 派閥データマネージャー
  */
-final class FactionDataManager
+class FactionDataManager
 {
     /**
      * @var FactionDataManager $this
@@ -36,12 +37,17 @@ final class FactionDataManager
         Main::getInstance()->getDatabase()->executeSelect("factions.seq",
             [],
             function (array $row) {
-            if (count($row) < 1)  {
-                $this->seq = 0;
-                return;
-            }
-                foreach ($row as $data) {
-                    $this->seq = $data["seq"];
+                try {
+                    if (count($row) < 1)  {
+                        $this->seq = 0;
+                        return;
+                    }
+                    foreach ($row as $data) {
+                        $this->seq = $data["seq"];
+                    }
+                }
+                catch (Error | Exception $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
                 }
             }, function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
@@ -91,20 +97,26 @@ final class FactionDataManager
      */
     public function create(string $name, string $owner, int $color): int
     {
-        Main::getInstance()->getDatabase()->executeInsert("factions.create",
-            [
-                "name" => $name,
-                "owner" => strtolower($owner),
-                "color" => $color
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
-            }
-        );
+        try {
+            Main::getInstance()->getDatabase()->executeInsert("factions.create",
+                [
+                    "name" => $name,
+                    "owner" => strtolower($owner),
+                    "color" => $color
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
 
-        $this->seq++;
-        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, strtolower($owner), $color);
+            $this->seq++;
+            $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner, $color);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
+
         return $this->seq;
     }
 
@@ -113,16 +125,47 @@ final class FactionDataManager
      */
     public function delete(int $id)
     {
-        if (!$this->get($id)) return;
-        Main::getInstance()->getDatabase()->executeGeneric("factions.delete",
-            [
-                "id" => $id
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+        try {
+            if (!$this->get($id)) return;
+            Main::getInstance()->getDatabase()->executeGeneric("factions.delete",
+                [
+                    "id" => $id
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
+            unset($this->faction_datas[$id]);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
+    }
+
+    /**
+     * データを保存する
+     */
+    public function save(): void
+    {
+        try {
+            foreach ($this->faction_datas as $faction_data) {
+                Main::getInstance()->getDatabase()->executeChange("factions.update",
+                    [
+                        "name" => $faction_data->getName(),
+                        "owner" => $faction_data->getOwner(),
+                        "color" => $faction_data->getColor(),
+                        "id" => $faction_data->getId()
+                    ],
+                    null,
+                    function (SqlError $error) {
+                        Main::getInstance()->getPluginLogger()->error($error);
+                    }
+                );
             }
-        );
-        unset($this->faction_datas[$id]);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
     }
 }

@@ -13,7 +13,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 /**
  * おうち鯖プラグイン ユーティリティ
  */
-final class PluginUtils
+class OutiServerPluginUtils
 {
     private function __construct()
     {
@@ -21,9 +21,10 @@ final class PluginUtils
 
     /**
      * @param int $id
+     * @return string
      * idをもとにチャットカラー記号を返す
      */
-    static public function getChatColor(int $id): string
+    public static function getChatColor(int $id): string
     {
         return match ($id) {
             0 => "§0",
@@ -46,7 +47,35 @@ final class PluginUtils
         };
     }
 
-    static public function sendDiscordLog(string $url, string $content)
+    /**
+     * @param int $id
+     * @return string
+     * idを元に色名を返す
+     */
+    public static function getChatString(int $id): string
+    {
+        return match ($id) {
+            0 => "黒",
+            1 => "濃い青",
+            2 => "濃い緑",
+            3 => "濃い水色",
+            4 => "濃い赤色",
+            5 => "濃い紫",
+            6 => "金色",
+            7 => "灰色",
+            8 => "濃い灰色",
+            9 => "青",
+            10 => "緑",
+            11 => "水色",
+            12 =>  "赤",
+            13 => "ピンク",
+            14 => "黄色",
+            15 => "白色",
+            default => ""
+        };
+    }
+
+    public static function sendDiscordLog(string $url, string $content)
     {
         try {
             if ($url === "" or $content === "") return;

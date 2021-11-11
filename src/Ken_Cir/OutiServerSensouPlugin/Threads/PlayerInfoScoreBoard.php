@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Tasks;
+namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
 use Error;
 use Exception;
@@ -18,9 +18,10 @@ use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
 /**
- * 秒実行Task
+ * プレイヤースコアボードタスク
+ * ラグが発生すると面倒なのでバックグラウンドと分けています
  */
-final class PlayerInfoScoreBoard extends Task
+class PlayerInfoScoreBoard extends Task
 {
     public function __construct()
     {
@@ -32,7 +33,6 @@ final class PlayerInfoScoreBoard extends Task
     public function onRun(int $currentTick)
     {
         try {
-            // ---スコアボード処理---
             foreach (Server::getInstance()->getOnlinePlayers() as $player) {
                 $player_data = PlayerDataManager::getInstance()->get($player->getName());
                 if (!$player_data) continue;

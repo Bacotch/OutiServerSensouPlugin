@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, develop ]
 
 jobs:
   build:
@@ -37,3 +37,17 @@ jobs:
         with:
           name: PHAR
           path: ./outiserverpmmpplugin.phar
+      - name: Zip output
+        run: zip ./cl.zip ./outiserverpmmpplugin.phar
+      - name: commit message
+        run: echo github.event.head_commit
+      - name: file send to discord
+        uses: tsickert/discord-webhook@v4.0.0
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          content: "CIチェックが終了しました\n簡易ビルドは正常に完了しました\n差分: ${{ github.event.compare}}"
+          filename: ./cl.zip
+          username: ${{ github.event.sender.login }}
+          avatar-url: ${{ github.event.sender.avatar_url }}
+
+

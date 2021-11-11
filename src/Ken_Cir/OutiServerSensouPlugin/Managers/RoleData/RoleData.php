@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionRoleData;
+namespace Ken_Cir\OutiServerSensouPlugin\Managers\RoleData;
 
 use Error;
 use Exception;
@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 /**
  * 派閥のロールデータ
  */
-final class FactionRoleData
+class RoleData
 {
     /**
      * @var int
@@ -31,6 +31,12 @@ final class FactionRoleData
      * ロール名
      */
     private string $name;
+
+    /**
+     * @var int
+     * ロールカラー
+     */
+    private int $color;
 
     /**
      * @var int
@@ -84,6 +90,7 @@ final class FactionRoleData
      * @param int $id
      * @param int $faction_id
      * @param string $name
+     * @param int $color
      * @param int $sensen_hukoku
      * @param int $invite_player
      * @param int $sendmail_all_faction_player
@@ -93,11 +100,12 @@ final class FactionRoleData
      * @param int $bank_manager
      * @param int $role_manager
      */
-    public function __construct(int $id, int $faction_id, string $name, int $sensen_hukoku, int $invite_player, int $sendmail_all_faction_player, int $freand_faction_manager, int $kick_faction_player, int $land_manager, int $bank_manager, int $role_manager)
+    public function __construct(int $id, int $faction_id, string $name, int $color, int $sensen_hukoku, int $invite_player, int $sendmail_all_faction_player, int $freand_faction_manager, int $kick_faction_player, int $land_manager, int $bank_manager, int $role_manager)
     {
         $this->id = $id;
         $this->faction_id = $faction_id;
         $this->name = $name;
+        $this->color = $color;
         $this->sensen_hukoku = $sensen_hukoku;
         $this->invite_player = $invite_player;
         $this->sendmail_all_faction_player = $sendmail_all_faction_player;
@@ -118,6 +126,7 @@ final class FactionRoleData
                 [
                     "faction_id" => $this->faction_id,
                     "name" => $this->name,
+                    "color" => $this->color,
                     "sensen_hukoku" => $this->sensen_hukoku,
                     "invite_player" => $this->invite_player,
                     "sendmail_all_faction_player" => $this->sendmail_all_faction_player,
@@ -173,6 +182,22 @@ final class FactionRoleData
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getColor(): int
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param int $color
+     */
+    public function setColor(int $color): void
+    {
+        $this->color = $color;
     }
 
     /**
@@ -269,7 +294,7 @@ final class FactionRoleData
      * @return bool
      * 派閥の土地管理権限
      */
-    public function getLandManager(): bool
+    public function isLandManager(): bool
     {
         return (bool)$this->land_manager;
     }
@@ -305,7 +330,7 @@ final class FactionRoleData
      * @return bool
      * 派閥ロール管理権限があるかどうか
      */
-    public function getRoleManager(): bool
+    public function isRoleManager(): bool
     {
         return (bool)$this->role_manager;
     }

@@ -8,13 +8,13 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\Player;
 
 /**
  * 要望フォーム
  */
-final class RequestForm
+class RequestForm
 {
     public function __construct()
     {
@@ -31,7 +31,7 @@ final class RequestForm
                 try {
                     if ($data === null) return true;
                     elseif (!isset($data[0])) return true;
-                    PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**要望**\n{$player->getName()} からの要望\n$data[0]");
+                    OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**要望**\n{$player->getName()} からの要望\n$data[0]");
                     $player->sendMessage("§a[システム] 要望を送信しました");
                 }
                 catch (Error | Exception $e) {
