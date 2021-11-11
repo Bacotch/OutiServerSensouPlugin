@@ -21,7 +21,7 @@ jobs:
         if: "github.event.action == 'opened'"
         uses: andymckay/labeler@1.0.4
         with:
-          add-labels: "Status: Backlog"
+          add-labels: "Status: In Progress"
           remove-labels: "Status: Closed, Status: Backlog"
       - name: Add inprogress label
         if: "github.event.action == 'assigned' || github.event.action == 'reopened'"
