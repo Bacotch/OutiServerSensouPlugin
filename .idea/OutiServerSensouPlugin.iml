@@ -34,6 +34,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/mollie/polyfill-libsodium" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/discord-php/http" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/child-process" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

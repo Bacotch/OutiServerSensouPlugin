@@ -35,6 +35,8 @@
       <path value="$PROJECT_DIR$/vendor/mollie/polyfill-libsodium" />
       <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/discord-php/http" />
+      <path value="$PROJECT_DIR$/vendor/react/child-process" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
