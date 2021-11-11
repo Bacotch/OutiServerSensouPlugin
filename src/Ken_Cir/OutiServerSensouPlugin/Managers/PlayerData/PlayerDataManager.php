@@ -8,7 +8,7 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\Player;
 use function strtolower;
 use function serialize;
@@ -88,7 +88,7 @@ class PlayerDataManager
             }
         );
         $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getAddress()]), -1, -1, 1, serialize([]));
-        PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
+        OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
     }
 
     /**
@@ -109,7 +109,7 @@ class PlayerDataManager
                 }
             );
             unset($this->player_datas[strtolower($name)]);
-            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
+            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);

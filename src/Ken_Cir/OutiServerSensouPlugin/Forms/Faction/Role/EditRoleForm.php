@@ -13,7 +13,7 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\Player;
 use function array_values;
 
@@ -49,7 +49,7 @@ class EditRoleForm
             $form->setContent("編集・削除する役職を選択してください");
             $form->addButton("戻る");
             foreach ($factionRoles as $factionRole) {
-                $form->addButton(PluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
+                $form->addButton(OutiServerPluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
         }

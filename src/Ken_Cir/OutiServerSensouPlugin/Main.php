@@ -17,7 +17,7 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
-use Ken_Cir\OutiServerSensouPlugin\Utils\Logger;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
 use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\DataConnector;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\entity\Entity;
@@ -46,10 +46,10 @@ class Main extends PluginBase
     private Config $config;
 
     /**
-     * @var Logger
+     * @var OutiServerLogger
      * プラグイン用ログ出力
      */
-    private Logger $logger;
+    private OutiServerLogger $logger;
 
     /**
      * @var DiscordBot
@@ -118,7 +118,7 @@ class Main extends PluginBase
             $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
 
             // ---色々初期化---
-            $this->logger = new Logger();
+            $this->logger = new OutiServerLogger();
             $this->InitializeDatabase();
             $this->InitializeManagers();
             $this->InitializeThreads();
@@ -144,6 +144,7 @@ class Main extends PluginBase
     {
         try {
             if (!$this->enabled) return;
+            $this->getLogger()->info("キャッシュデータをdbファイルに書き込んでいます...\nこれには時間がかかることがあります");
             $this->saveManagers();
             $this->database->waitAll();
             $this->database->close();
@@ -177,10 +178,10 @@ class Main extends PluginBase
     }
 
     /**
-     * @return Logger
+     * @return OutiServerLogger
      * このプラグイン用のLoggerを返す
      */
-    public function getPluginLogger(): Logger
+    public function getPluginLogger(): OutiServerLogger
     {
         return $this->logger;
     }

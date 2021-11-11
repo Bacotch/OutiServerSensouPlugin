@@ -7,6 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 use Error;
 use Exception;
 
+use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role\RoleInfoForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role\RoleManagerForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
@@ -81,6 +82,13 @@ class FactionForm
                     elseif ($data === 5) {
                         // どこかに所属している
                         if ($player_data->getFaction() !== -1) {
+                            $form = new RoleInfoForm();
+                            $form->execute($player);
+                        }
+                    }
+                    elseif ($data === 6) {
+                        // どこかに所属している
+                        if ($player_data->getFaction() !== -1) {
                             // 役職管理権限があるなら役職管理フォームに飛ばす
                             if ($faction_data->getOwner() === $player_data->getName()) {
                                 $form = new RoleManagerForm();
@@ -122,6 +130,7 @@ class FactionForm
                 $form->addButton("§d派閥の詳細表示");
                 $form->addButton("自分の詳細表示");
                 $form->addButton("§eチャットモード変更");
+                $form->addButton("役職の詳細表示");
                 if ($faction_data->getOwner() === $player_data->getName()) {
                     $form->addButton("§3役職の管理");
                 }

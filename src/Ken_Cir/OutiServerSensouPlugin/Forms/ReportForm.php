@@ -8,7 +8,7 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\Player;
 
 /**
@@ -31,7 +31,7 @@ class ReportForm
                 try {
                     if ($data === null) return true;
                     elseif (!isset($data[0]) or !isset($data[1])) return true;
-                    PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**REPORT**\n{$player->getName()} からのレポート\nレポート対象のプレイヤー名: $data[0]\nレポート内容: $data[1]");
+                    OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**REPORT**\n{$player->getName()} からのレポート\nレポート対象のプレイヤー名: $data[0]\nレポート内容: $data[1]");
                     $player->sendMessage("§a[システム] レポートを送信しました");
                 }
                 catch (Error | Exception $e) {

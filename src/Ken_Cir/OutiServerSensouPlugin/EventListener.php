@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
@@ -52,7 +52,7 @@ class EventListener implements Listener
             PlayerDataManager::getInstance()->create($player);
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getAddress());
-            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
+            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
@@ -72,7 +72,7 @@ class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
-            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーに参加しました");
+            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーに参加しました");
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
@@ -89,7 +89,7 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
-            PluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました");
+            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました");
         } catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
@@ -109,7 +109,7 @@ class EventListener implements Listener
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
             } else {
                 $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
-                $color = PluginUtils::getChatColor($faction->getColor());
+                $color = OutiServerPluginUtils::getChatColor($faction->getColor());
                 $event->setFormat("{$color}[{$faction->getName()}]§f[{$player->getName()}] $message");
             }
 

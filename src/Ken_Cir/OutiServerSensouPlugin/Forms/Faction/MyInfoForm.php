@@ -11,7 +11,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Utils\PluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\Player;
 use function array_map;
 use function join;
@@ -32,13 +32,13 @@ class MyInfoForm
 
             $roles = array_map(function (int $id) {
                 $roleData = RoleDataManager::getInstance()->get($id);
-                $color = PluginUtils::getChatColor($roleData->getColor());
+                $color = OutiServerPluginUtils::getChatColor($roleData->getColor());
                 return "$color {$roleData->getName()}";
             }, $playerData->getRoles());
             $form->setTitle("自分の詳細");
             $form->setContent("所属派閥: {$factionData->getName()}\n\n所持役職:\n" . join("\n", $roles));
             $form->setButton1("閉じる");
-            $form->setButton1("閉じる");
+            $form->setButton2("閉じる");
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {

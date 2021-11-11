@@ -13,7 +13,7 @@ use pocketmine\Server;
 /**
  * おうち鯖プラグインログ関係クラス
  */
-class Logger
+class OutiServerLogger
 {
     private bool $debug_mode = true;
 
@@ -40,7 +40,7 @@ class Logger
     public function error($error, ?Player $player = null)
     {
         try {
-            PluginUtils::sendDiscordLog(
+            OutiServerPluginUtils::sendDiscordLog(
                 Main::getInstance()->getPluginConfig()->get("Discord_Error_Webhook", ""),
                 "ファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}"
             );
