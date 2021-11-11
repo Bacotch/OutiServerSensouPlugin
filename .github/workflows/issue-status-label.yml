@@ -36,22 +36,22 @@ jobs:
           add-labels: "Status: Closed"
           remove-labels: "Status: Backlog, Status: In Progress"
       - name: Add feat label
-        if: "startsWith(github.event.issue.title, 'feat')"
+        if: "github.event.action == 'opened' && startsWith(github.event.issue.title, 'feat')"
         uses: andymckay/labeler@1.0.4
         with:
           add-labels: "Type: Feature"
       - name: Add bug label
-        if: "startsWith(github.event.issue.title, 'bug') && startsWith(github.event.issue.title, 'fix')"
+        if: "github.event.action == 'opened' && startsWith(github.event.issue.title, 'bug') || startsWith(github.event.issue.title, 'fix')"
         uses: andymckay/labeler@1.0.4
         with:
           add-labels: "Type: Bug"
       - name: Add ci label
-        if: "startsWith(github.event.issue.title, 'ci')"
+        if: "github.event.action == 'opened' && startsWith(github.event.issue.title, 'ci')"
         uses: andymckay/labeler@1.0.4
         with:
           add-labels: "Type: CI"
       - name: Add test label
-        if: "startsWith(github.event.issue.title, 'test')"
+        if: "github.event.action == 'opened' && startsWith(github.event.issue.title, 'test')"
         uses: andymckay/labeler@1.0.4
         with:
           add-labels: "Type: Testing"
