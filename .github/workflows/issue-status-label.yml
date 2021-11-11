@@ -23,8 +23,6 @@ jobs:
         with:
           add-labels: "Status: Backlog"
           remove-labels: "Status: Closed"
-      - name: check message
-        run: echo ${{ github.event }}
       - name: Add inprogress label
         if: "github.event.action == 'assigned' || github.event.action == 'reopened'"
         uses: andymckay/labeler@1.0.4
@@ -37,8 +35,22 @@ jobs:
         with:
           add-labels: "Status: Closed"
           remove-labels: "Status: Backlog, Status: In Progress"
-      - name: Dump context
-        uses: crazy-max/ghaction-dump-context@v1
+      - name: Add feat label
+        if: "startsWith(github.event.issue.title, 'feat')"
+        with:
+          add-labels: "Type: Feature"
+      - name: Add bug label
+        if: "startsWith(github.event.issue.title, 'bug') && startsWith(github.event.issue.title, 'fix')"
+        with:
+          add-labels: "Type: Bug"
+      - name: Add ci label
+        if: "startsWith(github.event.issue.title, 'ci')"
+        with:
+          add-labels: "Type: CI"
+      - name: Add test label
+        if: "startsWith(github.event.issue.title, 'test')"
+        with:
+          add-labels: "Type: Testing"
 
   assign_issue_to_project:
     name: Assign issues to project
