@@ -110,6 +110,7 @@ class Main extends PluginBase
         try {
             // ---リソースを保存---
             $this->saveResource("config.yml");
+            $this->saveResource("database.yml");
 
             // ---プラグインコンフィグを読み込む---
             $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
@@ -245,7 +246,8 @@ class Main extends PluginBase
      */
     private function InitializeDatabase(): void
     {
-        $this->database = libasynql::create($this, $this->getConfig()->get("database"), [
+        $databaseConfig = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
         /*

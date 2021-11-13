@@ -1,0 +1,6 @@
+# ---データベース関係設定(ここの設定は変更しないでください)---
+database:
+  type: sqlite
+  sqlite:
+    file: data.sqlite
+  worker-limit: 1

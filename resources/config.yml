@@ -28,11 +28,4 @@ Discord_Player_Webhook: ""
 
 # レポート・要望を送信するWebhookURL
 Report_Request_Webhook: ""
-
-# ---データベース関係設定(ここの設定は変更しないでください)---
-database:
-  type: sqlite
-  sqlite:
-    file: data.sqlite
-  worker-limit: 1
 ...
