@@ -10,6 +10,8 @@ use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\User\Activity;
 use Discord\Parts\User\Member;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use pocketmine\Thread;
 use pocketmine\utils\TextFormat;
 use React\EventLoop\Factory;
@@ -115,9 +117,12 @@ class DiscordBot extends Thread
         $loop = Factory::create();
 
         try {
+            $logger = new Logger('Logger');
+            $logger->pushHandler(new StreamHandler('php://stdout', Logger::WARNING));
             $discord = new Discord([
                 "token" => $this->token,
-                "loop" => $loop
+                "loop" => $loop,
+                "logger" => $logger
             ]);
         } catch (IntentException $error) {
             echo "エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}" . PHP_EOL;
@@ -173,10 +178,13 @@ class DiscordBot extends Thread
      */
     public function shutdown(?bool $emergency = false)
     {
+        $this->stoped = true;
         if ($emergency) {
-            $this->stoped = true;
             $this->isKilled = true;
-        } else $this->stoped = true;
+        }
+        else {
+            $this->MinecraftChat_Queue[] = serialize("サーバーが停止しました");
+        }
     }
 
     /**

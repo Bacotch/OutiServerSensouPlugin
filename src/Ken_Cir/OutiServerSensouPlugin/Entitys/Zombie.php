@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Entity;
+namespace Ken_Cir\OutiServerSensouPlugin\Entitys;
 
 /**
  * ゾンビ

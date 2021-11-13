@@ -1,6 +1,6 @@
 <?php
 
-namespace Ken_Cir\OutiServerSensouPlugin\Entity;
+namespace Ken_Cir\OutiServerSensouPlugin\Entitys;
 
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\entity\Monster;
