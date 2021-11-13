@@ -6,8 +6,8 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\Entity\Skeleton;
-use Ken_Cir\OutiServerSensouPlugin\Entity\Zombie;
+use Ken_Cir\OutiServerSensouPlugin\Entitys\Skeleton;
+use Ken_Cir\OutiServerSensouPlugin\Entitys\Zombie;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
