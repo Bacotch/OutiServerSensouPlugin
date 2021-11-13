@@ -1,9 +1,8 @@
-#name, main, version and api are required
 name: OutiServerSensouPlugin
 main: Ken_Cir\OutiServerSensouPlugin\Main
-description: おうちサーバー用プラグイン 戦争バージョン
+description: おうちサーバー用プラグイン シーズン11var
 author: Ken_Cir
-version: 0.0.1
+version: 1.0.0-beta
 api: 3.24.0
 
 permissions:
