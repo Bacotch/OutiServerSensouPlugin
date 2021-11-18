@@ -140,36 +140,6 @@ class RoleDataManager
         unset($this->faction_role_datas[$id]);
     }
 
-    public function save(): void
-    {
-        try {
-            foreach ($this->faction_role_datas as $role_data) {
-                Main::getInstance()->getDatabase()->executeChange("roles.update",
-                    [
-                        "name" => $role_data->getName(),
-                        "color" => $role_data->getColor(),
-                        "sensen_hukoku" => (int)$role_data->isSensenHukoku(),
-                        "invite_player" => (int)$role_data->isInvitePlayer(),
-                        "sendmail_all_faction_player" => (int)$role_data->isSendmailAllFactionPlayer(),
-                        "freand_faction_manager" => (int)$role_data->isFreandFactionManager(),
-                        "kick_faction_player" => (int)$role_data->isKickFactionPlayer(),
-                        "land_manager" => (int)$role_data->isLandManager(),
-                        "bank_manager" => (int)$role_data->isBankManager(),
-                        "role_manager" => (int)$role_data->isRoleManager(),
-                        "id" => $role_data->getId()
-                    ],
-                    null,
-                    function (SqlError $error) {
-                        Main::getInstance()->getPluginLogger()->error($error);
-                    }
-                );
-            }
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
-    }
-
     /**
      * @param int $factionId
      * @return RoleData[]

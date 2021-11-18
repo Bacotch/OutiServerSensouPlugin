@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
 
+use Error;
+use Exception;
+use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use function unserialize;
 use function in_array;
 use function array_values;
 use function strtolower;
+use function serialize;
 
 class PlayerData
 {
@@ -66,6 +71,29 @@ class PlayerData
         $this->roles = unserialize($roles);
     }
 
+    public function update(): void
+    {
+        try {
+            Main::getInstance()->getDatabase()->executeChange("factions.update",
+                [
+                    "ip" => serialize($this->ip),
+                    "faction" => $this->faction,
+                    "chatmode" => $this->chatmode,
+                    "drawscoreboard" => $this->drawscoreboard,
+                    "roles" => serialize($this->roles),
+                    "name" => $this->name
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
+    }
+
     /**
      * @return string
      */
@@ -90,6 +118,7 @@ class PlayerData
     {
         if (in_array($ip, $this->getIp(), true)) return;
         $this->ip[] = $ip;
+        $this->update();
     }
 
     /**
@@ -106,6 +135,7 @@ class PlayerData
     public function setFaction(int $faction): void
     {
         $this->faction = $faction;
+        $this->update();
     }
 
     /**
@@ -122,6 +152,7 @@ class PlayerData
     public function setChatmode(int $chatmode): void
     {
         $this->chatmode = $chatmode;
+        $this->update();
     }
 
     /**
@@ -138,6 +169,7 @@ class PlayerData
     public function setDrawscoreboard(int $drawscoreboard): void
     {
         $this->drawscoreboard = $drawscoreboard;
+        $this->update();
     }
 
     /**
@@ -148,6 +180,7 @@ class PlayerData
     {
         if (in_array($id, $this->roles, true)) return;
         $this->roles[] = $id;
+        $this->update();
     }
 
     /**
@@ -160,6 +193,7 @@ class PlayerData
             if (in_array($id, $this->roles, true)) return;
             $this->roles[] = $id;
         }
+        $this->update();
     }
 
     /**
@@ -178,7 +212,7 @@ class PlayerData
      */
     public function hasRole(int $id): bool
     {
-        return  in_array($id, $this->roles, true);
+        return in_array($id, $this->roles, true);
     }
 
     /**
@@ -194,6 +228,7 @@ class PlayerData
         }
 
         $this->roles = array_values($this->roles);
+        $this->update();
     }
 
     /**
@@ -209,7 +244,10 @@ class PlayerData
         }
 
         $this->roles = array_values($this->roles);
+        $this->update();
     }
+
+    // --------------------------------
 
     /**
      * @return bool

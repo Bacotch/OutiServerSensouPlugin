@@ -142,30 +142,4 @@ class FactionDataManager
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
-
-    /**
-     * データを保存する
-     */
-    public function save(): void
-    {
-        try {
-            foreach ($this->faction_datas as $faction_data) {
-                Main::getInstance()->getDatabase()->executeChange("factions.update",
-                    [
-                        "name" => $faction_data->getName(),
-                        "owner" => $faction_data->getOwner(),
-                        "color" => $faction_data->getColor(),
-                        "id" => $faction_data->getId()
-                    ],
-                    null,
-                    function (SqlError $error) {
-                        Main::getInstance()->getPluginLogger()->error($error);
-                    }
-                );
-            }
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
-    }
 }
