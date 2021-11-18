@@ -116,32 +116,6 @@ class PlayerDataManager
         }
     }
 
-    public function save(): void
-    {
-        try {
-            foreach ($this->player_datas as $player_data) {
-                Main::getInstance()->getDatabase()->executeChange("players.update",
-                    [
-                        "ip" => serialize($player_data->getIp()),
-                        "faction" => $player_data->getFaction(),
-                        "chatmode" => $player_data->getChatmode(),
-                        "drawscoreboard" => $player_data->getDrawscoreboard(),
-                        "roles" => serialize($player_data->getRoles()),
-                        "name" => $player_data->getName()
-                    ],
-                    null,
-                    function (SqlError $error) {
-                        Main::getInstance()->getPluginLogger()->error($error);
-                    }
-                );
-            }
-
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
-    }
-
     /**
      * @param int $id
      * @return PlayerData[]

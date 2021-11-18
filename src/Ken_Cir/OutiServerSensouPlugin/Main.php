@@ -146,7 +146,6 @@ class Main extends PluginBase
         try {
             if (!$this->enabled) return;
             $this->getLogger()->info("キャッシュデータをdbファイルに書き込んでいます...\nこれには時間がかかることがあります");
-            $this->saveManagers();
             $this->database->waitAll();
             $this->database->close();
             $this->discord_client->sendChatMessage("サーバーが停止しました");
@@ -272,16 +271,6 @@ class Main extends PluginBase
         $this->mailManager = new MailManager();
         $this->factionRoleDataManager = new RoleDataManager();
         $this->database->waitAll();
-    }
-
-    /**
-     * マネージャーのデータをdb上に保存する
-     */
-    private function saveManagers(): void
-    {
-        $this->playerDataManager->save();
-        $this->factionDataManager->save();
-        $this->factionRoleDataManager->save();
     }
 
     /**

@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
 
+use Error;
+use Exception;
+use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use Ken_Cir\OutiServerSensouPlugin\Main;
 use function strtolower;
 
+/**
+ * 派閥データ
+ */
 class FactionData
 {
     /**
@@ -47,7 +54,32 @@ class FactionData
     }
 
     /**
+     * db上にアップデート
+     */
+    public function update(): void
+    {
+        try {
+            Main::getInstance()->getDatabase()->executeChange("factions.update",
+                [
+                    "name" => $this->name,
+                    "owner" =>  $this->owner,
+                    "color" => $this->color,
+                    "id" => $this->id
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
+    }
+
+    /**
      * @return int
+     * 派閥IDを取得する
      */
     public function getId(): int
     {
@@ -68,6 +100,7 @@ class FactionData
     public function setName(string $name): void
     {
         $this->name = strtolower($name);
+        $this->update();
     }
 
     /**
@@ -84,6 +117,7 @@ class FactionData
     public function setOwner(string $owner): void
     {
         $this->owner = $owner;
+        $this->update();
     }
 
     /**
@@ -100,5 +134,6 @@ class FactionData
     public function setColor(int $color): void
     {
         $this->color = $color;
+        $this->update();
     }
 }

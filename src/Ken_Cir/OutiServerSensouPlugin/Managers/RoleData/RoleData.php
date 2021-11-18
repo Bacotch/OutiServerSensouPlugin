@@ -119,7 +119,7 @@ class RoleData
     /**
      * データ保存
      */
-    public function save()
+    public function update()
     {
         try {
             Main::getInstance()->getDatabase()->executeChange("faction_roles.update",
