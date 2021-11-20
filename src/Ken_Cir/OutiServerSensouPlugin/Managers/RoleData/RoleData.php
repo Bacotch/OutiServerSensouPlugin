@@ -6,7 +6,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\RoleData;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 /**

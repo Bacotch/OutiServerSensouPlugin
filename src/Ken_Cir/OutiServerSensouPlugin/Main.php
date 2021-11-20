@@ -7,9 +7,9 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
-use Ken_Cir\OutiServerSensouPlugin\Entitys\Skeleton;
-use Ken_Cir\OutiServerSensouPlugin\Entitys\Zombie;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\libasynql;
+// use Ken_Cir\OutiServerSensouPlugin\Entitys\Skeleton;
+// use Ken_Cir\OutiServerSensouPlugin\Entitys\Zombie;
+use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
@@ -18,9 +18,11 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\DataConnector;
-use pocketmine\command\ConsoleCommandSender;
+use poggit\libasynql\DataConnector;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\entity\Entity;
+use pocketmine\entity\EntityFactory;
+use pocketmine\lang\Language;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
@@ -96,7 +98,7 @@ class Main extends PluginBase
     /**
      * プラグインがロードされた時に呼び出される
      */
-    public function onLoad()
+    public function onLoad(): void
     {
         self::$instance = $this;
         $this->enabled = false;
@@ -105,7 +107,7 @@ class Main extends PluginBase
     /**
      * プラグインが有効化された時に呼び出される
      */
-    public function onEnable()
+    public function onEnable(): void
     {
         try {
             // ---リソースを保存---
@@ -141,7 +143,7 @@ class Main extends PluginBase
     /**
      * プラグインが無効化された時に呼び出される
      */
-    public function onDisable()
+    public function onDisable(): void
     {
         try {
             if (!$this->enabled) return;
@@ -245,7 +247,7 @@ class Main extends PluginBase
      */
     private function InitializeDatabase(): void
     {
-        $databaseConfig = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        $databaseConfig = new Config($this->getDataFolder() . "database.yml", Config::YAML);
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
@@ -302,7 +304,7 @@ class Main extends PluginBase
             function (): void {
                 foreach ($this->discord_client->fetchConsoleMessages() as $message) {
                     if ($message === "") continue;
-                    $this->getServer()->dispatchCommand(new ConsoleCommandSender(), $message);
+                    $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
                 }
 
                 foreach ($this->discord_client->fetchChatMessages() as $message) {
@@ -327,7 +329,10 @@ class Main extends PluginBase
      */
     private function InitializeEntitys(): void
     {
-        Entity::registerEntity(Zombie::class, false, ['Zombie', 'minecraft:zombie']);
-        Entity::registerEntity(Skeleton::class, false, ['Skeleton', 'minecraft:skeleton']);
+        /*
+        EntityFactory::getInstance()->register(Zombie::class,);
+        EntityFactory::getInstance()->register(Zombie::class, false, ['Zombie', 'minecraft:zombie']);
+        EntityFactory::getInstance()->register(Skeleton::class, false, ['Skeleton', 'minecraft:skeleton']);
+        */
     }
 }

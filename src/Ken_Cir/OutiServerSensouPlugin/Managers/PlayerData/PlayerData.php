@@ -6,7 +6,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use function unserialize;

@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 
 /**
  * メール閲覧フォーム

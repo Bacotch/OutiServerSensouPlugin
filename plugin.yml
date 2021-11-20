@@ -2,8 +2,8 @@ name: OutiServerSensouPlugin
 main: Ken_Cir\OutiServerSensouPlugin\Main
 description: おうちサーバー用プラグイン シーズン11var
 author: Ken_Cir
-version: 1.0.0-beta
-api: 3.24.0
+version: 1.0.0-pmmp4
+api: 4.0.0
 
 permissions:
   outiserver.default:

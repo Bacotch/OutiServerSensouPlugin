@@ -6,12 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Error;
 use Exception;
-
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 
 /**
  * おうちウォッチフォームを出すコマンド

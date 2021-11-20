@@ -12,7 +12,7 @@ use Discord\Parts\User\Activity;
 use Discord\Parts\User\Member;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use pocketmine\Thread;
+use pocketmine\Thread\Thread;
 use pocketmine\utils\TextFormat;
 use React\EventLoop\Factory;
 use Threaded;
@@ -108,9 +108,9 @@ class DiscordBot extends Thread
     /**
      * 実行
      */
-    public function run()
+    public function onRun(): void
     {
-        $this->registerClassLoader();
+        $this->registerClassLoaders();
 
         include $this->vector_dir . "vendor/autoload.php";
 

@@ -9,7 +9,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 
 /**
  * 要望フォーム

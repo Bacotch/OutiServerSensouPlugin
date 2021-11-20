@@ -21,8 +21,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\item\Item;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 use pocketmine\Server;
 
 /**
@@ -51,8 +50,7 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             PlayerDataManager::getInstance()->create($player);
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            $player_data->addIp($player->getAddress());
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getLevel()->getName()}\nX座標: {$player->getX()}\nY座標: {$player->getY()}\nZ座標: {$player->getZ()}\nにログインしました");
+            $player_data->addIp($player->getNetworkSession()->getIp());
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
@@ -72,7 +70,6 @@ class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーに参加しました");
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
@@ -89,7 +86,6 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getAddress()} がサーバーから退出しました");
         } catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
@@ -121,14 +117,14 @@ class EventListener implements Listener
                 // 同じ派閥にメッセージを送る
                 if ($faction_players) {
                     foreach ($faction_players as $f_p) {
-                        $faction_player = $server->getPlayer($f_p->getName());
+                        $faction_player = $server->getPlayerByPrefix($f_p->getName());
                         $faction_player->sendMessage($event->getFormat());
                     }
                 }
 
                 // OP持ちにもメッセージを送る
                 foreach ($server->getOnlinePlayers() as $onlinePlayer) {
-                    if (!$onlinePlayer->isOp()) continue;
+                    if (!$server->getOps()->get($onlinePlayer->getName())) continue;
                     // メッセージ送信済みの場合は
                     elseif (PlayerDataManager::getInstance()->get($onlinePlayer->getName())->getFaction() === $player_data->getFaction()) continue;
                     $onlinePlayer->sendMessage($event->getFormat());
@@ -136,7 +132,7 @@ class EventListener implements Listener
 
                 // ログに記録
                 Main::getInstance()->getLogger()->info($event->getFormat());
-                $event->setCancelled();
+                $event->cancel();
                 return;
             }
 

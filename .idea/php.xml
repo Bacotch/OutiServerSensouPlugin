@@ -37,6 +37,7 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/discord-php/http" />
       <path value="$PROJECT_DIR$/vendor/react/child-process" />
+      <path value="$PROJECT_DIR$/../../virions" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

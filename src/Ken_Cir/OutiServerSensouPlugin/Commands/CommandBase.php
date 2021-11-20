@@ -8,10 +8,9 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\plugin\Plugin;
 
-abstract class CommandBase extends Command implements PluginIdentifiableCommand
+abstract class CommandBase extends Command
 {
     /**
      * @var Main

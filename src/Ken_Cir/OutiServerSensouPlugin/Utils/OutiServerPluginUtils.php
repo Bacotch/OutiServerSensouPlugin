@@ -78,6 +78,7 @@ class OutiServerPluginUtils
     public static function sendDiscordLog(string $url, string $content)
     {
         try {
+            return;
             if ($url === "" or $content === "") return;
             try {
                 $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));

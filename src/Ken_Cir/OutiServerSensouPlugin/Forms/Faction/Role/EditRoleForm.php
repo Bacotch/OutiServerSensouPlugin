@@ -14,7 +14,7 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 use function array_values;
 
 class EditRoleForm

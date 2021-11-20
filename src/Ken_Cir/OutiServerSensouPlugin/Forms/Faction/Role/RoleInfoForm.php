@@ -13,7 +13,7 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 
 /**
  * ロール詳細表示フォーム
@@ -62,7 +62,6 @@ class RoleInfoForm
     private function info(Player $player, RoleData $infoRoleData): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
             $form = new ModalForm(function(Player $player, $data){
                 if ($data === true) {
                     $this->execute($player);

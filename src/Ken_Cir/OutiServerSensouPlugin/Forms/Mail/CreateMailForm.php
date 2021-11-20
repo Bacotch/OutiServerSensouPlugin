@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
-use pocketmine\Player;
+use pocketmine\Player\Player;
 
 /**
  * メール作成フォーム
@@ -64,10 +64,12 @@ class CreateMailForm
             $form->addInput("§cメールタイトル", "title", "");
             $form->addInput("§d内容", "content", "");
             $form->addInput("§6送信相手", "send_to", "");
+            /*
             if ($player->isOp()) {
                 $form->addToggle("§3[運営専用] プレイヤーにメールを送信する");
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
+            */
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {
