@@ -31,7 +31,7 @@ class Backup extends AsyncTask
     {
         $zip = new ZipArchive;
         if($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip",ZipArchive::CREATE)=== TRUE) {
-            $this->zipSub($zip, "", $this->serverDataFloder);
+            $this->zipSub($zip, $this->serverDataFloder);
             $zip->close();
         }
     }
@@ -45,7 +45,7 @@ class Backup extends AsyncTask
      * @param ZipArchive $zip
      * playersのバックアップ
      */
-    private function zipSub(ZipArchive $zip, string $zippath, string $path, string $parentPath = '')
+    private function zipSub(ZipArchive $zip, string $path, string $parentPath = '')
     {
         $dir = opendir($path);
         while (($entry = readdir($dir)) !== false) {
@@ -54,10 +54,10 @@ class Backup extends AsyncTask
                 $localPath = "$parentPath$entry";
                 $fullpath = "$path/$entry";
                 if (is_file($fullpath)) {
-                    $zip->addFile($fullpath, "$zippath/$localPath");
+                    $zip->addFile($fullpath, "$localPath");
                 }
                 elseif (is_dir($fullpath)) {
-                    $this->zipSub($zip, $zippath, $fullpath, $localPath.'/');
+                    $this->zipSub($zip, $fullpath, $localPath.'/');
                 }
             }
         }
