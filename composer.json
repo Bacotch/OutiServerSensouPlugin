@@ -5,6 +5,7 @@
         "team-reflex/discord-php": "^6.0.2"
     },
     "require-dev": {
-        "ext-pthreads": "*"
+        "ext-pthreads": "*",
+        "ext-zip": "*"
     }
 }

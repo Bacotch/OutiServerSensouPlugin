@@ -14,6 +14,7 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Threads\Backup;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
@@ -108,6 +109,9 @@ class Main extends PluginBase
     public function onEnable()
     {
         try {
+            if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
+                mkdir(Main::getInstance()->getDataFolder() . "backups/");
+            }
             // ---リソースを保存---
             $this->saveResource("config.yml");
             $this->saveResource("database.yml");
@@ -124,6 +128,8 @@ class Main extends PluginBase
             $this->InitializeManagers();
             $this->InitializeThreads();
             $this->InitializeEntitys();
+
+            $this->getServer()->getAsyncPool()->submitTask(new Backup());
 
             $this->discord_client->sendChatMessage("サーバーが起動しました！");
             $this->enabled = true;
