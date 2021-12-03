@@ -30,7 +30,7 @@ class Backup extends AsyncTask
     public function onRun(): void
     {
         $zip = new ZipArchive;
-        if($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip",ZipArchive::CREATE)=== TRUE) {
+        if($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip",ZipArchive::CREATE) === TRUE) {
             $this->zipSub($zip, $this->serverDataFloder);
             $zip->close();
         }
