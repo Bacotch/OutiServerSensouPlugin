@@ -248,7 +248,7 @@ class Main extends PluginBase
      */
     private function InitializeDatabase(): void
     {
-        $databaseConfig = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        $databaseConfig = new Config($this->getDataFolder() . "database.yml", Config::YAML);
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
