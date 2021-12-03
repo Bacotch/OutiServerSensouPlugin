@@ -7,12 +7,12 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 use DateTime;
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
+use jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 /**
  * メール作成フォーム
@@ -64,7 +64,7 @@ class CreateMailForm
             $form->addInput("§cメールタイトル", "title", "");
             $form->addInput("§d内容", "content", "");
             $form->addInput("§6送信相手", "send_to", "");
-            if ($player->isOp()) {
+            if (Main::getInstance()->getServer()->getOps()->get($player->getName())) {
                 $form->addToggle("§3[運営専用] プレイヤーにメールを送信する");
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }

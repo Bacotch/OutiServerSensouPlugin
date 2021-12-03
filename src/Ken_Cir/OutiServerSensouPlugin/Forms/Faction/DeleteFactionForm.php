@@ -7,12 +7,12 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 use DateTime;
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\ModalForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\Server;
 
 /**

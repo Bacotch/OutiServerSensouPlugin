@@ -27,7 +27,7 @@ class Backup extends AsyncTask
         Main::getInstance()->getLogger()->info("バックアップを作成します...");
     }
 
-    public function onRun()
+    public function onRun(): void
     {
         $zip = new ZipArchive;
         if($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip",ZipArchive::CREATE)=== TRUE) {
@@ -36,7 +36,7 @@ class Backup extends AsyncTask
         }
     }
 
-    public function onCompletion(Server $server)
+    public function onCompletion(): void
     {
         Main::getInstance()->getLogger()->info("バックアップの作成が完了しました");
     }

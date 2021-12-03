@@ -6,7 +6,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\RoleData;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 /**
@@ -119,7 +119,7 @@ class RoleDataManager
             }
         );
         $this->seq++;
-        $this->faction_role_datas[$this->seq] = new RoleData($this->seq, $faction_id, $name, $color, (int)$sensen_hukoku, (int)$invite_player, (int)$invite_player, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$kick_faction_player, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
+        $this->faction_role_datas[$this->seq] = new RoleData($this->seq, $faction_id, $name, $color, (int)$sensen_hukoku, (int)$invite_player, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$kick_faction_player, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
     }
 
     /**

@@ -6,15 +6,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
+use jojoe77777\FormAPI\CustomForm;
+use jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use function count;
 use function array_values;
 

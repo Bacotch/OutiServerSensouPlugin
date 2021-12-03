@@ -6,8 +6,8 @@ use DateTime;
 use DateTimeZone;
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Message;
-use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Webhook;
+use CortexPE\DiscordWebhookAPI\Message;
+use CortexPE\DiscordWebhookAPI\Webhook;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 /**
