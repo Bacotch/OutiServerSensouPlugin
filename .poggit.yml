@@ -5,7 +5,4 @@ branches:
 projects:
   OutiServerSensouPlugin:
     path: ""
-    libs:
-      - src: jojoe77777/FormAPI/libFormAPI # ユーザー名/リポジトリ名/Virion名
-        version: 1.2.0 # バージョン
 ...
