@@ -23,7 +23,10 @@ class ReturnForm extends Task
         $this->args = $args;
     }
 
-    public function onRun(int $currentTick)
+    /**
+     * 実行
+     */
+    public function onRun(): void
     {
         try {
             call_user_func_array($this->callable, $this->args);

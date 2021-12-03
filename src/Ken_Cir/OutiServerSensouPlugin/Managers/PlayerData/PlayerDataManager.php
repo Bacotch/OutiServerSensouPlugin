@@ -6,10 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use function strtolower;
 use function serialize;
 use function array_filter;
@@ -79,7 +79,7 @@ class PlayerDataManager
         Main::getInstance()->getDatabase()->executeInsert("players.create",
             [
                 "name" => strtolower($player->getName()),
-                "ip" => serialize([$player->getAddress()]),
+                "ip" => serialize([$player->getNetworkSession()->getIp()]),
                 "drawscoreboard" => 1
             ],
             null,
@@ -87,7 +87,7 @@ class PlayerDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
-        $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getAddress()]), -1, -1, 1, serialize([]));
+        $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
         OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
     }
 

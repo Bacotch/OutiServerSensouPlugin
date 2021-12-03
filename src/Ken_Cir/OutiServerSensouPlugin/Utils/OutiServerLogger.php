@@ -7,7 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use pocketmine\Player;
+use pocketmine\Player\player;
 use pocketmine\Server;
 
 /**

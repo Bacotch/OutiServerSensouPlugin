@@ -2,8 +2,7 @@
 
 namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
-use Ken_Cir\OutiServerSensouPlugin\Main;
-use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
@@ -18,16 +17,14 @@ class PlayerBackGround extends Task
     {
     }
 
-    public function onRun(int $currentTick)
+    public function onRun(): void
     {
         // ---サーバーにいるプレイヤーにおうちウォッチがなかったら付与する
         foreach (Server::getInstance()->getOnlinePlayers() as $player) {
-            $item = Item::get(347);
+            $item = ItemFactory::getInstance()->get(347);
             $item->setCustomName("OutiWatch");
-
             if (!$player->getInventory()->contains($item)) {
                 $player->getInventory()->addItem($item);
-                Main::getInstance()->getPluginLogger()->info("{$player->getName()} におうちウォッチを付与しました");
             }
         }
     }

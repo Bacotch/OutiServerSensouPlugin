@@ -6,7 +6,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use function strtolower;
 

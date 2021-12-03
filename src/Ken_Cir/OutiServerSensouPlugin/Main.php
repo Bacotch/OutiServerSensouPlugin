@@ -7,9 +7,8 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
-use Ken_Cir\OutiServerSensouPlugin\Entitys\Skeleton;
-use Ken_Cir\OutiServerSensouPlugin\Entitys\Zombie;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\libasynql;
+use pocketmine\lang\Language;
+use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
@@ -19,9 +18,8 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\DataConnector;
-use pocketmine\command\ConsoleCommandSender;
-use pocketmine\entity\Entity;
+use poggit\libasynql\DataConnector;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
@@ -97,7 +95,7 @@ class Main extends PluginBase
     /**
      * プラグインがロードされた時に呼び出される
      */
-    public function onLoad()
+    public function onLoad(): void
     {
         self::$instance = $this;
         $this->enabled = false;
@@ -106,7 +104,7 @@ class Main extends PluginBase
     /**
      * プラグインが有効化された時に呼び出される
      */
-    public function onEnable()
+    public function onEnable(): void
     {
         try {
             if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
@@ -127,7 +125,6 @@ class Main extends PluginBase
             $this->InitializeDatabase();
             $this->InitializeManagers();
             $this->InitializeThreads();
-            $this->InitializeEntitys();
 
             $this->getServer()->getAsyncPool()->submitTask(new Backup());
 
@@ -136,8 +133,8 @@ class Main extends PluginBase
         }
         catch (Error | Exception $error) {
             $this->enabled = false;
-            $this->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
-            $this->getLogger()->info("§c回復不可能な致命的エラーが発生しました\nプラグインを無効化します");
+            $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
+            $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
             $this->database->close();
             $this->discord_client->shutdown();
             $this->getServer()->getPluginManager()->disablePlugin($this);
@@ -147,7 +144,7 @@ class Main extends PluginBase
     /**
      * プラグインが無効化された時に呼び出される
      */
-    public function onDisable()
+    public function onDisable(): void
     {
         try {
             if (!$this->enabled) return;
@@ -160,8 +157,8 @@ class Main extends PluginBase
             ob_end_clean();
         }
         catch (Error | Exception $error) {
-            $this->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
-            $this->getLogger()->info("§cプラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
+            $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
+            $this->getLogger()->emergency("プラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
         }
     }
 
@@ -308,7 +305,7 @@ class Main extends PluginBase
             function (): void {
                 foreach ($this->discord_client->fetchConsoleMessages() as $message) {
                     if ($message === "") continue;
-                    $this->getServer()->dispatchCommand(new ConsoleCommandSender(), $message);
+                    $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
                 }
 
                 foreach ($this->discord_client->fetchChatMessages() as $message) {
@@ -326,14 +323,5 @@ class Main extends PluginBase
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
-    }
-
-    /**
-     * エンティティ初期化処理まとめ
-     */
-    private function InitializeEntitys(): void
-    {
-        Entity::registerEntity(Zombie::class, false, ['Zombie', 'minecraft:zombie']);
-        Entity::registerEntity(Skeleton::class, false, ['Skeleton', 'minecraft:skeleton']);
     }
 }
