@@ -42,12 +42,12 @@
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="4cce7243-787e-4ea0-862a-e144afa431c8" name="PHP" home="$PROJECT_DIR$/../../bin/php7/bin/php" debugger_id="php.debugger.XDebug" />
+      <interpreter id="4cce7243-787e-4ea0-862a-e144afa431c8" name="PHP (project level)" home="$PROJECT_DIR$/../../bin/php7/bin/php" debugger_id="php.debugger.XDebug" />
     </interpreters>
   </component>
   <component name="PhpInterpretersPhpInfoCache">
     <phpInfoCache>
-      <interpreter name="PHP">
+      <interpreter name="PHP (project level)">
         <phpinfo binary_type="PHP" php_cli="$PROJECT_DIR$/../../bin/php7/bin/php" path_separator=":" version="8.0.13">
           <additional_php_ini />
           <configuration_file>$PROJECT_DIR$/../../bin/php7/bin/php.ini</configuration_file>
