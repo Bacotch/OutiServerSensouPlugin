@@ -5,4 +5,11 @@ branches:
 projects:
   OutiServerSensouPlugin:
     path: ""
+    libs:
+      - src: Vecnavium\FormsUI\libFormsUI
+        version: 1.2.0
+      - src: CortexPE\DiscordWebhookAPI\DiscordWebhookAPI
+        version: 1.0.2
+      - src: poggit\libasynql\libasynql
+        version: 3.4.0
 ...
