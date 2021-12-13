@@ -28,6 +28,7 @@ class CreateFactionForm
     public function execute(Player $player)
     {
         try {
+            var_dump($player->getName());
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             // 既に派閥所属済みの場合は
             if ($player_data->getFaction() !== -1) {

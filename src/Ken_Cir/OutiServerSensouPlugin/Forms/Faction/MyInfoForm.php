@@ -14,6 +14,7 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
 use function array_map;
+use function Discord\contains;
 use function join;
 
 class MyInfoForm
@@ -32,6 +33,7 @@ class MyInfoForm
 
             $roles = array_map(function (int $id) {
                 $roleData = RoleDataManager::getInstance()->get($id);
+                if (!$roleData) return "データが見つからない";
                 $color = OutiServerPluginUtils::getChatColor($roleData->getColor());
                 return "$color {$roleData->getName()}";
             }, $playerData->getRoles());
