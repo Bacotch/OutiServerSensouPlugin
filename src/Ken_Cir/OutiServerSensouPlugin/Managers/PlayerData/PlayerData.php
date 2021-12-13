@@ -74,7 +74,7 @@ class PlayerData
     public function update(): void
     {
         try {
-            Main::getInstance()->getDatabase()->executeChange("factions.update",
+            Main::getInstance()->getDatabase()->executeChange("players.update",
                 [
                     "ip" => serialize($this->ip),
                     "faction" => $this->faction,

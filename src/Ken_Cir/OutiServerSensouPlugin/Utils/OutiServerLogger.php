@@ -31,7 +31,7 @@ class OutiServerLogger
                 Main::getInstance()->getPluginConfig()->get("Discord_Error_Webhook", ""),
                 "ファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}"
             );
-            Server::getInstance()->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
+            Server::getInstance()->getLogger()->error($error->getTraceAsString());
 
             // もしPlayerインスタンスが引数に指定されていたら
             if ($player instanceof Player) {
@@ -39,7 +39,7 @@ class OutiServerLogger
             }
         }
         catch (Error | Exception $error) {
-            echo "ファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}" . PHP_EOL;
+            echo $error->getTraceAsString() . PHP_EOL;
         }
     }
 }
