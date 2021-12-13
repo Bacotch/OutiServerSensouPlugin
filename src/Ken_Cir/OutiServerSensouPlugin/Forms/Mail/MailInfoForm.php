@@ -6,13 +6,13 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 
 use Error;
 use Exception;
-use jojoe77777\FormAPI\ModalForm;
-use jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\ModalForm;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * メール閲覧フォーム

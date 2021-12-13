@@ -6,9 +6,6 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
-
-use jojoe77777\FormAPI\ModalForm;
-use jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
@@ -16,6 +13,8 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\ModalForm;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * 派閥詳細表示フォーム

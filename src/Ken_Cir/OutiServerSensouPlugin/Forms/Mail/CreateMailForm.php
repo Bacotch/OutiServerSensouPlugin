@@ -7,12 +7,12 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 use DateTime;
 use Error;
 use Exception;
-use jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\CustomForm;
 
 /**
  * メール作成フォーム

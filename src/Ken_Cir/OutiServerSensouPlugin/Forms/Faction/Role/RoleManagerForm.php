@@ -7,9 +7,9 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
-use jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * 役職管理フォーム

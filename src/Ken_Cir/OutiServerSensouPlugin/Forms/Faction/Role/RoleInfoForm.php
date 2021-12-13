@@ -6,14 +6,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
-use jojoe77777\FormAPI\ModalForm;
-use jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\ModalForm;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * ロール詳細表示フォーム
@@ -62,7 +62,6 @@ class RoleInfoForm
     private function info(Player $player, RoleData $infoRoleData): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
             $form = new ModalForm(function(Player $player, $data){
                 if ($data === true) {
                     $this->execute($player);
