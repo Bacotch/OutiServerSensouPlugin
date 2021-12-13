@@ -6,10 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
-use jojoe77777\FormAPI\CustomForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\CustomForm;
 
 /**
  * チャットモード変更フォーム

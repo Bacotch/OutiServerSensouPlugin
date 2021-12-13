@@ -7,9 +7,9 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
-use jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * メール関係フォーム

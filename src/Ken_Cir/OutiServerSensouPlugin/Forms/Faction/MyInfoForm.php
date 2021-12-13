@@ -6,15 +6,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
-use jojoe77777\FormAPI\ModalForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
+use Vecnavium\FormsUI\ModalForm;
 use function array_map;
-use function Discord\contains;
 use function join;
 
 class MyInfoForm
