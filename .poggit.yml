@@ -4,5 +4,7 @@ branches:
 - master
 projects:
   OutiServerSensouPlugin:
-    path: ""
+    libs:
+      - src: poggit/libasynql/libasynql
+        version: ^4.0.0
 ...
