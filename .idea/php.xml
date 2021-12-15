@@ -38,6 +38,7 @@
       <path value="$PROJECT_DIR$/vendor/discord-php/http" />
       <path value="$PROJECT_DIR$/vendor/react/child-process" />
       <path value="$PROJECT_DIR$/../../virions" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

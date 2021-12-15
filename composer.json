@@ -2,7 +2,7 @@
     "name": "ken_cir/outiserverplugin",
     "description": "おうち鯖専属プラグイン",
     "require": {
-        "team-reflex/discord-php": "^6.0.2"
+        "team-reflex/discord-php": "^6.0.3"
     },
     "require-dev": {
         "ext-pthreads": "*",
