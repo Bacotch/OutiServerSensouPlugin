@@ -1,4 +1,4 @@
-name: CI
+name: Build
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download DevTools
-        run: wget https://github.com/pmmp/DevTools/releases/download/1.14.0/DevTools.phar -O ~/DevTools.phar
+        run: wget https://github.com/pmmp/DevTools/releases/download/1.15.0/DevTools.phar -O ~/DevTools.phar
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
