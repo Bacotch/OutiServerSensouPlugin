@@ -237,10 +237,13 @@ CREATE TABLE IF NOT EXISTS roles
     INTEGER
     NOT
     NULL,
+<<<<<<< HEAD
     position
     INTEGER
     NOT
     NULL,
+=======
+>>>>>>> 3698ba6 (土地系進捗)
     sensen_hukoku
     INTEGER
     NOT
@@ -289,9 +292,15 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :land_manager int
 -- #    :bank_manager int
 -- #    :role_manager int
+<<<<<<< HEAD
 INSERT INTO roles (faction_id, name, color, position, sensen_hukoku, invite_player, sendmail_all_faction_player,
                    freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
 VALUES (:faction_id, :name, :color, :position, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
+=======
+INSERT INTO roles (faction_id, name, color, sensen_hukoku, invite_player, sendmail_all_faction_player,
+                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
+VALUES (:faction_id, :name, :color, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
+>>>>>>> 3698ba6 (土地系進捗)
         :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
 -- # }
 
@@ -344,81 +353,28 @@ DROP TABLE IF EXISTS roles;
 -- # }
 -- # }
 
--- # { schedulemessages
+-- # { lands
 -- # { init
-CREATE TABLE IF NOT EXISTS schedulemessages
-(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    content TEXT NOT NULL
-);
--- # }
-
--- # { create
--- #    :content string
-INSERT INTO schedulemessages (content) VALUES (:content);
--- # }
-
--- # { seq
-SELECT seq FROM sqlite_sequence WHERE name = 'schedulemessages';
--- # }
-
--- # { load
-SELECT * FROM schedulemessages;
--- # }
-
--- # { update
--- #    :content string
--- #    :id int
-UPDATE schedulemessages SET content = :content WHERE id = :id;
--- # }
-
--- # { delete
--- #    :id int
-DELETE FROM schedulemessages WHERE id = :id;
--- # }
-
--- # { delete_faction
--- #    :faction_id int
-DELETE
-FROM lands
-WHERE faction_id = :faction_id;
--- # }
-
--- # { drop
-DROP TABLE IF EXISTS schedulemessages;
--- # }
--- # }
-
--- # { landconfigs
--- # { init
-CREATE TABLE IF NOT EXISTS landconfigs
+CREATE TABLE IF NOT EXISTS lands
 (
     id
     INTEGER
     PRIMARY
     KEY
     AUTOINCREMENT,
-    landid
+    faction_id
     INTEGER
     NOT
     NULL,
-    startx
+    x
     INTEGER
     NOT
     NULL,
-    startz
+    z
     INTEGER
     NOT
     NULL,
-    endx
-    INTEGER
-    NOT
-    NULL,
-    endz
-    INTEGER
-    NOT
-    NULL,
-    perms
+    world
     TEXT
     NOT
     NULL
@@ -426,69 +382,53 @@ CREATE TABLE IF NOT EXISTS landconfigs
 -- # }
 
 -- # { create
--- #    :landid int
--- #    :startx int
--- #    :startz int
--- #    :endx int
--- #    :endz int
--- #    :perms string
-INSERT INTO landconfigs (landid,
-                         startx,
-                         startz,
-                         endx,
-                         endz,
-                         perms)
-VALUES (:landid,
-        :startx,
-        :startz,
-        :endx,
-        :endz,
-        :perms);
+-- #    :faction_id int
+-- #    :x int
+-- #    :z int
+-- #    :world string
+INSERT INTO lands (faction_id,
+                   x,
+                   z,
+                   world)
+VALUES (:faction_id,
+        :x,
+        :z,
+        :world);
 -- # }
 
 -- # { seq
 SELECT seq
 FROM sqlite_sequence
-WHERE name = 'landconfigs';
+WHERE name = 'lands';
 -- # }
 
 -- # { load
 SELECT *
-FROM landconfigs;
+FROM roles;
 -- # }
 
 -- # { update
--- #    :startx int
--- #    :startz int
--- #    :endx int
--- #    :endz int
--- #    :perms string
+-- #    :faction_id int
+-- #    :x int
+-- #    :z int
+-- #    :world string
 -- #    :id int
-UPDATE landconfigs
-SET startx = :startx,
-    startz = :startz,
-    endx   = :endx,
-    endz   = :endz,
-    perms  = :perms
+UPDATE lands
+SET faction_id = :faction_id,
+    x          = :x,
+    z          = :z,
+    world      = :world
 WHERE id = :id;
 -- # }
 
 -- # { delete
 -- #    :id int
 DELETE
-FROM landconfigs
+FROM lands
 WHERE id = :id;
 -- # }
 
--- # { delete_land
--- #    :landid int
-DELETE
-FROM landconfigs
-WHERE landid = :landid;
--- # }
-
 -- # { drop
-DROP TABLE IF EXISTS landconfigs;
--- # }
+DROP TABLE IF EXISTS lands;
 -- # }
 -- # }

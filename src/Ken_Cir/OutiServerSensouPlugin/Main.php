@@ -50,7 +50,6 @@ class Main extends PluginBase
     private Config $config;
 
     /**
-<<<<<<< HEAD
      * プラグイン永続データ
      * @var Config
      */
@@ -58,8 +57,6 @@ class Main extends PluginBase
 
     /**
      * @var OutiServerLogger
-=======
->>>>>>> 062f381 (DatabaseManagerを全てcreateInstanceでインスタンスを作成するように修正)
      * プラグイン用ログ出力
      * @var OutiServerLogger
      */
@@ -109,6 +106,7 @@ class Main extends PluginBase
     private RoleDataManager $factionRoleDataManager;
 
     /**
+<<<<<<< HEAD
      * 定期メッセージデータマネージャー
      *
      * @var ScheduleMessageDataManager
@@ -118,6 +116,14 @@ class Main extends PluginBase
     /**
 =======
 >>>>>>> 6b0767a (DatabaseManagerを全てcreateInstanceでインスタンスを作成するように修正)
+=======
+     * 土地データマネージャー
+     * @var LandDataManager
+     */
+    private LandDataManager $landDataManager;
+
+    /**
+>>>>>>> 3698ba6 (土地系進捗)
      * プラグインがロードされた時に呼び出される
      */
     public function onLoad(): void
@@ -365,19 +371,11 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.drop");
         $this->database->waitAll();
         */
-        $this->database->executeGeneric("outiserver.players.init");
-        $this->database->executeGeneric("outiserver.factions.init");
-        $this->database->executeGeneric("outiserver.mails.init");
-        $this->database->executeGeneric("outiserver.roles.init");
-        $this->database->executeGeneric("outiserver.lands.init");
-        $this->database->executeGeneric("outiserver.landconfigs.init");
-        $this->database->waitAll();
-        $this->playerDataManager = new PlayerDataManager();
-        $this->factionDataManager = new FactionDataManager();
-        $this->mailManager = new MailManager();
-        $this->factionRoleDataManager = new RoleDataManager();
-        $this->scheduleMessageDataManager = new ScheduleMessageDataManager();
-        $this->landDataManager = new LandDataManager();
+        $this->database->executeGeneric("players.init");
+        $this->database->executeGeneric("factions.init");
+        $this->database->executeGeneric("mails.init");
+        $this->database->executeGeneric("roles.init");
+        $this->database->executeGeneric("lands.init");
         $this->database->waitAll();
     }
 
