@@ -6,13 +6,13 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Land\LandManagerForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role\RoleInfoForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role\RoleManagerForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
@@ -92,15 +92,23 @@ class FactionForm
                                 $form = new RoleManagerForm();
                                 $form->execute($player);
                             }
-                            else {
-                                foreach ($player_data->getRoles() as $role) {
-                                    $role_data = RoleDataManager::getInstance()->get($role);
-                                    if ($role_data->isRoleManager()) {
-                                        $form = new RoleManagerForm();
-                                        $form->execute($player);
-                                        break;
-                                    }
-                                }
+                            elseif ($player_data->isRoleManager()) {
+                                $form = new RoleManagerForm();
+                                $form->execute($player);
+                            }
+                        }
+                    }
+                    elseif ($data === 7) {
+                        // どこかに所属している
+                        if ($player_data->getFaction() !== -1) {
+                            // 役職管理権限があるなら役職管理フォームに飛ばす
+                            if ($faction_data->getOwner() === $player_data->getName()) {
+                                $form = new LandManagerForm();
+                                $form->execute($player);
+                            }
+                            elseif ($player_data->isLandManager()) {
+                                $form = new LandManagerForm();
+                                $form->execute($player);
                             }
                         }
                     }
@@ -132,14 +140,14 @@ class FactionForm
                 if ($faction_data->getOwner() === $player_data->getName()) {
                     $form->addButton("§3役職の管理");
                 }
-                else {
-                    foreach ($player_data->getRoles() as $role) {
-                        $role_data = RoleDataManager::getInstance()->get($role);
-                        if ($role_data->isRoleManager()) {
-                            $form->addButton("§3役職の管理");
-                            break;
-                        }
-                    }
+                elseif ($player_data->isRoleManager()) {
+                    $form->addButton("§3役職の管理");
+                }
+                if ($faction_data->getOwner() === $player_data->getName()) {
+                    $form->addButton("土地の管理");
+                }
+                elseif ($player_data->isLandManager()) {
+                    $form->addButton("土地の管理");
                 }
             }
             $player->sendForm($form);

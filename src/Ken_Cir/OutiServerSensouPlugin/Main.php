@@ -150,8 +150,7 @@ class Main extends PluginBase
 
             $this->discord_client->sendChatMessage("サーバーが起動しました！");
             $this->enabled = true;
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             $this->enabled = false;
             $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
             $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
@@ -178,8 +177,7 @@ class Main extends PluginBase
                 ob_end_clean();
             }
             $this->pluginData->save();
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
             $this->getLogger()->emergency("プラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
         }
@@ -282,6 +280,11 @@ class Main extends PluginBase
         return $this->scheduleMessageDataManager;
     }
 
+    public function getLandDataManager(): LandDataManager
+    {
+        return $this->landDataManager;
+    }
+
     /**
      * データベース初期化処理まとめ
      */
@@ -301,6 +304,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("mails.init");
         $this->database->executeGeneric("roles.init");
         $this->database->executeGeneric("schedulemessages.init");
+        $this->database->executeGeneric("lands.init");
         $this->database->waitAll();
     }
 
@@ -314,6 +318,7 @@ class Main extends PluginBase
         $this->mailManager = new MailManager();
         $this->factionRoleDataManager = new RoleDataManager();
         $this->scheduleMessageDataManager = new ScheduleMessageDataManager();
+        $this->landDataManager = new LandDataManager();
         $this->database->waitAll();
     }
 
@@ -357,10 +362,12 @@ class Main extends PluginBase
             }
         ), 5, 1);
 
-        $this->getServer()->getCommandMap()->registerAll($this->getName(),
+        $this->getServer()->getCommandMap()->registerAll(
+            $this->getName(),
             [
                 new OutiWatchCommand($this)
-            ]);
+            ]
+        );
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
@@ -371,6 +378,6 @@ class Main extends PluginBase
         }
 
         // TODO: プラグインも自動アップデートができるようにする
-       // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
+        // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
     }
 }

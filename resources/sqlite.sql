@@ -4,12 +4,24 @@
 -- # { init
 CREATE TABLE IF NOT EXISTS players
 (
-    name TEXT PRIMARY KEY,
-    ip TEXT,
-    faction INTEGER,
-    chatmode INTEGER,
-    drawscoreboard INTEGER,
-    roles TEXT
+    name
+    TEXT
+    PRIMARY
+    KEY,
+    ip
+    TEXT
+    NOT
+    NULL,
+    faction
+    INTEGER,
+    chatmode
+    INTEGER,
+    drawscoreboard
+    INTEGER
+    NOT
+    NULL,
+    roles
+    TEXT
 );
 -- # }
 
@@ -17,11 +29,18 @@ CREATE TABLE IF NOT EXISTS players
 -- #    :name string
 -- #    :ip string
 -- #    :drawscoreboard int
-INSERT INTO players VALUES (:name, :ip, -1, -1, :drawscoreboard, "a:0:{}");
+INSERT INTO players
+VALUES (:name,
+        :ip,
+        -1,
+        -1,
+        :drawscoreboard,
+        "a:0:{}");
 -- # }
 
 -- # { load
-SELECT * FROM players;
+SELECT *
+FROM players;
 -- # }
 
 -- # { update
@@ -31,12 +50,20 @@ SELECT * FROM players;
 -- #    :drawscoreboard int
 -- #    :roles string
 -- #    :name string
-UPDATE players SET ip = :ip, faction = :faction, chatmode = :chatmode, drawscoreboard = :drawscoreboard, roles = :roles WHERE name = :name;
+UPDATE players
+SET ip             = :ip,
+    faction        = :faction,
+    chatmode       = :chatmode,
+    drawscoreboard = :drawscoreboard,
+    roles          = :roles
+WHERE name = :name;
 -- # }
 
 -- # { delete
 -- #    :name string
-DELETE FROM players WHERE name = :name;
+DELETE
+FROM players
+WHERE name = :name;
 -- # }
 
 -- # { drop
@@ -48,10 +75,23 @@ DROP TABLE IF EXISTS players;
 -- # { init
 CREATE TABLE IF NOT EXISTS factions
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    owner TEXT,
-    color INTEGER
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    name
+    TEXT
+    NOT
+    NULL,
+    owner
+    TEXT
+    NOT
+    NULL,
+    color
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 
@@ -59,15 +99,19 @@ CREATE TABLE IF NOT EXISTS factions
 -- #    :name string
 -- #    :owner string
 -- #    :color int
-INSERT INTO factions (name, owner, color) VALUES (:name, :owner, :color);
+INSERT INTO factions (name, owner, color)
+VALUES (:name, :owner, :color);
 -- # }
 
 -- # { seq
-SELECT seq FROM sqlite_sequence WHERE name = 'factions';
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'factions';
 -- # }
 
 -- # { load
-SELECT * FROM factions;
+SELECT *
+FROM factions;
 -- # }
 
 -- # { update
@@ -75,12 +119,18 @@ SELECT * FROM factions;
 -- #    :owner string
 -- #    :color int
 -- #    :id int
-UPDATE factions SET name = :name, owner = :owner, color = :color WHERE id = :id;
+UPDATE factions
+SET name  = :name,
+    owner = :owner,
+    color = :color
+WHERE id = :id;
 -- # }
 
 -- # { delete
 -- #    :id int
-DELETE FROM factions WHERE id = :id;
+DELETE
+FROM factions
+WHERE id = :id;
 -- # }
 
 -- # { drop
@@ -92,13 +142,35 @@ DROP TABLE IF EXISTS factions;
 -- # { init
 CREATE TABLE IF NOT EXISTS mails
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    title TEXT,
-    content TEXT,
-    author TEXT,
-    date TEXT,
-    read INTEGER
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    name
+    TEXT
+    NOT
+    NULL,
+    title
+    TEXT
+    NOT
+    NULL,
+    content
+    TEXT
+    NOT
+    NULL,
+    author
+    TEXT
+    NOT
+    NULL,
+    date
+    TEXT
+    NOT
+    NULL,
+    read
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 
@@ -108,26 +180,34 @@ CREATE TABLE IF NOT EXISTS mails
 -- #    :content string
 -- #    :author string
 -- #    :date string
-INSERT INTO mails (name, title, content, author, date, read) VALUES (:name, :title, :content, :author, :date, 0);
+INSERT INTO mails (name, title, content, author, date, read)
+VALUES (:name, :title, :content, :author, :date, 0);
 -- # }
 
 -- # { seq
-SELECT seq FROM sqlite_sequence WHERE name = 'mails';
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'mails';
 -- # }
 
 -- # { load
-SELECT * FROM mails;
+SELECT *
+FROM mails;
 -- # }
 
 -- # { update
 -- #    :read int
 -- #    :id int
-UPDATE mails SET read = :read WHERE id = :id;
+UPDATE mails
+SET read = :read
+WHERE id = :id;
 -- # }
 
 -- # { delete
 -- #    :id int
-DELETE FROM mails WHERE id = :id;
+DELETE
+FROM mails
+WHERE id = :id;
 -- # }
 
 -- # { drop
@@ -139,18 +219,55 @@ DROP TABLE IF EXISTS mails;
 -- # { init
 CREATE TABLE IF NOT EXISTS roles
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    faction_id INTEGER,
-    name TEXT,
-    color INTEGER,
-    sensen_hukoku INTEGER,
-    invite_player INTEGER,
-    sendmail_all_faction_player INTEGER,
-    freand_faction_manager INTEGER,
-    kick_faction_player INTEGER,
-    land_manager INTEGER,
-    bank_manager INTEGER,
-    role_manager INTEGER
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    faction_id
+    INTEGER
+    NOT
+    NULL,
+    name
+    TEXT
+    NOT
+    NULL,
+    color
+    INTEGER
+    NOT
+    NULL,
+    sensen_hukoku
+    INTEGER
+    NOT
+    NULL,
+    invite_player
+    INTEGER
+    NOT
+    NULL,
+    sendmail_all_faction_player
+    INTEGER
+    NOT
+    NULL,
+    freand_faction_manager
+    INTEGER
+    NOT
+    NULL,
+    kick_faction_player
+    INTEGER
+    NOT
+    NULL,
+    land_manager
+    INTEGER
+    NOT
+    NULL,
+    bank_manager
+    INTEGER
+    NOT
+    NULL,
+    role_manager
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 
@@ -166,15 +283,21 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :land_manager int
 -- #    :bank_manager int
 -- #    :role_manager int
-INSERT INTO roles (faction_id, name, color, sensen_hukoku, invite_player, sendmail_all_faction_player, freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager) VALUES (:faction_id, :name, :color, :sensen_hukoku, :invite_player, :sendmail_all_faction_player, :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
+INSERT INTO roles (faction_id, name, color, sensen_hukoku, invite_player, sendmail_all_faction_player,
+                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
+VALUES (:faction_id, :name, :color, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
+        :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
 -- # }
 
 -- # { seq
-SELECT seq FROM sqlite_sequence WHERE name = 'roles';
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'roles';
 -- # }
 
 -- # { load
-SELECT * FROM roles;
+SELECT *
+FROM roles;
 -- # }
 
 -- # { update
@@ -189,12 +312,25 @@ SELECT * FROM roles;
 -- #    :bank_manager int
 -- #    :role_manager int
 -- #    :id int
-UPDATE roles SET name = :name, color = :color, sensen_hukoku = :sensen_hukoku, invite_player = :invite_player, sendmail_all_faction_player = :sendmail_all_faction_player, freand_faction_manager = :freand_faction_manager, kick_faction_player = :kick_faction_player, land_manager = :land_manager, bank_manager = :bank_manager, role_manager = :role_manager WHERE id = :id;
+UPDATE roles
+SET name                        = :name,
+    color                       = :color,
+    sensen_hukoku               = :sensen_hukoku,
+    invite_player               = :invite_player,
+    sendmail_all_faction_player = :sendmail_all_faction_player,
+    freand_faction_manager      = :freand_faction_manager,
+    kick_faction_player         = :kick_faction_player,
+    land_manager                = :land_manager,
+    bank_manager                = :bank_manager,
+    role_manager                = :role_manager
+WHERE id = :id;
 -- # }
 
 -- # { delete
 -- #    :id int
-DELETE FROM roles WHERE id = :id;
+DELETE
+FROM roles
+WHERE id = :id;
 -- # }
 
 -- # { drop
