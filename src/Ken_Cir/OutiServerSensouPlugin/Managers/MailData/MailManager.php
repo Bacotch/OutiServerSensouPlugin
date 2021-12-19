@@ -117,7 +117,7 @@ class MailManager
      */
     public function delete(int $id)
     {
-        Main::getInstance()->getDatabase()->executeInsert("mails.delete",
+        Main::getInstance()->getDatabase()->executeGeneric("mails.delete",
             [
                 "id" => $id
             ],

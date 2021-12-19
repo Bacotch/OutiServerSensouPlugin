@@ -128,7 +128,7 @@ class RoleDataManager
      */
     public function delete(int $id): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("roles.delete",
+        Main::getInstance()->getDatabase()->executeGeneric("roles.delete",
             [
                 "id" => $id
             ],

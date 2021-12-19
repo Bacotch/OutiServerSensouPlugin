@@ -7,6 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
+use Ken_Cir\OutiServerSensouPlugin\Managers\LandData\LandDataManager;
 use pocketmine\lang\Language;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
@@ -91,6 +92,12 @@ class Main extends PluginBase
      * 派閥ロールデータマネージャー
      */
     private RoleDataManager $factionRoleDataManager;
+
+    /**
+     * 土地データマネージャー
+     * @var LandDataManager
+     */
+    private LandDataManager $landDataManager;
 
     /**
      * プラグインがロードされた時に呼び出される
@@ -244,6 +251,15 @@ class Main extends PluginBase
     }
 
     /**
+     * 土地データマネージャーを返す
+     * @return LandDataManager
+     */
+    public function getLandDataManager(): LandDataManager
+    {
+        return $this->landDataManager;
+    }
+
+    /**
      * データベース初期化処理まとめ
      */
     private function InitializeDatabase(): void
@@ -261,6 +277,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("factions.init");
         $this->database->executeGeneric("mails.init");
         $this->database->executeGeneric("roles.init");
+        $this->database->executeGeneric("lands.init");
         $this->database->waitAll();
     }
 
@@ -273,6 +290,7 @@ class Main extends PluginBase
         $this->factionDataManager = new FactionDataManager();
         $this->mailManager = new MailManager();
         $this->factionRoleDataManager = new RoleDataManager();
+        $this->landDataManager = new LandDataManager();
         $this->database->waitAll();
     }
 
