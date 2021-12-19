@@ -9,6 +9,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
+use Ken_Cir\OutiServerSensouPlugin\Managers\LandData\LandDataManager;
 use pocketmine\lang\Language;
 use pocketmine\Server;
 use poggit\libasynql\libasynql;
@@ -102,6 +103,12 @@ class Main extends PluginBase
     private RoleDataManager $factionRoleDataManager;
 
     /**
+     * 土地データマネージャー
+     * @var LandDataManager
+     */
+    private LandDataManager $landDataManager;
+
+    /**
      * プラグインがロードされた時に呼び出される
      */
     public function onLoad(): void
@@ -141,8 +148,7 @@ class Main extends PluginBase
 
             $this->discord_client->sendChatMessage("サーバーが起動しました！");
             $this->enabled = true;
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             $this->enabled = false;
             $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
             $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
@@ -169,8 +175,7 @@ class Main extends PluginBase
                 ob_end_clean();
             }
             $this->pluginData->save();
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
             $this->getLogger()->emergency("プラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
         }
@@ -266,6 +271,15 @@ class Main extends PluginBase
     }
 
     /**
+     * 土地データマネージャーを返す
+     * @return LandDataManager
+     */
+    public function getLandDataManager(): LandDataManager
+    {
+        return $this->landDataManager;
+    }
+
+    /**
      * データベース初期化処理まとめ
      */
     private function InitializeDatabase(): void
@@ -283,6 +297,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("factions.init");
         $this->database->executeGeneric("mails.init");
         $this->database->executeGeneric("roles.init");
+        $this->database->executeGeneric("lands.init");
         $this->database->waitAll();
     }
 
@@ -295,6 +310,7 @@ class Main extends PluginBase
         $this->factionDataManager = new FactionDataManager();
         $this->mailManager = new MailManager();
         $this->factionRoleDataManager = new RoleDataManager();
+        $this->landDataManager = new LandDataManager();
         $this->database->waitAll();
     }
 
@@ -338,10 +354,12 @@ class Main extends PluginBase
             }
         ), 5, 1);
 
-        $this->getServer()->getCommandMap()->registerAll($this->getName(),
+        $this->getServer()->getCommandMap()->registerAll(
+            $this->getName(),
             [
                 new OutiWatchCommand($this)
-            ]);
+            ]
+        );
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
@@ -351,6 +369,6 @@ class Main extends PluginBase
         }
 
         // TODO: プラグインも自動アップデートができるようにする
-       // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
+        // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
     }
 }
