@@ -106,7 +106,6 @@ class Main extends PluginBase
     private RoleDataManager $factionRoleDataManager;
 
     /**
-<<<<<<< HEAD
      * 定期メッセージデータマネージャー
      *
      * @var ScheduleMessageDataManager
@@ -114,16 +113,12 @@ class Main extends PluginBase
     private ScheduleMessageDataManager $scheduleMessageDataManager;
 
     /**
-=======
->>>>>>> 6b0767a (DatabaseManagerを全てcreateInstanceでインスタンスを作成するように修正)
-=======
      * 土地データマネージャー
      * @var LandDataManager
      */
     private LandDataManager $landDataManager;
 
     /**
->>>>>>> 3698ba6 (土地系進捗)
      * プラグインがロードされた時に呼び出される
      */
     public function onLoad(): void
@@ -367,16 +362,18 @@ class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
+
         /*
         $this->database->executeGeneric("outiserver.lands.drop");
+        $this->database->executeGeneric("lands.drop");
         $this->database->waitAll();
-        */
         $this->database->executeGeneric("players.init");
         $this->database->executeGeneric("factions.init");
         $this->database->executeGeneric("mails.init");
         $this->database->executeGeneric("roles.init");
         $this->database->executeGeneric("lands.init");
         $this->database->waitAll();
+        */
     }
 
     /**
