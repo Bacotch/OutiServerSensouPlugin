@@ -8,6 +8,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function count;
+use function array_shift;
 
 /**
  * 土地データマネージャー
@@ -104,7 +105,7 @@ class LandDataManager
         });
 
         if (count($landData) < 1) return false;
-        return $landData[0];
+        return array_shift($landData);
     }
 
     /**
