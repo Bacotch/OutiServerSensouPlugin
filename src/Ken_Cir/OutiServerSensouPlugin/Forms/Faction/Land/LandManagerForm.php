@@ -9,6 +9,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Managers\LandData\LandDataManager;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 

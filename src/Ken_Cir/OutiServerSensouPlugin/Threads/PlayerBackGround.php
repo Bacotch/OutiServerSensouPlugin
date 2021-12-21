@@ -52,7 +52,8 @@ class PlayerBackGround extends Task
                 }
                 if (!$factionLandData) {
                     $this->sendData($player, "チャンク所有: なし", 7);
-                } else {
+                }
+                else {
                     $landFaction = FactionDataManager::getInstance()->get($factionLandData->getFactionId());
                     $this->sendData($player, "チャンク所有: {$landFaction->getName()}", 7);
                 }
