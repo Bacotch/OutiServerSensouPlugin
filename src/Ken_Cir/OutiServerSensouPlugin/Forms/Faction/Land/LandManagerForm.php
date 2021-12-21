@@ -8,6 +8,7 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use Ken_Cir\OutiServerSensouPlugin\Managers\LandData\LandDataManager;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
@@ -31,6 +32,10 @@ class LandManagerForm
                         $form = new LandExtendForm();
                         $form->execute($player);
                     }
+                    elseif ($data === 2 and LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
+                        $form = new LandAbandonedForm();
+                        $form->execute($player);
+                    }
                 }
                 catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
@@ -41,7 +46,9 @@ class LandManagerForm
             $form->setTitle("派閥土地管理フォーム");
             $form->addButton("戻る");
             $form->addButton("土地の拡張");
-            $form->addButton("所有している土地の確認");
+            if (LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
+                $form->addButton("現在立っているチャンクの放棄");
+            }
             $player->sendForm($form);
         }
         catch (Error | Exception $e) {

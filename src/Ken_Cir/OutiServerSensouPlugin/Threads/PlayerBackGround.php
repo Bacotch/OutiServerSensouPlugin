@@ -51,11 +51,11 @@ class PlayerBackGround extends Task
                     $this->sendData($player, "§a所属派閥: {$faction_data->getName()}", 6);
                 }
                 if (!$factionLandData) {
-                    $this->sendData($player, "現在立っているチャンクはどの派閥も所有していません", 7);
+                    $this->sendData($player, "チャンク所有: なし", 7);
                 }
                 else {
                     $landFaction = FactionDataManager::getInstance()->get($factionLandData->getFactionId());
-                    $this->sendData($player, "現在立っているチャンクは派閥 {$landFaction->getName()}が所有しています", 7);
+                    $this->sendData($player, "チャンク所有: {$landFaction->getName()}", 7);
                 }
             }
 
