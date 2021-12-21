@@ -11,6 +11,7 @@ use pocketmine\scheduler\Task;
 
 /**
  * 一定時間後フォームに移動させる用のTask
+ * これAsyncTaskでもよかったのでは(遅い)
  */
 class ReturnForm extends Task
 {

@@ -19,6 +19,7 @@ use Threaded;
 
 /**
  * DiscordBot用のスレッド
+ * DiscordPHPはスレッド丸々1つ使う
  */
 class DiscordBot extends Thread
 {

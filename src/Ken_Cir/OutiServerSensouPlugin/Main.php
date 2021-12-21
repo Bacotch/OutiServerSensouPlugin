@@ -20,7 +20,6 @@ use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\Backup;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
-use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
 use poggit\libasynql\DataConnector;
 use pocketmine\console\ConsoleCommandSender;
@@ -294,11 +293,8 @@ class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
-        /*
-        $this->database->executeGeneric("players.drop");
-        $this->database->executeGeneric("factions.drop");
+        $this->database->executeGeneric("lands.drop");
         $this->database->waitAll();
-        */
         $this->database->executeGeneric("players.init");
         $this->database->executeGeneric("factions.init");
         $this->database->executeGeneric("mails.init");
@@ -369,7 +365,6 @@ class Main extends PluginBase
             ]
         );
 
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
 
