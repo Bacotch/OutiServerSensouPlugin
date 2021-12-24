@@ -8,6 +8,8 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
+use function count;
+use function array_filter;
 
 /**
  * 派閥のロール系管理クラス
@@ -25,6 +27,7 @@ class RoleDataManager
     private array $faction_role_datas;
 
     /**
+     * 管理用ID
      * @var int
      */
     private int $seq;
@@ -58,7 +61,7 @@ class RoleDataManager
             function (array $row) {
                 try {
                     foreach ($row as $data) {
-                        $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
+                        $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["position"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
                     }
                 } catch (Error|Exception $error) {
                     Main::getInstance()->getPluginLogger()->error($error);
@@ -110,6 +113,9 @@ class RoleDataManager
                 "faction_id" => $faction_id,
                 "name" => $name,
                 "color" => $color,
+                "position" => count(array_filter($this->faction_role_datas, function ($factionRoleData) use ($faction_id) {
+                        return $factionRoleData->getFactionId() === $faction_id;
+                    })) + 1,
                 "sensen_hukoku" => (int)$sensen_hukoku,
                 "invite_player" => (int)$invite_player,
                 "sendmail_all_faction_player" => (int)$sendmail_all_faction_player,
@@ -125,7 +131,9 @@ class RoleDataManager
             }
         );
         $this->seq++;
-        $this->faction_role_datas[$this->seq] = new RoleData($this->seq, $faction_id, $name, $color, (int)$sensen_hukoku, (int)$invite_player, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$kick_faction_player, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
+        $this->faction_role_datas[$this->seq] = new RoleData($this->seq, $faction_id, $name, $color, count(array_filter($this->faction_role_datas, function ($factionRoleData) use ($faction_id) {
+                return $factionRoleData->getFactionId() === $faction_id;
+            })) + 1, (int)$sensen_hukoku, (int)$invite_player, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$kick_faction_player, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
     }
 
     /**
