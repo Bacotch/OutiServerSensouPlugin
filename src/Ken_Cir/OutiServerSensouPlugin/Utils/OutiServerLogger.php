@@ -37,8 +37,7 @@ class OutiServerLogger
             if ($player instanceof Player) {
                 $player->sendMessage("§c処理中にエラーが発生しました\n{$error->getMessage()}");
             }
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             echo $error->getTraceAsString() . PHP_EOL;
         }
     }

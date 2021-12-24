@@ -6,10 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleData;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
@@ -35,12 +35,10 @@ class RoleInfoForm
                     elseif ($data === 0) {
                         $form = new RoleManagerForm();
                         $form->execute($player);
-                    }
-                    else {
+                    } else {
                         $this->info($player, $factionRoles[$data - 1]);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -53,8 +51,7 @@ class RoleInfoForm
                 $form->addButton(OutiServerPluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }
@@ -62,7 +59,7 @@ class RoleInfoForm
     private function info(Player $player, RoleData $infoRoleData): void
     {
         try {
-            $form = new ModalForm(function(Player $player, $data){
+            $form = new ModalForm(function (Player $player, $data) {
                 if ($data === true) {
                     $this->execute($player);
                 }
@@ -73,8 +70,7 @@ class RoleInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

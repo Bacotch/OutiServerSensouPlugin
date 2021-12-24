@@ -7,10 +7,11 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 use DateTime;
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use Vecnavium\FormsUI\ModalForm;
@@ -33,9 +34,10 @@ class DeleteFactionForm
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $faction_data = FactionDataManager::getInstance()->get($player_data->getFaction());
-            $form = new ModalForm(function(Player $player, $data) use ($faction_data, $player_data) {
+            $form = new ModalForm(function (Player $player, $data) use ($faction_data, $player_data) {
                 if ($data === true) {
                     $faction_name = $faction_data->getName();
+                    $factionId = $player_data->getFaction();
                     $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
                     $time = new DateTime('now');
                     foreach ($faction_players as $faction_player) {
@@ -48,7 +50,8 @@ class DeleteFactionForm
                         );
                         $faction_player->setFaction(-1);
                     }
-                    FactionDataManager::getInstance()->delete($player_data->getFaction());
+                    LandDataManager::getInstance()->deleteFaction($factionId);
+                    FactionDataManager::getInstance()->delete($factionId);
                     $player->sendMessage("§a[システム] 派閥 $faction_name を削除しました");
                     Server::getInstance()->broadcastMessage("§a[システム] 派閥 $faction_name が崩壊しました");
                     Main::getInstance()->getDiscordClient()->sendChatMessage("[システム] 派閥 $faction_name が崩壊しました");
@@ -60,8 +63,7 @@ class DeleteFactionForm
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

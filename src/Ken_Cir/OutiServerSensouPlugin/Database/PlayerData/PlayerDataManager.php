@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
 use Error;
 use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
-use function strtolower;
-use function serialize;
+use poggit\libasynql\SqlError;
 use function array_filter;
 use function in_array;
+use function serialize;
+use function strtolower;
 
 class PlayerDataManager
 {
@@ -31,15 +31,18 @@ class PlayerDataManager
     {
         self::$instance = $this;
         $this->player_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("players.load",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "players.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
                     $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"]);
                 }
-            }, function (SqlError $error) {
+            },
+            function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
-            });
+            }
+        );
     }
 
     /**
@@ -76,7 +79,8 @@ class PlayerDataManager
     public function create(Player $player)
     {
         if ($this->get($player->getName())) return;
-        Main::getInstance()->getDatabase()->executeInsert("players.create",
+        Main::getInstance()->getDatabase()->executeInsert(
+            "players.create",
             [
                 "name" => strtolower($player->getName()),
                 "ip" => serialize([$player->getNetworkSession()->getIp()]),
@@ -99,7 +103,8 @@ class PlayerDataManager
     {
         try {
             if (!$this->get($name)) return;
-            Main::getInstance()->getDatabase()->executeGeneric("players.delete",
+            Main::getInstance()->getDatabase()->executeGeneric(
+                "players.delete",
                 [
                     "name" => strtolower($name)
                 ],
@@ -110,8 +115,7 @@ class PlayerDataManager
             );
             unset($this->player_datas[strtolower($name)]);
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

@@ -6,10 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleData;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
@@ -34,12 +34,10 @@ class EditRoleForm
                     elseif ($data === 0) {
                         $form = new RoleManagerForm();
                         $form->execute($player);
-                    }
-                    else {
+                    } else {
                         $this->edit($player, $factionRoles[$data - 1]);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -52,8 +50,7 @@ class EditRoleForm
                 $form->addButton(OutiServerPluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }
@@ -66,17 +63,14 @@ class EditRoleForm
                     if ($data === null) return true;
                     elseif ($data === 0) {
                         $this->execute($player);
-                    }
-                    elseif ($data === 1) {
+                    } elseif ($data === 1) {
                         $this->editRole($player, $editRoleData);
-                    }
-                    elseif ($data === 2) {
+                    } elseif ($data === 2) {
                         RoleDataManager::getInstance()->delete($editRoleData->getId());
                         $player->sendMessage("[システム]役職 {$editRoleData->getName()} を削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -87,8 +81,7 @@ class EditRoleForm
             $form->addButton("役職を編集する");
             $form->addButton("役職を削除する");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }
@@ -102,8 +95,7 @@ class EditRoleForm
                     elseif ($data[0] === true) {
                         $this->execute($player);
                         return true;
-                    }
-                    elseif (!isset($data[1])) return true;
+                    } elseif (!isset($data[1])) return true;
                     $oldRoleData = $editRoleData;
                     $editRoleData->setName($data[1]);
                     $editRoleData->setColor($data[2]);
@@ -117,8 +109,7 @@ class EditRoleForm
                     $editRoleData->setRoleManager($data[10]);
                     $player->sendMessage("[システム]役職 {$oldRoleData->getName()}の設定を編集しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -138,8 +129,7 @@ class EditRoleForm
             $form->addToggle("派閥銀行管理権限", $editRoleData->isBankManager());
             $form->addToggle("派閥ロール管理権限", $editRoleData->isRoleManager());
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

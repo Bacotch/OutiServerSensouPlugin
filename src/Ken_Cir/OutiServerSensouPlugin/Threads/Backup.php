@@ -8,11 +8,11 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use ZipArchive;
+use function closedir;
+use function date;
 use function is_file;
 use function opendir;
 use function readdir;
-use function closedir;
-use function date;
 use function str_ends_with;
 
 class Backup extends AsyncTask
@@ -30,7 +30,7 @@ class Backup extends AsyncTask
     public function onRun(): void
     {
         $zip = new ZipArchive;
-        if($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip",ZipArchive::CREATE) === TRUE) {
+        if ($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip", ZipArchive::CREATE) === TRUE) {
             $this->zipSub($zip, $this->serverDataFloder);
             $zip->close();
         }
@@ -55,9 +55,8 @@ class Backup extends AsyncTask
                 $fullpath = "$path/$entry";
                 if (is_file($fullpath)) {
                     $zip->addFile($fullpath, "$localPath");
-                }
-                elseif (is_dir($fullpath)) {
-                    $this->zipSub($zip, $fullpath, $localPath.'/');
+                } elseif (is_dir($fullpath)) {
+                    $this->zipSub($zip, $fullpath, $localPath . '/');
                 }
             }
         }

@@ -31,8 +31,7 @@ class ReturnForm extends Task
     {
         try {
             call_user_func_array($this->callable, $this->args);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

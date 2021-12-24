@@ -7,9 +7,9 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 use DateTime;
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 
@@ -30,7 +30,7 @@ class LeaveFactionForm
     {
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            $form = new ModalForm(function(Player $player, $data) use ($player_data) {
+            $form = new ModalForm(function (Player $player, $data) use ($player_data) {
                 if ($data === true) {
                     $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
                     $time = new DateTime('now');
@@ -55,8 +55,7 @@ class LeaveFactionForm
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

@@ -182,8 +182,7 @@ class DiscordBot extends Thread
         $this->stoped = true;
         if ($emergency) {
             $this->isKilled = true;
-        }
-        else {
+        } else {
             $this->MinecraftChat_Queue[] = serialize("サーバーが停止しました");
         }
     }

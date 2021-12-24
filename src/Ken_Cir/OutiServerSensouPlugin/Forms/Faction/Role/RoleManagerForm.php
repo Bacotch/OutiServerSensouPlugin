@@ -29,21 +29,17 @@ class RoleManagerForm
                     elseif ($data === 0) {
                         $form = new FactionForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 1) {
+                    } elseif ($data === 1) {
                         $form = new CreateRoleForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 2) {
+                    } elseif ($data === 2) {
                         $form = new EditRoleForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 3) {
+                    } elseif ($data === 3) {
                         $form = new EditMemberRole();
                         $form->execute($player);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -55,8 +51,7 @@ class RoleManagerForm
             $form->addButton("役職の編集");
             $form->addButton("派閥メンバー役職操作");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }

@@ -6,10 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
@@ -27,7 +27,7 @@ class MyInfoForm
         try {
             $playerData = PlayerDataManager::getInstance()->get($player->getName());
             $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
-            $form = new ModalForm(function(Player $player, $data){
+            $form = new ModalForm(function (Player $player, $data) {
             });
 
             $roles = array_map(function (int $id) {
@@ -41,8 +41,7 @@ class MyInfoForm
             $form->setButton1("閉じる");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
