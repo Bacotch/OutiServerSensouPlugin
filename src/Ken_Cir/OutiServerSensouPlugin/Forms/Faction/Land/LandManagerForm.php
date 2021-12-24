@@ -30,7 +30,12 @@ class LandManagerForm
                     } elseif ($data === 1) {
                         $form = new LandExtendForm();
                         $form->execute($player);
-                    } elseif ($data === 2 and LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
+                    }
+                    elseif ($data === 2 and LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
+                        $form = new LandAbandonedForm();
+                        $form->execute($player);
+                    }
+                    elseif ($data === 3 and LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
                         $form = new LandAbandonedForm();
                         $form->execute($player);
                     }
@@ -52,7 +57,8 @@ class LandManagerForm
                 $form->addButton("現在立っているチャンクの詳細設定");
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        }
+        catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }

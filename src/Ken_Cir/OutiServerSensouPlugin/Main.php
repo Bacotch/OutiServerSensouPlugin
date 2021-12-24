@@ -373,6 +373,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.mails.init");
         $this->database->executeGeneric("outiserver.roles.init");
         $this->database->executeGeneric("outiserver.lands.init");
+        $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->waitAll();
     }
 

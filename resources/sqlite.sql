@@ -238,12 +238,18 @@ CREATE TABLE IF NOT EXISTS roles
     NOT
     NULL,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> efe6a50 (土地保護詳細設定進捗)
     position
     INTEGER
     NOT
     NULL,
+<<<<<<< HEAD
 =======
 >>>>>>> 3698ba6 (土地系進捗)
+=======
+>>>>>>> efe6a50 (土地保護詳細設定進捗)
     sensen_hukoku
     INTEGER
     NOT
@@ -292,16 +298,8 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :land_manager int
 -- #    :bank_manager int
 -- #    :role_manager int
-<<<<<<< HEAD
 INSERT INTO roles (faction_id, name, color, position, sensen_hukoku, invite_player, sendmail_all_faction_player,
-                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
-VALUES (:faction_id, :name, :color, :position, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
-=======
-INSERT INTO roles (faction_id, name, color, sensen_hukoku, invite_player, sendmail_all_faction_player,
-                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
-VALUES (:faction_id, :name, :color, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
->>>>>>> 3698ba6 (土地系進捗)
-        :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
+                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager);
 -- # }
 
 -- # { seq
@@ -404,7 +402,7 @@ WHERE name = 'lands';
 
 -- # { load
 SELECT *
-FROM roles;
+FROM lands;
 -- # }
 
 -- # { update
@@ -468,8 +466,74 @@ CREATE TABLE IF NOT EXISTS landconfigs
     endz
     INTEGER
     NOT
+    NULL,
+    perms
+    TEXT
+    NOT
     NULL
 );
+-- # }
+
+-- # { create
+-- #    :landid int
+-- #    :startx int
+-- #    :startz int
+-- #    :endx int
+-- #    :endz int
+-- #    :perms string
+INSERT INTO landconfigs (landid,
+                         startx,
+                         startz,
+                         endx,
+                         endz,
+                         perms)
+VALUES (:landid,
+        :startx,
+        :startz,
+        :endx,
+        :endz,
+        :perms);
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'landconfigs';
+-- # }
+
+-- # { load
+SELECT *
+FROM landconfigs;
+-- # }
+
+-- # { update
+-- #    :startx int
+-- #    :startz int
+-- #    :endx int
+-- #    :endz int
+-- #    :perms string
+-- #    :id int
+UPDATE landconfigs
+SET startx = :startx,
+    startz = :startz,
+    endx   = :endx,
+    endz   = :endz,
+    perms  = :perms
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM landconfigs
+WHERE id = :id;
+-- # }
+
+-- # { delete_land
+-- #    :landid int
+DELETE
+FROM landconfigs
+WHERE landid = :landid;
 -- # }
 
 -- # { drop
