@@ -28,7 +28,7 @@ class MailManager
         self::$instance = $this;
         $this->mail_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
-            "mails.seq",
+            "outiserver.mails.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -45,7 +45,7 @@ class MailManager
         );
         Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
-            "mails.load",
+            "outiserver.mails.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
@@ -102,7 +102,7 @@ class MailManager
     public function create(string $name, string $title, string $content, string $author, string $date)
     {
         Main::getInstance()->getDatabase()->executeInsert(
-            "mails.create",
+            "outiserver.mails.create",
             [
                 "name" => strtolower($name),
                 "title" => $title,
@@ -125,7 +125,7 @@ class MailManager
     public function delete(int $id)
     {
         Main::getInstance()->getDatabase()->executeGeneric(
-            "mails.delete",
+            "outiserver.mails.delete",
             [
                 "id" => $id
             ],

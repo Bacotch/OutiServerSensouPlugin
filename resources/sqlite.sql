@@ -1,5 +1,6 @@
 -- #! sqlite
 
+-- # { outiserver
 -- # { players
 -- # { init
 CREATE TABLE IF NOT EXISTS players
@@ -422,5 +423,43 @@ WHERE faction_id = :faction_id;
 
 -- # { drop
 DROP TABLE IF EXISTS lands;
+-- # }
+-- # }
+
+-- # { landconfigs
+-- # { init
+CREATE TABLE IF NOT EXISTS landconfigs
+(
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    landid
+    INTEGER
+    NOT
+    NULL,
+    startx
+    INTEGER
+    NOT
+    NULL,
+    startz
+    INTEGER
+    NOT
+    NULL,
+    endx
+    INTEGER
+    NOT
+    NULL,
+    endz
+    INTEGER
+    NOT
+    NULL
+);
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS landconfigs;
+-- # }
 -- # }
 -- # }

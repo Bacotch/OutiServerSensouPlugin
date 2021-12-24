@@ -57,7 +57,7 @@ class LandData
     {
         try {
             Main::getInstance()->getDatabase()->executeChange(
-                "lands.update",
+                "outiserver.lands.update",
                 [
                     "faction_id" => $this->faction_id,
                     "x" => $this->x,
