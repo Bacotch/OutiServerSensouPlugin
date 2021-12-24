@@ -123,7 +123,7 @@ class RoleData
     {
         try {
             Main::getInstance()->getDatabase()->executeChange(
-                "faction_roles.update",
+                "outiserver.faction_roles.update",
                 [
                     "faction_id" => $this->faction_id,
                     "name" => $this->name,

@@ -75,7 +75,7 @@ class PlayerData
     {
         try {
             Main::getInstance()->getDatabase()->executeChange(
-                "players.update",
+                "outiserver.players.update",
                 [
                     "ip" => serialize($this->ip),
                     "faction" => $this->faction,

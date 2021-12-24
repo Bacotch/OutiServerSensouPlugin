@@ -132,7 +132,7 @@ class MailData
         try {
             $this->read = (int)$read;
             Main::getInstance()->getDatabase()->executeChange(
-                "mails.update",
+                "outiserver.mails.update",
                 [
                     "read" => $this->read,
                     "id" => $this->id

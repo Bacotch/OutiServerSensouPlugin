@@ -34,7 +34,7 @@ class FactionDataManager
     {
         self::$instance = $this;
         $this->faction_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("factions.seq",
+        Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.seq",
             [],
             function (array $row) {
                 try {
@@ -52,7 +52,7 @@ class FactionDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             });
         Main::getInstance()->getDatabase()->waitAll();
-        Main::getInstance()->getDatabase()->executeSelect("factions.load",
+        Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.load",
             [],
             function (array $row) {
                 try {
@@ -96,7 +96,7 @@ class FactionDataManager
     public function create(string $name, string $owner, int $color): int
     {
         try {
-            Main::getInstance()->getDatabase()->executeInsert("factions.create",
+            Main::getInstance()->getDatabase()->executeInsert("outiserver.factions.create",
                 [
                     "name" => $name,
                     "owner" => strtolower($owner),
@@ -124,7 +124,7 @@ class FactionDataManager
     {
         try {
             if (!$this->get($id)) return;
-            Main::getInstance()->getDatabase()->executeGeneric("factions.delete",
+            Main::getInstance()->getDatabase()->executeGeneric("outiserver.factions.delete",
                 [
                     "id" => $id
                 ],

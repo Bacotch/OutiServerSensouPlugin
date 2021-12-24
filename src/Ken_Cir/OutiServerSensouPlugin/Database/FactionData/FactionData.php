@@ -59,7 +59,7 @@ class FactionData
     public function update(): void
     {
         try {
-            Main::getInstance()->getDatabase()->executeChange("factions.update",
+            Main::getInstance()->getDatabase()->executeChange("outiserver.factions.update",
                 [
                     "name" => $this->name,
                     "owner" => $this->owner,
