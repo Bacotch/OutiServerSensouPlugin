@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\FactionData;
 
 use Error;
 use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function strtolower;
 
 /**
@@ -62,7 +62,7 @@ class FactionData
             Main::getInstance()->getDatabase()->executeChange("factions.update",
                 [
                     "name" => $this->name,
-                    "owner" =>  $this->owner,
+                    "owner" => $this->owner,
                     "color" => $this->color,
                     "id" => $this->id
                 ],
@@ -71,8 +71,7 @@ class FactionData
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             );
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

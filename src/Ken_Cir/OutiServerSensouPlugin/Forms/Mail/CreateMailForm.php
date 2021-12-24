@@ -7,9 +7,9 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 use DateTime;
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
@@ -53,7 +53,7 @@ class CreateMailForm
                     MailManager::getInstance()->create($data[2], $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                     $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                } catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e);
                 }
 
@@ -69,8 +69,7 @@ class CreateMailForm
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

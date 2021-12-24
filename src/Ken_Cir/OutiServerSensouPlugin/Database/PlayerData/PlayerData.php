@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
 use Error;
 use Exception;
-use poggit\libasynql\SqlError;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
-use function unserialize;
-use function in_array;
+use poggit\libasynql\SqlError;
 use function array_values;
-use function strtolower;
+use function in_array;
 use function serialize;
+use function strtolower;
+use function unserialize;
 
 class PlayerData
 {
@@ -74,7 +74,8 @@ class PlayerData
     public function update(): void
     {
         try {
-            Main::getInstance()->getDatabase()->executeChange("players.update",
+            Main::getInstance()->getDatabase()->executeChange(
+                "players.update",
                 [
                     "ip" => serialize($this->ip),
                     "faction" => $this->faction,
@@ -88,8 +89,7 @@ class PlayerData
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             );
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\FactionData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\FactionData;
 
 use Error;
 use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function strtolower;
 
 /**
@@ -38,15 +38,14 @@ class FactionDataManager
             [],
             function (array $row) {
                 try {
-                    if (count($row) < 1)  {
+                    if (count($row) < 1) {
                         $this->seq = 0;
                         return;
                     }
                     foreach ($row as $data) {
                         $this->seq = $data["seq"];
                     }
-                }
-                catch (Error | Exception $error) {
+                } catch (Error|Exception $error) {
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             }, function (SqlError $error) {
@@ -60,8 +59,7 @@ class FactionDataManager
                     foreach ($row as $data) {
                         $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"]);
                     }
-                }
-                catch (Error | Exception $error) {
+                } catch (Error|Exception $error) {
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             }, function (SqlError $error) {
@@ -112,8 +110,7 @@ class FactionDataManager
 
             $this->seq++;
             $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner, $color);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
 
@@ -123,7 +120,7 @@ class FactionDataManager
     /**
      * @param int $id
      */
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         try {
             if (!$this->get($id)) return;
@@ -137,8 +134,7 @@ class FactionDataManager
                 }
             );
             unset($this->faction_datas[$id]);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

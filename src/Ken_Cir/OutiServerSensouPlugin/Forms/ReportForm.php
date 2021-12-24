@@ -33,8 +33,7 @@ class ReportForm
                     elseif (!isset($data[0]) or !isset($data[1])) return true;
                     OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**REPORT**\n{$player->getName()} からのレポート\nレポート対象のプレイヤー名: $data[0]\nレポート内容: $data[1]");
                     $player->sendMessage("§a[システム] レポートを送信しました");
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -46,8 +45,7 @@ class ReportForm
             $form->addInput("§d内容", "content");
             $form->addLabel("§e[注意] 嘘のレポートは処罰される可能性があります\n処罰等が決定次第、内部メールで連絡致します");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error, $player);
         }
     }

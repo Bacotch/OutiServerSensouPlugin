@@ -6,11 +6,11 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionData;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerData;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
@@ -39,7 +39,7 @@ class FactionInfoForm
                 try {
                     if ($data === null) return true;
                     $this->Info($player, $faction_data);
-                } catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e);
                 }
 
@@ -49,8 +49,7 @@ class FactionInfoForm
             $form->setTitle("§b派閥の詳細表示フォーム");
             $form->addButton(OutiServerPluginUtils::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -58,7 +57,7 @@ class FactionInfoForm
     private function Info(Player $player, FactionData $faction_data)
     {
         try {
-            $form = new ModalForm(function(Player $player, $data){
+            $form = new ModalForm(function (Player $player, $data) {
             });
 
             $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($faction_data->getId());
@@ -71,8 +70,7 @@ class FactionInfoForm
             $form->setButton1("閉じる");
             $form->setButton1("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

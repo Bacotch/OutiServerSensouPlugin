@@ -7,29 +7,29 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
-use Ken_Cir\OutiServerSensouPlugin\Managers\LandData\LandDataManager;
 use pocketmine\lang\Language;
 use pocketmine\Server;
 use poggit\libasynql\libasynql;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\Backup;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
-use poggit\libasynql\DataConnector;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
-use function ob_start;
-use function ob_get_contents;
-use function ob_flush;
+use poggit\libasynql\DataConnector;
 use function ob_end_clean;
+use function ob_flush;
+use function ob_get_contents;
+use function ob_start;
 
 /**
  * プラグインメインクラス
@@ -140,7 +140,7 @@ class Main extends PluginBase
             // ---色々初期化---
             $this->logger = new OutiServerLogger();
             $this->InitializeDatabase();
-            $this->InitializeManagers();
+            $this->InitializeDatabase();
             $this->InitializeThreads();
 
             $this->getServer()->getAsyncPool()->submitTask(new Backup());
@@ -295,13 +295,6 @@ class Main extends PluginBase
         $this->database->executeGeneric("roles.init");
         $this->database->executeGeneric("lands.init");
         $this->database->waitAll();
-    }
-
-    /**
-     * マネージャー初期化処理まとめ
-     */
-    private function InitializeManagers(): void
-    {
         $this->playerDataManager = new PlayerDataManager();
         $this->factionDataManager = new FactionDataManager();
         $this->mailManager = new MailManager();
