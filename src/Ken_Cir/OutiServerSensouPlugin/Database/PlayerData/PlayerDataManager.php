@@ -32,7 +32,7 @@ class PlayerDataManager
         self::$instance = $this;
         $this->player_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
-            "players.load",
+            "outiserver.players.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
@@ -80,7 +80,7 @@ class PlayerDataManager
     {
         if ($this->get($player->getName())) return;
         Main::getInstance()->getDatabase()->executeInsert(
-            "players.create",
+            "outiserver.players.create",
             [
                 "name" => strtolower($player->getName()),
                 "ip" => serialize([$player->getNetworkSession()->getIp()]),
@@ -104,7 +104,7 @@ class PlayerDataManager
         try {
             if (!$this->get($name)) return;
             Main::getInstance()->getDatabase()->executeGeneric(
-                "players.delete",
+                "outiserver.players.delete",
                 [
                     "name" => strtolower($name)
                 ],

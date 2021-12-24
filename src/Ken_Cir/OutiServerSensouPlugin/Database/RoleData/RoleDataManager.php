@@ -36,7 +36,7 @@ class RoleDataManager
         self::$instance = $this;
         $this->faction_role_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
-            "roles.seq",
+            "outiserver.roles.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -53,7 +53,7 @@ class RoleDataManager
         );
         Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
-            "roles.load",
+            "outiserver.roles.load",
             [],
             function (array $row) {
                 try {
@@ -105,7 +105,7 @@ class RoleDataManager
     public function create(int $faction_id, string $name, int $color, bool $sensen_hukoku, bool $invite_player, bool $sendmail_all_faction_player, bool $freand_faction_manager, bool $kick_faction_player, bool $land_manager, bool $bank_manager, bool $role_manager)
     {
         Main::getInstance()->getDatabase()->executeInsert(
-            "roles.create",
+            "outiserver.roles.create",
             [
                 "faction_id" => $faction_id,
                 "name" => $name,
@@ -135,7 +135,7 @@ class RoleDataManager
     public function delete(int $id): void
     {
         Main::getInstance()->getDatabase()->executeGeneric(
-            "roles.delete",
+            "outiserver.roles.delete",
             [
                 "id" => $id
             ],

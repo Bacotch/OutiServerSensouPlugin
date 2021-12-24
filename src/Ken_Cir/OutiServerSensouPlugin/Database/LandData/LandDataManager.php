@@ -39,7 +39,7 @@ class LandDataManager
         self::$instance = $this;
         $this->land_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
-            "mails.seq",
+            "outiserver.lands.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -56,7 +56,7 @@ class LandDataManager
         );
         Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
-            "lands.load",
+            "outiserver.lands.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
@@ -140,7 +140,7 @@ class LandDataManager
     public function create(int $faction_id, int $x, int $z, string $world): void
     {
         Main::getInstance()->getDatabase()->executeInsert(
-            "lands.create",
+            "outiserver.lands.create",
             [
                 "faction_id" => $faction_id,
                 "x" => $x,
@@ -159,7 +159,7 @@ class LandDataManager
     public function delete(int $id)
     {
         Main::getInstance()->getDatabase()->executeGeneric(
-            "lands.delete",
+            "outiserver.lands.delete",
             [
                 "id" => $id
             ],
@@ -179,7 +179,7 @@ class LandDataManager
     {
         try {
             Main::getInstance()->getDatabase()->executeGeneric(
-                "lands.delete_faction",
+                "outiserver.lands.delete_faction",
                 [
                     "faction_id" => $factionId
                 ],
