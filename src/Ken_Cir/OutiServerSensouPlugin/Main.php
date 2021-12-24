@@ -6,7 +6,6 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\Commands\Nuke;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
@@ -368,13 +367,13 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.drop");
         $this->database->executeGeneric("lands.drop");
         $this->database->waitAll();
-        $this->database->executeGeneric("players.init");
-        $this->database->executeGeneric("factions.init");
-        $this->database->executeGeneric("mails.init");
-        $this->database->executeGeneric("roles.init");
-        $this->database->executeGeneric("lands.init");
-        $this->database->waitAll();
         */
+        $this->database->executeGeneric("outiserver.players.init");
+        $this->database->executeGeneric("outiserver.factions.init");
+        $this->database->executeGeneric("outiserver.mails.init");
+        $this->database->executeGeneric("outiserver.roles.init");
+        $this->database->executeGeneric("outiserver.lands.init");
+        $this->database->waitAll();
     }
 
     /**
