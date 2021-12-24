@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\MailData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\MailData;
 
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function count;
 use function strtolower;
 
@@ -27,29 +27,35 @@ class MailManager
     {
         self::$instance = $this;
         $this->mail_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("mails.seq",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "mails.seq",
             [],
             function (array $row) {
-                if (count($row) < 1)  {
+                if (count($row) < 1) {
                     $this->seq = 0;
                     return;
                 }
                 foreach ($row as $data) {
                     $this->seq = $data["seq"];
                 }
-            }, function (SqlError $error) {
+            },
+            function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
-            });
+            }
+        );
         Main::getInstance()->getDatabase()->waitAll();
-        Main::getInstance()->getDatabase()->executeSelect("mails.load",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "mails.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
                     $this->mail_datas[$data["id"]] = new MailData($data["id"], $data["name"], $data["title"], $data["content"], $data["author"], $data["date"], $data["read"]);
                 }
-            }, function (SqlError $error) {
+            },
+            function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
-            });
+            }
+        );
     }
 
     /**
@@ -95,7 +101,8 @@ class MailManager
      */
     public function create(string $name, string $title, string $content, string $author, string $date)
     {
-        Main::getInstance()->getDatabase()->executeInsert("mails.create",
+        Main::getInstance()->getDatabase()->executeInsert(
+            "mails.create",
             [
                 "name" => strtolower($name),
                 "title" => $title,
@@ -117,7 +124,8 @@ class MailManager
      */
     public function delete(int $id)
     {
-        Main::getInstance()->getDatabase()->executeGeneric("mails.delete",
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "mails.delete",
             [
                 "id" => $id
             ],

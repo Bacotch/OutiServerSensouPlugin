@@ -4,10 +4,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\LandData\LandDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\item\ItemFactory;
 use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetDisplayObjectivePacket;
@@ -45,15 +45,13 @@ class PlayerBackGround extends Task
                 $this->sendData($player, "§dPing: " . $player->getNetworkSession()->getPing() . "ms", 5);
                 if ($player_data->getFaction() === -1) {
                     $this->sendData($player, "§a所属派閥: 無所属", 6);
-                }
-                else {
+                } else {
                     $faction_data = FactionDataManager::getInstance()->get($player_data->getFaction());
                     $this->sendData($player, "§a所属派閥: {$faction_data->getName()}", 6);
                 }
                 if (!$factionLandData) {
                     $this->sendData($player, "チャンク所有: なし", 7);
-                }
-                else {
+                } else {
                     $landFaction = FactionDataManager::getInstance()->get($factionLandData->getFactionId());
                     $this->sendData($player, "チャンク所有: {$landFaction->getName()}", 7);
                 }
@@ -80,8 +78,7 @@ class PlayerBackGround extends Task
             $pk->criteriaName = "dummy";
             $pk->sortOrder = 0;
             $player->getNetworkSession()->sendDataPacket($pk);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -99,8 +96,7 @@ class PlayerBackGround extends Task
             $pk->type = $pk::TYPE_CHANGE;
             $pk->entries[] = $entry;
             $player->getNetworkSession()->sendDataPacket($pk);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -111,8 +107,7 @@ class PlayerBackGround extends Task
             $pk = new RemoveObjectivePacket();
             $pk->objectiveName = "sidebar";
             $player->getNetworkSession()->sendDataPacket($pk);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

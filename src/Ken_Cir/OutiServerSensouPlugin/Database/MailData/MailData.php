@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\MailData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\MailData;
 
 use Error;
 use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function strtolower;
 
 /**
@@ -131,7 +131,8 @@ class MailData
     {
         try {
             $this->read = (int)$read;
-            Main::getInstance()->getDatabase()->executeChange("mails.update",
+            Main::getInstance()->getDatabase()->executeChange(
+                "mails.update",
                 [
                     "read" => $this->read,
                     "id" => $this->id
@@ -141,8 +142,7 @@ class MailData
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             );
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

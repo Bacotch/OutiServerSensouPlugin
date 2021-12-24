@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\RoleData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\RoleData;
 
 use Error;
 use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 
 /**
  * 派閥のロールデータ
@@ -122,7 +122,8 @@ class RoleData
     public function update()
     {
         try {
-            Main::getInstance()->getDatabase()->executeChange("faction_roles.update",
+            Main::getInstance()->getDatabase()->executeChange(
+                "faction_roles.update",
                 [
                     "faction_id" => $this->faction_id,
                     "name" => $this->name,
@@ -142,8 +143,7 @@ class RoleData
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             );
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

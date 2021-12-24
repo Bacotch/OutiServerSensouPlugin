@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\LandData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\LandData;
 
 use Error;
 use Exception;
@@ -56,7 +56,8 @@ class LandData
     public function update(): void
     {
         try {
-            Main::getInstance()->getDatabase()->executeChange("lands.update",
+            Main::getInstance()->getDatabase()->executeChange(
+                "lands.update",
                 [
                     "faction_id" => $this->faction_id,
                     "x" => $this->x,
@@ -69,8 +70,7 @@ class LandData
                     Main::getInstance()->getPluginLogger()->error($error);
                 }
             );
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

@@ -371,6 +371,13 @@ UPDATE schedulemessages SET content = :content WHERE id = :id;
 DELETE FROM schedulemessages WHERE id = :id;
 -- # }
 
+-- # { delete_faction
+-- #    :faction_id int
+DELETE
+FROM lands
+WHERE faction_id = :faction_id;
+-- # }
+
 -- # { drop
 DROP TABLE IF EXISTS schedulemessages;
 -- # }

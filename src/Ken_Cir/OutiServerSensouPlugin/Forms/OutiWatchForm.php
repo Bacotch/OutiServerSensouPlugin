@@ -42,16 +42,13 @@ class OutiWatchForm
                     elseif ($data === 1) {
                         $form = new FactionForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 2) {
+                    } elseif ($data === 2) {
                         $form = new MailForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 3) {
+                    } elseif ($data === 3) {
                         $form = new ReportForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 4) {
+                    } elseif ($data === 4) {
                         $form = new RequestForm();
                         $form->execute($player);
                     }
@@ -76,7 +73,7 @@ class OutiWatchForm
                 $form->addButton("管理者");
             }
             $player->sendForm($form);
-        } catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }

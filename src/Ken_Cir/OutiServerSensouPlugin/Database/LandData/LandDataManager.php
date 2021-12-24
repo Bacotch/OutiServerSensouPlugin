@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\LandData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\LandData;
 
+use Error;
+use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
-use function count;
 use function array_shift;
+use function count;
 
 /**
  * 土地データマネージャー
@@ -36,10 +38,11 @@ class LandDataManager
     {
         self::$instance = $this;
         $this->land_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("mails.seq",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "mails.seq",
             [],
             function (array $row) {
-                if (count($row) < 1)  {
+                if (count($row) < 1) {
                     $this->seq = 0;
                     return;
                 }
@@ -49,9 +52,11 @@ class LandDataManager
             },
             function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
-            });
+            }
+        );
         Main::getInstance()->getDatabase()->waitAll();
-        Main::getInstance()->getDatabase()->executeSelect("lands.load",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "lands.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
@@ -60,7 +65,8 @@ class LandDataManager
             },
             function (SqlError $error) {
                 Main::getInstance()->getPluginLogger()->error($error);
-            });
+            }
+        );
     }
 
     /**
@@ -133,7 +139,8 @@ class LandDataManager
      */
     public function create(int $faction_id, int $x, int $z, string $world): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("lands.create",
+        Main::getInstance()->getDatabase()->executeInsert(
+            "lands.create",
             [
                 "faction_id" => $faction_id,
                 "x" => $x,
@@ -151,7 +158,8 @@ class LandDataManager
 
     public function delete(int $id)
     {
-        Main::getInstance()->getDatabase()->executeGeneric("lands.delete",
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "lands.delete",
             [
                 "id" => $id
             ],
@@ -161,5 +169,31 @@ class LandDataManager
             }
         );
         unset($this->land_datas[$id]);
+    }
+
+    /**
+     * @param int $factionId
+     * @return void
+     */
+    public function deleteFaction(int $factionId): void
+    {
+        try {
+            Main::getInstance()->getDatabase()->executeGeneric(
+                "lands.delete_faction",
+                [
+                    "faction_id" => $factionId
+                ],
+                null,
+                function (SqlError $error) {
+                    Main::getInstance()->getPluginLogger()->error($error);
+                }
+            );
+
+            $this->land_datas = array_filter($this->land_datas, function ($landData) use ($factionId) {
+                return $landData->getFactionId() !== $factionId;
+            });
+        } catch (Error|Exception $error) {
+            Main::getInstance()->getPluginLogger()->error($error);
+        }
     }
 }

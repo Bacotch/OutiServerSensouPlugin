@@ -6,10 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\AutoUpdateWait;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\event\Listener;
@@ -62,8 +62,7 @@ class EventListener implements Listener
         elseif (!str_starts_with($updateInfos->base_version, "4")) {
             Main::getInstance()->getLogger()->warning("PMMP自動アップデートに失敗しました、4x以外のPMMP");
             return;
-        }
-        elseif (!str_starts_with($updateInfos->php_version, "8.0")) {
+        } elseif (!str_starts_with($updateInfos->php_version, "8.0")) {
             Main::getInstance()->getLogger()->warning("PMMP自動アップデートに失敗しました、PHPのバージョンが8.0以外");
             return;
         }
@@ -75,17 +74,16 @@ class EventListener implements Listener
         Main::getInstance()->getPluginData()->set("pmmpLastUpdateCommitHash", $updateInfos->git_commit);
 
         // シャットダウン関数を登録
-        register_shutdown_function(function() {
+        register_shutdown_function(function () {
             unlink(Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
-            rename(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar",Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
+            rename(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar", Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
             pcntl_exec("./start.sh");
         });
 
         if (count(Server::getInstance()->getOnlinePlayers()) < 1) {
             Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！サーバーを再起動しています...");
             Server::getInstance()->shutdown();
-        }
-        else {
+        } else {
             Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
             Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
             Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
@@ -105,8 +103,7 @@ class EventListener implements Listener
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getNetworkSession()->getIp());
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getWorld()->getDisplayName()}\nX座標: {$player->getPosition()->getX()}\nY座標: {$player->getPosition()->getY()}\nZ座標: {$player->getPosition()->getZ()}\nにログインしました");
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -125,8 +122,7 @@ class EventListener implements Listener
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getNetworkSession()->getIp()} がサーバーに参加しました");
-        }
-        catch (Error | Exception $error) {
+        } catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -214,7 +210,6 @@ class EventListener implements Listener
                 $form->execute($player, $this);
             }
         }
-
     }
 
     /**

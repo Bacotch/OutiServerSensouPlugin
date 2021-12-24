@@ -2,12 +2,12 @@
 
 namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
+use CortexPE\DiscordWebhookAPI\Message;
+use CortexPE\DiscordWebhookAPI\Webhook;
 use DateTime;
 use DateTimeZone;
 use Error;
 use Exception;
-use CortexPE\DiscordWebhookAPI\Message;
-use CortexPE\DiscordWebhookAPI\Webhook;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 
 /**
@@ -67,7 +67,7 @@ class OutiServerPluginUtils
             9 => "青",
             10 => "緑",
             11 => "水色",
-            12 =>  "赤",
+            12 => "赤",
             13 => "ピンク",
             14 => "黄色",
             15 => "白色",
@@ -89,8 +89,7 @@ class OutiServerPluginUtils
             $message = new Message();
             $message->setContent("```[{$time->format('Y-m-d H:i:sP')}]: $content```");
             $webhook->send($message);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

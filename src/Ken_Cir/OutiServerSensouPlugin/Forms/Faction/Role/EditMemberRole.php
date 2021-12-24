@@ -6,16 +6,16 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerData;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
-use function count;
 use function array_values;
+use function count;
 
 class EditMemberRole
 {
@@ -37,8 +37,7 @@ class EditMemberRole
                         return true;
                     }
                     $this->edit_A($player, $factionPlayers[$data - 1]);
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -50,8 +49,7 @@ class EditMemberRole
                 $form->addButton($factionPlayer->getName());
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }
@@ -72,8 +70,7 @@ class EditMemberRole
                         if ($data[$i] === true and !$editPlayerData->hasRole($roles[$i - 2]->getId())) {
                             $editPlayerData->addRole($roles[$i - 2]->getId());
                             $msg .= "{$roles[$i - 2]->getName()}を付与しました\n";
-                        }
-                        elseif ($data[$i] === false and $editPlayerData->hasRole($roles[$i - 2]->getId())) {
+                        } elseif ($data[$i] === false and $editPlayerData->hasRole($roles[$i - 2]->getId())) {
                             $editPlayerData->removeRole($roles[$i - 2]->getId());
                             $msg .= "{$roles[$i - 2]->getName()}を剥奪しました\n";
                         }
@@ -81,8 +78,7 @@ class EditMemberRole
 
                     $player->sendMessage($msg);
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
 
@@ -95,14 +91,12 @@ class EditMemberRole
             foreach ($roles as $role) {
                 if (in_array($role->getId(), $editPlayerRoles, true)) {
                     $form->addToggle($role->getName(), true);
-                }
-                else {
+                } else {
                     $form->addToggle($role->getName());
                 }
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }
