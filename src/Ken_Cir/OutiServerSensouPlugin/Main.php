@@ -151,10 +151,8 @@ class Main extends PluginBase
             $this->enabled = true;
         } catch (Error | Exception $error) {
             $this->enabled = false;
-            $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
+            $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
             $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
-            $this->database->close();
-            $this->discord_client->shutdown();
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
     }
@@ -302,6 +300,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.mails.init");
         $this->database->executeGeneric("outiserver.roles.init");
         $this->database->executeGeneric("outiserver.lands.init");
+        $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->waitAll();
         $this->playerDataManager = new PlayerDataManager();
         $this->factionDataManager = new FactionDataManager();

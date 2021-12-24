@@ -192,7 +192,8 @@ class LandDataManager
             $this->land_datas = array_filter($this->land_datas, function ($landData) use ($factionId) {
                 return $landData->getFactionId() !== $factionId;
             });
-        } catch (Error|Exception $error) {
+        }
+        catch (Error | Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }

@@ -237,6 +237,10 @@ CREATE TABLE IF NOT EXISTS roles
     INTEGER
     NOT
     NULL,
+    position
+    INTEGER
+    NOT
+    NULL,
     sensen_hukoku
     INTEGER
     NOT
@@ -276,6 +280,7 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :faction_id int
 -- #    :name string
 -- #    :color int
+-- #    :position int
 -- #    :sensen_hukoku int
 -- #    :invite_player int
 -- #    :sendmail_all_faction_player int
@@ -284,9 +289,9 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :land_manager int
 -- #    :bank_manager int
 -- #    :role_manager int
-INSERT INTO roles (faction_id, name, color, sensen_hukoku, invite_player, sendmail_all_faction_player,
+INSERT INTO roles (faction_id, name, color, position, sensen_hukoku, invite_player, sendmail_all_faction_player,
                    freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
-VALUES (:faction_id, :name, :color, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
+VALUES (:faction_id, :name, :color, :position, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
         :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
 -- # }
 
@@ -412,8 +417,74 @@ CREATE TABLE IF NOT EXISTS landconfigs
     endz
     INTEGER
     NOT
+    NULL,
+    perms
+    TEXT
+    NOT
     NULL
 );
+-- # }
+
+-- # { create
+-- #    :landid int
+-- #    :startx int
+-- #    :startz int
+-- #    :endx int
+-- #    :endz int
+-- #    :perms string
+INSERT INTO landconfigs (landid,
+                         startx,
+                         startz,
+                         endx,
+                         endz,
+                         perms)
+VALUES (:landid,
+        :startx,
+        :startz,
+        :endx,
+        :endz,
+        :perms);
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'landconfigs';
+-- # }
+
+-- # { load
+SELECT *
+FROM landconfigs;
+-- # }
+
+-- # { update
+-- #    :startx int
+-- #    :startz int
+-- #    :endx int
+-- #    :endz int
+-- #    :perms string
+-- #    :id int
+UPDATE landconfigs
+SET startx = :startx,
+    startz = :startz,
+    endx   = :endx,
+    endz   = :endz,
+    perms  = :perms
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM landconfigs
+WHERE id = :id;
+-- # }
+
+-- # { delete_land
+-- #    :landid int
+DELETE
+FROM landconfigs
+WHERE landid = :landid;
 -- # }
 
 -- # { drop
