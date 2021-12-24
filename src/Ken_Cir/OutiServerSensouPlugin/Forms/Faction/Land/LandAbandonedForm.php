@@ -37,8 +37,7 @@ class LandAbandonedForm
             $form->setButton1("放棄");
             $form->setButton2("キャンセル");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
         }
     }

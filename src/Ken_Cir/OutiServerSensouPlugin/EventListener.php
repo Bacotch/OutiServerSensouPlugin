@@ -138,7 +138,7 @@ class EventListener implements Listener
             unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getNetworkSession()->getIp()} がサーバーから退出しました");
-        } catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getPluginLogger()->error($error);
         }
     }
@@ -189,7 +189,7 @@ class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
-        } catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e);
         }
     }

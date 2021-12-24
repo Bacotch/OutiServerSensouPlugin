@@ -6,6 +6,7 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Commands\Nuke;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
@@ -21,6 +22,7 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
 use pocketmine\console\ConsoleCommandSender;
+use pocketmine\lang\Language;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
@@ -81,7 +83,6 @@ class Main extends PluginBase
     private bool $enabled;
 
     /**
-<<<<<<< HEAD
      * @var PlayerDataManager
      * プレイヤーデータマネージャー
      */

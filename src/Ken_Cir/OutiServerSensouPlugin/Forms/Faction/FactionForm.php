@@ -92,16 +92,14 @@ class FactionForm
                                 $form->execute($player);
                             }
                         }
-                    }
-                    elseif ($data === 7) {
+                    } elseif ($data === 7) {
                         // どこかに所属している
                         if ($player_data->getFaction() !== -1) {
                             // 役職管理権限があるなら役職管理フォームに飛ばす
                             if ($faction_data->getOwner() === $player_data->getName()) {
                                 $form = new LandManagerForm();
                                 $form->execute($player);
-                            }
-                            elseif ($player_data->isLandManager()) {
+                            } elseif ($player_data->isLandManager()) {
                                 $form = new LandManagerForm();
                                 $form->execute($player);
                             }
@@ -140,8 +138,7 @@ class FactionForm
                 }
                 if ($faction_data->getOwner() === $player_data->getName()) {
                     $form->addButton("土地の管理");
-                }
-                elseif ($player_data->isLandManager()) {
+                } elseif ($player_data->isLandManager()) {
                     $form->addButton("土地の管理");
                 }
             }

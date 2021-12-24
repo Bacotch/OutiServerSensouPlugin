@@ -428,6 +428,13 @@ FROM lands
 WHERE id = :id;
 -- # }
 
+-- # { delete_faction
+-- #    :faction_id int
+DELETE
+FROM lands
+WHERE faction_id = :faction_id;
+-- # }
+
 -- # { drop
 DROP TABLE IF EXISTS lands;
 -- # }
