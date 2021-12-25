@@ -29,7 +29,6 @@ class PlayerDataManager
 
     public function __construct()
     {
-        self::$instance = $this;
         $this->player_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.players.load",
@@ -43,6 +42,16 @@ class PlayerDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
+    }
+
+    /**
+     * クラスインスタンスを作成する
+     * @return void
+     */
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) return;
+        self::$instance = new PlayerDataManager();
     }
 
     /**

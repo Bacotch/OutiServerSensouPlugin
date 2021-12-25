@@ -36,7 +36,6 @@ class RoleDataManager
      */
     public function __construct()
     {
-        self::$instance = $this;
         $this->faction_role_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.roles.seq",
@@ -71,6 +70,12 @@ class RoleDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
+    }
+
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) return;
+        self::$instance = new RoleDataManager();
     }
 
     /**

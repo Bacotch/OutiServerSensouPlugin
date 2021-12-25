@@ -36,7 +36,6 @@ class LandDataManager
 
     public function __construct()
     {
-        self::$instance = $this;
         $this->land_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.lands.seq",
@@ -70,21 +69,22 @@ class LandDataManager
     }
 
     /**
+     * クラスインスタンスを作成する
+     * @return void
+     */
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) return;
+        self::$instance = new LandDataManager();
+    }
+
+    /**
      * インスタンスを返す
      * @return LandDataManager
      */
     public static function getInstance(): LandDataManager
     {
         return self::$instance;
-    }
-
-    /**
-     * データ配列を返す
-     * @return LandData[]
-     */
-    public function getLandDatas(): array
-    {
-        return $this->land_datas;
     }
 
     /**
