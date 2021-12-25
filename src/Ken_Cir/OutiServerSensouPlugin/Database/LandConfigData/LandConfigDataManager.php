@@ -29,7 +29,6 @@ class LandConfigDataManager
 
     public function __construct()
     {
-        self::$instance = $this;
         $this->landConfigDatas = [];
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.landconfigs.seq",
@@ -60,6 +59,16 @@ class LandConfigDataManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
+    }
+
+    /**
+     * クラスインスタンスを作成する
+     * @return void
+     */
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) return;
+        self::$instance = new LandConfigDataManager();
     }
 
     /**
