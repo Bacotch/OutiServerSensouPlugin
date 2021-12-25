@@ -25,7 +25,6 @@ class MailManager
 
     public function __construct()
     {
-        self::$instance = $this;
         $this->mail_datas = [];
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.mails.seq",
@@ -56,6 +55,16 @@ class MailManager
                 Main::getInstance()->getPluginLogger()->error($error);
             }
         );
+    }
+
+    /**
+     * クラスインスタンスを作成する
+     * @return void
+     */
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) return;
+        self::$instance = new MailManager();
     }
 
     /**
