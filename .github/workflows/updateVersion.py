@@ -62,7 +62,7 @@ def decode_json(jsonfile)->str:
             continue
 
 if __name__ == "__main__":
-    jsonfiles = glob.glob('./json/*')
+    jsonfiles = glob.glob('.github/workflows/version.json')
     for jsonfile in jsonfiles:
         jsondict = {}
         filename = os.path.splitext(os.path.basename(jsonfile))[0]
