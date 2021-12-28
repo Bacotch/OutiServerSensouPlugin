@@ -6,6 +6,7 @@
     },
     "require-dev": {
         "ext-pthreads": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-pcntl": "*"
     }
 }
