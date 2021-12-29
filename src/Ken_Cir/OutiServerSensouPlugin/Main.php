@@ -111,7 +111,7 @@ class Main extends PluginBase
             $this->pluginData = new Config($this->getDataFolder() . "data.yml", Config::YAML);
 
             // ---イベント処理クラスを登録--
-            $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
+            Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
 
             // ---Logger初期化---
             $this->logger = new OutiServerLogger();
@@ -162,18 +162,25 @@ class Main extends PluginBase
                 function (): void {
                     foreach ($this->discordClient->fetchConsoleMessages() as $message) {
                         if ($message === "") continue;
-                        $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
                     }
 
                     foreach ($this->discordClient->fetchChatMessages() as $message) {
                         $content = $message["content"];
                         if ($content === "") continue;
-                        $this->getServer()->broadcastMessage("[Discord:{$message["username"]}] $content");
+                        Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
                     }
                 }
             ), 5, 1);
             // プレイヤーバックグラウンド処理タスク登録
             $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+
+            if ($this->config->get("plugin_auto_update_enable", true)) {
+                $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
+            }
+
+            // TODO: プラグインも自動アップデートができるようにする
+            // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
 
             // ---コマンド登録---
             $this->getServer()->getCommandMap()->registerAll(
@@ -190,7 +197,7 @@ class Main extends PluginBase
             $this->enabled = false;
             $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
             $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
-            $this->getServer()->getPluginManager()->disablePlugin($this);
+            Server::getInstance()->getPluginManager()->disablePlugin($this);
         }
     }
 
