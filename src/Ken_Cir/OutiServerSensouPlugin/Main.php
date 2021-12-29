@@ -7,8 +7,10 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
-use Ken_Cir\OutiServerSensouPlugin\Threads\AutoUpdateCheck;
+use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
+use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
 use pocketmine\lang\Language;
+use pocketmine\Server;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
@@ -343,5 +345,12 @@ class Main extends PluginBase
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+
+        if ($this->config->get("plugin_auto_update_enable", true)) {
+            $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
+        }
+
+        // TODO: プラグインも自動アップデートができるようにする
+       // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
     }
 }

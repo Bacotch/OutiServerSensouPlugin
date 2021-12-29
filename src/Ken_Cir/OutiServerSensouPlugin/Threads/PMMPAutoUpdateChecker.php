@@ -7,7 +7,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 
-class AutoUpdateCheck extends Task
+/**
+ * PMMPのアップデートを確認するTask
+ */
+class PMMPAutoUpdateChecker extends Task
 {
     public function __construct()
     {

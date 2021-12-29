@@ -2,3 +2,6 @@
 
 # PMMP最終アップデートコミットハッシュ値
 pmmpLastUpdateCommitHash: ""
+
+# このプラグイン最終アップデートバージョン
+pluginLastUpdateVersion: ""

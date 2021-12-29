@@ -69,19 +69,13 @@ class EventListener implements Listener
         }
 
         Main::getInstance()->getLogger()->alert("PMMPの自動アップデートの準備をしています...");
-        Main::getInstance()->getLogger()->alert("全てのプラグインを無効化しています");
-        foreach (Server::getInstance()->getPluginManager()->getPlugins() as $plugin) {
-            if ($plugin->getName() !== Main::getInstance()->getName()) {
-                Server::getInstance()->getPluginManager()->disablePlugin($plugin);
-            }
-        }
 
         $result = Internet::getURL($updateInfos->download_url);
         file_put_contents(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar", $result->getBody());
         Main::getInstance()->getPluginData()->set("pmmpLastUpdateCommitHash", $updateInfos->git_commit);
 
         // シャットダウン関数を登録
-        register_shutdown_function(function(){
+        register_shutdown_function(function() {
             unlink(Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
             rename(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar",Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
             pcntl_exec("./start.sh");

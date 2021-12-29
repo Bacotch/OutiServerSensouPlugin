@@ -1,12 +1,10 @@
 {
-    "name": "ken_cir/outiserverplugin",
-    "description": "おうち鯖専属プラグイン",
-    "require": {
-        "team-reflex/discord-php": "^6.0.3"
-    },
-    "require-dev": {
-        "ext-pthreads": "*",
-        "ext-zip": "*",
-        "ext-pcntl": "*"
-    }
+  "name": "ken_cir/outiserverplugin",
+  "description": "おうち鯖専属プラグイン",
+  "require": {
+    "team-reflex/discord-php": "^6.0.3",
+    "ext-pcntl": "*",
+    "ext-pthreads": "*",
+    "ext-zip": "*"
+  }
 }
