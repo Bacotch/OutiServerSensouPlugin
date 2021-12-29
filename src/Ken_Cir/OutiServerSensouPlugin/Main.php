@@ -50,7 +50,6 @@ class Main extends PluginBase
     private Config $config;
 
     /**
-<<<<<<< HEAD
      * プラグイン永続データ
      * @var Config
      */
@@ -58,8 +57,6 @@ class Main extends PluginBase
 
     /**
      * @var OutiServerLogger
-=======
->>>>>>> 062f381 (DatabaseManagerを全てcreateInstanceでインスタンスを作成するように修正)
      * プラグイン用ログ出力
      * @var OutiServerLogger
      */
@@ -113,7 +110,7 @@ class Main extends PluginBase
             $this->pluginData = new Config($this->getDataFolder() . "data.yml", Config::YAML);
 
             // ---イベント処理クラスを登録--
-            $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
+            Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
 
             // ---Logger初期化---
             $this->logger = new OutiServerLogger();
@@ -164,18 +161,25 @@ class Main extends PluginBase
                 function (): void {
                     foreach ($this->discordClient->fetchConsoleMessages() as $message) {
                         if ($message === "") continue;
-                        $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
+                        Server::getInstance()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
                     }
 
                     foreach ($this->discordClient->fetchChatMessages() as $message) {
                         $content = $message["content"];
                         if ($content === "") continue;
-                        $this->getServer()->broadcastMessage("[Discord:{$message["username"]}] $content");
+                        Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
                     }
                 }
             ), 5, 1);
             // プレイヤーバックグラウンド処理タスク登録
             $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+
+            if ($this->config->get("plugin_auto_update_enable", true)) {
+                $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
+            }
+
+            // TODO: プラグインも自動アップデートができるようにする
+            // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
 
             // ---コマンド登録---
             $this->getServer()->getCommandMap()->registerAll(
@@ -192,7 +196,7 @@ class Main extends PluginBase
             $this->enabled = false;
             $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
             $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
-            $this->getServer()->getPluginManager()->disablePlugin($this);
+            Server::getInstance()->getPluginManager()->disablePlugin($this);
         }
     }
 
@@ -267,135 +271,5 @@ class Main extends PluginBase
     public function getDatabase(): DataConnector
     {
         return $this->database;
-    }
-
-    /**
-     * @return PlayerDataManager
-     * プレイヤーデータマネージャーを返す
-     */
-    public function getPlayerDataManager(): PlayerDataManager
-    {
-        return $this->playerDataManager;
-    }
-
-    /**
-     * @return FactionDataManager
-     * 派閥管理マネージャーを返す
-     */
-    public function getFactionDataManager(): FactionDataManager
-    {
-        return $this->factionDataManager;
-    }
-
-    /**
-     * @return MailManager
-     * メールデータマネージャーを返す
-     */
-    public function getMailManager(): MailManager
-    {
-        return $this->mailManager;
-    }
-
-    /**
-     * @return RoleDataManager
-     * 派閥ロールデータマネージャーを返す
-     */
-    public function getFactionRoleDataManager(): RoleDataManager
-    {
-        return $this->factionRoleDataManager;
-    }
-
-    /**
-     * 土地データマネージャーを返す
-     * @return LandDataManager
-     */
-    public function getLandDataManager(): LandDataManager
-    {
-        return $this->landDataManager;
-    }
-
-    /**
-     * データベース初期化処理まとめ
-     */
-    private function InitializeDatabase(): void
-    {
-        $databaseConfig = new Config($this->getDataFolder() . "database.yml", Config::YAML);
-        $this->database = libasynql::create($this, $databaseConfig->get("database"), [
-            "sqlite" => "sqlite.sql"
-        ]);
-        /*
-        $this->database->executeGeneric("outiserver.lands.drop");
-        $this->database->waitAll();
-        */
-        $this->database->executeGeneric("outiserver.players.init");
-        $this->database->executeGeneric("outiserver.factions.init");
-        $this->database->executeGeneric("outiserver.mails.init");
-        $this->database->executeGeneric("outiserver.roles.init");
-        $this->database->executeGeneric("outiserver.lands.init");
-        $this->database->executeGeneric("outiserver.landconfigs.init");
-        $this->database->waitAll();
-        $this->playerDataManager = new PlayerDataManager();
-        $this->factionDataManager = new FactionDataManager();
-        $this->mailManager = new MailManager();
-        $this->factionRoleDataManager = new RoleDataManager();
-        $this->landDataManager = new LandDataManager();
-        $this->database->waitAll();
-    }
-
-    /**
-     * スレッド初期化処理まとめ
-     */
-    private function InitializeThreads(): void
-    {
-        $this->discord_client = new DiscordBot($this->config->get("Discord_Bot_Token", ""), $this->getFile(), $this->config->get("Discord_Guild_Id", ""), $this->config->get("Discord_Console_Channel_Id", ""), $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
-
-        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
-            function (): void {
-                $this->getLogger()->info("出力バッファリングを開始致します。");
-                ob_start();
-            }
-        ), 10);
-
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
-                if (!$this->discord_client->started) return;
-                $string = ob_get_contents();
-
-                if ($string === "") return;
-                $this->discord_client->sendConsoleMessage($string);
-                ob_flush();
-            }
-        ), 10, 1);
-
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
-                foreach ($this->discord_client->fetchConsoleMessages() as $message) {
-                    if ($message === "") continue;
-                    $this->getServer()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
-                }
-
-                foreach ($this->discord_client->fetchChatMessages() as $message) {
-                    $content = $message["content"];
-                    if ($content === "") continue;
-                    $this->getServer()->broadcastMessage("[Discord:{$message["username"]}] $content");
-                }
-            }
-        ), 5, 1);
-
-        $this->getServer()->getCommandMap()->registerAll(
-            $this->getName(),
-            [
-                new OutiWatchCommand($this)
-            ]
-        );
-
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
-
-        if ($this->config->get("plugin_auto_update_enable", true)) {
-            $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
-        }
-
-        // TODO: プラグインも自動アップデートができるようにする
-        // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
     }
 }
