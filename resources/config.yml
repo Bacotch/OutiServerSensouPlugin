@@ -1,5 +1,10 @@
 ---
-# ---バックアップ設定---
+# ---自動アップデート設定---
+# PMMPの自動アップデート・再起動を有効にするか
+pmmp_auto_update_enable: true
+
+# このプラグインの自動アップデート・再起動を有効にするか
+plugin_auto_update_enable: true
 
 
 # ---Discord関係設定---

@@ -7,7 +7,10 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
+use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
+use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
 use pocketmine\lang\Language;
+use pocketmine\Server;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
@@ -43,6 +46,12 @@ class Main extends PluginBase
      * プラグインコンフィグ
      */
     private Config $config;
+
+    /**
+     * プラグイン永続データ
+     * @var Config
+     */
+    private Config $pluginData;
 
     /**
      * @var OutiServerLogger
@@ -113,9 +122,11 @@ class Main extends PluginBase
             // ---リソースを保存---
             $this->saveResource("config.yml");
             $this->saveResource("database.yml");
+            $this->saveResource("data.yml");
 
             // ---プラグインコンフィグを読み込む---
             $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+            $this->pluginData = new Config($this->getDataFolder() . "data.yml", Config::YAML);
 
             // ---イベント処理クラスを登録--
             $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
@@ -153,11 +164,14 @@ class Main extends PluginBase
             $this->database->close();
             $this->discord_client->sendChatMessage("サーバーが停止しました");
             $this->discord_client->shutdown();
-            ob_flush();
-            ob_end_clean();
+            if (ob_get_contents()) {
+                ob_flush();
+                ob_end_clean();
+            }
+            $this->pluginData->save();
         }
         catch (Error | Exception $error) {
-            $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
+            $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
             $this->getLogger()->emergency("プラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
         }
     }
@@ -178,6 +192,14 @@ class Main extends PluginBase
     public function getPluginConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * @return Config
+     */
+    public function getPluginData(): Config
+    {
+        return $this->pluginData;
     }
 
     /**
@@ -323,5 +345,12 @@ class Main extends PluginBase
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+
+        if ($this->config->get("plugin_auto_update_enable", true)) {
+            $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
+        }
+
+        // TODO: プラグインも自動アップデートができるようにする
+       // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
     }
 }
