@@ -6,6 +6,9 @@ namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData;
 
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
+use function serialize;
+use function count;
+use function array_filter;
 
 class LandConfigDataManager
 {
@@ -52,7 +55,7 @@ class LandConfigDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->landConfigDatas[$data["id"]] = new LandConfigData($data["id"], $data["landid"], $data["startx"], $data["startz"], $data["endx"], $data["endz"], $data["perms"]);
+                    $this->landConfigDatas[$data["id"]] = new LandConfigData($data["id"], $data["landid"], $data["startx"], $data["startz"], $data["endx"], $data["endz"], $data["defaultPerms"], $data["rolePerms"], $data["memberPerms"]);
                 }
             },
             function (SqlError $error) {
@@ -97,7 +100,7 @@ class LandConfigDataManager
         return $this->landConfigDatas[$id];
     }
 
-    public function create(int $landid, int $startx, int $startz, int $endx, int $endz, array $perms): void
+    public function create(int $landid, int $startx, int $startz, int $endx, int $endz, array $defaultPerms, array $rolePerms, array $memberPerms): void
     {
         Main::getInstance()->getDatabase()->executeInsert(
             "outiserver.landconfigs.create",
@@ -107,7 +110,9 @@ class LandConfigDataManager
                 "startz" => $startz,
                 "endx" => $endx,
                 "endz" => $endz,
-                "perms" => serialize($perms)
+                "defaultperms" => serialize($defaultPerms),
+                "roleperms" => serialize($rolePerms),
+                "memberperms" => serialize($memberPerms)
             ],
             null,
             function (SqlError $error) {
@@ -115,7 +120,7 @@ class LandConfigDataManager
             }
         );
         $this->seq++;
-        $this->landConfigDatas[$this->seq] = new LandConfigData($this->seq, $landid, $startx, $startz, $endx, $endz, serialize($perms));
+        $this->landConfigDatas[$this->seq] = new LandConfigData($this->seq, $landid, $startx, $startz, $endx, $endz, serialize($defaultPerms), serialize($rolePerms), serialize($memberPerms));
     }
 
     /**

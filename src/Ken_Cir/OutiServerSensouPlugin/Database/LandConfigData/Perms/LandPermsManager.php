@@ -25,14 +25,14 @@ class LandPermsManager
      */
     private array $memberLandPerms;
 
-    #[Pure] public function __construct(array $perms)
+    #[Pure] public function __construct(array $defaultPerms, array $rolePerms, array $memberPerms)
     {
-        $this->defalutLandPerms = new DefalutLandPerms($perms["default"]["blockTap"], $perms["default"]["blockPlace"], $perms["default"]["blockBreak"]);
-        foreach ($perms["roles"] as $rolePerms) {
-            $this->roleLandPerms[$rolePerms["id"]] = new RoleLandPerms($rolePerms["id"], $rolePerms["blockTap"], $rolePerms["blockPlace"], $rolePerms["blockBreak"]);
+        $this->defalutLandPerms = new DefalutLandPerms($defaultPerms["blockTap"], $defaultPerms["blockPlace"], $defaultPerms["blockBreak"]);
+        foreach ($rolePerms as $rolePerm) {
+            $this->roleLandPerms[$rolePerm["id"]] = new RoleLandPerms($rolePerm["id"], $rolePerm["blockTap"], $rolePerm["blockPlace"], $rolePerm["blockBreak"]);
         }
-        foreach ($perms["members"] as $memberPerms) {
-            $this->memberLandPerms[$memberPerms["name"]] = new MemberLandPerms($memberPerms["name"], $memberPerms["blockTap"], $memberPerms["blockPlace"],$memberPerms["blockBreak"]);
+        foreach ($memberPerms as $memberPerm) {
+            $this->memberLandPerms[$memberPerm["name"]] = new MemberLandPerms($memberPerm["name"], $memberPerm["blockTap"], $memberPerm["blockPlace"], $memberPerm["blockBreak"]);
         }
     }
 
