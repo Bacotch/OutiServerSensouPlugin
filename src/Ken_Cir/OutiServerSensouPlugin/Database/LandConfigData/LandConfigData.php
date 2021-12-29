@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData;
 
 use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms\LandPermsManager;
+use function unserialize;
 
 class LandConfigData
 {
@@ -50,7 +51,7 @@ class LandConfigData
      */
     private LandPermsManager $landPermsManager;
 
-    public function __construct(int $id, int $landid, int $startx, int $startz, int $endx, int $endz, string $perms)
+    public function __construct(int $id, int $landid, int $startx, int $startz, int $endx, int $endz, string $defaultPerms, string $rolePerms, string $memberPerms)
     {
         $this->id = $id;
         $this->landid = $landid;
@@ -58,7 +59,7 @@ class LandConfigData
         $this->startz = $startz;
         $this->endx = $endx;
         $this->endz = $endz;
-        $this->landPermsManager = new LandPermsManager(unserialize($perms));
+        $this->landPermsManager = new LandPermsManager(unserialize($defaultPerms), unserialize($rolePerms), unserialize($memberPerms));
     }
 
     /**

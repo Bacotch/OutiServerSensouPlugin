@@ -460,7 +460,15 @@ CREATE TABLE IF NOT EXISTS landconfigs
     INTEGER
     NOT
     NULL,
-    perms
+    defaultperms
+    TEXT
+    NOT
+    NULL,
+    roleperms
+    TEXT
+    NOT
+    NULL,
+    memberperms
     TEXT
     NOT
     NULL
@@ -473,19 +481,26 @@ CREATE TABLE IF NOT EXISTS landconfigs
 -- #    :startz int
 -- #    :endx int
 -- #    :endz int
--- #    :perms string
+-- #    :defaultperms string
+-- #    :roleperms string
+-- #    :memberperms string
+
 INSERT INTO landconfigs (landid,
                          startx,
                          startz,
                          endx,
                          endz,
-                         perms)
+                         defaultperms,
+                         roleperms,
+                         memberperms)
 VALUES (:landid,
         :startx,
         :startz,
         :endx,
         :endz,
-        :perms);
+        :defaultperms,
+        :roleperms,
+        :memberperms);
 -- # }
 
 -- # { seq
@@ -504,14 +519,18 @@ FROM landconfigs;
 -- #    :startz int
 -- #    :endx int
 -- #    :endz int
--- #    :perms string
+-- #    :defaultperms string
+-- #    :roleperms string
+-- #    :memberperms string
 -- #    :id int
 UPDATE landconfigs
 SET startx = :startx,
     startz = :startz,
     endx   = :endx,
     endz   = :endz,
-    perms  = :perms
+    defaultperms  = :defaultperms,
+    roleperms = :roleperms,
+    memberperms = :memberperms
 WHERE id = :id;
 -- # }
 
