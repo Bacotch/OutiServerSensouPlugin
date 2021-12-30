@@ -55,6 +55,14 @@ class LandPermsManager
     }
 
     /**
+     * @return RoleLandPerms[]
+     */
+    public function getAllRoleLandPerms(): array
+    {
+        return $this->roleLandPerms;
+    }
+
+    /**
      * @param string $name
      * @return MemberLandPerms|null
      */
@@ -62,5 +70,13 @@ class LandPermsManager
     {
         if (!isset($this->memberLandPerms[$name])) return null;
         return $this->memberLandPerms[$name];
+    }
+
+    /**
+     * @return MemberLandPerms[]
+     */
+    public function getAllMemberLandPerms(): array
+    {
+        return $this->memberLandPerms;
     }
 }

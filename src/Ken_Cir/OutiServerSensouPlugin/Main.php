@@ -7,6 +7,7 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
+use Ken_Cir\OutiServerSensouPlugin\Commands\RestartCommand;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
@@ -185,7 +186,8 @@ class Main extends PluginBase
             $this->getServer()->getCommandMap()->registerAll(
                 $this->getName(),
                 [
-                    new OutiWatchCommand($this)
+                    new OutiWatchCommand($this),
+                    new RestartCommand($this)
                 ]
             );
 
