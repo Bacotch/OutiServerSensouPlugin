@@ -20,4 +20,12 @@ class MemberLandPerms extends LandPermsBase
         $this->name = strtolower($name);
         parent::__construct($blockTap, $blockPlace, $blockBreak);
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

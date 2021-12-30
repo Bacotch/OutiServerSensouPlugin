@@ -186,7 +186,8 @@ class Main extends PluginBase
             $this->getServer()->getCommandMap()->registerAll(
                 $this->getName(),
                 [
-                    new OutiWatchCommand($this)
+                    new OutiWatchCommand($this),
+                    new RestartCommand($this)
                 ]
             );
 

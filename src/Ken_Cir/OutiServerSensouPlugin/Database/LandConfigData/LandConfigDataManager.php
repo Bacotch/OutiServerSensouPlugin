@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData;
 
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function serialize;
@@ -98,6 +99,30 @@ class LandConfigDataManager
     {
         if (!isset($this->landConfigDatas[$id])) return false;
         return $this->landConfigDatas[$id];
+    }
+
+    /**
+     * X座標とY座標とワールド名を元にコンフィグデータを返す、無ければnullを返す
+     * @param int $x
+     * @param int $z
+     * @param string $worldName
+     * @return LandConfigData|null
+     */
+    public function getPos(int $x, int $z, string $worldName): ?LandConfigData
+    {
+        foreach ($this->landConfigDatas as $landConfigData) {
+            $landData = LandDataManager::getInstance()->get($landConfigData->getLandid());
+            if (!$landData) {
+                $this->delete($landConfigData->getId());
+            }
+            elseif ($landData->getWorld() === $worldName
+                and $landConfigData->getStartx() <= $x and $x <= $landConfigData->getEndx()
+            and $landConfigData->getEndx() <= $z and $z <= $landConfigData->getEndz()) {
+                return $landConfigData;
+            }
+        }
+
+        return null;
     }
 
     public function create(int $landid, int $startx, int $startz, int $endx, int $endz, array $defaultPerms, array $rolePerms, array $memberPerms): void
