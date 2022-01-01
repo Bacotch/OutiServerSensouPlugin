@@ -8,6 +8,7 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\Commands\RestartCommand;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
@@ -137,6 +138,7 @@ class Main extends PluginBase
             MailManager::createInstance();
             RoleDataManager::createInstance();
             LandDataManager::createInstance();
+            LandConfigDataManager::createInstance();
             $this->database->waitAll();
 
             // ---スレッド初期化---
