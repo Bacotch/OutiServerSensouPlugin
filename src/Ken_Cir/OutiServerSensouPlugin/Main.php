@@ -137,6 +137,7 @@ class Main extends PluginBase
             MailManager::createInstance();
             RoleDataManager::createInstance();
             LandDataManager::createInstance();
+            LandConfigDataManager::createInstance();
             $this->database->waitAll();
 
             // ---スレッド初期化---

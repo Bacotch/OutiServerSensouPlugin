@@ -36,7 +36,7 @@ class LandManagerForm
                         $form->execute($player);
                     }
                     elseif ($data === 3 and LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
-                        $form = new LandAbandonedForm();
+                        $form = new LandConfigForm();
                         $form->execute($player);
                     }
                     elseif ($data === 3 and LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
