@@ -216,8 +216,11 @@ class Main extends PluginBase
             $this->database->close();
             $this->discordClient->sendChatMessage("サーバーが停止しました");
             $this->discordClient->shutdown();
-            ob_flush();
-            ob_end_clean();
+            if (ob_get_contents()) {
+                ob_flush();
+                ob_end_clean();
+            }
+            $this->pluginData->save();
         } catch (Error | Exception $error) {
             $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
             $this->getLogger()->emergency("プラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
