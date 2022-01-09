@@ -43,7 +43,7 @@ class CreateFactionForm
                     $player_data->setFaction($id);
                     $player->sendMessage("§a[システム]派閥 $data[0] を作成しました\n派閥の詳細は /factioninfo で確認できます");
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                    Main::getInstance()->getOutiServerLogger()->error($e);
                 }
 
                 return true;
@@ -54,7 +54,7 @@ class CreateFactionForm
             $form->addDropdown("§e派閥チャットカラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"]);
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

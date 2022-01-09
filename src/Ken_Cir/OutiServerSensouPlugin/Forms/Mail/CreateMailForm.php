@@ -54,7 +54,7 @@ class CreateMailForm
                     $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                    Main::getInstance()->getOutiServerLogger()->error($e);
                 }
 
                 return true;
@@ -70,7 +70,7 @@ class CreateMailForm
             }
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

@@ -139,11 +139,11 @@ class MailData
                 ],
                 null,
                 function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

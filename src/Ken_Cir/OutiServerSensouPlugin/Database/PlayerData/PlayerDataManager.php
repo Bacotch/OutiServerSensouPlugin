@@ -39,7 +39,7 @@ class PlayerDataManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
     }
@@ -97,7 +97,7 @@ class PlayerDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
@@ -119,13 +119,13 @@ class PlayerDataManager
                 ],
                 null,
                 function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
             unset($this->player_datas[strtolower($name)]);
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 

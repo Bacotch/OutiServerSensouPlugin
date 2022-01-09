@@ -50,7 +50,7 @@ class LandDataManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         Main::getInstance()->getDatabase()->waitAll();
@@ -63,7 +63,7 @@ class LandDataManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
     }
@@ -149,7 +149,7 @@ class LandDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->seq++;
@@ -165,7 +165,7 @@ class LandDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         unset($this->land_datas[$id]);
@@ -185,7 +185,7 @@ class LandDataManager
                 ],
                 null,
                 function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
 
@@ -194,7 +194,7 @@ class LandDataManager
             });
         }
         catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

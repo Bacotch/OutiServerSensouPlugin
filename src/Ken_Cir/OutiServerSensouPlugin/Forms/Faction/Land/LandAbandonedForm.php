@@ -28,7 +28,7 @@ class LandAbandonedForm
                         $player->sendMessage("§a[システム] 削除しました");
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
             });
 
@@ -38,7 +38,7 @@ class LandAbandonedForm
             $form->setButton2("キャンセル");
             $player->sendForm($form);
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 }

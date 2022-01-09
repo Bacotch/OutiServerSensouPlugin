@@ -106,7 +106,7 @@ class FactionForm
                         }
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -144,7 +144,7 @@ class FactionForm
             }
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
 }

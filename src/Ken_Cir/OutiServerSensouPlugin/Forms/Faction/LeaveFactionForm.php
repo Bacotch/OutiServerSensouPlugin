@@ -56,7 +56,7 @@ class LeaveFactionForm
             $form->setButton2("いいえ");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

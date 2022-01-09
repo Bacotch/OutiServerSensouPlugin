@@ -34,7 +34,7 @@ class ReportForm
                     OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**REPORT**\n{$player->getName()} からのレポート\nレポート対象のプレイヤー名: $data[0]\nレポート内容: $data[1]");
                     $player->sendMessage("§a[システム] レポートを送信しました");
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -46,7 +46,7 @@ class ReportForm
             $form->addLabel("§e[注意] 嘘のレポートは処罰される可能性があります\n処罰等が決定次第、内部メールで連絡致します");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
 }

@@ -38,7 +38,7 @@ class CreateRoleForm
                     $player->sendMessage("§a[システム]役職 $data[0] を作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -58,7 +58,7 @@ class CreateRoleForm
             $form->addToggle("派閥ロール管理権限");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

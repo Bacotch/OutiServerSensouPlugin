@@ -39,7 +39,7 @@ class MailManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         Main::getInstance()->getDatabase()->waitAll();
@@ -52,7 +52,7 @@ class MailManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
     }
@@ -121,7 +121,7 @@ class MailManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->seq++;
@@ -140,7 +140,7 @@ class MailManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         unset($this->mail_datas[$id]);

@@ -41,7 +41,7 @@ class MailForm
                         $form->execute($player);
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -53,7 +53,7 @@ class MailForm
             $form->addButton("§bメールを閲覧・削除");
             $player->sendForm($form);
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 }

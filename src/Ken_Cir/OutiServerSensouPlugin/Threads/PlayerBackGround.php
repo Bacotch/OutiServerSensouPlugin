@@ -79,7 +79,7 @@ class PlayerBackGround extends Task
             $pk->sortOrder = 0;
             $player->getNetworkSession()->sendDataPacket($pk);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
@@ -97,7 +97,7 @@ class PlayerBackGround extends Task
             $pk->entries[] = $entry;
             $player->getNetworkSession()->sendDataPacket($pk);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
@@ -108,7 +108,7 @@ class PlayerBackGround extends Task
             $pk->objectiveName = "sidebar";
             $player->getNetworkSession()->sendDataPacket($pk);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
     // ここまで

@@ -50,7 +50,7 @@ class RoleDataManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         Main::getInstance()->getDatabase()->waitAll();
@@ -63,11 +63,11 @@ class RoleDataManager
                         $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["position"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
                     }
                 } catch (Error|Exception $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
     }
@@ -132,7 +132,7 @@ class RoleDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->seq++;
@@ -154,7 +154,7 @@ class RoleDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         unset($this->faction_role_datas[$id]);

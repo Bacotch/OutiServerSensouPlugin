@@ -45,10 +45,10 @@ class FactionDataManager
                         $this->seq = $data["seq"];
                     }
                 } catch (Error|Exception $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             }, function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             });
         Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.load",
@@ -59,10 +59,10 @@ class FactionDataManager
                         $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"]);
                     }
                 } catch (Error|Exception $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             }, function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             });
     }
 
@@ -113,14 +113,14 @@ class FactionDataManager
                 ],
                 null,
                 function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
 
             $this->seq++;
             $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner, $color);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
 
         return $this->seq;
@@ -139,12 +139,12 @@ class FactionDataManager
                 ],
                 null,
                 function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
             unset($this->faction_datas[$id]);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }
