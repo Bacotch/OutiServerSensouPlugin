@@ -50,7 +50,7 @@ class OutiWatchForm
                         $form->execute($player);
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e,  $player);
                 }
 
                 return true;
@@ -62,9 +62,11 @@ class OutiWatchForm
             $form->addButton("§eメール");
             $form->addButton("§4レポート");
             $form->addButton("§6要望");
+            $form->addButton("テスト", 0, "textures/items/facebook");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+        }
+        catch (Error|Exception $e) {
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 }

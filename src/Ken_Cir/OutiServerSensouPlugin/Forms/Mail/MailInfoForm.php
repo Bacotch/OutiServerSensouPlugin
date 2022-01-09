@@ -36,7 +36,7 @@ class MailInfoForm
                     if ($data === null) return true;
                     $this->info($player, current(array_slice($mail_data, $data, $data + 1)));
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -52,7 +52,7 @@ class MailInfoForm
             }
             $player->sendForm($form);
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 
@@ -74,7 +74,7 @@ class MailInfoForm
                         $this->execute($player);
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
             });
 
@@ -84,7 +84,7 @@ class MailInfoForm
             $form->setButton2("閉じる");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
 }

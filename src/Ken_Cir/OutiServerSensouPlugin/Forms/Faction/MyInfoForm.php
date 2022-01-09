@@ -42,7 +42,7 @@ class MyInfoForm
             $form->setButton2("閉じる");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

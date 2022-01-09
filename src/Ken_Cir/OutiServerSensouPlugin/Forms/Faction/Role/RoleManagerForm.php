@@ -40,7 +40,7 @@ class RoleManagerForm
                         $form->execute($player);
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -52,7 +52,7 @@ class RoleManagerForm
             $form->addButton("派閥メンバー役職操作");
             $player->sendForm($form);
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 }

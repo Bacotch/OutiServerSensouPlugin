@@ -103,8 +103,9 @@ class EventListener implements Listener
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getNetworkSession()->getIp());
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getWorld()->getDisplayName()}\nX座標: {$player->getPosition()->getX()}\nY座標: {$player->getPosition()->getY()}\nZ座標: {$player->getPosition()->getZ()}\nにログインしました");
-        } catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
@@ -122,8 +123,9 @@ class EventListener implements Listener
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getNetworkSession()->getIp()} がサーバーに参加しました");
-        } catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
@@ -138,8 +140,9 @@ class EventListener implements Listener
             unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getNetworkSession()->getIp()} がサーバーから退出しました");
-        } catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
@@ -189,8 +192,8 @@ class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
-        } catch (Error | Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e);
+        } catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 

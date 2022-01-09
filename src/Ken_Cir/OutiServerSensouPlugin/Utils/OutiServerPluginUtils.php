@@ -90,7 +90,7 @@ class OutiServerPluginUtils
             $message->setContent("```[{$time->format('Y-m-d H:i:sP')}]: $content```");
             $webhook->send($message);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

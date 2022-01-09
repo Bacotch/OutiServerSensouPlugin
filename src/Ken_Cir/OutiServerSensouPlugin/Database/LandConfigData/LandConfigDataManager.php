@@ -47,7 +47,7 @@ class LandConfigDataManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         Main::getInstance()->getDatabase()->waitAll();
@@ -56,11 +56,11 @@ class LandConfigDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->landConfigDatas[$data["id"]] = new LandConfigData($data["id"], $data["landid"], $data["startx"], $data["startz"], $data["endx"], $data["endz"], $data["defaultPerms"], $data["rolePerms"], $data["memberPerms"]);
+                    $this->landConfigDatas[$data["id"]] = new LandConfigData($data["id"], $data["landid"], $data["startx"], $data["startz"], $data["endx"], $data["endz"], $data["defaultperms"], $data["roleperms"], $data["memberperms"]);
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
     }
@@ -117,11 +117,12 @@ class LandConfigDataManager
             }
             elseif ($landData->getWorld() === $worldName
                 and $landConfigData->getStartx() <= $x and $x <= $landConfigData->getEndx()
-            and $landConfigData->getEndx() <= $z and $z <= $landConfigData->getEndz()) {
+                and $landConfigData->getStartz() <= $z and $z <= $landConfigData->getEndz()) {
                 return $landConfigData;
             }
         }
 
+        Main::getInstance()->getLogger()->info("NULL");
         return null;
     }
 
@@ -141,7 +142,7 @@ class LandConfigDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->seq++;
@@ -161,7 +162,7 @@ class LandConfigDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         unset($this->landConfigDatas[$id]);
@@ -180,7 +181,7 @@ class LandConfigDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
 

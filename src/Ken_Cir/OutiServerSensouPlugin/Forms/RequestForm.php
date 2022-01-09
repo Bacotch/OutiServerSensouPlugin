@@ -34,7 +34,7 @@ class RequestForm
                     OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**要望**\n{$player->getName()} からの要望\n$data[0]");
                     $player->sendMessage("§a[システム] 要望を送信しました");
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -45,7 +45,7 @@ class RequestForm
             $form->addLabel("§e要望内容に対する返信は内部メールで行います");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
 }

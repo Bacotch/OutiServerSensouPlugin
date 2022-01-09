@@ -38,7 +38,7 @@ class EditMemberRole
                     }
                     $this->edit_A($player, $factionPlayers[$data - 1]);
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -50,7 +50,7 @@ class EditMemberRole
             }
             $player->sendForm($form);
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 
@@ -79,7 +79,7 @@ class EditMemberRole
                     $player->sendMessage($msg);
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -97,7 +97,7 @@ class EditMemberRole
             }
             $player->sendForm($form);
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 }

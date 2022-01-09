@@ -8,6 +8,7 @@ use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\scheduler\Task;
+use function call_user_func_array;
 
 /**
  * 一定時間後フォームに移動させる用のTask
@@ -32,7 +33,7 @@ class ReturnForm extends Task
         try {
             call_user_func_array($this->callable, $this->args);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

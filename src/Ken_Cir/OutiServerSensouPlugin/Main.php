@@ -62,7 +62,7 @@ class Main extends PluginBase
      * プラグイン用ログ出力
      * @var OutiServerLogger
      */
-    private OutiServerLogger $logger;
+    private OutiServerLogger $outiServerLogger;
 
     /**
      * DiscordBot
@@ -115,7 +115,7 @@ class Main extends PluginBase
             Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
 
             // ---Logger初期化---
-            $this->logger = new OutiServerLogger();
+            $this->outiServerLogger = new OutiServerLogger();
 
             // ---db初期化---
             $databaseConfig = new Config($this->getDataFolder() . "database.yml", Config::YAML);
@@ -123,7 +123,7 @@ class Main extends PluginBase
                 "sqlite" => "sqlite.sql"
             ]);
             /*
-            $this->database->executeGeneric("outiserver.lands.drop");
+            $this->database->executeGeneric("outiserver.landconfigs.drop");
             $this->database->waitAll();
             */
             $this->database->executeGeneric("outiserver.players.init");
@@ -198,7 +198,7 @@ class Main extends PluginBase
             $this->enabled = true;
         } catch (Error | Exception $error) {
             $this->enabled = false;
-            $this->getLogger()->error("エラーが発生しました\n{$error->getMessage()}");
+            $this->getLogger()->error("エラーが発生しました\nFile: {$error->getFile()}\nLine: {$error->getLine()}\n{$error->getMessage()}");
             $this->getLogger()->emergency("致命的エラーが発生しました\nプラグインを無効化します");
             Server::getInstance()->getPluginManager()->disablePlugin($this);
         }
@@ -221,7 +221,8 @@ class Main extends PluginBase
                 ob_end_clean();
             }
             $this->pluginData->save();
-        } catch (Error | Exception $error) {
+        }
+        catch (Error | Exception $error) {
             $this->getLogger()->error("エラーが発生しました\n{$error->getTraceAsString()}");
             $this->getLogger()->emergency("プラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
         }
@@ -257,9 +258,12 @@ class Main extends PluginBase
      * @return OutiServerLogger
      * このプラグイン用のLoggerを返す
      */
-    public function getPluginLogger(): OutiServerLogger
+    /**
+     * @return OutiServerLogger
+     */
+    public function getOutiServerLogger(): OutiServerLogger
     {
-        return $this->logger;
+        return $this->outiServerLogger;
     }
 
     /**

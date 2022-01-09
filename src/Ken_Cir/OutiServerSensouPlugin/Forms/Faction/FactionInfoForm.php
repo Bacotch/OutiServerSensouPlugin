@@ -40,7 +40,7 @@ class FactionInfoForm
                     if ($data === null) return true;
                     $this->Info($player, $faction_data);
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                    Main::getInstance()->getOutiServerLogger()->error($e);
                 }
 
                 return true;
@@ -50,7 +50,7 @@ class FactionInfoForm
             $form->addButton(OutiServerPluginUtils::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
@@ -71,7 +71,7 @@ class FactionInfoForm
             $form->setButton1("閉じる");
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

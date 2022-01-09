@@ -36,7 +36,7 @@ class LandExtendForm
                 $player->sendMessage("§a[システム] 現在いるチャンクを購入しました");
             }
         } catch (Error|Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
 }

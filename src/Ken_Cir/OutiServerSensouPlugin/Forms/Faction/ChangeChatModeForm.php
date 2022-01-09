@@ -39,7 +39,7 @@ class ChangeChatModeForm
                         $player->sendMessage("§a[システム] チャットモードを§f所属派閥と友好関係派閥§aに変更しました");
                     }
                 } catch (Error|Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                    Main::getInstance()->getOutiServerLogger()->error($e);
                 }
 
                 return true;
@@ -49,7 +49,7 @@ class ChangeChatModeForm
             $form->addDropdown("モード", ["全体", "所属派閥と友好関係派閥"]);
             $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }
