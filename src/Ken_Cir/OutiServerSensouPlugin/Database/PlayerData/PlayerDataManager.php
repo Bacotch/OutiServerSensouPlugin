@@ -101,7 +101,6 @@ class PlayerDataManager
             }
         );
         $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
-        OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
     }
 
     /**
@@ -123,7 +122,6 @@ class PlayerDataManager
                 }
             );
             unset($this->player_datas[strtolower($name)]);
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
         } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }

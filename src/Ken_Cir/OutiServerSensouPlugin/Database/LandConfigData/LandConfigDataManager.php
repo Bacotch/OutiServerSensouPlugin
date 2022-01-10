@@ -50,7 +50,6 @@ class LandConfigDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.landconfigs.load",
             [],
@@ -84,14 +83,6 @@ class LandConfigDataManager
     }
 
     /**
-     * @return LandConfigData[]
-     */
-    public function getLandConfigDatas(): array
-    {
-        return $this->landConfigDatas;
-    }
-
-    /**
      * @param int $id
      * @return LandConfigData|false
      */
@@ -122,7 +113,6 @@ class LandConfigDataManager
             }
         }
 
-        Main::getInstance()->getLogger()->info("NULL");
         return null;
     }
 

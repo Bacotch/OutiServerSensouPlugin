@@ -42,7 +42,6 @@ class MailManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.mails.load",
             [],
