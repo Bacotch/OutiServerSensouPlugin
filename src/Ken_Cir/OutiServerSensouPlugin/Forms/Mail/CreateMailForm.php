@@ -7,11 +7,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 use DateTime;
 use Error;
 use Exception;
+use InvalidArgumentException;
 use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
+use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use Vecnavium\FormsUI\CustomForm;
 
 /**
@@ -37,11 +40,11 @@ class CreateMailForm
                     $author = $player->getName();
                     $time = new DateTime('now');
                     // 送信者名義を「運営」に
-                    if ($data[4]) {
+                    if (isset($data[4])) {
                         $author = "運営";
                     }
                     // 全員に送信する
-                    if ($data[3]) {
+                    if (isset($data[3])) {
                         foreach (PlayerDataManager::getInstance()->getPlayerDatas() as $playerData) {
                             MailManager::getInstance()->create($playerData->getName(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                         }
@@ -50,11 +53,17 @@ class CreateMailForm
                         return true;
                     }
 
-                    MailManager::getInstance()->create($data[2], $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
-                    $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
-                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e);
+                    try {
+                        MailManager::getInstance()->create($data[2], $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                        $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
+                    }
+                    catch (InvalidArgumentException $exception) {
+                        Main::getInstance()->getOutiServerLogger()->error($exception, $player);
+                    }
+                }
+                catch (Error|Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -68,9 +77,8 @@ class CreateMailForm
                 $form->addToggle("§3[運営専用] プレイヤーにメールを送信する");
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
-            $player->sendForm($form);
         } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

@@ -53,7 +53,6 @@ class LandDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.lands.load",
             [],
@@ -193,7 +192,7 @@ class LandDataManager
                 return $landData->getFactionId() !== $factionId;
             });
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }

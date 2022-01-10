@@ -182,7 +182,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -256,7 +256,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -300,7 +300,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -342,7 +342,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -387,7 +387,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -437,7 +437,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -495,7 +495,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -537,7 +537,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -583,7 +583,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }
@@ -634,7 +634,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -690,7 +690,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -726,7 +726,7 @@ class LandConfigForm
                 Main::getInstance()->getOutiServerLogger()->error($exception, $player);
             }
         }
-        catch (Error | Exception $error) {
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, $player);
         }
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin;
 
-use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
@@ -21,13 +20,13 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
 use pocketmine\Server;
 use pocketmine\utils\Internet;
-use function str_starts_with;
 use function file_put_contents;
 use function extension_loaded;
 use function register_shutdown_function;
 use function unlink;
 use function rename;
 use function count;
+use function strtolower;
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -53,40 +52,39 @@ class EventListener implements Listener
      */
     public function onUpdateNotify(UpdateNotifyEvent $event): void
     {
-        if (!Main::getInstance()->getPluginConfig()->get("pmmp_auto_update_enable", true)) return;
-        elseif (!extension_loaded('pcntl') or DIRECTORY_SEPARATOR !== '/') return;
+        try {
+            if (!Main::getInstance()->getPluginConfig()->get("pmmp_auto_update_enable", true)) return;
+            elseif (!extension_loaded('pcntl') or DIRECTORY_SEPARATOR !== '/') return;
 
-        $updateInfos = $event->getUpdater()->getUpdateInfo();
-        if ($updateInfos->git_commit === Main::getInstance()->getPluginData()->get("pmmpLastUpdateCommitHash", "")) return;
-        elseif ($updateInfos->is_dev) return;
-        elseif (!str_starts_with($updateInfos->base_version, "4")) {
-            Main::getInstance()->getLogger()->warning("PMMP自動アップデートに失敗しました、4x以外のPMMP");
-            return;
-        } elseif (!str_starts_with($updateInfos->php_version, "8.0")) {
-            Main::getInstance()->getLogger()->warning("PMMP自動アップデートに失敗しました、PHPのバージョンが8.0以外");
-            return;
+            $updateInfos = $event->getUpdater()->getUpdateInfo();
+            if ($updateInfos->git_commit === Main::getInstance()->getPluginData()->get("pmmpLastUpdateCommitHash", "")) return;
+            elseif ($updateInfos->is_dev) return;
+
+            Main::getInstance()->getLogger()->alert("PMMPの自動アップデートの準備をしています...");
+
+            $result = Internet::getURL($updateInfos->download_url);
+            file_put_contents(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar", $result->getBody());
+            Main::getInstance()->getPluginData()->set("pmmpLastUpdateCommitHash", $updateInfos->git_commit);
+
+            // シャットダウン関数を登録
+            register_shutdown_function(function () {
+                unlink(Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
+                rename(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar", Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
+                pcntl_exec("./start.sh");
+            });
+
+            if (count(Server::getInstance()->getOnlinePlayers()) < 1) {
+                Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！サーバーを再起動しています...");
+                Server::getInstance()->shutdown();
+            }
+            else {
+                Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
+                Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
+                Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
+            }
         }
-
-        Main::getInstance()->getLogger()->alert("PMMPの自動アップデートの準備をしています...");
-
-        $result = Internet::getURL($updateInfos->download_url);
-        file_put_contents(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar", $result->getBody());
-        Main::getInstance()->getPluginData()->set("pmmpLastUpdateCommitHash", $updateInfos->git_commit);
-
-        // シャットダウン関数を登録
-        register_shutdown_function(function () {
-            unlink(Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
-            rename(Server::getInstance()->getDataPath() . "PocketMine-MP1.phar", Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
-            pcntl_exec("./start.sh");
-        });
-
-        if (count(Server::getInstance()->getOnlinePlayers()) < 1) {
-            Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！サーバーを再起動しています...");
-            Server::getInstance()->shutdown();
-        } else {
-            Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
-            Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
-            Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
+        catch (Exception $exception) {
+            Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
 
@@ -97,15 +95,13 @@ class EventListener implements Listener
     public function onPlayerLogin(PlayerLoginEvent $event)
     {
         try {
-            Server::getInstance()->getUpdater()->doCheck();
             $player = $event->getPlayer();
             PlayerDataManager::getInstance()->create($player);
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getNetworkSession()->getIp());
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()} が\nワールド: {$player->getWorld()->getDisplayName()}\nX座標: {$player->getPosition()->getX()}\nY座標: {$player->getPosition()->getY()}\nZ座標: {$player->getPosition()->getZ()}\nにログインしました");
         }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+        catch (Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
 
@@ -122,10 +118,9 @@ class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getNetworkSession()->getIp()} がサーバーに参加しました");
         }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+        catch (Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
 
@@ -137,12 +132,11 @@ class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            unset($this->check[$player->getName()]);
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Player_Webhook", ""), "Player {$player->getName()}\nIP {$player->getNetworkSession()->getIp()} がサーバーから退出しました");
+            unset($this->check[strtolower($player->getName())]);
         }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+        catch (Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
 
@@ -158,7 +152,8 @@ class EventListener implements Listener
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             if ($player_data->getFaction() === -1) {
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
-            } else {
+            }
+            else {
                 $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
                 $color = OutiServerPluginUtils::getChatColor($faction->getColor());
                 $event->setFormat("{$color}[{$faction->getName()}]§f[{$player->getName()}] $message");
@@ -192,7 +187,8 @@ class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
-        } catch (Error | Exception $error) {
+        }
+        catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -203,15 +199,19 @@ class EventListener implements Listener
      */
     public function onInteract(PlayerInteractEvent $event)
     {
-        $player = $event->getPlayer();
-        $item = $event->getItem();
-        if ($event->getAction() === 1) {
-            if (!isset($this->check[$player->getName()]) and $item->getName() === "OutiWatch") {
-                $this->check[$player->getName()] = true;
-                $form = new OutiWatchForm();
-
-                $form->execute($player, $this);
+        try {
+            $player = $event->getPlayer();
+            $item = $event->getItem();
+            if ($event->getAction() === 1) {
+                if (!isset($this->check[$player->getName()]) and $item->getName() === "OutiWatch") {
+                    $this->check[strtolower($player->getName())] = true;
+                    $form = new OutiWatchForm();
+                    $form->execute($player, $this);
+                }
             }
+        }
+        catch (Exception $exception) {
+            Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
 
@@ -220,6 +220,6 @@ class EventListener implements Listener
      */
     public function unsetCheck(string $name): void
     {
-        unset($this->check[$name]);
+        unset($this->check[strtolower($name)]);
     }
 }

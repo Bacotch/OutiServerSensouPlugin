@@ -53,7 +53,6 @@ class RoleDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->waitAll();
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.roles.load",
             [],

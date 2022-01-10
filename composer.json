@@ -6,6 +6,7 @@
     "ext-pcntl": "*",
     "ext-pthreads": "*",
     "ext-zip": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-sqlite3": "*"
   }
 }
