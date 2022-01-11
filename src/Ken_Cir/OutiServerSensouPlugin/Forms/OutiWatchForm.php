@@ -7,11 +7,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\EventListener;
+use Ken_Cir\OutiServerSensouPlugin\Forms\Admin\AdminForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Mail\MailForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use Vecnavium\FormsUI\SimpleForm;
+use function strtolower;
 
 /**
  * おうちウォッチ
@@ -52,6 +55,10 @@ class OutiWatchForm
                         $form = new RequestForm();
                         $form->execute($player);
                     }
+                    elseif ($data === 5 and Server::getInstance()->isOp($player->getName())) {
+                        $form = new AdminForm();
+                        $form->execute($player);
+                    }
                 } catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
@@ -65,6 +72,9 @@ class OutiWatchForm
             $form->addButton("§eメール");
             $form->addButton("§4レポート");
             $form->addButton("§6要望");
+            if (Server::getInstance()->isOp($player->getName())) {
+                $form->addButton("管理者");
+            }
             $player->sendForm($form);
         } catch (Error | Exception $e) {
             Main::getInstance()->getPluginLogger()->error($e, $player);
