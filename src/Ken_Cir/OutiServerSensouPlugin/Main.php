@@ -7,10 +7,11 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
+use Ken_Cir\OutiServerSensouPlugin\Managers\ScheduleMessageData\ScheduleMessageDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
+use Ken_Cir\OutiServerSensouPlugin\Threads\ScheduleMessage;
 use pocketmine\lang\Language;
-use pocketmine\Server;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
@@ -102,6 +103,13 @@ class Main extends PluginBase
     private RoleDataManager $factionRoleDataManager;
 
     /**
+     * 定期メッセージデータマネージャー
+     *
+     * @var ScheduleMessageDataManager
+     */
+    private ScheduleMessageDataManager $scheduleMessageDataManager;
+
+    /**
      * プラグインがロードされた時に呼び出される
      */
     public function onLoad(): void
@@ -138,6 +146,7 @@ class Main extends PluginBase
             $this->InitializeThreads();
 
             $this->getServer()->getAsyncPool()->submitTask(new Backup());
+
 
             $this->discord_client->sendChatMessage("サーバーが起動しました！");
             $this->enabled = true;
@@ -266,6 +275,14 @@ class Main extends PluginBase
     }
 
     /**
+     * @return ScheduleMessageDataManager
+     */
+    public function getScheduleMessageDataManager(): ScheduleMessageDataManager
+    {
+        return $this->scheduleMessageDataManager;
+    }
+
+    /**
      * データベース初期化処理まとめ
      */
     private function InitializeDatabase(): void
@@ -283,6 +300,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("factions.init");
         $this->database->executeGeneric("mails.init");
         $this->database->executeGeneric("roles.init");
+        $this->database->executeGeneric("schedulemessages.init");
         $this->database->waitAll();
     }
 
@@ -295,6 +313,7 @@ class Main extends PluginBase
         $this->factionDataManager = new FactionDataManager();
         $this->mailManager = new MailManager();
         $this->factionRoleDataManager = new RoleDataManager();
+        $this->scheduleMessageDataManager = new ScheduleMessageDataManager();
         $this->database->waitAll();
     }
 
@@ -345,6 +364,7 @@ class Main extends PluginBase
 
         $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+        $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
 
         if ($this->config->get("plugin_auto_update_enable", true)) {
             $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);

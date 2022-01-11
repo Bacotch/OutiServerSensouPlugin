@@ -201,3 +201,41 @@ DELETE FROM roles WHERE id = :id;
 DROP TABLE IF EXISTS roles;
 -- # }
 -- # }
+
+-- # { schedulemessages
+-- # { init
+CREATE TABLE IF NOT EXISTS schedulemessages
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL
+);
+-- # }
+
+-- # { create
+-- #    :content string
+INSERT INTO schedulemessages (content) VALUES (:content);
+-- # }
+
+-- # { seq
+SELECT seq FROM sqlite_sequence WHERE name = 'schedulemessages';
+-- # }
+
+-- # { load
+SELECT * FROM schedulemessages;
+-- # }
+
+-- # { update
+-- #    :content string
+-- #    :id int
+UPDATE schedulemessages SET content = :content WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE FROM schedulemessages WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS schedulemessages;
+-- # }
+-- # }

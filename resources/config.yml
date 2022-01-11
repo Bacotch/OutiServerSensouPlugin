@@ -6,6 +6,9 @@ pmmp_auto_update_enable: true
 # このプラグインの自動アップデート・再起動を有効にするか
 plugin_auto_update_enable: true
 
+# ---定期実行系設定---
+# 定期メッセージの間隔(秒) 20tick = 1秒前提
+scheduleMessageDelay: 300
 
 # ---Discord関係設定---
 # BotのToken
