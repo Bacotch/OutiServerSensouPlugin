@@ -64,7 +64,7 @@ class CreateMailForm
             $form->addInput("§cメールタイトル", "title", "");
             $form->addInput("§d内容", "content", "");
             $form->addInput("§6送信相手", "send_to", "");
-            if (Main::getInstance()->getServer()->getOps()->get($player->getName())) {
+            if (Main::getInstance()->getServer()->isOp($player->getName())) {
                 $form->addToggle("§3[運営専用] プレイヤーにメールを送信する");
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
