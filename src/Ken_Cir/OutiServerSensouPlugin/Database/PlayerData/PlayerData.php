@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
@@ -73,25 +71,21 @@ class PlayerData
 
     public function update(): void
     {
-        try {
-            Main::getInstance()->getDatabase()->executeChange(
-                "outiserver.players.update",
-                [
-                    "ip" => serialize($this->ip),
-                    "faction" => $this->faction,
-                    "chatmode" => $this->chatmode,
-                    "drawscoreboard" => $this->drawscoreboard,
-                    "roles" => serialize($this->roles),
-                    "name" => $this->name
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.players.update",
+            [
+                "ip" => serialize($this->ip),
+                "faction" => $this->faction,
+                "chatmode" => $this->chatmode,
+                "drawscoreboard" => $this->drawscoreboard,
+                "roles" => serialize($this->roles),
+                "name" => $this->name
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**

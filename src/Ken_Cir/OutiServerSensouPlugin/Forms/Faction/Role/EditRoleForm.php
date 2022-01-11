@@ -96,21 +96,35 @@ class EditRoleForm
                         $this->execute($player);
                         return true;
                     } elseif (!isset($data[1])) return true;
-                    $oldRoleData = $editRoleData;
+
+                    $oldRolePos = $editRoleData->getPosition();
                     $editRoleData->setName($data[1]);
                     $editRoleData->setColor($data[2]);
-                    $editRoleData->setSensenHukoku($data[3]);
-                    $editRoleData->setInvitePlayer($data[4]);
-                    $editRoleData->setSendmailAllFactionPlayer($data[5]);
-                    $editRoleData->setFreandFactionManager($data[6]);
-                    $editRoleData->setKickFactionPlayer($data[7]);
-                    $editRoleData->setLandManager($data[8]);
-                    $editRoleData->setBankManager($data[9]);
-                    $editRoleData->setRoleManager($data[10]);
-                    $player->sendMessage("[システム]役職 {$oldRoleData->getName()}の設定を編集しました");
+                    $editRoleData->setPosition((int)$data[3]);
+                    $editRoleData->setSensenHukoku($data[4]);
+                    $editRoleData->setInvitePlayer($data[5]);
+                    $editRoleData->setSendmailAllFactionPlayer($data[6]);
+                    $editRoleData->setFreandFactionManager($data[7]);
+                    $editRoleData->setKickFactionPlayer($data[8]);
+                    $editRoleData->setLandManager($data[9]);
+                    $editRoleData->setBankManager($data[10]);
+                    $editRoleData->setRoleManager($data[11]);
+                    if ($oldRolePos !== (int)$data[3]) {
+                        foreach (RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId()) as $factionRole) {
+                            // 下がる式
+                            if ($oldRolePos <= (int)$data[3] and $factionRole->getPosition() <= (int)$data[3] and $factionRole->getId() !== $editRoleData->getId()) {
+                                $factionRole->setPosition($factionRole->getPosition() - 1);
+                            } // 上がる式
+                            elseif ($oldRolePos >= (int)$data[3] and $factionRole->getPosition() <= $oldRolePos and $factionRole->getId() !== $editRoleData->getId()) {
+                                $factionRole->setPosition($factionRole->getPosition() + 1);
+                            }
+                        }
+                    }
+
+                    $player->sendMessage("[システム]役職 {$editRoleData->getName()}の設定を編集しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
+                } catch (Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -120,6 +134,7 @@ class EditRoleForm
             $form->addToggle("キャンセルして戻る");
             $form->addInput("§a役職名§c", "rolename", $editRoleData->getName());
             $form->addDropdown("§e役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"], $editRoleData->getColor());
+            $form->addSlider("役職位置", 1, count(RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId())), $editRoleData->getPosition());
             $form->addToggle("宣戦布告権限", $editRoleData->isSensenHukoku());
             $form->addToggle("派閥にプレイヤー招待権限", $editRoleData->isInvitePlayer());
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限", $editRoleData->isSendmailAllFactionPlayer());

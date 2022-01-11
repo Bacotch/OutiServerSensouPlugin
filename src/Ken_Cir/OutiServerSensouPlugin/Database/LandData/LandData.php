@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 
@@ -55,24 +53,20 @@ class LandData
 
     public function update(): void
     {
-        try {
-            Main::getInstance()->getDatabase()->executeChange(
-                "outiserver.lands.update",
-                [
-                    "faction_id" => $this->faction_id,
-                    "x" => $this->x,
-                    "z" => $this->z,
-                    "world" => $this->world,
-                    "id" => $this->id
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.lands.update",
+            [
+                "faction_id" => $this->faction_id,
+                "x" => $this->x,
+                "z" => $this->z,
+                "world" => $this->world,
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**

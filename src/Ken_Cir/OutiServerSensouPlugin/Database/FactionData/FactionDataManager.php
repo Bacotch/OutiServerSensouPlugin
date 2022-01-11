@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\FactionData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function strtolower;
+use function count;
 
 /**
  * 派閥データマネージャー
@@ -36,31 +35,25 @@ class FactionDataManager
         Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.seq",
             [],
             function (array $row) {
-                try {
-                    if (count($row) < 1) {
-                        $this->seq = 0;
-                        return;
-                    }
-                    foreach ($row as $data) {
-                        $this->seq = $data["seq"];
-                    }
-                } catch (Error|Exception $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
+                if (count($row) < 1) {
+                    $this->seq = 0;
+                    return;
                 }
-            }, function (SqlError $error) {
+                foreach ($row as $data) {
+                    $this->seq = $data["seq"];
+                }
+            },
+            function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
         Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.load",
             [],
             function (array $row) {
-                try {
-                    foreach ($row as $data) {
-                        $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"]);
-                    }
-                } catch (Error|Exception $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
+                foreach ($row as $data) {
+                    $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"]);
                 }
-            }, function (SqlError $error) {
+            },
+            function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
     }
@@ -103,24 +96,20 @@ class FactionDataManager
      */
     public function create(string $name, string $owner, int $color): int
     {
-        try {
-            Main::getInstance()->getDatabase()->executeInsert("outiserver.factions.create",
-                [
-                    "name" => $name,
-                    "owner" => strtolower($owner),
-                    "color" => $color
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
+        Main::getInstance()->getDatabase()->executeInsert("outiserver.factions.create",
+            [
+                "name" => $name,
+                "owner" => strtolower($owner),
+                "color" => $color
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
 
-            $this->seq++;
-            $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner, $color);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        $this->seq++;
+        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner, $color);
 
         return $this->seq;
     }
@@ -130,20 +119,16 @@ class FactionDataManager
      */
     public function delete(int $id): void
     {
-        try {
-            if (!$this->get($id)) return;
-            Main::getInstance()->getDatabase()->executeGeneric("outiserver.factions.delete",
-                [
-                    "id" => $id
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
-            unset($this->faction_datas[$id]);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        if (!$this->get($id)) return;
+        Main::getInstance()->getDatabase()->executeGeneric("outiserver.factions.delete",
+            [
+                "id" => $id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+        unset($this->faction_datas[$id]);
     }
 }

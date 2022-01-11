@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
@@ -176,24 +174,19 @@ class LandDataManager
      */
     public function deleteFaction(int $factionId): void
     {
-        try {
-            Main::getInstance()->getDatabase()->executeGeneric(
-                "outiserver.lands.delete_faction",
-                [
-                    "faction_id" => $factionId
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "outiserver.lands.delete_faction",
+            [
+                "faction_id" => $factionId
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
 
-            $this->land_datas = array_filter($this->land_datas, function ($landData) use ($factionId) {
-                return $landData->getFactionId() !== $factionId;
-            });
-        }
-        catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        $this->land_datas = array_filter($this->land_datas, function ($landData) use ($factionId) {
+            return $landData->getFactionId() !== $factionId;
+        });
     }
 }

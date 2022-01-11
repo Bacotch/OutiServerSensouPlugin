@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData;
 
 use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms\LandPermsManager;
+use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function unserialize;
+use function serialize;
+use function array_map;
 
 class LandConfigData
 {
@@ -60,6 +64,23 @@ class LandConfigData
         $this->endx = $endx;
         $this->endz = $endz;
         $this->landPermsManager = new LandPermsManager(unserialize($defaultPerms), unserialize($rolePerms), unserialize($memberPerms));
+    }
+
+    public function update()
+    {
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.landconfigs.update",
+            [
+                "defaultperms" => serialize($this->landPermsManager->getDefalutLandPerms()->toArray()),
+                "roleperms" => serialize(array_map(function ($roleLandPerms) { return $roleLandPerms->toArray(); }, $this->landPermsManager->getAllRoleLandPerms())),
+                "memberperms" => serialize(array_map(function ($memberLandPerms) { return $memberLandPerms->toArray(); }, $this->landPermsManager->getAllMemberLandPerms())),
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**

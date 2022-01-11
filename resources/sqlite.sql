@@ -316,6 +316,7 @@ FROM roles;
 -- # { update
 -- #    :name string
 -- #    :color int
+-- #     :position int
 -- #    :sensen_hukoku int
 -- #    :invite_player int
 -- #    :sendmail_all_faction_player int
@@ -328,6 +329,7 @@ FROM roles;
 UPDATE roles
 SET name                        = :name,
     color                       = :color,
+    position                    = :position,
     sensen_hukoku               = :sensen_hukoku,
     invite_player               = :invite_player,
     sendmail_all_faction_player = :sendmail_all_faction_player,
@@ -522,22 +524,14 @@ FROM landconfigs;
 -- # }
 
 -- # { update
--- #    :startx int
--- #    :startz int
--- #    :endx int
--- #    :endz int
 -- #    :defaultperms string
 -- #    :roleperms string
 -- #    :memberperms string
 -- #    :id int
 UPDATE landconfigs
-SET startx = :startx,
-    startz = :startz,
-    endx   = :endx,
-    endz   = :endz,
-    defaultperms  = :defaultperms,
-    roleperms = :roleperms,
-    memberperms = :memberperms
+SET defaultperms = :defaultperms,
+    roleperms    = :roleperms,
+    memberperms  = :memberperms
 WHERE id = :id;
 -- # }
 

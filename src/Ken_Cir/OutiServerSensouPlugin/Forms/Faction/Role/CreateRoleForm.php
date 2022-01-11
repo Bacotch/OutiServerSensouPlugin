@@ -33,9 +33,10 @@ class CreateRoleForm
                         $form = new RoleManagerForm();
                         $form->execute($player);
                         return true;
-                    } elseif (!isset($data[1])) return true;
+                    }
+                    elseif (!isset($data[1])) return true;
                     RoleDataManager::getInstance()->create($player_data->getFaction(), $data[1], (int)$data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8], $data[9], $data[10]);
-                    $player->sendMessage("§a[システム]役職 $data[0] を作成しました");
+                    $player->sendMessage("§a[システム]役職 $data[1] を作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                 } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);

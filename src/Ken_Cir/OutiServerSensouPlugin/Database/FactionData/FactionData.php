@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\FactionData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function strtolower;
@@ -58,22 +56,18 @@ class FactionData
      */
     public function update(): void
     {
-        try {
-            Main::getInstance()->getDatabase()->executeChange("outiserver.factions.update",
-                [
-                    "name" => $this->name,
-                    "owner" => $this->owner,
-                    "color" => $this->color,
-                    "id" => $this->id
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        Main::getInstance()->getDatabase()->executeChange("outiserver.factions.update",
+            [
+                "name" => $this->name,
+                "owner" => $this->owner,
+                "color" => $this->color,
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**

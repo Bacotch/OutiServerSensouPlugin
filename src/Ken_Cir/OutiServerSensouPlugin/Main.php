@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Ken_Cir\OutiServerSensouPlugin;
 
 use JsonException;
+use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ScheduleMessage;
 use pocketmine\lang\Language;
+use pocketmine\Server;
+use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
@@ -113,10 +116,6 @@ class Main extends PluginBase
             "sqlite" => "sqlite.sql"
         ]);
 
-        /*
-        $this->database->executeGeneric("outiserver.landconfigs.drop");
-        $this->database->waitAll();
-        */
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -124,12 +123,18 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.init");
         $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->waitAll();
+        $this->getLogger()->info("データベースを初期化しています...");
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
         MailManager::createInstance();
         RoleDataManager::createInstance();
         LandDataManager::createInstance();
         LandConfigDataManager::createInstance();
+        $this->database->waitAll();
+        $this->getLogger()->info("データベースの初期化が完了しました");
+
+        // ---キャッシュ初期化---
+        PlayerCacheManager::createInstance();
 
         // ---スレッド初期化---
         // ---DiscordBot処理用---

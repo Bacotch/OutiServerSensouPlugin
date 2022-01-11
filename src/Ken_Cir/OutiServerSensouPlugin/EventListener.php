@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ken_Cir\OutiServerSensouPlugin;
 
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
@@ -26,7 +27,6 @@ use function register_shutdown_function;
 use function unlink;
 use function rename;
 use function count;
-use function strtolower;
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -34,15 +34,8 @@ use const DIRECTORY_SEPARATOR;
  */
 class EventListener implements Listener
 {
-    /**
-     * @var array
-     * おうちウォッチを二重で表示させない用
-     */
-    private array $check;
-
     public function __construct()
     {
-        $this->check = [];
     }
 
     /**
@@ -99,6 +92,7 @@ class EventListener implements Listener
             PlayerDataManager::getInstance()->create($player);
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getNetworkSession()->getIp());
+            PlayerCacheManager::getInstance()->create($player->getName());
         }
         catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
@@ -133,7 +127,7 @@ class EventListener implements Listener
         try {
             $player = $event->getPlayer();
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
-            unset($this->check[strtolower($player->getName())]);
+            PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(false);
         }
         catch (Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
@@ -203,23 +197,15 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             $item = $event->getItem();
             if ($event->getAction() === 1) {
-                if (!isset($this->check[$player->getName()]) and $item->getName() === "OutiWatch") {
-                    $this->check[strtolower($player->getName())] = true;
+                if (!PlayerCacheManager::getInstance()->get($player->getName())->isLockOutiWatch() and $item->getName() === "OutiWatch") {
+                    PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(true);
                     $form = new OutiWatchForm();
-                    $form->execute($player, $this);
+                    $form->execute($player);
                 }
             }
         }
         catch (Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
-    }
-
-    /**
-     * @param string $name
-     */
-    public function unsetCheck(string $name): void
-    {
-        unset($this->check[strtolower($name)]);
     }
 }
