@@ -3,7 +3,7 @@ main: Ken_Cir\OutiServerSensouPlugin\Main
 description: おうちサーバー用プラグイン シーズン11var
 author: Ken_Cir
 version: 1.0.0-beta
-api: 4.0.3
+api: 4.0.5
 
 permissions:
   outiserver.default:
