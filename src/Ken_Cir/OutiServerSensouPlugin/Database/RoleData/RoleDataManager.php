@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\RoleData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
 use function array_filter;
+use function asort;
 
 /**
  * 派閥のロール系管理クラス
@@ -57,12 +56,8 @@ class RoleDataManager
             "outiserver.roles.load",
             [],
             function (array $row) {
-                try {
-                    foreach ($row as $data) {
-                        $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["position"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
-                    }
-                } catch (Error|Exception $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
+                foreach ($row as $data) {
+                    $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["position"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
                 }
             },
             function (SqlError $error) {
@@ -166,8 +161,14 @@ class RoleDataManager
      */
     public function getFactionRoles(int $factionId): array
     {
-        return array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
+        $sort = array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
             return $roleData->getFactionId() === $factionId;
         });
+        $sort2 = [];
+        foreach ($sort as $value) {
+            $sort2[$value->getPosition()] = $value;
+        }
+        asort($sort2);
+        return $sort2;
     }
 }

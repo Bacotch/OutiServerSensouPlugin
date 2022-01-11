@@ -14,7 +14,6 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
-use function array_values;
 use function count;
 
 class EditMemberRole
@@ -27,7 +26,7 @@ class EditMemberRole
     {
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            $factionPlayers = array_values(PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction()));
+            $factionPlayers = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
             $form = new SimpleForm(function (Player $player, $data) use ($factionPlayers) {
                 try {
                     if ($data === null) return true;
@@ -36,7 +35,7 @@ class EditMemberRole
                         $form->execute($player);
                         return true;
                     }
-                    $this->edit_A($player, $factionPlayers[$data - 1]);
+                    $this->edit($player, $factionPlayers[$data - 1]);
                 } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
@@ -54,7 +53,7 @@ class EditMemberRole
         }
     }
 
-    private function edit_A(Player $player, PlayerData $editPlayerData): void
+    private function edit(Player $player, PlayerData $editPlayerData): void
     {
         try {
             $roles = array_values(RoleDataManager::getInstance()->getFactionRoles($editPlayerData->getFaction()));

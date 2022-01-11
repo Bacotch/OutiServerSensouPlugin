@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Land;
 
-use Error;
 use Exception;
 use InvalidArgumentException;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigData;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms\MemberLandPerms;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms\RoleLandPerms;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerData;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
@@ -18,11 +20,9 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
-use Vecnavium\FormsUI\ModalForm;
 use Vecnavium\FormsUI\SimpleForm;
 use function strtolower;
 use function array_filter;
-use function array_values;
 use function floor;
 
 class LandConfigForm
@@ -33,30 +33,9 @@ class LandConfigForm
      */
     private static array $landConfigCache;
 
-    /**
-     * 土地保護デフォルト権限キャッシュ
-     * @var array
-     */
-    private static array $landDefaultPermsCache;
-
-    /**
-     * 土地保護ロール権限キャッシュ
-     * @var array
-     */
-    private static array $landRolePermsCache;
-
-    /**
-     * 土地保護メンバー権限キャッシュ
-     * @var array
-     */
-    private static array $landMemberPermsCache;
-
     public function __construct()
     {
         if (!isset(self::$landConfigCache)) self::$landConfigCache = [];
-        if (!isset(self::$landDefaultPermsCache)) self::$landDefaultPermsCache = [];
-        if (!isset(self::$landRolePermsCache)) self::$landRolePermsCache = [];
-        if (!isset(self::$landMemberPermsCache)) self::$landMemberPermsCache = [];
     }
 
     public function execute(Player $player): void
@@ -67,7 +46,7 @@ class LandConfigForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        unset(self::$landConfigCache[strtolower($player->getName())], self::$landDefaultPermsCache[strtolower($player->getName())], self::$landRolePermsCache[strtolower($player->getName())], self::$landMemberPermsCache[strtolower($player->getName())]);
+                        unset(self::$landConfigCache[strtolower($player->getName())]);
                         $form = new LandManagerForm();
                         $form->execute($player);
                     }
@@ -80,32 +59,6 @@ class LandConfigForm
                         $player->sendMessage("§a[システム] 開始X座標を" . (int)$player->getPosition()->getX() . "\n開始Z座標を" . (int)$player->getPosition()->getZ() . "に設定しました");
                     }
                     elseif ($data === 1 and $landConfigData !== null) {
-                        $permsManager = $landConfigData->getLandPermsManager();
-
-                        self::$landDefaultPermsCache[strtolower($player->getName())] = array(
-                            "blockTap" => $permsManager->getDefalutLandPerms()->isBlockTap(),
-                            "blockPlace" => $permsManager->getDefalutLandPerms()->isBlockPlace(),
-                            "blockBreak" => $permsManager->getDefalutLandPerms()->isBlockBreak()
-                        );
-
-                        foreach ($permsManager->getAllRoleLandPerms() as $roleLandPerms) {
-                            self::$landRolePermsCache[strtolower($player->getName())][$roleLandPerms->getRoleid()] = array(
-                                "id" => $roleLandPerms->getRoleid(),
-                                "blockTap" => $roleLandPerms->isBlockTap(),
-                                "blockPlace" => $roleLandPerms->isBlockPlace(),
-                                "blockBreak" => $roleLandPerms->isBlockBreak()
-                            );
-                        }
-
-                        foreach ($permsManager->getAllMemberLandPerms() as $memberLandPerms) {
-                            self::$landMemberPermsCache[strtolower($player->getName())][$memberLandPerms->getName()] = array(
-                                "name" => $memberLandPerms->getName(),
-                                "blockTap" => $memberLandPerms->isBlockTap(),
-                                "blockPlace" => $memberLandPerms->isBlockPlace(),
-                                "blockBreak" => $memberLandPerms->isBlockBreak()
-                            );
-                        }
-
                         $this->checkLandConfig($player);
                     }
                     elseif ($data === 1) {
@@ -146,204 +99,171 @@ class LandConfigForm
                         );
                         $this->checkLandConfig($player);
                     }
-                    elseif ($data === 2) {
-                        $this->checkReset($player);
+                    elseif ($data === 2 and $landConfigData === null and isset(self::$landConfigCache[strtolower($player->getName())])) {
+                        unset(self::$landConfigCache[strtolower($player->getName())]);
+                        $player->sendMessage("§a[システム] 開始座標をリセットしました");
                     }
                 }
-                catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                // 0
-                $form->addButton("キャンセルして戻る");
-                if (!isset(self::$landConfigCache[strtolower($player->getName())]) and $landConfigData === null) {
-                    // 1
-                    $form->addButton("開始座標の設定");
-                }
-                elseif ($landConfigData !== null) {
-                    // 1
-                    $form->addButton("現在立っている土地の詳細設定");
-                }
-                else {
-                    // 1
-                    $form->addButton("終了座標の設定");
-                }
-
+            // 0
+            $form->addButton("キャンセルして戻る");
+            if (!isset(self::$landConfigCache[strtolower($player->getName())]) and $landConfigData === null) {
+                // 1
+                $form->addButton("開始座標の設定");
+            }
+            elseif ($landConfigData !== null) {
+                // 1
+                $form->addButton("現在立っている土地の詳細設定");
+            }
+            else {
+                // 1
+                $form->addButton("終了座標の設定");
                 // 2
-                $form->addButton("強制リセット");
+                $form->addButton("開始座標リセット");
+            }
 
-                $player->sendForm($form);
-            }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error,true, $player);
         }
     }
 
-    /**
-     * 配列の値全てリセットする
-     * @param string $name
-     * @return void
-     */
-    private function resetAll(string $name): void
-    {
-        unset(self::$landConfigCache[strtolower($name)], self::$landDefaultPermsCache[strtolower($name)], self::$landRolePermsCache[strtolower($name)], self::$landMemberPermsCache[strtolower($name)]);
-    }
-
-    private function checkLandConfig(Player $player): void
+    public function checkLandConfig(Player $player): void
     {
         try {
             $landConfigData = LandConfigDataManager::getInstance()->getPos((int)$player->getPosition()->getX(), (int)$player->getPosition()->getZ(), $player->getWorld()->getFolderName());
             $form = new SimpleForm(function (Player $player, $data) use ($landConfigData) {
-                if ($data === null) return true;
-                elseif ($data === 0) {
-                    unset(self::$landConfigCache[strtolower($player->getName())], self::$landDefaultPermsCache[strtolower($player->getName())], self::$landRolePermsCache[strtolower($player->getName())], self::$landMemberPermsCache[strtolower($player->getName())]);
-                    $this->execute($player);
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === 0) {
+                        $this->execute($player);
+                    }
+                    elseif ($data === 1 and $landConfigData !== null) {
+                        LandConfigDataManager::getInstance()->delete($landConfigData->getId());
+                        $player->sendMessage("§a[システム] 削除しました");
+                    }
+                    elseif (($data === 2 and $landConfigData !== null) or ($data === 1 and $landConfigData === null)) {
+                        $this->editDefaultPerms($player, $landConfigData);
+                    }
+                    elseif (($data === 3 and $landConfigData !== null) or ($data === 2 and $landConfigData === null)) {
+                        $this->editRolePermsSelect($player, $landConfigData);
+                    }
+                    elseif (($data === 4 and $landConfigData !== null) or ($data === 3 and $landConfigData === null)) {
+                        $this->editMemberPermsSelect($player, $landConfigData);
+                    }
                 }
-                elseif ($data === 1 and $landConfigData !== null) {
-                    LandConfigDataManager::getInstance()->delete($landConfigData->getId());
-                    $player->sendMessage("§a[システム] 削除しました");
-                }
-                elseif (($data === 2 and $landConfigData !== null) or ($data === 1 and $landConfigData === null)) {
-                    $landData = LandDataManager::getInstance()->getChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
-                    LandConfigDataManager::getInstance()->create(
-                        $landData->getId(),
-                        self::$landConfigCache[strtolower($player->getName())]["startx"],
-                        self::$landConfigCache[strtolower($player->getName())]["startz"],
-                        self::$landConfigCache[strtolower($player->getName())]["endx"],
-                        self::$landConfigCache[strtolower($player->getName())]["endz"],
-                        self::$landDefaultPermsCache[strtolower($player->getName())] ?? array(
-                            "blockTap" => true,
-                            "blockPlace" => true,
-                            "blockBreak" => true,
-                        ),
-                        self::$landRolePermsCache[strtolower($player->getName())] ?? array(),
-                        self::$landMemberPermsCache[strtolower($player->getName())] ?? array()
-                    );
-                    $this->resetAll($player->getName());
-                    $player->sendMessage("§a[システム] 保存しました");
-                }
-                elseif (($data === 3 and $landConfigData !== null) or ($data === 2 and $landConfigData === null)) {
-                    $this->editDefaultPerms($player);
-                }
-                elseif (($data === 4 and $landConfigData !== null) or ($data === 3 and $landConfigData === null)) {
-                    $this->editRolePermsSelect($player);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("土地の詳細設定");
-                $form->addButton("リセットして戻る");
-                if ($landConfigData !== null) {
-                    $form->addButton("削除");
-                }
-                $form->addButton("保存");
-                $form->addButton("デフォルト権限の編集");
-                $form->addButton("役職権限の編集");
-                $form->addButton("メンバー権限の編集");
-                $player->sendForm($form);
+            $form->setTitle("土地の詳細設定");
+            $form->addButton("戻る");
+            if ($landConfigData !== null) {
+                $form->addButton("削除");
             }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $form->addButton("デフォルト権限の編集");
+            $form->addButton("役職権限の編集");
+            $form->addButton("メンバー権限の編集");
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error,true, $player);
         }
     }
 
     /**
      * デフォルト権限の編集
      * @param Player $player
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function editDefaultPerms(Player $player): void
+    private function editDefaultPerms(Player $player, LandConfigData $landConfigData): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) {
-                if ($data === null) return true;
-                elseif (!isset($data[0]) or !isset($data[1]) or !isset($data[2]) or !isset($data[3])) {
-                    $this->editDefaultPerms($player);
+            $form = new CustomForm(function (Player $player, $data) use ($landConfigData) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data[0] === true) {
+                        $this->checkLandConfig($player);
+                    }
+                    else {
+                        $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockTap($data[1]);
+                        $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockPlace($data[2]);
+                        $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockBreak($data[3]);
+                        $landConfigData->update();
+                        $player->sendMessage("§a[システム] デフォルト権限を変更しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                    }
                 }
-                elseif ($data[0] === true) {
-                    $this->checkLandConfig($player);
-                }
-                else {
-                    self::$landDefaultPermsCache[strtolower($player->getName())]["blockTap"] = $data[1];
-                    self::$landDefaultPermsCache[strtolower($player->getName())]["blockPlace"] = $data[2];
-                    self::$landDefaultPermsCache[strtolower($player->getName())]["blockBreak"] = $data[3];
-                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
-                    $player->sendMessage("§a[システム] デフォルト権限を変更しました");
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("デフォルト権限の編集");
-                $form->addToggle("キャンセルして戻る");
-                $form->addToggle("ブロックタップ", self::$landDefaultPermsCache[strtolower($player->getName())]["blockTap"] ?? true);
-                $form->addToggle("ブロック設置", self::$landDefaultPermsCache[strtolower($player->getName())]["blockPlace"] ?? true);
-                $form->addToggle("ブロック設置", self::$landDefaultPermsCache[strtolower($player->getName())]["blockBreak"] ?? true);
-                $player->sendForm($form);
-            }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $form->setTitle("デフォルト権限の編集");
+            $form->addToggle("キャンセルして戻る");
+            $form->addToggle("ブロックタップ", $landConfigData->getLandPermsManager()->getDefalutLandPerms()->isBlockTap());
+            $form->addToggle("ブロック設置", $landConfigData->getLandPermsManager()->getDefalutLandPerms()->isBlockPlace());
+            $form->addToggle("ブロック破壊", $landConfigData->getLandPermsManager()->getDefalutLandPerms()->isBlockBreak());
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
     /**
      * ロール権限の編集選択
      * @param Player $player
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function editRolePermsSelect(Player $player): void
+    public function editRolePermsSelect(Player $player, LandConfigData $landConfigData): void
     {
         try {
-            $form = new SimpleForm(function (Player $player, $data) {
-                if ($data === null) return true;
-                elseif ($data === 0) {
-                    $this->checkLandConfig($player);
+            $form = new SimpleForm(function (Player $player, $data) use ($landConfigData) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === 0) {
+                        $this->checkLandConfig($player);
+                    }
+                    elseif ($data === 1) {
+                        $this->addRolePermsRoleSelect($player, $landConfigData);
+                    }
+                    else {
+                        $this->editRolePerms($player, $landConfigData->getLandPermsManager()->getAllRoleLandPerms()[$data], $landConfigData);
+                    }
                 }
-                elseif ($data === 1) {
-                    $this->addRolePermsRoleSelect($player);
-                }
-                else {
-                    $this->editRolePerms($player,self::$landRolePermsCache[strtolower($player->getName())][$data - 2]);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("ロール権限の編集");
-                $form->addButton("キャンセルして戻る");
-                $form->addButton("ロールの追加");
-                foreach (self::$landRolePermsCache[strtolower($player->getName())] ?? array() as $landRole) {
-                    $role = RoleDataManager::getInstance()->get($landRole["id"]);
-                    $form->addButton($role->getName());
-                }
-                $player->sendForm($form);
+            $form->setTitle("ロール権限の編集");
+            $form->addButton("キャンセルして戻る");
+            $form->addButton("ロールの追加");
+            foreach ($landConfigData->getLandPermsManager()->getAllRoleLandPerms() as $landRole) {
+                $role = RoleDataManager::getInstance()->get($landRole->getRoleid());
+                $form->addButton($role->getName());
             }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -351,44 +271,44 @@ class LandConfigForm
      * ロール権限の追加
      * 追加するロールの選択
      * @param Player $player
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function addRolePermsRoleSelect(Player $player): void
+    private function addRolePermsRoleSelect(Player $player, LandConfigData $landConfigData): void
     {
         try {
             $playerData = PlayerDataManager::getInstance()->get($player->getName());
             $factionRoleData = RoleDataManager::getInstance()->getFactionRoles($playerData->getFaction());
-            $factionRoleData = array_filter($factionRoleData, function ($roleData) use ($player) {
-                return !isset(self::$landRolePermsCache[strtolower($player->getName())][$roleData->getId()]);
+            $factionRoleData = array_filter($factionRoleData, function ($roleData) use ($landConfigData, $player) {
+                return !$landConfigData->getLandPermsManager()->getRoleLandPerms($roleData->getId());
             });
 
-            $form = new SimpleForm(function (Player $player, $data) use ($factionRoleData) {
-                if ($data === null) return true;
-                elseif ($data === 0) {
-                    $this->editRolePermsSelect($player);
+            $form = new SimpleForm(function (Player $player, $data) use ($landConfigData, $factionRoleData) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === 0) {
+                        $this->editRolePermsSelect($player, $landConfigData);
+                    }
+                    else {
+                        $this->addRolePermsSetRolePerms($player, $factionRoleData[$data - 1], $landConfigData);
+                    }
                 }
-                else {
-                    $this->addRolePermsSetRolePerms($player, $factionRoleData[$data - 1]);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("ロール権限の追加");
-                $form->addButton("キャンセルして戻る");
-
-                foreach ($factionRoleData as $role) {
-                    $form->addButton($role->getName());
-                }
-                $player->sendForm($form);
+            $form->setTitle("ロール権限の追加");
+            $form->addButton("キャンセルして戻る");
+            foreach ($factionRoleData as $role) {
+                $form->addButton($role->getName());
             }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -398,47 +318,41 @@ class LandConfigForm
      *
      * @param Player $player
      * @param RoleData $roleData
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function addRolePermsSetRolePerms(Player $player, RoleData $roleData): void
+    private function addRolePermsSetRolePerms(Player $player, RoleData $roleData, LandConfigData $landConfigData): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) use ($roleData) {
-                if ($data === null) return true;
-                elseif (!isset($data[0]) or !isset($data[1]) or !isset($data[2]) or !isset($data[3])) {
-                    $this->addRolePermsSetRolePerms($player, $roleData);
+            $form = new CustomForm(function (Player $player, $data) use ($landConfigData, $roleData) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data[0] === true) {
+                        $this->addRolePermsRoleSelect($player, $landConfigData);
+                    }
+                    else {
+                        $landConfigData->getLandPermsManager()->createRoleLandPerms($roleData->getId(), $data[1], $data[2], $data[3]);
+                        $landConfigData->update();
+                        $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を追加しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                    }
                 }
-                elseif ($data[0] === true) {
-                    $this->addRolePermsRoleSelect($player);
-                }
-                else {
-                    self::$landRolePermsCache[strtolower($player->getName())][$roleData->getId()] = array(
-                        "id" =>$roleData->getId(),
-                        "blockTap" => $data[1],
-                        "blockPlace" => $data[2],
-                        "blockBreak" => $data[3]
-                    );
-                    $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を追加しました");
-                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("ロール権限の追加-権限の設定");
-                $form->addToggle("キャンセルして戻る");
-                $form->addToggle("ブロックタップ", true);
-                $form->addToggle("ブロック設置", true);
-                $form->addToggle("ブロック設置", true);
-                $player->sendForm($form);
-            }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception);
-            }
+            $form->setTitle("ロール権限の追加-権限の設定");
+            $form->addToggle("キャンセルして戻る");
+            $form->addToggle("ブロックタップ", true);
+            $form->addToggle("ブロック設置", true);
+            $form->addToggle("ブロック設置", true);
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -446,57 +360,54 @@ class LandConfigForm
      * ロール権限の編集
      *
      * @param Player $player
-     * @param array $rolePerms
+     * @param RoleLandPerms $rolePerms
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function editRolePerms(Player $player, array $rolePerms): void
+    private function editRolePerms(Player $player, RoleLandPerms $rolePerms, LandConfigData $landConfigData): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) use ($rolePerms) {
-                if ($data === null) return true;
-                elseif (!isset($data[0]) or !isset($data[1]) or !isset($data[2]) or !isset($data[3]) or !isset($data[4])) {
-                    $this->editRolePerms($player, $rolePerms);
-                }
-                elseif ($data[0] === true) {
-                    $this->editRolePermsSelect($player);
-                    return true;
-                }
-                elseif ($data[1] === true) {
-                    unset(self::$landRolePermsCache[strtolower($player->getName())][$rolePerms["id"]]);
-                    $roleData = RoleDataManager::getInstance()->get($rolePerms["id"]);
-                    $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を削除しました");
-                }
-                else {
-                    self::$landRolePermsCache[strtolower($player->getName())][$rolePerms["id"]] = array(
-                        "id" => $rolePerms["id"],
-                        "blockTap" => $data[2],
-                        "blockPlace" => $data[3],
-                        "blockBreak" => $data[4]
-                    );
-                    $roleData = RoleDataManager::getInstance()->get($rolePerms["id"]);
-                    $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を変更しました");
-                }
+            $form = new CustomForm(function (Player $player, $data) use ($landConfigData, $rolePerms) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data[0] === true) {
+                        $this->editRolePermsSelect($player, $landConfigData);
+                        return true;
+                    }
+                    elseif ($data[1] === true) {
+                        $landConfigData->getLandPermsManager()->deleteRoleLandPerms($rolePerms->getRoleid());
+                        $landConfigData->update();
+                        $roleData = RoleDataManager::getInstance()->get($rolePerms->getRoleid());
+                        $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を削除しました");
+                    }
+                    else {
+                        $rolePerms->setBlockTap($data[2]);
+                        $rolePerms->setBlockPlace($data[3]);
+                        $rolePerms->setBlockBreak($data[4]);
+                        $landConfigData->update();
+                        $roleData = RoleDataManager::getInstance()->get($rolePerms["id"]);
+                        $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を変更しました");
+                    }
 
-                Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editRolePermsSelect"], [$player]), 10);
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editRolePermsSelect"], [$player]), 10);
+                }
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
+                }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("ロール権限の編集");
-                $form->addToggle("キャンセルして戻る");
-                $form->addToggle("削除して戻る");
-                $form->addToggle("ブロックタップ", $rolePerms["blockTap"]);
-                $form->addToggle("ブロック設置", $rolePerms["blockPlace"]);
-                $form->addToggle("ブロック設置", $rolePerms["blockBreak"]);
-                $player->sendForm($form);
-            }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $form->setTitle("ロール権限の編集");
+            $form->addToggle("キャンセルして戻る");
+            $form->addToggle("削除して戻る");
+            $form->addToggle("ブロックタップ", $rolePerms->isBlockTap());
+            $form->addToggle("ブロック設置", $rolePerms->isBlockPlace());
+            $form->addToggle("ブロック破壊", $rolePerms->isBlockBreak());
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -504,41 +415,42 @@ class LandConfigForm
      * メンバー権限の編集選択
      *
      * @param Player $player
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function editMemberPermsSelect(Player $player): void
+    public function editMemberPermsSelect(Player $player, LandConfigData $landConfigData): void
     {
         try {
-            $form = new SimpleForm(function (Player $player, $data) {
-                if ($data === null) return true;
-                elseif ($data === 0) {
-                    $this->checkLandConfig($player);
+            $form = new SimpleForm(function (Player $player, $data) use ($landConfigData) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === 0) {
+                        $this->checkLandConfig($player);
+                    }
+                    elseif ($data === 1) {
+                        $this->addMemberPermsMemberSelect($player, $landConfigData);
+                    }
+                    elseif ($data === 2) {
+                        $this->editMemberPerms($player, $landConfigData->getLandPermsManager()->getAllMemberLandPerms()[$data - 2], $landConfigData);
+                    }
                 }
-                elseif ($data === 1) {
-                    $this->addMemberPermsMemberSelect($player);
-                }
-                elseif ($data === 2) {
-                    $this->editMemberPerms($player, array_values(self::$landMemberPermsCache[strtolower($player->getName())])[$data - 2]);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("メンバー権限の編集");
-                $form->addButton("キャンセルして戻る");
-                $form->addButton("メンバーの追加");
-                foreach (self::$landMemberPermsCache[strtolower($player->getName())] ?? array() as $landMember) {
-                    $form->addButton($landMember["name"]);
-                }
-                $player->sendForm($form);
+            $form->setTitle("メンバー権限の編集");
+            $form->addButton("キャンセルして戻る");
+            $form->addButton("メンバーの追加");
+            foreach ($landConfigData->getLandPermsManager()->getAllMemberLandPerms() as $landMember) {
+                $form->addButton($landMember->getName());
             }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -547,44 +459,44 @@ class LandConfigForm
      * 追加するメンバーの選択
      *
      * @param Player $player
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function addMemberPermsMemberSelect(Player $player): void
+    private function addMemberPermsMemberSelect(Player $player, LandConfigData $landConfigData): void
     {
         try {
             $playerData = PlayerDataManager::getInstance()->get($player->getName());
             $factionMember = PlayerDataManager::getInstance()->getFactionPlayers($playerData->getFaction());
-            $factionMember = array_filter($factionMember, function ($member) use ($player) {
-                return !isset(self::$landMemberPermsCache[strtolower($player->getName())][$member->getName()]);
+            $factionMember = array_filter($factionMember, function ($member) use ($landConfigData) {
+                return !$landConfigData->getLandPermsManager()->getMemberLandPerms($member->getName());
             });
 
-            $form = new SimpleForm(function (Player $player, $data) use ($factionMember) {
-                if ($data === null) return true;
-                elseif ($data === 0) {
-                    $this->editMemberPermsSelect($player);
+            $form = new SimpleForm(function (Player $player, $data) use ($landConfigData, $factionMember) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === 0) {
+                        $this->editMemberPermsSelect($player, $landConfigData);
+                    }
+                    else {
+                        $this->addMemberPermsSetMemberPerms($player, $factionMember[$data - 1], $landConfigData);
+                    }
                 }
-                else {
-                    $this->addMemberPermsSetMemberPerms($player, $factionMember[$data - 1]);
+                catch (Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("メンバー権限の追加");
-                $form->addButton("キャンセルして戻る");
-
-                foreach ($factionMember as $member) {
-                    $form->addButton($member->getName());
-                }
-                $player->sendForm($form);
+            $form->setTitle("メンバー権限の追加");
+            $form->addButton("キャンセルして戻る");
+            foreach ($factionMember as $member) {
+                $form->addButton($member->getName());
             }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -594,48 +506,41 @@ class LandConfigForm
      *
      * @param Player $player
      * @param PlayerData $playerData
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function addMemberPermsSetMemberPerms(Player $player, PlayerData $playerData): void
+    private function addMemberPermsSetMemberPerms(Player $player, PlayerData $playerData, LandConfigData $landConfigData): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) use ($playerData) {
-                if ($data === null) return true;
-                elseif (!isset($data[0]) or !isset($data[1]) or !isset($data[2]) or !isset($data[3])) {
-                    $this->addMemberPermsSetMemberPerms($player, $playerData);
+            $form = new CustomForm(function (Player $player, $data) use ($landConfigData, $playerData) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data[0] === true) {
+                        $this->addMemberPermsMemberSelect($player, $landConfigData);
+                    }
+                    else {
+                        $landConfigData->getLandPermsManager()->createMemberLandPerms($playerData->getName(), $data[1], $data[2], $data[3]);
+                        $landConfigData->update();
+                        $player->sendMessage("§a[システム] {$playerData->getName()}のメンバー権限を追加しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                    }
                 }
-                elseif ($data[0] === true) {
-                    $this->addMemberPermsMemberSelect($player);
-                }
-                else {
-                    self::$landRolePermsCache[strtolower($player->getName())][$playerData->getName()] = array(
-                        "name" => $playerData->getName(),
-                        "blockTap" => $data[1],
-                        "blockPlace" => $data[2],
-                        "blockBreak" => $data[3]
-                    );
-
-                    $player->sendMessage("§a[システム] {$playerData->getName()}のメンバー権限を追加しました");
-                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                catch (Exception $exception) {
+                    Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
                 return true;
             });
 
-            try {
-                $form->setTitle("メンバー権限の追加-権限の設定");
-                $form->addToggle("キャンセルして戻る");
-                $form->addToggle("ブロックタップ", true);
-                $form->addToggle("ブロック設置", true);
-                $form->addToggle("ブロック設置", true);
-                $player->sendForm($form);
-            }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception);
-            }
+            $form->setTitle("メンバー権限の追加-権限の設定");
+            $form->addToggle("キャンセルして戻る");
+            $form->addToggle("ブロックタップ", true);
+            $form->addToggle("ブロック設置", true);
+            $form->addToggle("ブロック設置", true);
+            $player->sendForm($form);
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
@@ -643,36 +548,38 @@ class LandConfigForm
      * メンバー権限の編集
      *
      * @param Player $player
-     * @param array $memberPerms
+     * @param MemberLandPerms $memberPerms
+     * @param LandConfigData $landConfigData
      * @return void
      */
-    private function editMemberPerms(Player $player, array $memberPerms): void
+    private function editMemberPerms(Player $player, MemberLandPerms $memberPerms, LandConfigData $landConfigData): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) use ($memberPerms) {
-                if ($data === null) return true;
-                elseif (!isset($data[0]) or !isset($data[1]) or !isset($data[2]) or !isset($data[3]) or !isset($data[4])) {
-                    $this->editMemberPerms($player, $memberPerms);
-                }
-                elseif ($data[0] === true) {
-                    $this->editMemberPermsSelect($player);
-                    return true;
-                }
-                elseif ($data[1] === true) {
-                    unset(self::$landMemberPermsCache[strtolower($player->getName())][$memberPerms["name"]]);
-                    $player->sendMessage("§a[システム] ロール権限を削除しました");
-                }
-                else {
-                    self::$landMemberPermsCache[strtolower($player->getName())][$memberPerms["name"]] = array(
-                        "name" => $memberPerms["name"],
-                        "blockTap" => $data[2],
-                        "blockPlace" => $data[3],
-                        "blockBreak" => $data[4]
-                    );
-                    $player->sendMessage("§a[システム] ロール権限を変更しました");
-                }
+            $form = new CustomForm(function (Player $player, $data) use ($landConfigData, $memberPerms) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data[0] === true) {
+                        $this->editMemberPermsSelect($player, $landConfigData);
+                        return true;
+                    }
+                    elseif ($data[1] === true) {
+                        $landConfigData->getLandPermsManager()->deleteMemberLandPerms($memberPerms->getName());
+                        $landConfigData->update();
+                        $player->sendMessage("§a[システム] {$memberPerms->getName()}のメンバー権限を削除しました");
+                    }
+                    else {
+                        $memberPerms->setBlockTap($data[2]);
+                        $memberPerms->setBlockPlace($data[3]);
+                        $memberPerms->setBlockBreak($data[4]);
+                        $landConfigData->update();
+                        $player->sendMessage("§a[システム] {$memberPerms->getName()}のメンバー権限を変更しました");
+                    }
 
-                Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editMemberPermsSelect"], [$player]), 10);
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editMemberPermsSelect"], [$player, $landConfigData]), 10);
+                }
+                catch (Exception $exception) {
+                    Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
+                }
 
                 return true;
             });
@@ -681,9 +588,9 @@ class LandConfigForm
                 $form->setTitle("メンバー権限の編集");
                 $form->addToggle("キャンセルして戻る");
                 $form->addToggle("削除して戻る");
-                $form->addToggle("ブロックタップ", $memberPerms["blockTap"]);
-                $form->addToggle("ブロック設置", $memberPerms["blockPlace"]);
-                $form->addToggle("ブロック設置", $memberPerms["blockBreak"]);
+                $form->addToggle("ブロックタップ", $memberPerms->isBlockTap());
+                $form->addToggle("ブロック設置", $memberPerms->isBlockPlace());
+                $form->addToggle("ブロック破壊", $memberPerms->isBlockBreak());
                 $player->sendForm($form);
             }
             catch (InvalidArgumentException | FormValidationException $exception) {
@@ -691,43 +598,7 @@ class LandConfigForm
             }
         }
         catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
-    }
-
-    /**
-     * 強制リセットしていいか確認
-     *
-     * @param Player $player
-     * @return void
-     */
-    private function checkReset(Player $player): void
-    {
-        try {
-            $form = new ModalForm(function (Player $player, $data) {
-                if ($data === true) {
-                    $this->resetAll($player->getName());
-                    $player->sendMessage("§a[システム] 土地保護キャッシュを強制リセットしました");
-                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                }
-                elseif ($data === false) {
-                    $this->execute($player);
-                }
-            });
-
-            try {
-                $form->setTitle("強制リセット確認");
-                $form->setContent("現在の土地保護キャッシュを強制リセットします？よろしいですか？");
-                $form->setButton1("はい");
-                $form->setButton1("いいえ");
-                $player->sendForm($form);
-            }
-            catch (InvalidArgumentException | FormValidationException $exception) {
-                Main::getInstance()->getOutiServerLogger()->error($exception, $player);
-            }
-        }
-        catch (Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

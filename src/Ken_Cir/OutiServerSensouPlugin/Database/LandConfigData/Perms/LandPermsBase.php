@@ -78,4 +78,6 @@ abstract class LandPermsBase
     {
         $this->blockBreak = $blockBreak;
     }
+
+    abstract public function toArray(): array;
 }

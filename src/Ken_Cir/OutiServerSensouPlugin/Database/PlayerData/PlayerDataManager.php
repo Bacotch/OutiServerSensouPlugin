@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
-use Error;
-use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function in_array;
 use function serialize;
 use function strtolower;
+use function array_values;
 
 class PlayerDataManager
 {
@@ -109,22 +107,18 @@ class PlayerDataManager
      */
     public function delete(string $name)
     {
-        try {
-            if (!$this->get($name)) return;
-            Main::getInstance()->getDatabase()->executeGeneric(
-                "outiserver.players.delete",
-                [
-                    "name" => strtolower($name)
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
-                }
-            );
-            unset($this->player_datas[strtolower($name)]);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
-        }
+        if (!$this->get($name)) return;
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "outiserver.players.delete",
+            [
+                "name" => strtolower($name)
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+        unset($this->player_datas[strtolower($name)]);
     }
 
     /**
@@ -134,9 +128,11 @@ class PlayerDataManager
      */
     public function getFactionPlayers(int $id): array
     {
-        return array_filter($this->player_datas, function ($playerData) use ($id) {
-            return $playerData->getFaction() === $id;
-        });
+        return array_values(
+            array_filter($this->player_datas, function ($playerData) use ($id) {
+                return $playerData->getFaction() === $id;
+            })
+        );
     }
 
     /**
