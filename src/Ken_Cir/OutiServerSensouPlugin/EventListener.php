@@ -180,7 +180,7 @@ class EventListener implements Listener
 
                 // OP持ちにもメッセージを送る
                 foreach ($server->getOnlinePlayers() as $onlinePlayer) {
-                    if (!$server->getOps()->get($onlinePlayer->getName())) continue;
+                    if (!$server->isOp($onlinePlayer->getName())) continue;
                     // メッセージ送信済みの場合は
                     elseif (PlayerDataManager::getInstance()->get($onlinePlayer->getName())->getFaction() === $player_data->getFaction()) continue;
                     $onlinePlayer->sendMessage($event->getFormat());
