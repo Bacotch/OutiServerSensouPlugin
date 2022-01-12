@@ -8,7 +8,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
 use function array_filter;
-use function asort;
+use function ksort;
 
 /**
  * 派閥のロール系管理クラス
@@ -156,19 +156,27 @@ class RoleDataManager
 
     /**
      * @param int $factionId
+     * @param bool $sorted
      * @return RoleData[]
      * 指定した派閥の役職を取得する
      */
-    public function getFactionRoles(int $factionId): array
+    public function getFactionRoles(int $factionId, bool $sorted = true): array
     {
-        $sort = array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
-            return $roleData->getFactionId() === $factionId;
-        });
-        $sort2 = [];
-        foreach ($sort as $value) {
-            $sort2[$value->getPosition()] = $value;
+        if ($sorted) {
+            $sort = array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
+                return $roleData->getFactionId() === $factionId;
+            });
+            $sort2 = [];
+            foreach ($sort as $value) {
+                $sort2[$value->getPosition()] = $value;
+            }
+            ksort($sort2);
+            return $sort2;
         }
-        asort($sort2);
-        return $sort2;
+        else {
+            return array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
+                return $roleData->getFactionId() === $factionId;
+            });
+        }
     }
 }

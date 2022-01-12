@@ -218,7 +218,6 @@ class RoleData
     public function setPosition(int $position): void
     {
         $this->position = $position;
-        var_dump($this->position);
         $this->update();
     }
 
