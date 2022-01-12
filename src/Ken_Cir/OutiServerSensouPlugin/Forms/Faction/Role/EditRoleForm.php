@@ -16,6 +16,8 @@ use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
 use function array_values;
+use function is_numeric;
+use function count;
 
 class EditRoleForm
 {
@@ -95,12 +97,16 @@ class EditRoleForm
                     elseif ($data[0] === true) {
                         $this->execute($player);
                         return true;
-                    } elseif (!isset($data[1])) return true;
+                    }
+                    elseif (!isset($data[1], $data[3]) or !is_numeric($data[3])) return true;
 
+                    $position = (int)$data[3];
+                    if ($position < 1) $position = 1;
+                    elseif ($position > count(RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId()))) $position = count(RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId()));
                     $oldRolePos = $editRoleData->getPosition();
                     $editRoleData->setName($data[1]);
                     $editRoleData->setColor($data[2]);
-                    $editRoleData->setPosition((int)$data[3]);
+                    $editRoleData->setPosition($position);
                     $editRoleData->setSensenHukoku($data[4]);
                     $editRoleData->setInvitePlayer($data[5]);
                     $editRoleData->setSendmailAllFactionPlayer($data[6]);
@@ -109,14 +115,19 @@ class EditRoleForm
                     $editRoleData->setLandManager($data[9]);
                     $editRoleData->setBankManager($data[10]);
                     $editRoleData->setRoleManager($data[11]);
-                    if ($oldRolePos !== (int)$data[3]) {
-                        foreach (RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId()) as $factionRole) {
+                    if ($oldRolePos !== $position) {
+                        foreach (RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId(), false) as $factionRole) {
                             // 下がる式
-                            if ($oldRolePos <= (int)$data[3] and $factionRole->getPosition() <= (int)$data[3] and $factionRole->getId() !== $editRoleData->getId()) {
+                            if ($oldRolePos <= $position and $factionRole->getPosition() <= $position and $factionRole->getId() !== $editRoleData->getId()) {
                                 $factionRole->setPosition($factionRole->getPosition() - 1);
                             } // 上がる式
-                            elseif ($oldRolePos >= (int)$data[3] and $factionRole->getPosition() <= $oldRolePos and $factionRole->getId() !== $editRoleData->getId()) {
-                                $factionRole->setPosition($factionRole->getPosition() + 1);
+                            elseif ($oldRolePos >= $position and $factionRole->getPosition() <= $oldRolePos and $factionRole->getId() !== $editRoleData->getId()) {
+                                if ($factionRole->getPosition() < 1) {
+                                    $factionRole->setPosition($factionRole->getPosition() + 2);
+                                }
+                                else {
+                                    $factionRole->setPosition($factionRole->getPosition() + 1);
+                                }
                             }
                         }
                     }
@@ -134,7 +145,7 @@ class EditRoleForm
             $form->addToggle("キャンセルして戻る");
             $form->addInput("§a役職名§c", "rolename", $editRoleData->getName());
             $form->addDropdown("§e役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"], $editRoleData->getColor());
-            $form->addSlider("役職位置", 1, count(RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId())), $editRoleData->getPosition());
+            $form->addInput("役職位置 1から" . count(RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId())) . "まで", "position", (string)$editRoleData->getPosition());
             $form->addToggle("宣戦布告権限", $editRoleData->isSensenHukoku());
             $form->addToggle("派閥にプレイヤー招待権限", $editRoleData->isInvitePlayer());
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限", $editRoleData->isSendmailAllFactionPlayer());
