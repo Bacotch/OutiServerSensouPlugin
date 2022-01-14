@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\MailData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\MailData;
 
-use poggit\libasynql\SqlError;
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function count;
 use function strtolower;
 
-class MailManager
+class MailDataManager
 {
     /**
-     * @var MailManager $this
+     * @var MailDataManager $this
      */
     private static self $instance;
 
@@ -25,37 +26,51 @@ class MailManager
 
     public function __construct()
     {
-        self::$instance = $this;
         $this->mail_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("mails.seq",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "outiserver.mails.seq",
             [],
             function (array $row) {
-                if (count($row) < 1)  {
+                if (count($row) < 1) {
                     $this->seq = 0;
                     return;
                 }
                 foreach ($row as $data) {
                     $this->seq = $data["seq"];
                 }
-            }, function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
-            });
-        Main::getInstance()->getDatabase()->waitAll();
-        Main::getInstance()->getDatabase()->executeSelect("mails.load",
+            },
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+        Main::getInstance()->getDatabase()->executeSelect(
+            "outiserver.mails.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
                     $this->mail_datas[$data["id"]] = new MailData($data["id"], $data["name"], $data["title"], $data["content"], $data["author"], $data["date"], $data["read"]);
                 }
-            }, function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
-            });
+            },
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**
-     * @return MailManager
+     * クラスインスタンスを作成する
+     * @return void
      */
-    public static function getInstance(): MailManager
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(MailDataManager::class);
+        self::$instance = new MailDataManager();
+    }
+
+    /**
+     * @return MailDataManager
+     */
+    public static function getInstance(): MailDataManager
     {
         return self::$instance;
     }
@@ -95,7 +110,8 @@ class MailManager
      */
     public function create(string $name, string $title, string $content, string $author, string $date)
     {
-        Main::getInstance()->getDatabase()->executeInsert("mails.create",
+        Main::getInstance()->getDatabase()->executeInsert(
+            "outiserver.mails.create",
             [
                 "name" => strtolower($name),
                 "title" => $title,
@@ -105,7 +121,7 @@ class MailManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->seq++;
@@ -117,13 +133,14 @@ class MailManager
      */
     public function delete(int $id)
     {
-        Main::getInstance()->getDatabase()->executeInsert("mails.delete",
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "outiserver.mails.delete",
             [
                 "id" => $id
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         unset($this->mail_datas[$id]);

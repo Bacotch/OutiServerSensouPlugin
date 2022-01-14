@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\RoleData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\RoleData;
 
-use Error;
-use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 
 /**
  * 派閥のロールデータ
@@ -37,6 +35,12 @@ class RoleData
      * ロールカラー
      */
     private int $color;
+
+    /**
+     * ロールの位置
+     * @var int
+     */
+    private int $position;
 
     /**
      * @var int
@@ -91,6 +95,7 @@ class RoleData
      * @param int $faction_id
      * @param string $name
      * @param int $color
+     * @param int $position
      * @param int $sensen_hukoku
      * @param int $invite_player
      * @param int $sendmail_all_faction_player
@@ -100,12 +105,13 @@ class RoleData
      * @param int $bank_manager
      * @param int $role_manager
      */
-    public function __construct(int $id, int $faction_id, string $name, int $color, int $sensen_hukoku, int $invite_player, int $sendmail_all_faction_player, int $freand_faction_manager, int $kick_faction_player, int $land_manager, int $bank_manager, int $role_manager)
+    public function __construct(int $id, int $faction_id, string $name, int $color, int $position, int $sensen_hukoku, int $invite_player, int $sendmail_all_faction_player, int $freand_faction_manager, int $kick_faction_player, int $land_manager, int $bank_manager, int $role_manager)
     {
         $this->id = $id;
         $this->faction_id = $faction_id;
         $this->name = $name;
         $this->color = $color;
+        $this->position = $position;
         $this->sensen_hukoku = $sensen_hukoku;
         $this->invite_player = $invite_player;
         $this->sendmail_all_faction_player = $sendmail_all_faction_player;
@@ -121,31 +127,27 @@ class RoleData
      */
     public function update()
     {
-        try {
-            Main::getInstance()->getDatabase()->executeChange("faction_roles.update",
-                [
-                    "faction_id" => $this->faction_id,
-                    "name" => $this->name,
-                    "color" => $this->color,
-                    "sensen_hukoku" => $this->sensen_hukoku,
-                    "invite_player" => $this->invite_player,
-                    "sendmail_all_faction_player" => $this->sendmail_all_faction_player,
-                    "freand_faction_manager" => $this->freand_faction_manager,
-                    "kick_faction_player" => $this->kick_faction_player,
-                    "land_manager" => $this->land_manager,
-                    "bank_manager" => $this->bank_manager,
-                    "role_manager" => $this->role_manager,
-                    "id" => $this->id
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
-                }
-            );
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.roles.update",
+            [
+                "name" => $this->name,
+                "color" => $this->color,
+                "position" => $this->position,
+                "sensen_hukoku" => $this->sensen_hukoku,
+                "invite_player" => $this->invite_player,
+                "sendmail_all_faction_player" => $this->sendmail_all_faction_player,
+                "freand_faction_manager" => $this->freand_faction_manager,
+                "kick_faction_player" => $this->kick_faction_player,
+                "land_manager" => $this->land_manager,
+                "bank_manager" => $this->bank_manager,
+                "role_manager" => $this->role_manager,
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**
@@ -182,6 +184,7 @@ class RoleData
     public function setName(string $name): void
     {
         $this->name = $name;
+        $this->update();
     }
 
     /**
@@ -198,6 +201,24 @@ class RoleData
     public function setColor(int $color): void
     {
         $this->color = $color;
+        $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+        $this->update();
     }
 
     /**
@@ -216,6 +237,7 @@ class RoleData
     public function setSensenHukoku(bool $sensen_hukoku): void
     {
         $this->sensen_hukoku = (int)$sensen_hukoku;
+        $this->update();
     }
 
     /**
@@ -234,6 +256,7 @@ class RoleData
     public function setInvitePlayer(bool $invite_player): void
     {
         $this->invite_player = (int)$invite_player;
+        $this->update();
     }
 
     /**
@@ -252,6 +275,7 @@ class RoleData
     public function setSendmailAllFactionPlayer(bool $sendmail_all_faction_player): void
     {
         $this->sendmail_all_faction_player = (int)$sendmail_all_faction_player;
+        $this->update();
     }
 
     /**
@@ -270,6 +294,7 @@ class RoleData
     public function setFreandFactionManager(bool $freand_faction_manager): void
     {
         $this->freand_faction_manager = (int)$freand_faction_manager;
+        $this->update();
     }
 
     /**
@@ -288,6 +313,7 @@ class RoleData
     public function setKickFactionPlayer(bool $kick_faction_player): void
     {
         $this->kick_faction_player = (int)$kick_faction_player;
+        $this->update();
     }
 
     /**
@@ -306,6 +332,7 @@ class RoleData
     public function setLandManager(bool $land_manager): void
     {
         $this->land_manager = (int)$land_manager;
+        $this->update();
     }
 
     /**
@@ -324,6 +351,7 @@ class RoleData
     public function setBankManager(bool $bank_manager): void
     {
         $this->bank_manager = (int)$bank_manager;
+        $this->update();
     }
 
     /**
@@ -342,5 +370,6 @@ class RoleData
     public function setRoleManager(bool $role_manager): void
     {
         $this->role_manager = (int)$role_manager;
+        $this->update();
     }
 }

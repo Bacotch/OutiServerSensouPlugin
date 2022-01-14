@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\MailData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\MailData;
 
-use Error;
-use Exception;
-use poggit\libasynql\SqlError;
 use Ken_Cir\OutiServerSensouPlugin\Main;
+use poggit\libasynql\SqlError;
 use function strtolower;
 
 /**
@@ -129,21 +127,17 @@ class MailData
      */
     public function setRead(bool $read): void
     {
-        try {
-            $this->read = (int)$read;
-            Main::getInstance()->getDatabase()->executeChange("mails.update",
-                [
-                    "read" => $this->read,
-                    "id" => $this->id
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
-                }
-            );
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
+        $this->read = (int)$read;
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.mails.update",
+            [
+                "read" => $this->read,
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 }

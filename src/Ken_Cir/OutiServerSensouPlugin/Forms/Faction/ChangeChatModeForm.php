@@ -6,15 +6,15 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 
 /**
  * チャットモード変更フォーム
  */
-class ChangeChatModeForm
+final class ChangeChatModeForm
 {
     public function __construct()
     {
@@ -24,7 +24,7 @@ class ChangeChatModeForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $form = new CustomForm(function (Player $player, $data) {
@@ -39,8 +39,9 @@ class ChangeChatModeForm
                         $player_data->setChatmode($player_data->getFaction());
                         $player->sendMessage("§a[システム] チャットモードを§f所属派閥と友好関係派閥§aに変更しました");
                     }
-                } catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e);
+                }
+                catch (Error | Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -51,7 +52,7 @@ class ChangeChatModeForm
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

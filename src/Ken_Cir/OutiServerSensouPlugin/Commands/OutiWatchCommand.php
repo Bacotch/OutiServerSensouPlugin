@@ -32,8 +32,8 @@ class OutiWatchCommand extends CommandBase
             $form = new OutiWatchForm();
             $form->execute($sender);
         }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+        catch (Error|Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, $sender);
         }
     }
 }

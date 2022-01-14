@@ -16,11 +16,18 @@ use pocketmine\Thread\Thread;
 use pocketmine\utils\TextFormat;
 use React\EventLoop\Factory;
 use Threaded;
+use function serialize;
+use function unserialize;
+use function count;
+use function preg_replace;
+use function strlen;
+use const PTHREADS_INHERIT_CONSTANTS;
 
 /**
  * DiscordBot用のスレッド
+ * DiscordPHPはスレッド丸々1つ使う
  */
-class DiscordBot extends Thread
+final class DiscordBot extends Thread
 {
     /**
      * @var bool
@@ -181,8 +188,7 @@ class DiscordBot extends Thread
         $this->stoped = true;
         if ($emergency) {
             $this->isKilled = true;
-        }
-        else {
+        } else {
             $this->MinecraftChat_Queue[] = serialize("サーバーが停止しました");
         }
     }
@@ -247,18 +253,18 @@ class DiscordBot extends Thread
 
         while (count($this->MinecraftConsole_Queue) > 0) {
             $message = unserialize($this->MinecraftConsole_Queue->shift());//
-            $message = preg_replace(['/\]0;.*\%/', '/[\x07]/', "/Server thread\//"], '', TextFormat::clean(substr($message, 0, 2000)));//processtile,ANSIコードの削除を実施致します...
+            $message = preg_replace(['/]0;.*%/', '/[\x07]/', "/Server thread\//"], '', TextFormat::clean(substr($message, 0, 2000)));//processtile,ANSIコードの削除を実施致します...
             if ($message === "") continue;
-            if (strlen($message) <= 2000) {
+            if (strlen($message) < 2000) {
                 $console_channel->sendMessage("```$message```");
             }
         }
 
         while (count($this->MinecraftChat_Queue) > 0) {
             $message = unserialize($this->MinecraftChat_Queue->shift());
-            $message = preg_replace(['/\]0;.*\%/', '/[\x07]/', "/Server thread\//"], '', TextFormat::clean(substr($message, 0, 2000)));//processtile,ANSIコードの削除を実施致します...
+            $message = preg_replace(['/]0;.*%/', '/[\x07]/', "/Server thread\//"], '', TextFormat::clean(substr($message, 0, 2000)));//processtile,ANSIコードの削除を実施致します...
             if ($message === "") continue;
-            if (strlen($message) <= 2000) {
+            if (strlen($message) < 2000) {
                 $chat_channel->sendMessage($message);
             }
         }

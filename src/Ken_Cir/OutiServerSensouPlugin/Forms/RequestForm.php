@@ -7,14 +7,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
+use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 
 /**
  * 要望フォーム
  */
-class RequestForm
+final class RequestForm
 {
     public function __construct()
     {
@@ -24,18 +24,22 @@ class RequestForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $form = new CustomForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return true;
-                    elseif (!isset($data[0])) return true;
-                    OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Report_Request_Webhook", ""), "**要望**\n{$player->getName()} からの要望\n$data[0]");
-                    $player->sendMessage("§a[システム] 要望を送信しました");
+                    elseif (!isset($data[0])) {
+                        $player->sendMessage("§a[システム] 要望部分を空にすることはできません");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
+                    }
+                    else {
+                        $player->sendMessage("§a[システム] 要望を送信しました");
+                    }
                 }
                 catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -47,7 +51,7 @@ class RequestForm
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error, $player);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

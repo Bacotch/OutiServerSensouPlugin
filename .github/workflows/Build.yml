@@ -27,9 +27,9 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --prefer-dist --no-progress --no-suggest --ignore-platform-reqs
       - name: Build source code
-        run: php -dphar.readonly=0 ~/DevTools.phar --make ./ --out ./outiserverpmmpplugin.phar
+        run: php -dphar.readonly=0 ~/DevTools.phar --make ./ --out ./OutiServerSensouPlugin.phar
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: PHAR
-          path: ./outiserverpmmpplugin.phar
+          name: OutiServerSensouPlugin
+          path: ./OutiServerSensouPlugin.phar

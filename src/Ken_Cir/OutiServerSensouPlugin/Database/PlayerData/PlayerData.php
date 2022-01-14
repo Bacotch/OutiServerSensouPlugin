@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
-use Error;
-use Exception;
-use poggit\libasynql\SqlError;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
-use function unserialize;
-use function in_array;
+use poggit\libasynql\SqlError;
 use function array_values;
-use function strtolower;
+use function in_array;
 use function serialize;
+use function strtolower;
+use function unserialize;
 
 class PlayerData
 {
@@ -73,25 +71,21 @@ class PlayerData
 
     public function update(): void
     {
-        try {
-            Main::getInstance()->getDatabase()->executeChange("players.update",
-                [
-                    "ip" => serialize($this->ip),
-                    "faction" => $this->faction,
-                    "chatmode" => $this->chatmode,
-                    "drawscoreboard" => $this->drawscoreboard,
-                    "roles" => serialize($this->roles),
-                    "name" => $this->name
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
-                }
-            );
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.players.update",
+            [
+                "ip" => serialize($this->ip),
+                "faction" => $this->faction,
+                "chatmode" => $this->chatmode,
+                "drawscoreboard" => $this->drawscoreboard,
+                "roles" => serialize($this->roles),
+                "name" => $this->name
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**
@@ -200,9 +194,20 @@ class PlayerData
      * @return int[]
      * 所持しているロールを取得する
      */
-    public function getRoles(): array
+    public function getRoles(bool $sorted = true): array
     {
-        return $this->roles;
+        if ($sorted) {
+            $sort = [];
+            foreach ($this->roles as $role) {
+                $roleData = RoleDataManager::getInstance()->get($role);
+                $sort[$roleData->getPosition()] = $role;
+            }
+            ksort($sort);
+            return $sort;
+        }
+        else {
+            return $this->roles;
+        }
     }
 
     /**

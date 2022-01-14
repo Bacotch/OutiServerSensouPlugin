@@ -6,6 +6,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\EventListener;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Admin\AdminForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
@@ -19,7 +20,7 @@ use function strtolower;
 /**
  * おうちウォッチ
  */
-class OutiWatchForm
+final class OutiWatchForm
 {
     public function __construct()
     {
@@ -29,14 +30,12 @@ class OutiWatchForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player, ?EventListener $eventListener = null)
+    public function execute(Player $player): void
     {
         try {
-            $form = new SimpleForm(function (Player $player, $data) use ($eventListener) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
-                    if ($eventListener instanceof EventListener) {
-                        $eventListener->unsetCheck($player->getName());
-                    }
+                    PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(false);
 
                     if ($data === null) return true;
                     elseif ($data === 1) {
@@ -75,9 +74,11 @@ class OutiWatchForm
             if (Server::getInstance()->isOp($player->getName())) {
                 $form->addButton("管理者");
             }
+            $form->addButton("テスト", 0, "textures/items/facebook");
             $player->sendForm($form);
-        } catch (Error | Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+        }
+        catch (Error|Exception $e) {
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 }

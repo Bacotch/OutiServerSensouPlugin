@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
-use Error;
-use Exception;
-use poggit\libasynql\SqlError;
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
-use function strtolower;
-use function serialize;
+use poggit\libasynql\SqlError;
 use function array_filter;
 use function in_array;
+use function serialize;
+use function strtolower;
+use function array_values;
 
 class PlayerDataManager
 {
@@ -29,17 +28,29 @@ class PlayerDataManager
 
     public function __construct()
     {
-        self::$instance = $this;
         $this->player_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("players.load",
+        Main::getInstance()->getDatabase()->executeSelect(
+            "outiserver.players.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
                     $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"]);
                 }
-            }, function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
-            });
+            },
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+    }
+
+    /**
+     * クラスインスタンスを作成する
+     * @return void
+     */
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerDataManager::class);
+        self::$instance = new PlayerDataManager();
     }
 
     /**
@@ -76,7 +87,8 @@ class PlayerDataManager
     public function create(Player $player)
     {
         if ($this->get($player->getName())) return;
-        Main::getInstance()->getDatabase()->executeInsert("players.create",
+        Main::getInstance()->getDatabase()->executeInsert(
+            "outiserver.players.create",
             [
                 "name" => strtolower($player->getName()),
                 "ip" => serialize([$player->getNetworkSession()->getIp()]),
@@ -84,11 +96,10 @@ class PlayerDataManager
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
-        OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataに {$player->getName()} のデータを作成しました");
     }
 
     /**
@@ -97,23 +108,18 @@ class PlayerDataManager
      */
     public function delete(string $name)
     {
-        try {
-            if (!$this->get($name)) return;
-            Main::getInstance()->getDatabase()->executeGeneric("players.delete",
-                [
-                    "name" => strtolower($name)
-                ],
-                null,
-                function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
-                }
-            );
-            unset($this->player_datas[strtolower($name)]);
-            OutiServerPluginUtils::sendDiscordLog(Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", ""), "PlayerDataから $name のデータを削除しました");
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
+        if (!$this->get($name)) return;
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "outiserver.players.delete",
+            [
+                "name" => strtolower($name)
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+        unset($this->player_datas[strtolower($name)]);
     }
 
     /**
@@ -123,9 +129,11 @@ class PlayerDataManager
      */
     public function getFactionPlayers(int $id): array
     {
-        return array_filter($this->player_datas, function ($playerData) use ($id) {
-            return $playerData->getFaction() === $id;
-        });
+        return array_values(
+            array_filter($this->player_datas, function ($playerData) use ($id) {
+                return $playerData->getFaction() === $id;
+            })
+        );
     }
 
     /**
