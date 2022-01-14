@@ -9,6 +9,7 @@ use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleData;
 use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
 use pocketmine\player\Player;
@@ -18,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * ロール詳細表示フォーム
  */
-class RoleInfoForm
+final class RoleInfoForm
 {
     public function __construct()
     {
@@ -33,13 +34,15 @@ class RoleInfoForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        $form = new RoleManagerForm();
+                        $form = new FactionForm();
                         $form->execute($player);
-                    } else {
+                    }
+                    else {
                         $this->info($player, $factionRoles[$data - 1]);
                     }
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
+                }
+                catch (Error | Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -51,8 +54,9 @@ class RoleInfoForm
                 $form->addButton(OutiServerPluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
-            Main::getInstance()->getOutiServerLogger()->error($e, $player);
+        }
+        catch (Error | Exception $e) {
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 
@@ -60,9 +64,17 @@ class RoleInfoForm
     {
         try {
             $form = new ModalForm(function (Player $player, $data) {
-                if ($data === true) {
-                    $this->execute($player);
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === true) {
+                        $this->execute($player);
+                    }
                 }
+                catch (Error | Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
+                }
+
+                return true;
             });
 
             $form->setTitle("役職 {$infoRoleData->getName()} の詳細");
@@ -70,8 +82,9 @@ class RoleInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

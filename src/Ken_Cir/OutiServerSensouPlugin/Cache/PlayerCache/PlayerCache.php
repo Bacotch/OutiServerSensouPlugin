@@ -9,7 +9,7 @@ use function strtolower;
 /**
  * プレイヤーキャッシュ
  */
-class PlayerCache
+final class PlayerCache
 {
     /**
      * プレイヤー名
@@ -48,10 +48,10 @@ class PlayerCache
     }
 
     /**
-     * @param bool $lockoOutiWatch
+     * @param bool $lockOutiWatch
      */
-    public function setLockOutiWatch(bool $lockoOutiWatch): void
+    public function setLockOutiWatch(bool $lockOutiWatch): void
     {
-        $this->lockoOutiWatch = $lockoOutiWatch;
+        $this->lockOutiWatch = $lockOutiWatch;
     }
 }

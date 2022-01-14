@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandData;
 
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
@@ -71,7 +72,7 @@ class LandDataManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
+        if (isset(self::$instance)) throw new InstanceOverwriteException(LandDataManager::class);
         self::$instance = new LandDataManager();
     }
 

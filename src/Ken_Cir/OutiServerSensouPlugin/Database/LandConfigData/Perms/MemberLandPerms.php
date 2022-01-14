@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use function strtolower;
 
-class MemberLandPerms extends LandPermsBase
+final class MemberLandPerms extends LandPermsBase
 {
     /**
      * プレイヤー名
@@ -16,10 +16,10 @@ class MemberLandPerms extends LandPermsBase
      */
     private string $name;
 
-    #[Pure] public function __construct(string $name, bool $blockTap, bool $blockPlace, bool $blockBreak)
+    #[Pure] public function __construct(string $name, bool $entry, bool $blockTap_Place, bool $blockBreak)
     {
         $this->name = strtolower($name);
-        parent::__construct($blockTap, $blockPlace, $blockBreak);
+        parent::__construct($entry, $blockTap_Place, $blockBreak);
     }
 
     /**
@@ -30,13 +30,14 @@ class MemberLandPerms extends LandPermsBase
         return $this->name;
     }
 
-    #[ArrayShape(["name" => "string", "blockTap" => "bool", "blockPlace" => "bool", "blockBreak" => "bool"])]
+
+    #[ArrayShape(["name" => "string", "entry" => "bool", "blockTap_Place" => "bool", "blockBreak" => "bool"])]
     public function toArray(): array
     {
         return array(
             "name" => $this->name,
-            "blockTap" => $this->blockTap,
-            "blockPlace" => $this->blockPlace,
+            "entry" => $this->entry,
+            "blockTap_Place" => $this->blockTap_Place,
             "blockBreak" => $this->blockBreak
         );
     }

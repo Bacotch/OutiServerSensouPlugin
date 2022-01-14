@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\FactionData;
 
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function strtolower;
@@ -12,7 +13,7 @@ use function count;
 /**
  * 派閥データマネージャー
  */
-class FactionDataManager
+final class FactionDataManager
 {
     /**
      * @var FactionDataManager $this
@@ -64,7 +65,7 @@ class FactionDataManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
+        if (isset(self::$instance)) throw new InstanceOverwriteException(FactionDataManager::class);
         self::$instance = new FactionDataManager();
     }
 

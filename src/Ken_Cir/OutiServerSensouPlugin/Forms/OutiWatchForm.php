@@ -7,7 +7,6 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
-use Ken_Cir\OutiServerSensouPlugin\EventListener;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Mail\MailForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
@@ -17,7 +16,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * おうちウォッチ
  */
-class OutiWatchForm
+final class OutiWatchForm
 {
     public function __construct()
     {
@@ -27,7 +26,7 @@ class OutiWatchForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $form = new SimpleForm(function (Player $player, $data) {
@@ -51,7 +50,8 @@ class OutiWatchForm
                         $form = new RequestForm();
                         $form->execute($player);
                     }
-                } catch (Exception $e) {
+                }
+                catch (Error | Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -68,7 +68,7 @@ class OutiWatchForm
             $player->sendForm($form);
         }
         catch (Error|Exception $e) {
-            Main::getInstance()->getOutiServerLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 }

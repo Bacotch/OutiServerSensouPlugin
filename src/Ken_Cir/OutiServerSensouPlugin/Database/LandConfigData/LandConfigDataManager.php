@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData;
 
 use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function serialize;
 use function count;
 use function array_filter;
 
-class LandConfigDataManager
+final class LandConfigDataManager
 {
     /**
      * インスタンス
@@ -70,7 +71,7 @@ class LandConfigDataManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
+        if (isset(self::$instance)) throw new InstanceOverwriteException(LandConfigDataManager::class);
         self::$instance = new LandConfigDataManager();
     }
 
@@ -88,7 +89,7 @@ class LandConfigDataManager
      */
     public function get(int $id): LandConfigData|false
     {
-        if (!isset($this->landConfigDatas[$id])) return false;
+        if (!isset($this->landConfigDatas[$id])) throw new InstanceOverwriteException(LandConfigDataManager::class . "has already been initialized");
         return $this->landConfigDatas[$id];
     }
 

@@ -19,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * 派閥詳細表示フォーム
  */
-class FactionInfoForm
+final class FactionInfoForm
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class FactionInfoForm
      * @param Player $player
      * 実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
@@ -39,8 +39,9 @@ class FactionInfoForm
                 try {
                     if ($data === null) return true;
                     $this->Info($player, $faction_data);
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e);
+                }
+                catch (Error|Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -49,15 +50,27 @@ class FactionInfoForm
             $form->setTitle("§b派閥の詳細表示フォーム");
             $form->addButton(OutiServerPluginUtils::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+        }
+        catch (Error|Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 
-    private function Info(Player $player, FactionData $faction_data)
+    private function Info(Player $player, FactionData $faction_data): void
     {
         try {
             $form = new ModalForm(function (Player $player, $data) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === true) {
+                        $this->execute($player);
+                    }
+                }
+                catch (Error | Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
+                }
+
+                return true;
             });
 
             $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($faction_data->getId());
@@ -67,11 +80,12 @@ class FactionInfoForm
             $color = OutiServerPluginUtils::getChatColor($faction_data->getColor());
             $form->setTitle("派閥 $color {$faction_data->getName()} の詳細");
             $form->setContent("§6 派閥名: {$faction_data->getName()}\n§aリーダー: {$faction_data->getOwner()}\n§d総人数: " . count($faction_players) . "人\n§b派閥所属プレイヤー§f\n" . join("\n", $faction_players_name));
-            $form->setButton1("閉じる");
+            $form->setButton1("戻る");
             $form->setButton1("閉じる");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error);
+        }
+        catch (Error|Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

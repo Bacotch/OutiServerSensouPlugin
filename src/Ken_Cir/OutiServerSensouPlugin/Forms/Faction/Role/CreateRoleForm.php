@@ -16,7 +16,7 @@ use Vecnavium\FormsUI\CustomForm;
 /**
  * 役職作成フォーム
  */
-class CreateRoleForm
+final class CreateRoleForm
 {
     public function __construct()
     {

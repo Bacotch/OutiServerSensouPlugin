@@ -19,7 +19,7 @@ use const CURLOPT_SSL_VERIFYPEER;
 /**
  * DiscordにWebhook経由で何か送る用の非同期TASK
  */
-class DiscordWebhook extends AsyncTask
+final class DiscordWebhook extends AsyncTask
 {
     /**
      * WebhookのURL

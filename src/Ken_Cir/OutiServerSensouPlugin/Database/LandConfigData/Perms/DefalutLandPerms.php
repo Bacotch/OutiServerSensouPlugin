@@ -7,19 +7,20 @@ namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
-class DefalutLandPerms extends LandPermsBase
+final class DefalutLandPerms extends LandPermsBase
 {
-    #[Pure] public function __construct(bool $blockTap, bool $blockPlace, bool $blockBreak)
+    #[Pure] public function __construct(bool $entry, bool $blockTap_Place, bool $blockBreak)
     {
-        parent::__construct($blockTap, $blockPlace, $blockBreak);
+        parent::__construct($entry, $blockTap_Place, $blockBreak);
     }
 
-    #[ArrayShape(["blockTap" => "bool", "blockPlace" => "bool", "blockBreak" => "bool"])]
+
+    #[ArrayShape(["entry" => "bool", "blockTap_Place" => "bool", "blockBreak" => "bool"])]
     public function toArray(): array
     {
         return array(
-            "blockTap" => $this->blockTap,
-            "blockPlace" => $this->blockPlace,
+            "entry" => $this->entry,
+            "blockTap_Place" => $this->blockTap_Place,
             "blockBreak" => $this->blockBreak
         );
     }

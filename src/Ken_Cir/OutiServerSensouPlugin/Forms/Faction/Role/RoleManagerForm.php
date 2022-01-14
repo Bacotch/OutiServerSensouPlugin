@@ -14,7 +14,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * 役職管理フォーム
  */
-class RoleManagerForm
+final class RoleManagerForm
 {
     public function __construct()
     {
@@ -39,8 +39,9 @@ class RoleManagerForm
                         $form = new EditMemberRole();
                         $form->execute($player);
                     }
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
+                }
+                catch (Error | Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -51,8 +52,9 @@ class RoleManagerForm
             $form->addButton("役職の編集");
             $form->addButton("派閥メンバー役職操作");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
-            Main::getInstance()->getOutiServerLogger()->error($e, $player);
+        }
+        catch (Error | Exception $e) {
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 }

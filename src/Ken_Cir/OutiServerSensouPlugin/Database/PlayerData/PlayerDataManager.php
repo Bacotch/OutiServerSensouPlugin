@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\PlayerData;
 
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\player\Player;
 use poggit\libasynql\SqlError;
@@ -48,7 +49,7 @@ class PlayerDataManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
+        if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerDataManager::class);
         self::$instance = new PlayerDataManager();
     }
 

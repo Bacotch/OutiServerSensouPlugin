@@ -19,7 +19,7 @@ use function array_values;
 use function is_numeric;
 use function count;
 
-class EditRoleForm
+final class EditRoleForm
 {
     public function __construct()
     {
@@ -39,8 +39,8 @@ class EditRoleForm
                     } else {
                         $this->edit($player, $factionRoles[$data - 1]);
                     }
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
+                } catch (Error | Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;

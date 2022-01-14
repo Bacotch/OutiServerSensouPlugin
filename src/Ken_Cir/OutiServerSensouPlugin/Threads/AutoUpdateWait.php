@@ -9,7 +9,7 @@ use pocketmine\scheduler\Task;
 use pocketmine\Server;
 use function count;
 
-class AutoUpdateWait extends Task
+final class AutoUpdateWait extends Task
 {
     private int $seconds;
 

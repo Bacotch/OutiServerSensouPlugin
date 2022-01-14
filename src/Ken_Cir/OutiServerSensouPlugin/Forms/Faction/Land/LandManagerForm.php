@@ -12,7 +12,7 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
-class LandManagerForm
+final class LandManagerForm
 {
     public function __construct()
     {

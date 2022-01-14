@@ -21,7 +21,7 @@ use pocketmine\Server;
  * プレイヤー裏処理タスク
  * おうちウォッチ付与・不正確認・スコアボードなど
  */
-class PlayerBackGround extends Task
+final class PlayerBackGround extends Task
 {
     public function __construct()
     {

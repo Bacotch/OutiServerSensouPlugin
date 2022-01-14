@@ -11,7 +11,7 @@ use function strtolower;
 /**
  * 派閥データ
  */
-class FactionData
+final class FactionData
 {
     /**
      * @var int

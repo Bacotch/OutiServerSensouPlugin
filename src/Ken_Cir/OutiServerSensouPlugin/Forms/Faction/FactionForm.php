@@ -19,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * 派閥関係フォーム
  */
-class FactionForm
+final class FactionForm
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class FactionForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
@@ -101,8 +101,9 @@ class FactionForm
                             }
                         }
                     }
-                } catch (Error|Exception $e) {
-                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
+                }
+                catch (Error | Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -136,8 +137,9 @@ class FactionForm
                 }
             }
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $player);
+        }
+        catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

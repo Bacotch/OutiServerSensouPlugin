@@ -21,7 +21,7 @@ use const DIRECTORY_SEPARATOR;
 /**
  * このプラグインのアップデートを確認するAsyncTask
  */
-class PluginAutoUpdateChecker extends AsyncTask
+final class PluginAutoUpdateChecker extends AsyncTask
 {
     public function __construct()
     {
