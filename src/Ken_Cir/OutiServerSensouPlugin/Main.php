@@ -7,10 +7,9 @@ namespace Ken_Cir\OutiServerSensouPlugin;
 use JsonException;
 use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
-use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Threads\PluginAutoUpdateChecker;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
-use Ken_Cir\OutiServerSensouPlugin\Threads\ScheduleMessage;
 use pocketmine\lang\Language;
 use pocketmine\Server;
 use poggit\libasynql\libasynql;
@@ -177,8 +176,7 @@ final class Main extends PluginBase
         $this->getServer()->getCommandMap()->registerAll(
             $this->getName(),
             [
-                new OutiWatchCommand($this),
-                new RestartCommand($this)
+                new OutiWatchCommand($this)
             ]
         );
 

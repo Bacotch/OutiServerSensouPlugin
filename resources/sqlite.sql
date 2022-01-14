@@ -237,25 +237,10 @@ CREATE TABLE IF NOT EXISTS roles
     INTEGER
     NOT
     NULL,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> efe6a50 (土地保護詳細設定進捗)
-=======
->>>>>>> d6d49c1c485c5dc17a04ffc49dce5c3b2cd7e189
     position
     INTEGER
     NOT
     NULL,
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3698ba6 (土地系進捗)
-=======
->>>>>>> efe6a50 (土地保護詳細設定進捗)
-=======
->>>>>>> d6d49c1c485c5dc17a04ffc49dce5c3b2cd7e189
     sensen_hukoku
     INTEGER
     NOT
