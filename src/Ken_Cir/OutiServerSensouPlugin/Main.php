@@ -22,7 +22,6 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
 use pocketmine\console\ConsoleCommandSender;
-use pocketmine\lang\Language;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;

@@ -239,17 +239,23 @@ CREATE TABLE IF NOT EXISTS roles
     NULL,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> efe6a50 (土地保護詳細設定進捗)
+=======
+>>>>>>> d6d49c1c485c5dc17a04ffc49dce5c3b2cd7e189
     position
     INTEGER
     NOT
     NULL,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3698ba6 (土地系進捗)
 =======
 >>>>>>> efe6a50 (土地保護詳細設定進捗)
+=======
+>>>>>>> d6d49c1c485c5dc17a04ffc49dce5c3b2cd7e189
     sensen_hukoku
     INTEGER
     NOT
@@ -299,7 +305,9 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :bank_manager int
 -- #    :role_manager int
 INSERT INTO roles (faction_id, name, color, position, sensen_hukoku, invite_player, sendmail_all_faction_player,
-                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager);
+                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
+VALUES (:faction_id, :name, :color, :position, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
+        :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
 -- # }
 
 -- # { seq
