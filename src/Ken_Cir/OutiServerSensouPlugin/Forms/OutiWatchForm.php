@@ -6,17 +6,21 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms;
 
 use Error;
 use Exception;
+use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\EventListener;
+use Ken_Cir\OutiServerSensouPlugin\Forms\Admin\AdminForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Mail\MailForm;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use pocketmine\Server;
+use Vecnavium\FormsUI\SimpleForm;
+use function strtolower;
 
 /**
  * おうちウォッチ
  */
-class OutiWatchForm
+final class OutiWatchForm
 {
     public function __construct()
     {
@@ -26,14 +30,12 @@ class OutiWatchForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player, ?EventListener $eventListener = null)
+    public function execute(Player $player): void
     {
         try {
-            $form = new SimpleForm(function (Player $player, $data) use ($eventListener) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
-                    if ($eventListener instanceof EventListener) {
-                        $eventListener->unsetCheck($player->getName());
-                    }
+                    PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(false);
 
                     if ($data === null) return true;
                     elseif ($data === 1) {
@@ -52,6 +54,10 @@ class OutiWatchForm
                         $form = new RequestForm();
                         $form->execute($player);
                     }
+                    elseif ($data === 5 and Server::getInstance()->isOp($player->getName())) {
+                        $form = new AdminForm();
+                        $form->execute($player);
+                    }
                 } catch (Error | Exception $e) {
                     Main::getInstance()->getPluginLogger()->error($e, $player);
                 }
@@ -65,9 +71,14 @@ class OutiWatchForm
             $form->addButton("§eメール");
             $form->addButton("§4レポート");
             $form->addButton("§6要望");
+            if (Server::getInstance()->isOp($player->getName())) {
+                $form->addButton("管理者");
+            }
+            $form->addButton("テスト", 0, "textures/items/facebook");
             $player->sendForm($form);
-        } catch (Error | Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+        }
+        catch (Error|Exception $e) {
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 }

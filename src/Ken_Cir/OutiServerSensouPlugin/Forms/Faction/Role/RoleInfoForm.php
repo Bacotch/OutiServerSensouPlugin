@@ -6,19 +6,20 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\ModalForm;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleData;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Forms\Faction\FactionForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleData;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use Vecnavium\FormsUI\ModalForm;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * ロール詳細表示フォーム
  */
-class RoleInfoForm
+final class RoleInfoForm
 {
     public function __construct()
     {
@@ -33,7 +34,7 @@ class RoleInfoForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        $form = new RoleManagerForm();
+                        $form = new FactionForm();
                         $form->execute($player);
                     }
                     else {
@@ -41,7 +42,7 @@ class RoleInfoForm
                     }
                 }
                 catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -55,18 +56,25 @@ class RoleInfoForm
             $player->sendForm($form);
         }
         catch (Error | Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 
     private function info(Player $player, RoleData $infoRoleData): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
-            $form = new ModalForm(function(Player $player, $data){
-                if ($data === true) {
-                    $this->execute($player);
+            $form = new ModalForm(function (Player $player, $data) {
+                try {
+                    if ($data === null) return true;
+                    elseif ($data === true) {
+                        $this->execute($player);
+                    }
                 }
+                catch (Error | Exception $error) {
+                    Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
+                }
+
+                return true;
             });
 
             $form->setTitle("役職 {$infoRoleData->getName()} の詳細");
@@ -76,7 +84,7 @@ class RoleInfoForm
             $player->sendForm($form);
         }
         catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

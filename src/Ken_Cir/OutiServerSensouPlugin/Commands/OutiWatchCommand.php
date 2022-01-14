@@ -6,12 +6,10 @@ namespace Ken_Cir\OutiServerSensouPlugin\Commands;
 
 use Error;
 use Exception;
-
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 /**
  * おうちウォッチフォームを出すコマンド
@@ -34,8 +32,8 @@ class OutiWatchCommand extends CommandBase
             $form = new OutiWatchForm();
             $form->execute($sender);
         }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+        catch (Error|Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, $sender);
         }
     }
 }

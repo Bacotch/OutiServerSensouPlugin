@@ -4,164 +4,212 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin;
 
-use Error;
-use Exception;
+use JsonException;
+use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
-use Ken_Cir\OutiServerSensouPlugin\Entitys\Skeleton;
-use Ken_Cir\OutiServerSensouPlugin\Entitys\Zombie;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\libasynql;
-use Ken_Cir\OutiServerSensouPlugin\Managers\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\MailData\MailManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Threads\Backup;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
+use pocketmine\lang\Language;
+use pocketmine\Server;
+use poggit\libasynql\libasynql;
+use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerBackGround;
-use Ken_Cir\OutiServerSensouPlugin\Threads\PlayerInfoScoreBoard;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerLogger;
-use Ken_Cir\OutiServerSensouPlugin\libs\poggit\libasynql\DataConnector;
-use pocketmine\command\ConsoleCommandSender;
-use pocketmine\entity\Entity;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
-use function ob_start;
-use function ob_get_contents;
-use function ob_flush;
+use poggit\libasynql\DataConnector;
 use function ob_end_clean;
+use function ob_flush;
+use function ob_get_contents;
+use function ob_start;
+use function file_exists;
+use function mkdir;
 
 /**
  * プラグインメインクラス
  */
-class Main extends PluginBase
+final class Main extends PluginBase
 {
     /**
+     * プラグインインスタンス
      * @var Main $this
      */
     private static self $instance;
 
     /**
-     * @var Config
      * プラグインコンフィグ
+     * @var Config
      */
     private Config $config;
 
     /**
+     * プラグイン永続データ
+     * @var Config
+     */
+    private Config $pluginData;
+
+    /**
      * @var OutiServerLogger
      * プラグイン用ログ出力
+     * @var OutiServerLogger
      */
-    private OutiServerLogger $logger;
+    private OutiServerLogger $outiServerLogger;
 
     /**
+     * DiscordBot
      * @var DiscordBot
-     * DiscordBotClientオブジェクト
      */
-    private DiscordBot $discord_client;
+    private DiscordBot $discordClient;
 
     /**
+     * DB接続
      * @var DataConnector
-     * Databaseオブジェクト
      */
     private DataConnector $database;
 
     /**
-     * @var bool
-     * プラグインが正常に有効化されたかどうか
-     */
-    private bool $enabled;
-
-    /**
-     * @var PlayerDataManager
-     * プレイヤーデータマネージャー
-     */
-    private PlayerDataManager $playerDataManager;
-
-    /**
-     * @var FactionDataManager
-     * 派閥データマネージャー
-     */
-    private FactionDataManager $factionDataManager;
-
-    /**
-     * @var MailManager
-     * メールデータマネージャー
-     */
-    private MailManager $mailManager;
-
-    /**
-     * @var RoleDataManager
-     * 派閥ロールデータマネージャー
-     */
-    private RoleDataManager $factionRoleDataManager;
-
-    /**
      * プラグインがロードされた時に呼び出される
      */
-    public function onLoad()
+    public function onLoad(): void
     {
         self::$instance = $this;
-        $this->enabled = false;
     }
 
     /**
      * プラグインが有効化された時に呼び出される
      */
-    public function onEnable()
+    public function onEnable(): void
     {
-        try {
-            if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
-                mkdir(Main::getInstance()->getDataFolder() . "backups/");
+        // ---バックアップ用のフォルダがなければ作成する---
+        if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
+            mkdir(Main::getInstance()->getDataFolder() . "backups/");
+        }
+
+        // ---リソースを保存---
+        $this->saveResource("config.yml");
+        $this->saveResource("database.yml");
+        $this->saveResource("data.yml");
+
+        // ---プラグインコンフィグを読み込む---
+        $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        $this->pluginData = new Config($this->getDataFolder() . "data.yml", Config::YAML);
+
+        // ---イベント処理クラスを登録--
+        Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
+
+        // ---Logger初期化---
+        $this->outiServerLogger = new OutiServerLogger();
+
+        // ---db初期化---
+        $databaseConfig = new Config($this->getDataFolder() . "database.yml", Config::YAML);
+        $this->database = libasynql::create($this, $databaseConfig->get("database"), [
+            "sqlite" => "sqlite.sql"
+        ]);
+
+        $this->database->executeGeneric("outiserver.players.init");
+        $this->database->executeGeneric("outiserver.factions.init");
+        $this->database->executeGeneric("outiserver.mails.init");
+        $this->database->executeGeneric("outiserver.roles.init");
+        $this->database->executeGeneric("outiserver.lands.init");
+        $this->database->executeGeneric("outiserver.landconfigs.init");
+        $this->database->waitAll();
+        PlayerDataManager::createInstance();
+        FactionDataManager::createInstance();
+        MailDataManager::createInstance();
+        RoleDataManager::createInstance();
+        LandDataManager::createInstance();
+        LandConfigDataManager::createInstance();
+        $this->database->waitAll();
+
+        // ---キャッシュ初期化---
+        PlayerCacheManager::createInstance();
+
+        // ---スレッド初期化---
+        // ---DiscordBot処理用---
+        $this->discordClient = new DiscordBot($this->config->get("Discord_Bot_Token", ""), $this->getFile(), $this->config->get("Discord_Guild_Id", ""), $this->config->get("Discord_Console_Channel_Id", ""), $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
+        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
+            function (): void {
+                $this->getLogger()->info("出力バッファリングを開始致します。");
+                ob_start();
             }
-            // ---リソースを保存---
-            $this->saveResource("config.yml");
-            $this->saveResource("database.yml");
+        ), 10);
+        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
+            function (): void {
+                if (!$this->discordClient->started) return;
+                $string = ob_get_contents();
 
-            // ---プラグインコンフィグを読み込む---
-            $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+                if ($string === "") return;
+                $this->discordClient->sendConsoleMessage($string);
+                ob_flush();
+            }
+        ), 10, 1);
+        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
+            function (): void {
+                foreach ($this->discordClient->fetchConsoleMessages() as $message) {
+                    if ($message === "") continue;
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
+                }
 
-            // ---イベント処理クラスを登録--
-            $this->getServer()->getPluginManager()->registerEvents(new EventListener(), $this);
-
-            // ---色々初期化---
-            $this->logger = new OutiServerLogger();
-            $this->InitializeDatabase();
-            $this->InitializeManagers();
-            $this->InitializeThreads();
-            $this->InitializeEntitys();
-
-            $this->getServer()->getAsyncPool()->submitTask(new Backup());
-
-            $this->discord_client->sendChatMessage("サーバーが起動しました！");
-            $this->enabled = true;
+                foreach ($this->discordClient->fetchChatMessages() as $message) {
+                    $content = $message["content"];
+                    if ($content === "") continue;
+                    Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
+                }
+            }
+        ), 5, 1);
+        // プレイヤーバックグラウンド処理タスク登録
+        $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+        if ($this->config->get("plugin_auto_update_enable", true)) {
+            $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
         }
-        catch (Error | Exception $error) {
-            $this->enabled = false;
-            $this->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
-            $this->getLogger()->info("§c回復不可能な致命的エラーが発生しました\nプラグインを無効化します");
-            $this->database->close();
-            $this->discord_client->shutdown();
-            $this->getServer()->getPluginManager()->disablePlugin($this);
-        }
+        // TODO: プラグインも自動アップデートができるようにする
+        // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
+
+        // ---コマンド登録---
+        $this->getServer()->getCommandMap()->registerAll(
+            $this->getName(),
+            [
+                new OutiWatchCommand($this)
+            ]
+        );
+
+        // 初期化完了！
+        $this->discordClient->sendChatMessage("サーバーが起動しました！");
     }
 
     /**
      * プラグインが無効化された時に呼び出される
      */
-    public function onDisable()
+    public function onDisable(): void
     {
-        try {
-            if (!$this->enabled) return;
+        if (isset($this->database)) {
             $this->getLogger()->info("キャッシュデータをdbファイルに書き込んでいます...\nこれには時間がかかることがあります");
             $this->database->waitAll();
             $this->database->close();
-            $this->discord_client->sendChatMessage("サーバーが停止しました");
-            $this->discord_client->shutdown();
+        }
+
+        if (isset($this->discordClient) and $this->discordClient->started) {
+            $this->discordClient->sendChatMessage("サーバーが停止しました");
+            $this->discordClient->shutdown();
+        }
+
+        if (ob_get_contents()) {
             ob_flush();
             ob_end_clean();
         }
-        catch (Error | Exception $error) {
-            $this->getLogger()->error("エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}");
-            $this->getLogger()->info("§cプラグイン無効化中にエラーが発生しました\nプラグインが正常に無効化できていない可能性があります");
+
+        if (isset($this->pluginData)) {
+            try {
+                $this->pluginData->save();
+            }
+            catch (JsonException) {}
         }
     }
 
@@ -184,12 +232,23 @@ class Main extends PluginBase
     }
 
     /**
+     * @return Config
+     */
+    public function getPluginData(): Config
+    {
+        return $this->pluginData;
+    }
+
+    /**
      * @return OutiServerLogger
      * このプラグイン用のLoggerを返す
      */
-    public function getPluginLogger(): OutiServerLogger
+    /**
+     * @return OutiServerLogger
+     */
+    public function getOutiServerLogger(): OutiServerLogger
     {
-        return $this->logger;
+        return $this->outiServerLogger;
     }
 
     /**
@@ -198,7 +257,7 @@ class Main extends PluginBase
      */
     public function getDiscordClient(): DiscordBot
     {
-        return $this->discord_client;
+        return $this->discordClient;
     }
 
     /**
@@ -208,132 +267,5 @@ class Main extends PluginBase
     public function getDatabase(): DataConnector
     {
         return $this->database;
-    }
-
-    /**
-     * @return PlayerDataManager
-     * プレイヤーデータマネージャーを返す
-     */
-    public function getPlayerDataManager(): PlayerDataManager
-    {
-        return $this->playerDataManager;
-    }
-
-    /**
-     * @return FactionDataManager
-     * 派閥管理マネージャーを返す
-     */
-    public function getFactionDataManager(): FactionDataManager
-    {
-        return $this->factionDataManager;
-    }
-
-    /**
-     * @return MailManager
-     * メールデータマネージャーを返す
-     */
-    public function getMailManager(): MailManager
-    {
-        return $this->mailManager;
-    }
-
-    /**
-     * @return RoleDataManager
-     * 派閥ロールデータマネージャーを返す
-     */
-    public function getFactionRoleDataManager(): RoleDataManager
-    {
-        return $this->factionRoleDataManager;
-    }
-
-    /**
-     * データベース初期化処理まとめ
-     */
-    private function InitializeDatabase(): void
-    {
-        $databaseConfig = new Config($this->getDataFolder() . "config.yml", Config::YAML);
-        $this->database = libasynql::create($this, $databaseConfig->get("database"), [
-            "sqlite" => "sqlite.sql"
-        ]);
-        /*
-        $this->database->executeGeneric("players.drop");
-        $this->database->executeGeneric("factions.drop");
-        $this->database->waitAll();
-        */
-        $this->database->executeGeneric("players.init");
-        $this->database->executeGeneric("factions.init");
-        $this->database->executeGeneric("mails.init");
-        $this->database->executeGeneric("roles.init");
-        $this->database->waitAll();
-    }
-
-    /**
-     * マネージャー初期化処理まとめ
-     */
-    private function InitializeManagers(): void
-    {
-        $this->playerDataManager = new PlayerDataManager();
-        $this->factionDataManager = new FactionDataManager();
-        $this->mailManager = new MailManager();
-        $this->factionRoleDataManager = new RoleDataManager();
-        $this->database->waitAll();
-    }
-
-    /**
-     * スレッド初期化処理まとめ
-     */
-    private function InitializeThreads(): void
-    {
-        $this->discord_client = new DiscordBot($this->config->get("Discord_Bot_Token", ""), $this->getFile(), $this->config->get("Discord_Guild_Id", ""), $this->config->get("Discord_Console_Channel_Id", ""), $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
-
-        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
-            function (): void {
-                $this->getLogger()->info("出力バッファリングを開始致します。");
-                ob_start();
-            }
-        ), 10);
-
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
-                if (!$this->discord_client->started) return;
-                $string = ob_get_contents();
-
-                if ($string === "") return;
-                $this->discord_client->sendConsoleMessage($string);
-                ob_flush();
-            }
-        ), 10, 1);
-
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
-                foreach ($this->discord_client->fetchConsoleMessages() as $message) {
-                    if ($message === "") continue;
-                    $this->getServer()->dispatchCommand(new ConsoleCommandSender(), $message);
-                }
-
-                foreach ($this->discord_client->fetchChatMessages() as $message) {
-                    $content = $message["content"];
-                    if ($content === "") continue;
-                    $this->getServer()->broadcastMessage("[Discord:{$message["username"]}] $content");
-                }
-            }
-        ), 5, 1);
-
-        $this->getServer()->getCommandMap()->registerAll($this->getName(),
-            [
-                new OutiWatchCommand($this)
-            ]);
-
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
-    }
-
-    /**
-     * エンティティ初期化処理まとめ
-     */
-    private function InitializeEntitys(): void
-    {
-        Entity::registerEntity(Zombie::class, false, ['Zombie', 'minecraft:zombie']);
-        Entity::registerEntity(Skeleton::class, false, ['Skeleton', 'minecraft:skeleton']);
     }
 }

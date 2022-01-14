@@ -1,19 +1,13 @@
 <?php
 
-namespace Ken_Cir\OutiServerSensouPlugin\Utils;
+declare(strict_types=1);
 
-use DateTime;
-use DateTimeZone;
-use Error;
-use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Message;
-use Ken_Cir\OutiServerSensouPlugin\libs\CortexPE\DiscordWebhookAPI\Webhook;
-use Ken_Cir\OutiServerSensouPlugin\Main;
+namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
 /**
  * おうち鯖プラグイン ユーティリティ
  */
-class OutiServerPluginUtils
+final class OutiServerPluginUtils
 {
     private function __construct()
     {
@@ -67,31 +61,11 @@ class OutiServerPluginUtils
             9 => "青",
             10 => "緑",
             11 => "水色",
-            12 =>  "赤",
+            12 => "赤",
             13 => "ピンク",
             14 => "黄色",
             15 => "白色",
             default => ""
         };
-    }
-
-    public static function sendDiscordLog(string $url, string $content)
-    {
-        try {
-            if ($url === "" or $content === "") return;
-            try {
-                $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
-            } catch (Exception) {
-                return;
-            }
-
-            $webhook = new Webhook($url);
-            $message = new Message();
-            $message->setContent("```[{$time->format('Y-m-d H:i:sP')}]: $content```");
-            $webhook->send($message);
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
-        }
     }
 }

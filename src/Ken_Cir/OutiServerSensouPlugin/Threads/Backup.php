@@ -8,14 +8,14 @@ use Ken_Cir\OutiServerSensouPlugin\Main;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use ZipArchive;
+use function closedir;
+use function date;
 use function is_file;
 use function opendir;
 use function readdir;
-use function closedir;
-use function date;
 use function str_ends_with;
 
-class Backup extends AsyncTask
+final class Backup extends AsyncTask
 {
     private string $serverDataFloder;
     private string $pluginDataFloder;
@@ -27,16 +27,16 @@ class Backup extends AsyncTask
         Main::getInstance()->getLogger()->info("バックアップを作成します...");
     }
 
-    public function onRun()
+    public function onRun(): void
     {
         $zip = new ZipArchive;
-        if($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip",ZipArchive::CREATE)=== TRUE) {
+        if ($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip", ZipArchive::CREATE) === TRUE) {
             $this->zipSub($zip, $this->serverDataFloder);
             $zip->close();
         }
     }
 
-    public function onCompletion(Server $server)
+    public function onCompletion(): void
     {
         Main::getInstance()->getLogger()->info("バックアップの作成が完了しました");
     }
@@ -57,7 +57,7 @@ class Backup extends AsyncTask
                     $zip->addFile($fullpath, "$localPath");
                 }
                 elseif (is_dir($fullpath)) {
-                    $this->zipSub($zip, $fullpath, $localPath.'/');
+                    $this->zipSub($zip, $fullpath, $localPath . '/');
                 }
             }
         }

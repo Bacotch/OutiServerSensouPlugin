@@ -6,17 +6,17 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Faction\Role;
 
 use Error;
 use Exception;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\CustomForm;
+use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use Ken_Cir\OutiServerSensouPlugin\Managers\RoleData\RoleDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Managers\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ReturnForm;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use Vecnavium\FormsUI\CustomForm;
 
 /**
  * 役職作成フォーム
  */
-class CreateRoleForm
+final class CreateRoleForm
 {
     public function __construct()
     {
@@ -35,12 +35,11 @@ class CreateRoleForm
                         return true;
                     }
                     elseif (!isset($data[1])) return true;
-                    RoleDataManager::getInstance()->create($player_data->getFaction(), $data[1], (int)$data[2], $data[3],$data[4], $data[5], $data[6], $data[7], $data[8], $data[9], $data[10]);
-                    $player->sendMessage("§a[システム]役職 $data[0] を作成しました");
+                    RoleDataManager::getInstance()->create($player_data->getFaction(), $data[1], (int)$data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8], $data[9], $data[10]);
+                    $player->sendMessage("§a[システム]役職 $data[1] を作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                }
-                catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                } catch (Error|Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
                 return true;
@@ -59,9 +58,8 @@ class CreateRoleForm
             $form->addToggle("派閥銀行管理権限");
             $form->addToggle("派閥ロール管理権限");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+        } catch (Error|Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 }

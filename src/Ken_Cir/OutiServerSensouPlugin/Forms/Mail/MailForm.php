@@ -7,14 +7,14 @@ namespace Ken_Cir\OutiServerSensouPlugin\Forms\Mail;
 use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
-use Ken_Cir\OutiServerSensouPlugin\libs\jojoe77777\FormAPI\SimpleForm;
 use Ken_Cir\OutiServerSensouPlugin\Main;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use Vecnavium\FormsUI\SimpleForm;
 
 /**
  * メール関係フォーム
  */
-class MailForm
+final class MailForm
 {
     public function __construct()
     {
@@ -24,7 +24,7 @@ class MailForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $form = new SimpleForm(function (Player $player, $data) {
@@ -42,8 +42,9 @@ class MailForm
                         $form = new MailInfoForm();
                         $form->execute($player);
                     }
-                } catch (Error | Exception $e) {
-                    Main::getInstance()->getPluginLogger()->error($e, $player);
+                }
+                catch (Error|Exception $e) {
+                    Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
                 return true;
@@ -54,8 +55,9 @@ class MailForm
             $form->addButton("§aメールを作成");
             $form->addButton("§bメールを閲覧・削除");
             $player->sendForm($form);
-        } catch (Error | Exception $e) {
-            Main::getInstance()->getPluginLogger()->error($e, $player);
+        }
+        catch (Error | Exception $e) {
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 }

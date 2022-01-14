@@ -38,17 +38,18 @@
       <path value="$PROJECT_DIR$/vendor/discord-php/http" />
       <path value="$PROJECT_DIR$/vendor/react/child-process" />
       <path value="$PROJECT_DIR$/../../virions" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="4cce7243-787e-4ea0-862a-e144afa431c8" name="PHP" home="$PROJECT_DIR$/../../bin/php7/bin/php" debugger_id="php.debugger.XDebug" />
+      <interpreter id="4cce7243-787e-4ea0-862a-e144afa431c8" name="PHP (project level)" home="$PROJECT_DIR$/../../bin/php7/bin/php" debugger_id="php.debugger.XDebug" />
     </interpreters>
   </component>
   <component name="PhpInterpretersPhpInfoCache">
     <phpInfoCache>
-      <interpreter name="PHP">
-        <phpinfo binary_type="PHP" php_cli="$PROJECT_DIR$/../../bin/php7/bin/php" path_separator=":" version="8.0.12">
+      <interpreter name="PHP (project level)">
+        <phpinfo binary_type="PHP" php_cli="$PROJECT_DIR$/../../bin/php7/bin/php" path_separator=":" version="8.0.13">
           <additional_php_ini />
           <configuration_file>$PROJECT_DIR$/../../bin/php7/bin/php.ini</configuration_file>
           <configuration_options>
@@ -65,6 +66,7 @@
             <extension name="Zend OPcache" />
             <extension name="bcmath" />
             <extension name="calendar" />
+            <extension name="chunkutils2" />
             <extension name="crypto" />
             <extension name="ctype" />
             <extension name="curl" />
@@ -79,8 +81,10 @@
             <extension name="igbinary" />
             <extension name="json" />
             <extension name="leveldb" />
+            <extension name="libdeflate" />
             <extension name="libxml" />
             <extension name="mbstring" />
+            <extension name="morton" />
             <extension name="mysqli" />
             <extension name="mysqlnd" />
             <extension name="openssl" />
@@ -100,6 +104,7 @@
             <extension name="xml" />
             <extension name="xmlreader" />
             <extension name="xmlwriter" />
+            <extension name="xxhash" />
             <extension name="yaml" />
             <extension name="zip" />
             <extension name="zlib" />
