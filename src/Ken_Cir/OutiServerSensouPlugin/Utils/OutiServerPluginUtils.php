@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ken_Cir\OutiServerSensouPlugin\Utils;
 
 /**
  * おうち鯖プラグイン ユーティリティ
  */
-class OutiServerPluginUtils
+final class OutiServerPluginUtils
 {
     private function __construct()
     {

@@ -7,16 +7,16 @@ namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms;
 abstract class LandPermsBase
 {
     /**
+     * 立ち入り権限
+     * @var bool
+     */
+    protected bool $entry;
+
+    /**
      * ブロックタップ権限
      * @var bool
      */
-    protected bool $blockTap;
-
-    /**
-     * ブロック設置権限
-     * @var bool
-     */
-    protected bool $blockPlace;
+    protected bool $blockTap_Place;
 
     /**
      * ブロック破壊権限
@@ -24,49 +24,49 @@ abstract class LandPermsBase
      */
     protected bool $blockBreak;
 
-    public function __construct(bool $blockTap, bool $blockPlace, bool $blockBreak)
+    public function __construct(bool $entry, bool $blockTap_Place, bool $blockBreak)
     {
-        $this->blockTap = $blockTap;
-        $this->blockPlace = $blockPlace;
+        $this->entry = $entry;
+        $this->blockTap_Place = $blockTap_Place;
         $this->blockBreak = $blockBreak;
     }
 
     /**
      * @return bool
      */
-    public function isBlockTap(): bool
+    public function isEntry(): bool
     {
-        return $this->blockTap;
+        return $this->entry;
     }
 
     /**
-     * @param bool $blockTap
+     * @param bool $entry
      */
-    public function setBlockTap(bool $blockTap): void
+    public function setEntry(bool $entry): void
     {
-        $this->blockTap = $blockTap;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBlockPlace(): bool
-    {
-        return $this->blockPlace;
-    }
-
-    /**
-     * @param bool $blockPlace
-     */
-    public function setBlockPlace(bool $blockPlace): void
-    {
-        $this->blockPlace = $blockPlace;
+        $this->entry = $entry;
     }
 
     /**
      * @return bool
      */
-    public function isBlockBreak(): bool
+    final public function isBlockTap_Place(): bool
+    {
+        return $this->blockTap_Place;
+    }
+
+    /**
+     * @param bool $blockTap_Place
+     */
+    final public function setBlockTap_Place(bool $blockTap_Place): void
+    {
+        $this->blockTap_Place= $blockTap_Place;
+    }
+
+    /**
+     * @return bool
+     */
+    final public function isBlockBreak(): bool
     {
         return $this->blockBreak;
     }
@@ -74,7 +74,7 @@ abstract class LandPermsBase
     /**
      * @param bool $blockBreak
      */
-    public function setBlockBreak(bool $blockBreak): void
+    final public function setBlockBreak(bool $blockBreak): void
     {
         $this->blockBreak = $blockBreak;
     }

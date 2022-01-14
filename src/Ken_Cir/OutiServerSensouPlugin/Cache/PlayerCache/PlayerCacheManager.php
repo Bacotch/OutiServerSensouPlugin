@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache;
 
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use function strtolower;
 
 /**
@@ -41,7 +42,7 @@ class PlayerCacheManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
+        if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerCacheManager::class);
         self::$instance = new PlayerCacheManager();
     }
 

@@ -13,10 +13,9 @@ use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
 use Ken_Cir\OutiServerSensouPlugin\Threads\ScheduleMessage;
 use pocketmine\lang\Language;
 use pocketmine\Server;
-use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\RoleData\RoleDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Threads\DiscordBot;
@@ -38,7 +37,7 @@ use function mkdir;
 /**
  * プラグインメインクラス
  */
-class Main extends PluginBase
+final class Main extends PluginBase
 {
     /**
      * プラグインインスタンス
@@ -123,15 +122,13 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.init");
         $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->waitAll();
-        $this->getLogger()->info("データベースを初期化しています...");
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
-        MailManager::createInstance();
+        MailDataManager::createInstance();
         RoleDataManager::createInstance();
         LandDataManager::createInstance();
         LandConfigDataManager::createInstance();
         $this->database->waitAll();
-        $this->getLogger()->info("データベースの初期化が完了しました");
 
         // ---キャッシュ初期化---
         PlayerCacheManager::createInstance();

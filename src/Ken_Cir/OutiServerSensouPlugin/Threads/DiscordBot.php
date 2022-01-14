@@ -27,7 +27,7 @@ use const PTHREADS_INHERIT_CONSTANTS;
  * DiscordBot用のスレッド
  * DiscordPHPはスレッド丸々1つ使う
  */
-class DiscordBot extends Thread
+final class DiscordBot extends Thread
 {
     /**
      * @var bool

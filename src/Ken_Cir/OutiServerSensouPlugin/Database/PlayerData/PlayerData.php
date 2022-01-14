@@ -194,9 +194,20 @@ class PlayerData
      * @return int[]
      * 所持しているロールを取得する
      */
-    public function getRoles(): array
+    public function getRoles(bool $sorted = true): array
     {
-        return $this->roles;
+        if ($sorted) {
+            $sort = [];
+            foreach ($this->roles as $role) {
+                $roleData = RoleDataManager::getInstance()->get($role);
+                $sort[$roleData->getPosition()] = $role;
+            }
+            ksort($sort);
+            return $sort;
+        }
+        else {
+            return $this->roles;
+        }
     }
 
     /**

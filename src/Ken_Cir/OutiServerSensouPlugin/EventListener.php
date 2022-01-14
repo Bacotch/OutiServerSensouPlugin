@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin;
 
+use Error;
 use Exception;
 use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
-use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\PlayerData\PlayerDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Forms\OutiWatchForm;
 use Ken_Cir\OutiServerSensouPlugin\Threads\AutoUpdateWait;
 use Ken_Cir\OutiServerSensouPlugin\Utils\OutiServerPluginUtils;
+use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
 use pocketmine\Server;
@@ -32,7 +37,7 @@ use const DIRECTORY_SEPARATOR;
 /**
  * PMMPイベント処理クラス
  */
-class EventListener implements Listener
+final class EventListener implements Listener
 {
     public function __construct()
     {
@@ -76,7 +81,7 @@ class EventListener implements Listener
                 Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
             }
         }
-        catch (Exception $exception) {
+        catch (Error | Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -85,7 +90,7 @@ class EventListener implements Listener
      * @param PlayerLoginEvent $event
      * プレイヤーログインイベント
      */
-    public function onPlayerLogin(PlayerLoginEvent $event)
+    public function onPlayerLogin(PlayerLoginEvent $event): void
     {
         try {
             $player = $event->getPlayer();
@@ -94,7 +99,7 @@ class EventListener implements Listener
             $player_data->addIp($player->getNetworkSession()->getIp());
             PlayerCacheManager::getInstance()->create($player->getName());
         }
-        catch (Exception $error) {
+        catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -103,17 +108,17 @@ class EventListener implements Listener
      * @param PlayerJoinEvent $event
      * プレイヤー参加イベント
      */
-    public function onJoin(PlayerJoinEvent $event)
+    public function onJoin(PlayerJoinEvent $event): void
     {
         try {
             $player = $event->getPlayer();
-            if (($mail_count = MailManager::getInstance()->unReadCount($player->getName())) > 0) {
+            if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getName())) > 0) {
                 $player->sendMessage("§a未読メールが{$mail_count}件あります");
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
         }
-        catch (Exception $error) {
+        catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -122,14 +127,14 @@ class EventListener implements Listener
      * @param PlayerQuitEvent $event
      * プレイヤー退出イベント
      */
-    public function onPlayerQuit(PlayerQuitEvent $event)
+    public function onPlayerQuit(PlayerQuitEvent $event): void
     {
         try {
             $player = $event->getPlayer();
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(false);
         }
-        catch (Exception $error) {
+        catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -138,7 +143,7 @@ class EventListener implements Listener
      * @param PlayerChatEvent $event
      * プレイヤーチャットイベント
      */
-    public function onPlayerChat(PlayerChatEvent $event)
+    public function onPlayerChat(PlayerChatEvent $event): void
     {
         try {
             $player = $event->getPlayer();
@@ -182,29 +187,157 @@ class EventListener implements Listener
 
             Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
         }
-        catch (Exception $error) {
+        catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 
-    /**
-     * @param PlayerInteractEvent $event
-     * プレイヤーがブロック（空気を含む？）を操作またはタッチしたときに呼び出される
-     */
-    public function onInteract(PlayerInteractEvent $event)
+    public function onInteract(PlayerInteractEvent $event): void
     {
         try {
             $player = $event->getPlayer();
             $item = $event->getItem();
-            if ($event->getAction() === 1) {
+            $position = $event->getBlock()->getPosition();
+            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+
+            if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
                 if (!PlayerCacheManager::getInstance()->get($player->getName())->isLockOutiWatch() and $item->getName() === "OutiWatch") {
                     PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(true);
                     $form = new OutiWatchForm();
                     $form->execute($player);
                 }
+
+                $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
+                // 土地保護データがあるなら
+                if ($landConfigData !== null) {
+                    $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
+                    // その土地の派閥のオーナーじゃない 派閥のオーナーは全権限持ちということで突破可能
+                    if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwner() !== $playerData->getName()) {
+                        $permsManager = $landConfigData->getLandPermsManager();
+                        $memberPerms = $permsManager->getMemberLandPerms($player->getName());
+                        if ($memberPerms !== null and !$memberPerms->isBlockTap_Place()) {
+                            $event->cancel();
+                        }
+                        elseif ($memberPerms === null) {
+                            // position順にソートした所持ロールIDを取得する
+                            $roles = $playerData->getRoles();
+                            $rolePerms = null;
+                            // 所持ロールの中に設定されているロールがあるか foreachで回して確認する
+                            foreach ($roles as $role) {
+                                if (($rolePerms = $permsManager->getRoleLandPerms($role)) !== null) break;
+                            }
+                            // もしあってfalseなら
+                            if ($rolePerms !== null and !$rolePerms->isBlockTap_Place()) {
+                                $event->cancel();
+                            }
+                            // ないならデフォルト
+                            elseif ($rolePerms === null and !$permsManager->getDefalutLandPerms()->isBlockTap_Place()) {
+                                $event->cancel();
+                            }
+                        }
+                    }
+                }
             }
         }
-        catch (Exception $exception) {
+        catch (Error | Exception $exception) {
+            Main::getInstance()->getOutiServerLogger()->error($exception, true);
+        }
+    }
+
+    /**
+     * プレイヤー移動イベント
+     *
+     * @param PlayerMoveEvent $event
+     * @return void
+     */
+    public function onPlayerMove(PlayerMoveEvent $event): void
+    {
+        try {
+            $player = $event->getPlayer();
+            $position = $event->getTo();
+            $oldPostion = $event->getFrom();
+            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
+            // 土地保護データがあってその敷地内に移動前にいないなら
+            if ($landConfigData !== null and !LandConfigDataManager::getInstance()->getPos($oldPostion->getFloorX(), $oldPostion->getFloorZ(), $oldPostion->getWorld()->getFolderName())) {
+                $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
+                // その土地の派閥のオーナーじゃない 派閥のオーナーは全権限持ちということで突破可能
+                if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwner() !== $playerData->getName()) {
+                    $permsManager = $landConfigData->getLandPermsManager();
+                    $memberPerms = $permsManager->getMemberLandPerms($player->getName());
+                    if ($memberPerms !== null and !$memberPerms->isEntry()) {
+                        $event->cancel();
+                    }
+                    elseif ($memberPerms === null) {
+                        // position順にソートした所持ロールIDを取得する
+                        $roles = $playerData->getRoles();
+                        $rolePerms = null;
+                        // 所持ロールの中に設定されているロールがあるか foreachで回して確認する
+                        foreach ($roles as $role) {
+                            if (($rolePerms = $permsManager->getRoleLandPerms($role)) !== null) break;
+                        }
+                        // もしあってfalseなら
+                        if ($rolePerms !== null and !$rolePerms->isEntry()) {
+                            $event->cancel();
+                        }
+                        // ないならデフォルト
+                        elseif ($rolePerms === null and !$permsManager->getDefalutLandPerms()->isEntry()) {
+                            $event->cancel();
+                        }
+                    }
+                }
+            }
+        }
+        catch (Error | Exception $exception) {
+            Main::getInstance()->getOutiServerLogger()->error($exception, true);
+        }
+    }
+
+    /**
+     * ブロック破壊イベント
+     *
+     * @param BlockBreakEvent $event
+     * @return void
+     */
+    public function onBlockBreak(BlockBreakEvent $event): void
+    {
+        try {
+            $player = $event->getPlayer();
+            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $position = $event->getBlock()->getPosition();
+
+            $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
+            // 土地保護データがあるなら
+            if ($landConfigData !== null) {
+                $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
+                // その土地の派閥のオーナーじゃない 派閥のオーナーは全権限持ちということで突破可能
+                if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwner() !== $playerData->getName()) {
+                    $permsManager = $landConfigData->getLandPermsManager();
+                    $memberPerms = $permsManager->getMemberLandPerms($player->getName());
+                    if ($memberPerms !== null and !$memberPerms->isBlockBreak()) {
+                        $event->cancel();
+                    }
+                    elseif ($memberPerms === null) {
+                        // position順にソートした所持ロールIDを取得する
+                        $roles = $playerData->getRoles();
+                        $rolePerms = null;
+                        // 所持ロールの中に設定されているロールがあるか foreachで回して確認する
+                        foreach ($roles as $role) {
+                            if (($rolePerms = $permsManager->getRoleLandPerms($role)) !== null) break;
+                        }
+                        // もしあってfalseなら
+                        if ($rolePerms !== null and !$rolePerms->isBlockBreak()) {
+                            $event->cancel();
+                        }
+                        // ないならデフォルト
+                        elseif ($rolePerms === null and !$permsManager->getDefalutLandPerms()->isBlockBreak()) {
+                            $event->cancel();
+                        }
+                    }
+                }
+            }
+        }
+        catch (Error | Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }

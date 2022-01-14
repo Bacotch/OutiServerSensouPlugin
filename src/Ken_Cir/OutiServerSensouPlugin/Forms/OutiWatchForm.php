@@ -20,7 +20,7 @@ use function strtolower;
 /**
  * おうちウォッチ
  */
-class OutiWatchForm
+final class OutiWatchForm
 {
     public function __construct()
     {
@@ -30,7 +30,7 @@ class OutiWatchForm
      * @param Player $player
      * フォーム実行
      */
-    public function execute(Player $player)
+    public function execute(Player $player): void
     {
         try {
             $form = new SimpleForm(function (Player $player, $data) {
@@ -78,7 +78,7 @@ class OutiWatchForm
             $player->sendForm($form);
         }
         catch (Error|Exception $e) {
-            Main::getInstance()->getOutiServerLogger()->error($e, $player);
+            Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
 }

@@ -11,7 +11,7 @@ use function unserialize;
 use function serialize;
 use function array_map;
 
-class LandConfigData
+final class LandConfigData
 {
     /**
      * 識別用ID

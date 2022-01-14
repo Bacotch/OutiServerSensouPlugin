@@ -5,7 +5,7 @@ namespace Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\Perms;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
-class RoleLandPerms extends LandPermsBase
+final class RoleLandPerms extends LandPermsBase
 {
     /**
      * ロールID
@@ -15,14 +15,14 @@ class RoleLandPerms extends LandPermsBase
 
     /**
      * @param int $roleid
-     * @param bool $blockTap
-     * @param bool $blockPlace
+     * @param bool $entry
+     * @param bool $blockTap_Place
      * @param bool $blockBreak
      */
-    #[Pure] public function __construct(int $roleid, bool $blockTap, bool $blockPlace, bool $blockBreak)
+    #[Pure] public function __construct(int $roleid, bool $entry, bool $blockTap_Place, bool $blockBreak)
     {
         $this->roleid = $roleid;
-        parent::__construct($blockTap, $blockPlace, $blockBreak);
+        parent::__construct($entry, $blockTap_Place, $blockBreak);
     }
 
     /**
@@ -33,13 +33,14 @@ class RoleLandPerms extends LandPermsBase
         return $this->roleid;
     }
 
-    #[ArrayShape(["id" => "int", "blockTap" => "bool", "blockPlace" => "bool", "blockBreak" => "bool"])]
+
+    #[ArrayShape(["id" => "int", "entry" => "bool", "blockTap_Place" => "bool", "blockBreak" => "bool"])]
     public function toArray(): array
     {
         return array(
             "id" => $this->roleid,
-            "blockTap" => $this->blockTap,
-            "blockPlace" => $this->blockPlace,
+            "entry" => $this->entry,
+            "blockTap_Place" => $this->blockTap_Place,
             "blockBreak" => $this->blockBreak
         );
     }

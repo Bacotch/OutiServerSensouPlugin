@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\Pure;
 use function array_values;
 use function strtolower;
 
-class LandPermsManager
+final class LandPermsManager
 {
     /**
      * デフォルト権限
@@ -29,14 +29,14 @@ class LandPermsManager
 
     #[Pure] public function __construct(array $defaultPerms, array $rolePerms, array $memberPerms)
     {
-        $this->defalutLandPerms = new DefalutLandPerms($defaultPerms["blockTap"], $defaultPerms["blockPlace"], $defaultPerms["blockBreak"]);
+        $this->defalutLandPerms = new DefalutLandPerms($defaultPerms["entry"], $defaultPerms["blockTap_Place"], $defaultPerms["blockBreak"]);
         $this->roleLandPerms = [];
         $this->memberLandPerms = [];
         foreach ($rolePerms as $rolePerm) {
-            $this->roleLandPerms[$rolePerm["id"]] = new RoleLandPerms($rolePerm["id"], $rolePerm["blockTap"], $rolePerm["blockPlace"], $rolePerm["blockBreak"]);
+            $this->roleLandPerms[$rolePerm["id"]] = new RoleLandPerms($rolePerm["id"], $rolePerm["entry"], $rolePerm["blockTap_Place"], $rolePerm["blockBreak"]);
         }
         foreach ($memberPerms as $memberPerm) {
-            $this->memberLandPerms[$memberPerm["name"]] = new MemberLandPerms($memberPerm["name"], $memberPerm["blockTap"], $memberPerm["blockPlace"], $memberPerm["blockBreak"]);
+            $this->memberLandPerms[$memberPerm["name"]] = new MemberLandPerms($memberPerm["name"], $memberPerm["entry"], $memberPerm["blockTap_Place"], $memberPerm["blockBreak"]);
         }
     }
 
@@ -70,15 +70,15 @@ class LandPermsManager
      * ロール権限を追加する
      *
      * @param int $roleid
-     * @param bool $blockTap
-     * @param bool $blockPlace
+     * @param bool $entry
+     * @param bool $blockTap_Place
      * @param bool $blockBreak
      * @return void
      */
-    public function createRoleLandPerms(int $roleid, bool $blockTap, bool $blockPlace, bool $blockBreak): void
+    public function createRoleLandPerms(int $roleid, bool $entry, bool $blockTap_Place, bool $blockBreak): void
     {
         if (isset($this->roleLandPerms[$roleid])) return;
-        $this->roleLandPerms[$roleid] = new RoleLandPerms($roleid, $blockTap, $blockPlace, $blockBreak);
+        $this->roleLandPerms[$roleid] = new RoleLandPerms($roleid, $entry, $blockTap_Place, $blockBreak);
     }
 
     /**
@@ -112,15 +112,15 @@ class LandPermsManager
 
     /**
      * @param string $name
-     * @param bool $blockTap
-     * @param bool $blockPlace
+     * @param bool $entry
+     * @param bool $blockTap_Place
      * @param bool $blockBreak
      * @return void
      */
-    public function createMemberLandPerms(string $name, bool $blockTap, bool $blockPlace, bool $blockBreak): void
+    public function createMemberLandPerms(string $name, bool $entry, bool $blockTap_Place, bool $blockBreak): void
     {
         if (isset($this->memberLandPerms[strtolower($name)])) return;
-        $this->memberLandPerms[strtolower($name)] = new MemberLandPerms($name, $blockTap, $blockPlace, $blockBreak);
+        $this->memberLandPerms[strtolower($name)] = new MemberLandPerms($name, $entry, $blockTap_Place, $blockBreak);
     }
 
     public function deleteMemberLandPerms(string $name): void

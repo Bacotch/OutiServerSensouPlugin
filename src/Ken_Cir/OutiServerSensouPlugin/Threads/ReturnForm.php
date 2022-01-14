@@ -10,7 +10,7 @@ use function call_user_func_array;
 /**
  * 一定時間後フォームに移動させる用のTask
  */
-class ReturnForm extends Task
+final class ReturnForm extends Task
 {
     private $callable;
     private array $args;

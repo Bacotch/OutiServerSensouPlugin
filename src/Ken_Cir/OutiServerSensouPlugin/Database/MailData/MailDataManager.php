@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\MailData;
 
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
 use function strtolower;
 
-class MailManager
+class MailDataManager
 {
     /**
-     * @var MailManager $this
+     * @var MailDataManager $this
      */
     private static self $instance;
 
@@ -62,14 +63,14 @@ class MailManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
-        self::$instance = new MailManager();
+        if (isset(self::$instance)) throw new InstanceOverwriteException(MailDataManager::class);
+        self::$instance = new MailDataManager();
     }
 
     /**
-     * @return MailManager
+     * @return MailDataManager
      */
-    public static function getInstance(): MailManager
+    public static function getInstance(): MailDataManager
     {
         return self::$instance;
     }
