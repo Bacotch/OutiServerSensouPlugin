@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Download DevTools
         run: wget https://github.com/pmmp/DevTools/releases/download/1.15.0/DevTools.phar -O ~/DevTools.phar
-      - name: Get Composer Cache Directory
+      - name: Get Composer cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -27,9 +27,9 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --prefer-dist --no-progress --no-suggest --ignore-platform-reqs
       - name: Build source code
-        run: php -dphar.readonly=0 ~/DevTools.phar --make ./ --out ./OutiServerSensouPlugin.phar
+        run: php -dphar.readonly=0 ~/DevTools.phar --make ./ --out ./outiserversensouplugin.phar
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: OutiServerSensouPlugin
-          path: ./OutiServerSensouPlugin.phar
+          name: outiserversensouplugin
+          path: ./outiserversensouplugin.phar

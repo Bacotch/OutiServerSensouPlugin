@@ -1,7 +1,7 @@
 name: OutiServerSensouPlugin
-main: Ken_Cir\OutiServerSensouPlugin\Main
+main: ken_cir\outiserversensouplugin\Main
 description: おうちサーバー用プラグイン シーズン11var
-author: Ken_Cir
+author: ken_cir
 version: 1.0.0-BETA
 api: 4.0.6
 mcpe-protocol: 475
