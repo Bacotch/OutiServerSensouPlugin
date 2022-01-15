@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Threads;
 
-use Ken_Cir\OutiServerSensouPlugin\Managers\ScheduleMessageData\ScheduleMessageDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 use function count;
@@ -12,7 +12,7 @@ use function count;
 /**
  * 定期メッセージTASK
  */
-class ScheduleMessage extends Task
+final class ScheduleMessage extends Task
 {
     /**
      * メッセージ配列にアクセスする用

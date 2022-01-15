@@ -19,5 +19,7 @@ final class PMMPAutoUpdateChecker extends Task
     public function onRun(): void
     {
         Server::getInstance()->getUpdater()->doCheck();
+        // プラグイン自動アップデート処理タスク登録
+        Server::getInstance()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
     }
 }

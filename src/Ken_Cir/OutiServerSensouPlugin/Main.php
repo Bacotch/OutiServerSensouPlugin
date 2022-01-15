@@ -9,9 +9,24 @@ use Ken_Cir\OutiServerSensouPlugin\Cache\PlayerCache\PlayerCacheManager;
 use Ken_Cir\OutiServerSensouPlugin\Commands\OutiWatchCommand;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandConfigData\LandConfigDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\LandData\LandDataManager;
+use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
+use Ken_Cir\OutiServerSensouPlugin\entitys\Skeleton;
 use Ken_Cir\OutiServerSensouPlugin\Threads\PMMPAutoUpdateChecker;
+use Ken_Cir\OutiServerSensouPlugin\Threads\ScheduleMessage;
+use pocketmine\data\bedrock\EntityLegacyIds;
+use pocketmine\entity\Entity;
+use pocketmine\entity\EntityDataHelper;
+use pocketmine\entity\EntityFactory;
+use pocketmine\entity\Location;
+use pocketmine\item\ItemFactory;
+use pocketmine\item\ItemIdentifier;
+use pocketmine\item\ItemIds;
+use pocketmine\item\SpawnEgg;
 use pocketmine\lang\Language;
+use pocketmine\math\Vector3;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Server;
+use pocketmine\world\World;
 use poggit\libasynql\libasynql;
 use Ken_Cir\OutiServerSensouPlugin\Database\FactionData\FactionDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Database\MailData\MailDataManager;
@@ -119,6 +134,7 @@ final class Main extends PluginBase
         $this->database->executeGeneric("outiserver.roles.init");
         $this->database->executeGeneric("outiserver.lands.init");
         $this->database->executeGeneric("outiserver.landconfigs.init");
+        $this->database->executeGeneric("outiserver.schedulemessages.init");
         $this->database->waitAll();
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
@@ -126,6 +142,7 @@ final class Main extends PluginBase
         RoleDataManager::createInstance();
         LandDataManager::createInstance();
         LandConfigDataManager::createInstance();
+        ScheduleMessageDataManager::createInstance();
         $this->database->waitAll();
 
         // ---キャッシュ初期化---
@@ -169,8 +186,7 @@ final class Main extends PluginBase
         if ($this->config->get("plugin_auto_update_enable", true)) {
             $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
         }
-        // TODO: プラグインも自動アップデートができるようにする
-        // $this->getServer()->getAsyncPool()->submitTask(new PluginAutoUpdateChecker());
+        $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
 
         // ---コマンド登録---
         $this->getServer()->getCommandMap()->registerAll(
@@ -179,6 +195,17 @@ final class Main extends PluginBase
                 new OutiWatchCommand($this)
             ]
         );
+
+        // ---エンティティ系登録
+        EntityFactory::getInstance()->register(Skeleton::class, function(World $world,CompoundTag $nbt): Skeleton{
+            return new Skeleton(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        },['Skeleton', 'minecraft:skeleton'], EntityLegacyIds::SKELETON);
+
+        ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::SKELETON), "Skeleton Spawn Egg") extends SpawnEgg{
+            public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch) : Entity{
+                return new Skeleton(Location::fromObject($pos, $world, $yaw, $pitch));
+            }
+        });
 
         // 初期化完了！
         $this->discordClient->sendChatMessage("サーバーが起動しました！");

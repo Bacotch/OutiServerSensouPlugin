@@ -41,13 +41,14 @@ final class PluginAutoUpdateChecker extends AsyncTask
 
     public function onCompletion(): void
     {
+        // 今はリポジトリがプライベートになっているのでここで処理を中断させています
+        return;
+
         $result = $this->getResult();
         if ($result !== null and Main::getInstance()->getPluginData()->get("pluginLastUpdateVersion", "") !== $result["version"] and extension_loaded('pcntl') and DIRECTORY_SEPARATOR === '/') {
             Main::getInstance()->getLogger()->alert("おうち鯖プラグインの新バージョンがあります！新しいバージョン: {$result["version"]}");
 
-            // TODO: 404ERRORの修正？
             $pluginPhar = Internet::getURL($result["downloadURL"]);
-            var_dump($pluginPhar);
             file_put_contents(Server::getInstance()->getPluginPath() . "outiserverpmmpplugin1.phar", $pluginPhar->getBody());
             Main::getInstance()->getPluginData()->set("pluginLastUpdateVersion", $result["version"]);
 

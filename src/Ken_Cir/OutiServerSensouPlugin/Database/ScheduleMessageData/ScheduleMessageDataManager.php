@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\ScheduleMessageData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData;
 
 use InvalidArgumentException;
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
@@ -13,7 +14,7 @@ use function array_values;
 /**
  * 定期メッセージデータマネージャー
  */
-class ScheduleMessageDataManager
+final class ScheduleMessageDataManager
 {
     /**
      * インスタンス
@@ -38,7 +39,7 @@ class ScheduleMessageDataManager
     {
         self::$instance = $this;
         $this->scheduleMessageDatas = [];
-        Main::getInstance()->getDatabase()->executeSelect("schedulemessages.seq",
+        Main::getInstance()->getDatabase()->executeSelect("outiserver.schedulemessages.seq",
             [],
             function (array $row) {
                 if (count($row) < 1)  {
@@ -50,10 +51,9 @@ class ScheduleMessageDataManager
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             });
-        Main::getInstance()->getDatabase()->waitAll();
-        Main::getInstance()->getDatabase()->executeSelect("schedulemessages.load",
+        Main::getInstance()->getDatabase()->executeSelect("outiserver.schedulemessages.load",
             [],
             function (array $row) {
                 try {
@@ -62,12 +62,23 @@ class ScheduleMessageDataManager
                     }
                 }
                 catch (InvalidArgumentException $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             },
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             });
+    }
+
+    /**
+     * インスタンスを作成する
+     *
+     * @return void
+     */
+    public static function createInstance(): void
+    {
+        if (isset(self::$instance))  throw new InstanceOverwriteException(ScheduleMessageDataManager::class);
+        self::$instance = new ScheduleMessageDataManager();
     }
 
     /**
@@ -108,13 +119,13 @@ class ScheduleMessageDataManager
      */
     public function create(string $content): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("schedulemessages.create",
+        Main::getInstance()->getDatabase()->executeInsert("outiserver.schedulemessages.create",
             [
                 "content" => $content,
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         $this->seq++;
@@ -129,13 +140,13 @@ class ScheduleMessageDataManager
      */
     public function delete(int $id): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("schedulemessages.delete",
+        Main::getInstance()->getDatabase()->executeInsert("outiserver.schedulemessages.delete",
             [
                 "id" => $id
             ],
             null,
             function (SqlError $error) {
-                Main::getInstance()->getPluginLogger()->error($error);
+                Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
         unset($this->scheduleMessageDatas[$id]);

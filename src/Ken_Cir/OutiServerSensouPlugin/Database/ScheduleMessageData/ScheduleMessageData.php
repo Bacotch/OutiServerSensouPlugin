@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ken_Cir\OutiServerSensouPlugin\Managers\ScheduleMessageData;
+namespace Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData;
 
 use InvalidArgumentException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
@@ -39,19 +39,19 @@ class ScheduleMessageData
     public function update()
     {
         try {
-            Main::getInstance()->getDatabase()->executeChange("schedulemessages.update",
+            Main::getInstance()->getDatabase()->executeChange("outiserver.schedulemessages.update",
                 [
                     "content" => $this->content,
                     "id" => $this->id
                 ],
                 null,
                 function (SqlError $error) {
-                    Main::getInstance()->getPluginLogger()->error($error);
+                    Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
         }
         catch (InvalidArgumentException $error) {
-            Main::getInstance()->getPluginLogger()->error($error);
+            Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
 

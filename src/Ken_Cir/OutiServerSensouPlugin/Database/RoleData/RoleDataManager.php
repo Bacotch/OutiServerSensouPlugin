@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Database\RoleData;
 
+use Ken_Cir\OutiServerSensouPlugin\Exception\InstanceOverwriteException;
 use Ken_Cir\OutiServerSensouPlugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
@@ -68,7 +69,7 @@ class RoleDataManager
 
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) return;
+        if (isset(self::$instance))  throw new InstanceOverwriteException(RoleDataManager::class);
         self::$instance = new RoleDataManager();
     }
 

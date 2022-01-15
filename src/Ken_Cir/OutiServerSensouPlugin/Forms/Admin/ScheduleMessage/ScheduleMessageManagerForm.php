@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ken_Cir\OutiServerSensouPlugin\Forms\Admin\ScheduleMessage;
 
+use Ken_Cir\OutiServerSensouPlugin\Database\ScheduleMessageData\ScheduleMessageDataManager;
 use Ken_Cir\OutiServerSensouPlugin\Forms\Admin\AdminForm;
-use Ken_Cir\OutiServerSensouPlugin\Managers\ScheduleMessageData\ScheduleMessageDataManager;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
