@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\database\landdata;
 
 use ken_cir\outiserversensouplugin\Main;
-use poggit\libasynql\SqlError;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 
 /**
  * 派閥の土地データ

@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * おうち鯖戦争プラグイン
+ *
+ * 開発者
+ * Ken_Cir
+ *
+ * プログラミングヘルプ
+ * SekiTonami
+ * ばたすこ
+ *
+ * Special Thanks
+ * おうち鯖の住人
+ */
+
 declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin;
@@ -27,7 +41,7 @@ use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Server;
 use pocketmine\world\World;
-use poggit\libasynql\libasynql;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\libasynql;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -39,7 +53,7 @@ use pocketmine\console\ConsoleCommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\Config;
-use poggit\libasynql\DataConnector;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
 use function ob_end_clean;
 use function ob_flush;
 use function ob_get_contents;

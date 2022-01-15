@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\database\schedulemessagedata;
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
-use poggit\libasynql\SqlError;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 use function count;
 use function array_values;
 

@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\schedulemessagedata;
 
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\Main;
-use poggit\libasynql\SqlError;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 
 /**
  * 定期メッセージデータ
