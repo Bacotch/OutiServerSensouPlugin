@@ -10,6 +10,7 @@ extensions:
   - pthreads
   - zip
   - curl
+  - sockets
 
 permissions:
   outiserver.default:
