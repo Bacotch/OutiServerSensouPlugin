@@ -25,6 +25,7 @@ use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
+use ken_cir\outiserversensouplugin\network\OutiServerSocket;
 use ken_cir\outiserversensouplugin\threads\PMMPAutoUpdateChecker;
 use ken_cir\outiserversensouplugin\threads\ScheduleMessage;
 use pocketmine\data\bedrock\EntityLegacyIds;
@@ -220,6 +221,12 @@ final class Main extends PluginBase
                 return new Skeleton(Location::fromObject($pos, $world, $yaw, $pitch));
             }
         });
+
+        Server::getInstance()->getNetwork()->registerInterface(new OutiServerSocket(
+            "0.0.0.0",
+            19132,
+            Server::getInstance()->getTickSleeper()
+        ));
 
         // 初期化完了！
         $this->discordClient->sendChatMessage("サーバーが起動しました！");
