@@ -12,10 +12,13 @@ use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
+use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\threads\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
 use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -24,6 +27,7 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
+use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\utils\Internet;
 use function file_put_contents;
@@ -94,6 +98,7 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
+            $player->releaseHeldItem();
             PlayerDataManager::getInstance()->create($player);
             $player_data = PlayerDataManager::getInstance()->get($player->getName());
             $player_data->addIp($player->getNetworkSession()->getIp());
@@ -339,6 +344,24 @@ final class EventListener implements Listener
         }
         catch (Error | Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
+        }
+    }
+
+    public function onDamage(EntityDamageEvent $ev)
+    {
+        $entity = $ev->getEntity();
+        if($ev instanceof EntityDamageByEntityEvent)
+        {
+            $damager = $ev->getDamager();
+            if($damager instanceof Player)
+            {
+                if($entity instanceof Skeleton)
+                {
+                    if(!$entity->hasTarget()){
+                       $entity->setTarget($damager);
+                    }
+                }
+            }
         }
     }
 }

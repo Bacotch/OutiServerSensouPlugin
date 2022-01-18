@@ -18,16 +18,29 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin;
 
+use Carbon\CarbonTimeZone;
 use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\OutiWatchCommand;
+use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
+use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
+use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
+use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
+use ken_cir\outiserversensouplugin\entitys\Zombie;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\libasynql;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
+use ken_cir\outiserversensouplugin\threads\AutoSpawn;
+use ken_cir\outiserversensouplugin\threads\DiscordBot;
+use ken_cir\outiserversensouplugin\threads\PlayerBackGround;
 use ken_cir\outiserversensouplugin\threads\PMMPAutoUpdateChecker;
 use ken_cir\outiserversensouplugin\threads\ScheduleMessage;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
@@ -40,27 +53,17 @@ use pocketmine\item\SpawnEgg;
 use pocketmine\lang\Language;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\Server;
-use pocketmine\world\World;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\libasynql;
-use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
-use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
-use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
-use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
-use ken_cir\outiserversensouplugin\threads\DiscordBot;
-use ken_cir\outiserversensouplugin\threads\PlayerBackGround;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
-use pocketmine\console\ConsoleCommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
+use pocketmine\Server;
 use pocketmine\utils\Config;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
+use pocketmine\world\World;
+use function file_exists;
+use function mkdir;
 use function ob_end_clean;
 use function ob_flush;
 use function ob_get_contents;
 use function ob_start;
-use function file_exists;
-use function mkdir;
 
 /**
  * プラグインメインクラス
@@ -212,21 +215,34 @@ final class Main extends PluginBase
         );
 
         // ---エンティティ系登録
-        EntityFactory::getInstance()->register(Skeleton::class, function(World $world,CompoundTag $nbt): Skeleton{
+        EntityFactory::getInstance()->register(Skeleton::class, function (World $world, CompoundTag $nbt): Skeleton {
             return new Skeleton(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        },['Skeleton', 'minecraft:skeleton'], EntityLegacyIds::SKELETON);
+        }, ['Skeleton', 'minecraft:skeleton'], EntityLegacyIds::SKELETON);
 
-        ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::SKELETON), "Skeleton Spawn Egg") extends SpawnEgg{
-            public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch) : Entity{
+        EntityFactory::getInstance()->register(Zombie::class, function (World $world, CompoundTag $nbt): Zombie {
+            return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ['Zombie', 'minecraft:zombie'], EntityLegacyIds::ZOMBIE);
+
+        ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::SKELETON), "Skeleton Spawn Egg") extends SpawnEgg {
+            public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch): Entity
+            {
                 return new Skeleton(Location::fromObject($pos, $world, $yaw, $pitch));
             }
         });
+
+        $this->getScheduler()->scheduleRepeatingTask(new AutoSpawn(), 100);
 
         Server::getInstance()->getNetwork()->registerInterface(new OutiServerSocket(
             "0.0.0.0",
             19132,
             Server::getInstance()->getTickSleeper()
         ));
+
+        foreach (Server::getInstance()->getWorldManager()->getWorlds() as $world) {
+            foreach ($world->getEntities() as $entity) {
+                $entity->kill();
+            }
+        }
 
         // 初期化完了！
         $this->discordClient->sendChatMessage("サーバーが起動しました！");
@@ -256,8 +272,8 @@ final class Main extends PluginBase
         if (isset($this->pluginData)) {
             try {
                 $this->pluginData->save();
+            } catch (JsonException) {
             }
-            catch (JsonException) {}
         }
     }
 

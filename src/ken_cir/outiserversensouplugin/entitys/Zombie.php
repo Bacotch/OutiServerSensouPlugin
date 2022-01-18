@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace ken_cir\outiserversensouplugin\entitys;
 
 use JetBrains\PhpStorm\Pure;
@@ -16,8 +14,8 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 use pocketmine\world\World;
 
-class Skeleton extends Living {
-
+final class Zombie extends Living
+{
     private $target = null;
     private bool $isNeutral = true;
 
@@ -32,14 +30,13 @@ class Skeleton extends Living {
         // $this->setHealth(1.0);
 
         $this->getArmorInventory()->addItem(
-            ItemFactory::getInstance()->get(310),
-            ItemFactory::getInstance()->get(261)
+            ItemFactory::getInstance()->get(310)
         );
     }
 
     public static function getNetworkTypeId() : string
     {
-        return EntityIds::SKELETON;
+        return EntityIds::ZOMBIE;
     }
 
     #[Pure] protected function getInitialSizeInfo() : EntitySizeInfo{
@@ -47,7 +44,7 @@ class Skeleton extends Living {
     }
 
     public function getName() : string{
-        return "Skeleton";
+        return "Zombie";
     }
 
     public function findClosestPlayer(int $distance) : ?Player {

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\land;
 
+use Error;
 use Exception;
 use InvalidArgumentException;
+use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigData;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\perms\MemberLandPerms;
@@ -21,22 +23,16 @@ use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
-use function strtolower;
 use function array_filter;
-use function floor;
 use function array_values;
 
+/**
+ * 土地保護フォーム
+ */
 final class LandConfigForm
 {
-    /**
-     * 土地保護詳細設定キャッシュ
-     * @var array
-     */
-    private static array $landConfigCache;
-
     public function __construct()
     {
-        if (!isset(self::$landConfigCache)) self::$landConfigCache = [];
     }
 
     public function execute(Player $player): void
@@ -47,65 +43,63 @@ final class LandConfigForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        unset(self::$landConfigCache[strtolower($player->getName())]);
+                        PlayerCacheManager::getInstance()->get($player->getName())->resetLandConfig();
                         $form = new LandManagerForm();
                         $form->execute($player);
                     }
-                    elseif ($data === 1 and !isset(self::$landConfigCache[strtolower($player->getName())]) and $landConfigData === null) {
-                        self::$landConfigCache[strtolower($player->getName())] = array(
-                            "world" => $player->getWorld()->getFolderName(),
-                            "startx" => (int)$player->getPosition()->getX(),
-                            "startz" => (int)$player->getPosition()->getZ()
-                        );
-                        $player->sendMessage("§a[システム] 開始X座標を" . (int)$player->getPosition()->getX() . "\n開始Z座標を" . (int)$player->getPosition()->getZ() . "に設定しました");
+                    elseif ($data === 1 and PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() === null and $landConfigData === null) {
+                        PlayerCacheManager::getInstance()->get($player->getName())->setLandConfigWorldName($player->getWorld()->getFolderName());
+                        PlayerCacheManager::getInstance()->get($player->getName())->setLandConfigStartX($player->getPosition()->getFloorX());
+                        PlayerCacheManager::getInstance()->get($player->getName())->setLandConfigStartZ($player->getPosition()->getFloorZ());
+                        $player->sendMessage("§a[システム] 開始X座標を{$player->getPosition()->getFloorX()}\n開始Z座標を{$player->getPosition()->getFloorZ()}に設定しました");
                     }
-                    elseif ($data === 1 and $landConfigData !== null) {
+                    elseif ($data === 1 and $landConfigData === null) {
                         $this->checkLandConfig($player);
                     }
                     elseif ($data === 1) {
-                        if (self::$landConfigCache[strtolower($player->getName())]["world"] !== $player->getWorld()->getFolderName()) {
+                        if (PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() !== $player->getWorld()->getFolderName()) {
                             $player->sendMessage("§a[システム] 開始座標ワールドと現在いるワールドが違います");
                         }
-                        self::$landConfigCache[strtolower($player->getName())]["endx"] = (int)$player->getPosition()->getX();
-                        self::$landConfigCache[strtolower($player->getName())]["endz"] = (int)$player->getPosition()->getZ();
-                        $landData = LandDataManager::getInstance()->getChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
-                        $startX = (int)floor(self::$landConfigCache[strtolower($player->getName())]["startx"]);
-                        $endX = (int)floor(self::$landConfigCache[strtolower($player->getName())]["endx"]);
-                        $startZ = (int)floor(self::$landConfigCache[strtolower($player->getName())]["startz"]);
-                        $endZ = (int)floor(self::$landConfigCache[strtolower($player->getName())]["endz"]);
-                        if ($startX > $endX) {
-                            $backup = $startX;
-                            $startX = $endX;
-                            $endX = $backup;
-                        }
-                        if ($startZ > $endZ) {
-                            $backup = $startZ;
-                            $startZ = $endZ;
-                            $endZ = $backup;
-                        }
+                        else {
+                            $landData = LandDataManager::getInstance()->getChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
+                            $startX = PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigStartX();
+                            $endX = $player->getPosition()->getFloorX();
+                            $startZ = PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigStartZ();
+                            $endZ = $player->getPosition()->getFloorZ();
+                            if ($startX > $endX) {
+                                $backup = $startX;
+                                $startX = $endX;
+                                $endX = $backup;
+                            }
+                            if ($startZ > $endZ) {
+                                $backup = $startZ;
+                                $startZ = $endZ;
+                                $endZ = $backup;
+                            }
 
                             LandConfigDataManager::getInstance()->create(
-                            $landData->getId(),
-                            $startX,
-                            $startZ,
-                            $endX,
-                            $endZ,
-                            array(
-                                "entry" => true,
-                                "blockTap_Place" => true,
-                                "blockBreak" => true,
-                            ),
-                            array(),
-                            array()
-                        );
-                        $this->checkLandConfig($player);
+                                $landData->getId(),
+                                $startX,
+                                $startZ,
+                                $endX,
+                                $endZ,
+                                array(
+                                    "entry" => true,
+                                    "blockTap_Place" => true,
+                                    "blockBreak" => true,
+                                ),
+                                array(),
+                                array()
+                            );
+                            $this->checkLandConfig($player);
+                        }
                     }
-                    elseif ($data === 2 and $landConfigData === null and isset(self::$landConfigCache[strtolower($player->getName())])) {
-                        unset(self::$landConfigCache[strtolower($player->getName())]);
+                    elseif ($data === 2 and $landConfigData === null and PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() !== null) {
+                        PlayerCacheManager::getInstance()->get($player->getName())->resetLandConfig();
                         $player->sendMessage("§a[システム] 開始座標をリセットしました");
                     }
                 }
-                catch (Exception $error) {
+                catch (Error | Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -114,7 +108,7 @@ final class LandConfigForm
 
             // 0
             $form->addButton("キャンセルして戻る");
-            if (!isset(self::$landConfigCache[strtolower($player->getName())]) and $landConfigData === null) {
+            if (PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() === null and $landConfigData === null) {
                 // 1
                 $form->addButton("開始座標の設定");
             }
@@ -131,7 +125,7 @@ final class LandConfigForm
 
             $player->sendForm($form);
         }
-        catch (Exception $error) {
+        catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error,true, $player);
         }
     }
