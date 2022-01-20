@@ -57,7 +57,7 @@ final class AutoSpawn extends Task
                 foreach ($spawnMap as $chunk) {
                     // TODO Find source of null chunks
                     if ($chunk !== null) {
-                        $this->spawnHostileMob($chunk["chunk"], $world, $chunk["x"], $chunk["z"]);
+                        $this->spawnHostileMob($chunk["worldbackup"], $world, $chunk["x"], $chunk["z"]);
                     }
                 }
             }
@@ -72,8 +72,8 @@ final class AutoSpawn extends Task
         $spawnMap = [];
 
         if (count($playerLocations) > 0) {
-            // This will take the location of each player, determine what chunk
-            // they are in, and store the chunk in $convertedChunkList.
+            // This will take the location of each player, determine what worldbackup
+            // they are in, and store the worldbackup in $convertedChunkList.
 
             /**
              * @var Position $playerPos
@@ -82,7 +82,7 @@ final class AutoSpawn extends Task
 
                 $chunkHash = World::chunkHash($playerPos->x >> 4, $playerPos->z >> 4);
 
-                // If the chunk is already in the list, there's no need to add it again.
+                // If the worldbackup is already in the list, there's no need to add it again.
                 if (!isset($convertedChunkList[$chunkHash])) {
                     $convertedChunkList[$chunkHash] = $playerPos->getWorld()->getChunk($playerPos->getFloorX() >> 4, $playerPos->getFloorZ() >> 4);
                     $convertedChunkXZList[$chunkHash] = array(
@@ -107,7 +107,7 @@ final class AutoSpawn extends Task
                         $trialZ = $convertedChunkXZList[$key]["z"] + $z;
                         if (!isset($spawnMap[$key])) {
                             $spawnMap[$key] = array(
-                                "chunk" => $chunk,
+                                "worldbackup" => $chunk,
                                 "x" => $convertedChunkXZList[$key]["x"],
                                 "z" => $convertedChunkXZList[$key]["x"]
                             );

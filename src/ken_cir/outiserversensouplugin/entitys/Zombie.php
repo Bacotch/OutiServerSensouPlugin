@@ -4,7 +4,7 @@ namespace ken_cir\outiserversensouplugin\entitys;
 
 use JetBrains\PhpStorm\Pure;
 use pocketmine\entity\EntitySizeInfo;
-use pocketmine\entity\Living;
+use pocketmine\entity\Zombie as PMMPZombie;
 use pocketmine\entity\Location;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -14,7 +14,7 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 use pocketmine\world\World;
 
-final class Zombie extends Living
+final class Zombie extends PMMPZombie
 {
     private $target = null;
     private bool $isNeutral = true;

@@ -6,34 +6,37 @@ namespace ken_cir\outiserversensouplugin\commands;
 
 use Error;
 use Exception;
+use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\Main;
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 
 /**
  * おうちウォッチフォームを出すコマンド
  */
-class OutiWatchCommand extends CommandBase
+final class OutiWatchCommand extends Command
 {
-    public function __construct(Main $plugin)
+    public function __construct()
     {
-        parent::__construct($plugin, "outiwatch", "おうちウォッチフォームを出すコマンド", "/outiwatch", []);
+        parent::__construct("outiwatch", "おうちウォッチフォームを出すコマンド", "/outiwatch", []);
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
         try {
             if (!$sender instanceof Player) {
-                $this->CommandNotPlayer($sender);
+                $sender->sendMessage("§a[システム] このコマンドはサーバー内で実行してください");
                 return;
             }
 
             $form = new OutiWatchForm();
             $form->execute($sender);
+            PlayerCacheManager::getInstance()->get($sender->getName())->setLockOutiWatch(true);
         }
-        catch (Error|Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error, $sender);
+        catch (Error | Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $sender);
         }
     }
 }

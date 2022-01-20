@@ -16,8 +16,8 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 use pocketmine\world\World;
 
-class Skeleton extends Living {
-
+final class Skeleton extends Living
+{
     private $target = null;
     private bool $isNeutral = true;
 

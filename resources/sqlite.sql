@@ -584,4 +584,46 @@ DELETE FROM schedulemessages WHERE id = :id;
 DROP TABLE IF EXISTS schedulemessages;
 -- # }
 -- # }
+
+-- # { chunks
+-- # { init
+CREATE TABLE IF NOT EXISTS chunks
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    x INTEGER,
+    y INTEGER,
+    z INTEGER,
+    worldname TEXT,
+    blockid INTEGER,
+    meta INTEGER
+);
+-- # }
+
+-- # { create
+-- #    :x int
+-- #    :y int
+-- #    :z int
+-- #    :worldname string
+-- #    :blockid int
+-- #    :meta int
+INSERT INTO chunks (x, y, z, worldname, blockid, meta) VALUES (:x, :y, :z, :worldname, :blockid, :meta);
+-- # }
+
+-- # { seq
+SELECT seq FROM sqlite_sequence WHERE name = 'chunks';
+-- # }
+
+-- # { load
+SELECT * FROM chunks;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE FROM chunks WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS chunks;
+-- # }
+-- # }
 -- # }

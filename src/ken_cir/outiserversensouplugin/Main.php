@@ -18,10 +18,11 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin;
 
-use Carbon\CarbonTimeZone;
 use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
+use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\OutiWatchCommand;
+use ken_cir\outiserversensouplugin\database\chunk\ChunkDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
@@ -34,7 +35,6 @@ use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
 use ken_cir\outiserversensouplugin\libs\poggit\libasynql\libasynql;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
-use ken_cir\outiserversensouplugin\threads\AutoSpawn;
 use ken_cir\outiserversensouplugin\threads\DiscordBot;
 use ken_cir\outiserversensouplugin\threads\PlayerBackGround;
 use ken_cir\outiserversensouplugin\threads\PMMPAutoUpdateChecker;
@@ -153,6 +153,7 @@ final class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.init");
         $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->executeGeneric("outiserver.schedulemessages.init");
+        $this->database->executeGeneric("outiserver.chunks.init");
         $this->database->waitAll();
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
@@ -161,6 +162,7 @@ final class Main extends PluginBase
         LandDataManager::createInstance();
         LandConfigDataManager::createInstance();
         ScheduleMessageDataManager::createInstance();
+        ChunkDataManager::createInstance();
         $this->database->waitAll();
 
         // ---キャッシュ初期化---
@@ -210,7 +212,8 @@ final class Main extends PluginBase
         $this->getServer()->getCommandMap()->registerAll(
             $this->getName(),
             [
-                new OutiWatchCommand($this)
+                new OutiWatchCommand(),
+                new BackupLoadCommand()
             ]
         );
 
@@ -223,14 +226,24 @@ final class Main extends PluginBase
             return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Zombie', 'minecraft:zombie'], EntityLegacyIds::ZOMBIE);
 
+        // スポーンEGGの挙動を登録する
+        // 既に登録されている時があるので上書き許可しておく
         ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::SKELETON), "Skeleton Spawn Egg") extends SpawnEgg {
             public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch): Entity
             {
                 return new Skeleton(Location::fromObject($pos, $world, $yaw, $pitch));
             }
-        });
+        },
+        true);
+        ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::ZOMBIE), "Zombie Spawn Egg") extends SpawnEgg {
+            public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch): Entity
+            {
+                return new Zombie(Location::fromObject($pos, $world, $yaw, $pitch));
+            }
+        },
+            true);
 
-        $this->getScheduler()->scheduleRepeatingTask(new AutoSpawn(), 100);
+        // $this->getScheduler()->scheduleRepeatingTask(new AutoSpawn(), 100);
 
         Server::getInstance()->getNetwork()->registerInterface(new OutiServerSocket(
             "0.0.0.0",
@@ -272,10 +285,13 @@ final class Main extends PluginBase
         if (isset($this->pluginData)) {
             try {
                 $this->pluginData->save();
-            } catch (JsonException) {
+            }
+            catch (JsonException) {
             }
         }
     }
+
+
 
     /**
      * @return Main
