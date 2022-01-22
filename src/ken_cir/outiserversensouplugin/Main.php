@@ -22,7 +22,6 @@ use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\OutiWatchCommand;
-use ken_cir\outiserversensouplugin\database\chunk\ChunkDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
@@ -162,7 +161,6 @@ final class Main extends PluginBase
         LandDataManager::createInstance();
         LandConfigDataManager::createInstance();
         ScheduleMessageDataManager::createInstance();
-        ChunkDataManager::createInstance();
         $this->database->waitAll();
 
         // ---キャッシュ初期化---
