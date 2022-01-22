@@ -7,10 +7,12 @@ namespace ken_cir\outiserversensouplugin\forms\admin\worldbackup;
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
-use ken_cir\outiserversensouplugin\database\chunk\ChunkDataManager;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\block\BaseSign;
+use pocketmine\nbt\BigEndianNbtSerializer;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\TreeRoot;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
@@ -51,6 +53,10 @@ final class WorldBackupManager
                         $endZ = $backup;
                     }
 
+                    $tag = new CompoundTag();
+                    $tag->setInt("version", 1);
+                    $tag->setString("worldName", $player->getWorld()->getFolderName());
+
                     for($y = $player->getWorld()->getMinY(); $y < $player->getWorld()->getMaxY(); $y++) {
 
                         for($x = $startX; $x < $endX; $x++) {
@@ -58,17 +64,27 @@ final class WorldBackupManager
                                 $oldBlock = $player->getWorld()->getBlockAt($x, $y, $z, addToCache: false);
 
                                 //At the moment support sign conversion only from java to bedrock
-                                if($oldBlock instanceof BaseSign){
-                                    var_dump("Sign");
+                                if($oldBlock instanceof BaseSign) {
+                                     continue;
                                 }
                                 else{
                                     $oldId = $oldBlock->getId();
                                     $oldMeta = $oldBlock->getMeta();
-                                    ChunkDataManager::getInstance()->create($x, $y, $z, $player->getWorld()->getFolderName(), $oldId, $oldMeta);
+                                    $tag->setTag("{$player->getWorld()->getFolderName()}-$x-$y-$z", (new CompoundTag())
+                                        ->setInt("x", $x)
+                                        ->setInt("y", $y)
+                                        ->setInt("z", $z)
+                                        ->setInt("id", $oldId)
+                                        ->setInt("meta", $oldMeta)
+                                    );
                                 }
                             }
                         }
                     }
+
+                    $nbt = new BigEndianNbtSerializer();
+                    $buffer = zlib_encode($nbt->write(new TreeRoot(CompoundTag::create()->setTag("Data", $tag))), ZLIB_ENCODING_GZIP);
+                    file_put_contents(Main::getInstance()->getDataFolder() . "test.owb", $buffer);
 
                     $player->sendMessage("終了");
                 }
