@@ -11,6 +11,7 @@ extensions:
   - zip
   - curl
   - sockets
+  - zlib
 
 permissions:
   outiserver.default:
