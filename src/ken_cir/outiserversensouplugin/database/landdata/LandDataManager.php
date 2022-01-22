@@ -73,7 +73,7 @@ class LandDataManager
     public static function createInstance(): void
     {
         if (isset(self::$instance)) throw new InstanceOverwriteException(LandDataManager::class);
-        self::$instance = new LandDataManager();
+        self::$instance = new self();
     }
 
     /**

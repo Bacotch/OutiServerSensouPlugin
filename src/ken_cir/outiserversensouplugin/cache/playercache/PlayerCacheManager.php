@@ -43,7 +43,7 @@ class PlayerCacheManager
     public static function createInstance(): void
     {
         if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerCacheManager::class);
-        self::$instance = new PlayerCacheManager();
+        self::$instance = new self();
     }
 
     /**

@@ -66,7 +66,7 @@ final class FactionDataManager
     public static function createInstance(): void
     {
         if (isset(self::$instance)) throw new InstanceOverwriteException(FactionDataManager::class);
-        self::$instance = new FactionDataManager();
+        self::$instance = new self();
     }
 
     /**

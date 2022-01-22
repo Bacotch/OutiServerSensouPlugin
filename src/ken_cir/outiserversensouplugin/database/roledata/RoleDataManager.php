@@ -70,7 +70,7 @@ class RoleDataManager
     public static function createInstance(): void
     {
         if (isset(self::$instance))  throw new InstanceOverwriteException(RoleDataManager::class);
-        self::$instance = new RoleDataManager();
+        self::$instance = new self();
     }
 
     /**

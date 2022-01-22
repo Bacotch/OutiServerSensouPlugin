@@ -78,7 +78,7 @@ final class ScheduleMessageDataManager
     public static function createInstance(): void
     {
         if (isset(self::$instance))  throw new InstanceOverwriteException(ScheduleMessageDataManager::class);
-        self::$instance = new ScheduleMessageDataManager();
+        self::$instance = new self();
     }
 
     /**

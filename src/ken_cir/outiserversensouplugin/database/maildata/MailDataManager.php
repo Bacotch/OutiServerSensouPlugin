@@ -64,7 +64,7 @@ class MailDataManager
     public static function createInstance(): void
     {
         if (isset(self::$instance)) throw new InstanceOverwriteException(MailDataManager::class);
-        self::$instance = new MailDataManager();
+        self::$instance = new self();
     }
 
     /**

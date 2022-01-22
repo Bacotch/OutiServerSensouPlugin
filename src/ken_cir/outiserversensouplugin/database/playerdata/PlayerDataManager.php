@@ -50,7 +50,7 @@ class PlayerDataManager
     public static function createInstance(): void
     {
         if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerDataManager::class);
-        self::$instance = new PlayerDataManager();
+        self::$instance = new self();
     }
 
     /**
