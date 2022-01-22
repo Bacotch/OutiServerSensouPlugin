@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ken_cir\outiserversensouplugin\threads;
+namespace ken_cir\outiserversensouplugin\tasks;
 
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use pocketmine\scheduler\Task;

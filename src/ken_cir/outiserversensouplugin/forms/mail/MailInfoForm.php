@@ -9,7 +9,7 @@ use Exception;
 use ken_cir\outiserversensouplugin\database\maildata\MailData;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\threads\ReturnForm;
+use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 use Vecnavium\FormsUI\SimpleForm;

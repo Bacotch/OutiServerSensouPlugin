@@ -1,6 +1,6 @@
 <?php
 
-namespace ken_cir\outiserversensouplugin\threads;
+namespace ken_cir\outiserversensouplugin\tasks;
 
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;

@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\network;
 
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\exception\OutiServerSocketException;
-use ken_cir\outiserversensouplugin\threads\OutiServerSocketThread;
+use ken_cir\outiserversensouplugin\tasks\OutiServerSocketThread;
 use pocketmine\network\NetworkInterface;
 use pocketmine\snooze\SleeperHandler;
 use pocketmine\snooze\SleeperNotifier;

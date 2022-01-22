@@ -10,7 +10,7 @@ use Error;
 use Exception;
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\threads\DiscordWebhook;
+use ken_cir\outiserversensouplugin\tasks\DiscordWebhook;
 use pocketmine\Player\player;
 use pocketmine\Server;
 

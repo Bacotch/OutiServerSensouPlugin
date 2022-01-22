@@ -14,7 +14,7 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
-use ken_cir\outiserversensouplugin\threads\AutoUpdateWait;
+use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;

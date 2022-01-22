@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\forms\admin\schedulemessage;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageData;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\threads\ReturnForm;
+use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 

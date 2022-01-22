@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ken_cir\outiserversensouplugin\threads;
+namespace ken_cir\outiserversensouplugin\tasks;
 
 use pocketmine\snooze\SleeperNotifier;
 use pocketmine\thread\Thread;
