@@ -33,7 +33,7 @@ final class OutiWatchCommand extends Command
 
             $form = new OutiWatchForm();
             $form->execute($sender);
-            PlayerCacheManager::getInstance()->get($sender->getName())->setLockOutiWatch(true);
+            PlayerCacheManager::getInstance()->getXuid($sender->getXuid())->setLockOutiWatch(true);
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $sender);

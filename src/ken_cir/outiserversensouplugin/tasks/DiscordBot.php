@@ -36,12 +36,6 @@ final class DiscordBot extends Thread
     public bool $started;
 
     /**
-     * @var bool
-     * このスレッドを終了させるかどうか
-     */
-    private bool $stoped;
-
-    /**
      * @var string
      * BotのTOKEN
      */
@@ -98,7 +92,6 @@ final class DiscordBot extends Thread
     public function __construct(string $token, string $vector_dir, string $guild_id, string $console_channel_id, string $chat_channel_id)
     {
         $this->started = false;
-        $this->stoped = false;
         $this->token = $token;
         $this->vector_dir = $vector_dir;
         $this->guild_id = $guild_id;
@@ -131,8 +124,8 @@ final class DiscordBot extends Thread
                 "loop" => $loop,
                 "logger" => $logger
             ]);
-        } catch (IntentException $error) {
-            echo "エラーが発生しました\nファイル: {$error->getFile()}\n行: {$error->getLine()}\n{$error->getMessage()}" . PHP_EOL;
+        }
+        catch (IntentException) {
             echo "DiscordPHP Botにログインできません" . PHP_EOL;
             unset($this->token);
             $this->isKilled = true;
@@ -180,17 +173,10 @@ final class DiscordBot extends Thread
     }
 
     /**
-     * @param bool $emergency
-     * スレッドを停止する
      */
-    public function shutdown(?bool $emergency = false)
+    public function shutdown()
     {
-        $this->stoped = true;
-        if ($emergency) {
-            $this->isKilled = true;
-        } else {
-            $this->MinecraftChat_Queue[] = serialize("サーバーが停止しました");
-        }
+        $this->isKilled = true;
     }
 
     /**
@@ -199,7 +185,6 @@ final class DiscordBot extends Thread
      */
     public function sendConsoleMessage(string $message)
     {
-        if ($this->stoped) return;
         $this->MinecraftConsole_Queue[] = serialize($message);
     }
 
@@ -209,7 +194,6 @@ final class DiscordBot extends Thread
      */
     public function sendChatMessage(string $message)
     {
-        if ($this->stoped) return;
         $this->MinecraftChat_Queue[] = serialize($message);
     }
 
@@ -267,10 +251,6 @@ final class DiscordBot extends Thread
             if (strlen($message) < 2000) {
                 $chat_channel->sendMessage($message);
             }
-        }
-
-        if ($this->stoped) {
-            $this->isKilled = true;
         }
     }
 }

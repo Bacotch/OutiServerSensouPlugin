@@ -35,7 +35,7 @@ final class OutiWatchForm
         try {
             $form = new SimpleForm(function (Player $player, $data) {
                 try {
-                    PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(false);
+                    PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(false);
 
                     if ($data === null) return true;
                     elseif ($data === 1) {

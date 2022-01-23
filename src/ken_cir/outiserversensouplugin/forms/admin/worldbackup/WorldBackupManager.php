@@ -31,16 +31,16 @@ final class WorldBackupManager
                     $form = new AdminForm();
                     $form->execute($player);
                 }
-                elseif ($data === 1 and PlayerCacheManager::getInstance()->get($player->getName())->getWorldBackupWorldName() === null) {
-                    PlayerCacheManager::getInstance()->get($player->getName())->setWorldBackupWorldName($player->getWorld()->getFolderName());
-                    PlayerCacheManager::getInstance()->get($player->getName())->setWorldBackupStartX($player->getPosition()->getFloorX());
-                    PlayerCacheManager::getInstance()->get($player->getName())->setWorldBackupStartZ($player->getPosition()->getFloorZ());
+                elseif ($data === 1 and PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupWorldName() === null) {
+                    PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setWorldBackupWorldName($player->getWorld()->getFolderName());
+                    PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setWorldBackupStartX($player->getPosition()->getFloorX());
+                    PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setWorldBackupStartZ($player->getPosition()->getFloorZ());
                     $player->sendMessage("§a[システム] 開始X座標を{$player->getPosition()->getFloorX()}\n開始Z座標を{$player->getPosition()->getFloorZ()}に設定しました");
                 }
                 elseif ($data === 1) {
-                    $startX = PlayerCacheManager::getInstance()->get($player->getName())->getWorldBackupStartX();
+                    $startX = PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupStartX();
                     $endX = $player->getPosition()->getFloorX();
-                    $startZ = PlayerCacheManager::getInstance()->get($player->getName())->getWorldBackupStartZ();
+                    $startZ = PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupStartZ();
                     $endZ = $player->getPosition()->getFloorZ();
                     if ($startX > $endX) {
                         $backup = $startX;
@@ -97,7 +97,7 @@ final class WorldBackupManager
         });
         $form->setTitle("ワールドバックアップの管理");
         $form->addButton("戻る");
-        if (PlayerCacheManager::getInstance()->get($player->getName())->getWorldBackupWorldName() === null) {
+        if (PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupWorldName() === null) {
             $form->addButton("バックアップの開始座標の設定");
         }
         else {

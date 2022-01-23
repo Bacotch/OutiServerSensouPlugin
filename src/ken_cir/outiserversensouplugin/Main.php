@@ -21,6 +21,7 @@ namespace ken_cir\outiserversensouplugin;
 use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
+use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
 use ken_cir\outiserversensouplugin\commands\OutiWatchCommand;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
@@ -36,7 +37,6 @@ use ken_cir\outiserversensouplugin\libs\poggit\libasynql\libasynql;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
 use ken_cir\outiserversensouplugin\tasks\DiscordBot;
 use ken_cir\outiserversensouplugin\tasks\PlayerBackGround;
-use ken_cir\outiserversensouplugin\tasks\PMMPAutoUpdateChecker;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
 use pocketmine\console\ConsoleCommandSender;
@@ -62,7 +62,6 @@ use function mkdir;
 use function ob_end_clean;
 use function ob_flush;
 use function ob_get_contents;
-use function ob_start;
 
 /**
  * プラグインメインクラス
@@ -139,12 +138,11 @@ final class Main extends PluginBase
         // ---Logger初期化---
         $this->outiServerLogger = new OutiServerLogger();
 
-        // ---db初期化---
+        // ---データベース初期化---
         $databaseConfig = new Config($this->getDataFolder() . "database.yml", Config::YAML);
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
-
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -152,7 +150,6 @@ final class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.init");
         $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->executeGeneric("outiserver.schedulemessages.init");
-        $this->database->executeGeneric("outiserver.chunks.init");
         $this->database->waitAll();
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
@@ -163,19 +160,33 @@ final class Main extends PluginBase
         ScheduleMessageDataManager::createInstance();
         $this->database->waitAll();
 
-        // ---キャッシュ初期化---
+        // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();
 
-        // ---スレッド初期化---
-        // ---DiscordBot処理用---
-        $this->discordClient = new DiscordBot($this->config->get("Discord_Bot_Token", ""), $this->getFile(), $this->config->get("Discord_Guild_Id", ""), $this->config->get("Discord_Console_Channel_Id", ""), $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
-        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
-            function (): void {
-                $this->getLogger()->info("出力バッファリングを開始致します。");
-                ob_start();
-            }
-        ), 10);
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
+        // コンソール出力を読み取る用にこの関数を呼び出す
+        ob_start();
+
+        // --- Task登録 ---
+        // プレイヤーのスコアボード表示Task
+        $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+        // 自動アップデートチェックTask
+        if ($this->config->get("plugin_auto_update_enable", true)) {
+            $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
+                function (): void {
+                    Server::getInstance()->getUpdater()->doCheck();
+                }
+            ), 20 * 600);
+        }
+        // 定期メッセージ
+        $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
+        // --- DiscordBot用スレッド ---
+        $this->discordClient = new DiscordBot($this->config->get("Discord_Bot_Token", ""),
+            $this->getFile(),
+            $this->config->get("Discord_Guild_Id", ""),
+            $this->config->get("Discord_Console_Channel_Id", ""),
+            $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
+        // DiscordBot用スレッドとデータをやり取りし合う用
+        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
                 if (!$this->discordClient->started) return;
                 $string = ob_get_contents();
@@ -183,10 +194,7 @@ final class Main extends PluginBase
                 if ($string === "") return;
                 $this->discordClient->sendConsoleMessage($string);
                 ob_flush();
-            }
-        ), 10, 1);
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
+
                 foreach ($this->discordClient->fetchConsoleMessages() as $message) {
                     if ($message === "") continue;
                     Server::getInstance()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
@@ -198,28 +206,20 @@ final class Main extends PluginBase
                     Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
                 }
             }
-        ), 5, 1);
-        // プレイヤーバックグラウンド処理タスク登録
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
-        if ($this->config->get("plugin_auto_update_enable", true)) {
-            $this->getScheduler()->scheduleRepeatingTask(new PMMPAutoUpdateChecker(), 20 * 600);
-        }
-        $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
+        ), 1);
 
-        // ---コマンド登録---
-        $this->getServer()->getCommandMap()->registerAll(
-            $this->getName(),
+        // --- コマンド登録 ---
+        $this->getServer()->getCommandMap()->registerAll($this->getName(),
             [
                 new OutiWatchCommand(),
-                new BackupLoadCommand()
-            ]
-        );
+                new BackupLoadCommand(),
+                new BanAllCOmmand(),
+            ]);
 
         // ---エンティティ系登録
         EntityFactory::getInstance()->register(Skeleton::class, function (World $world, CompoundTag $nbt): Skeleton {
             return new Skeleton(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Skeleton', 'minecraft:skeleton'], EntityLegacyIds::SKELETON);
-
         EntityFactory::getInstance()->register(Zombie::class, function (World $world, CompoundTag $nbt): Zombie {
             return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Zombie', 'minecraft:zombie'], EntityLegacyIds::ZOMBIE);
@@ -241,19 +241,12 @@ final class Main extends PluginBase
         },
             true);
 
-        // $this->getScheduler()->scheduleRepeatingTask(new AutoSpawn(), 100);
-
+        // WEBとのsocket通信用
         Server::getInstance()->getNetwork()->registerInterface(new OutiServerSocket(
             "0.0.0.0",
             19132,
             Server::getInstance()->getTickSleeper()
         ));
-
-        foreach (Server::getInstance()->getWorldManager()->getWorlds() as $world) {
-            foreach ($world->getEntities() as $entity) {
-                $entity->kill();
-            }
-        }
 
         // 初期化完了！
         $this->discordClient->sendChatMessage("サーバーが起動しました！");

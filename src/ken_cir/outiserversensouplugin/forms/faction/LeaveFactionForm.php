@@ -29,7 +29,7 @@ final class LeaveFactionForm
     public function execute(Player $player): void
     {
         try {
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $form = new ModalForm(function (Player $player, $data) use ($player_data) {
                 try {
                     if ($data === null) return true;

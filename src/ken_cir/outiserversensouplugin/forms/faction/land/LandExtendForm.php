@@ -31,7 +31,7 @@ final class LandExtendForm
             if (LandDataManager::getInstance()->hasChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName())) {
                 $player->sendMessage("§a[システム] そのチャンクは既に購入されています");
             } else {
-                $playerData = PlayerDataManager::getInstance()->get($player->getName());
+                $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
                 LandDataManager::getInstance()->create($playerData->getFaction(), (int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
                 $player->sendMessage("§a[システム] 現在いるチャンクを購入しました");
             }

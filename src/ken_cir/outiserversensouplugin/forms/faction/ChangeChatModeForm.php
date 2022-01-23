@@ -29,7 +29,7 @@ final class ChangeChatModeForm
         try {
             $form = new CustomForm(function (Player $player, $data) {
                 try {
-                    $player_data = PlayerDataManager::getInstance()->get($player->getName());
+                    $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
                     if ($data === null) return true;
                     elseif ($data[0] === 0) {
                         $player_data->setChatmode(-1);

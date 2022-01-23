@@ -32,7 +32,7 @@ final class FactionInfoForm
     public function execute(Player $player): void
     {
         try {
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $faction_data = FactionDataManager::getInstance()->get($player_data->getFaction());
 
             $form = new SimpleForm(function (Player $player, $data) use ($faction_data) {

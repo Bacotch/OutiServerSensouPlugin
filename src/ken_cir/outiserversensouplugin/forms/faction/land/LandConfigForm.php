@@ -43,28 +43,28 @@ final class LandConfigForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        PlayerCacheManager::getInstance()->get($player->getName())->resetLandConfig();
+                        PlayerCacheManager::getInstance()->getXuid($player->getXuid())->resetLandConfig();
                         $form = new LandManagerForm();
                         $form->execute($player);
                     }
-                    elseif ($data === 1 and PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() === null and $landConfigData === null) {
-                        PlayerCacheManager::getInstance()->get($player->getName())->setLandConfigWorldName($player->getWorld()->getFolderName());
-                        PlayerCacheManager::getInstance()->get($player->getName())->setLandConfigStartX($player->getPosition()->getFloorX());
-                        PlayerCacheManager::getInstance()->get($player->getName())->setLandConfigStartZ($player->getPosition()->getFloorZ());
+                    elseif ($data === 1 and PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigWorldName() === null and $landConfigData === null) {
+                        PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLandConfigWorldName($player->getWorld()->getFolderName());
+                        PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLandConfigStartX($player->getPosition()->getFloorX());
+                        PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLandConfigStartZ($player->getPosition()->getFloorZ());
                         $player->sendMessage("§a[システム] 開始X座標を{$player->getPosition()->getFloorX()}\n開始Z座標を{$player->getPosition()->getFloorZ()}に設定しました");
                     }
                     elseif ($data === 1 and $landConfigData === null) {
                         $this->checkLandConfig($player);
                     }
                     elseif ($data === 1) {
-                        if (PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() !== $player->getWorld()->getFolderName()) {
+                        if (PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigWorldName() !== $player->getWorld()->getFolderName()) {
                             $player->sendMessage("§a[システム] 開始座標ワールドと現在いるワールドが違います");
                         }
                         else {
                             $landData = LandDataManager::getInstance()->getChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
-                            $startX = PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigStartX();
+                            $startX = PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigStartX();
                             $endX = $player->getPosition()->getFloorX();
-                            $startZ = PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigStartZ();
+                            $startZ = PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigStartZ();
                             $endZ = $player->getPosition()->getFloorZ();
                             if ($startX > $endX) {
                                 $backup = $startX;
@@ -94,8 +94,8 @@ final class LandConfigForm
                             $this->checkLandConfig($player);
                         }
                     }
-                    elseif ($data === 2 and $landConfigData === null and PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() !== null) {
-                        PlayerCacheManager::getInstance()->get($player->getName())->resetLandConfig();
+                    elseif ($data === 2 and $landConfigData === null and PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigWorldName() !== null) {
+                        PlayerCacheManager::getInstance()->getXuid($player->getXuid())->resetLandConfig();
                         $player->sendMessage("§a[システム] 開始座標をリセットしました");
                     }
                 }
@@ -108,7 +108,7 @@ final class LandConfigForm
 
             // 0
             $form->addButton("キャンセルして戻る");
-            if (PlayerCacheManager::getInstance()->get($player->getName())->getLandConfigWorldName() === null and $landConfigData === null) {
+            if (PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigWorldName() === null and $landConfigData === null) {
                 // 1
                 $form->addButton("開始座標の設定");
             }
@@ -274,7 +274,7 @@ final class LandConfigForm
     private function addRolePermsRoleSelect(Player $player, LandConfigData $landConfigData): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $factionRoleData = RoleDataManager::getInstance()->getFactionRoles($playerData->getFaction());
             $factionRoleData = array_filter($factionRoleData, function ($roleData) use ($landConfigData, $player) {
                 return !$landConfigData->getLandPermsManager()->getRoleLandPerms($roleData->getId());
@@ -466,7 +466,7 @@ final class LandConfigForm
     private function addMemberPermsMemberSelect(Player $player, LandConfigData $landConfigData): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $factionMember = PlayerDataManager::getInstance()->getFactionPlayers($playerData->getFaction());
             $factionMember = array_filter($factionMember, function ($member) use ($landConfigData) {
                 return !$landConfigData->getLandPermsManager()->getMemberLandPerms($member->getName());

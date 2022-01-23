@@ -29,7 +29,7 @@ final class CreateFactionForm
     public function execute(Player $player): void
     {
         try {
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             // 既に派閥所属済みの場合は
             if ($player_data->getFaction() !== -1) {
                 $player->sendMessage("§cあなたは既に派閥 {$player_data->getFaction()} に所属しています");

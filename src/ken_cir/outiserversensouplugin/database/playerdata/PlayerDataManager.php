@@ -24,17 +24,17 @@ class PlayerDataManager
     /**
      * @var PlayerData[]
      */
-    private array $player_datas;
+    private array $playerDatas;
 
     public function __construct()
     {
-        $this->player_datas = [];
+        $this->playerDatas = [];
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.players.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->player_datas[$data["name"]] = new PlayerData($data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"]);
+                    $this->playerDatas[$data["xuid"]] = new PlayerData($data["xuid"], $data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"]);
                 }
             },
             function (SqlError $error) {
@@ -49,7 +49,7 @@ class PlayerDataManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerDataManager::class);
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
         self::$instance = new self();
     }
 
@@ -66,18 +66,34 @@ class PlayerDataManager
      */
     public function getPlayerDatas(): array
     {
-        return $this->player_datas;
+        return $this->playerDatas;
+    }
+
+    public function get()
+    {
+
     }
 
     /**
-     * @param string $name
-     * @return bool|PlayerData
-     * データを取得する
+     * プレイヤーデータをXUIDで取得する
+     *
+     * @param string $xuid
+     * @return false|PlayerData
      */
-    public function get(string $name): bool|PlayerData
+    public function getXuid(string $xuid): false|PlayerData
     {
-        if (!isset($this->player_datas[strtolower($name)])) return false;
-        return $this->player_datas[strtolower($name)];
+        if (!isset($this->playerDatas[$xuid])) return false;
+        return $this->playerDatas[$xuid];
+    }
+
+    public function getName(string $name): false|PlayerData
+    {
+        $playerData = array_filter($this->playerDatas, function ($playerData) use ($name) {
+            return $playerData->getName() === strtolower($name);
+        });
+
+        if (count($playerData) < 1) return false;
+        return array_shift($playerData);
     }
 
     /**
@@ -86,31 +102,52 @@ class PlayerDataManager
      */
     public function create(Player $player)
     {
-        if ($this->get($player->getName())) return;
+        if ($this->getXuid($player->getXuid())) return;
         Main::getInstance()->getDatabase()->executeInsert(
             "outiserver.players.create",
             [
+                "xuid" => $player->getXuid(),
                 "name" => strtolower($player->getName()),
-                "ip" => serialize([$player->getNetworkSession()->getIp()]),
-                "drawscoreboard" => 1
+                "ip" => serialize([$player->getNetworkSession()->getIp()])
             ],
             null,
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        $this->player_datas[strtolower($player->getName())] = new PlayerData($player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
+        $this->playerDatas[$player->getXuid()] = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
+    }
+
+    public function delete()
+    {
+
+    }
+
+    public function deleteXuid(string $xuid): void
+    {
+        Main::getInstance()->getDatabase()->executeGeneric(
+            "outiserver.players.delete_xuid",
+            [
+                "xuid" => $xuid
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+
+        unset($this->playerDatas[$xuid]);
     }
 
     /**
      * @param string $name
      * データを削除する
      */
-    public function delete(string $name)
+    public function deleteName(string $name): void
     {
-        if (!$this->get($name)) return;
+        if (!$this->getName($name)) return;
         Main::getInstance()->getDatabase()->executeGeneric(
-            "outiserver.players.delete",
+            "outiserver.players.delete_name",
             [
                 "name" => strtolower($name)
             ],
@@ -119,7 +156,10 @@ class PlayerDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        unset($this->player_datas[strtolower($name)]);
+
+        $this->playerDatas = array_filter($this->playerDatas, function ($playerData) use ($name) {
+            return $playerData->getName() !== strtolower($name);
+        });
     }
 
     /**
@@ -129,11 +169,9 @@ class PlayerDataManager
      */
     public function getFactionPlayers(int $id): array
     {
-        return array_values(
-            array_filter($this->player_datas, function ($playerData) use ($id) {
+        return array_values(array_filter($this->playerDatas, function ($playerData) use ($id) {
                 return $playerData->getFaction() === $id;
-            })
-        );
+            }));
     }
 
     /**
@@ -142,7 +180,7 @@ class PlayerDataManager
      */
     public function getRolePlayers(int $id): array
     {
-        return array_filter($this->player_datas, function ($playerData) use ($id) {
+        return array_filter($this->playerDatas, function ($playerData) use ($id) {
             return in_array($id, $playerData->getRoles(), true);
         });
     }

@@ -12,6 +12,13 @@ use function strtolower;
 final class PlayerCache
 {
     /**
+     * プレイヤーXUID
+     *
+     * @var string
+     */
+    private string $xuid;
+
+    /**
      * プレイヤー名
      *
      * @var string
@@ -67,8 +74,9 @@ final class PlayerCache
      */
     private ?int $worldBackup_StartZ;
 
-    public function __construct(string $name)
+    public function __construct(string $xuid, string $name)
     {
+        $this->xuid = $xuid;
         $this->name = strtolower($name);
         $this->lockOutiWatch = false;
         $this->landConfig_WorldName = null;
@@ -80,6 +88,14 @@ final class PlayerCache
     }
 
     /**
+     * @return string
+     */
+    public function getXuid(): string
+    {
+        return $this->xuid;
+    }
+
+    /**
      * プレイヤー名の取得
      *
      * @return string
@@ -87,6 +103,14 @@ final class PlayerCache
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     /**

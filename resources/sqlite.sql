@@ -5,10 +5,11 @@
 -- # { init
 CREATE TABLE IF NOT EXISTS players
 (
-    name
+    xuid
     TEXT
     PRIMARY
     KEY,
+    name TEXT NOT NULL,
     ip
     TEXT
     NOT
@@ -22,21 +23,26 @@ CREATE TABLE IF NOT EXISTS players
     NOT
     NULL,
     roles
-    TEXT
+    TEXT NOT NULL,
+    punishment INTEGER NOT NULL,
+    money INTEGER NOT NULL
 );
 -- # }
 
 -- # { create
+-- #    :xuid string
 -- #    :name string
 -- #    :ip string
--- #    :drawscoreboard int
 INSERT INTO players
-VALUES (:name,
+VALUES (:xuid,
+        :name,
         :ip,
         -1,
         -1,
-        :drawscoreboard,
-        "a:0:{}");
+        1,
+        "a:0:{}",
+        0,
+        0);
 -- # }
 
 -- # { load
@@ -45,22 +51,31 @@ FROM players;
 -- # }
 
 -- # { update
+-- #    :name string
 -- #    :ip string
 -- #    :faction int
 -- #    :chatmode int
 -- #    :drawscoreboard int
 -- #    :roles string
--- #    :name string
+-- #    :xuid string
 UPDATE players
-SET ip             = :ip,
+SET name = :name,
+ip             = :ip,
     faction        = :faction,
     chatmode       = :chatmode,
     drawscoreboard = :drawscoreboard,
     roles          = :roles
-WHERE name = :name;
+WHERE xuid = :xuid;
 -- # }
 
--- # { delete
+-- # { delete_xuid
+-- #    :xuid string
+DELETE
+FROM players
+WHERE xuid = :xuid;
+-- # }
+
+-- # { delete_name
 -- #    :name string
 DELETE
 FROM players
@@ -585,45 +600,13 @@ DROP TABLE IF EXISTS schedulemessages;
 -- # }
 -- # }
 
--- # { chunks
+-- # { chestshops
 -- # { init
-CREATE TABLE IF NOT EXISTS chunks
+CREATE TABLE IF NOT EXISTS chestshops
 (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    x INTEGER,
-    y INTEGER,
-    z INTEGER,
-    worldname TEXT,
-    blockid INTEGER,
-    meta INTEGER
+
 );
--- # }
-
--- # { create
--- #    :x int
--- #    :y int
--- #    :z int
--- #    :worldname string
--- #    :blockid int
--- #    :meta int
-INSERT INTO chunks (x, y, z, worldname, blockid, meta) VALUES (:x, :y, :z, :worldname, :blockid, :meta);
--- # }
-
--- # { seq
-SELECT seq FROM sqlite_sequence WHERE name = 'chunks';
--- # }
-
--- # { load
-SELECT * FROM chunks;
--- # }
-
--- # { delete
--- #    :id int
-DELETE FROM chunks WHERE id = :id;
--- # }
-
--- # { drop
-DROP TABLE IF EXISTS chunks;
 -- # }
 -- # }
 -- # }

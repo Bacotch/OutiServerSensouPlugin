@@ -100,9 +100,12 @@ final class EventListener implements Listener
             $player = $event->getPlayer();
             $player->releaseHeldItem();
             PlayerDataManager::getInstance()->create($player);
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
-            $player_data->addIp($player->getNetworkSession()->getIp());
-            PlayerCacheManager::getInstance()->create($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+            if ($playerData->getName() !== strtolower($player->getName())) {
+                $playerData->setName($playerData->getName());
+            }
+            $playerData->addIp($player->getNetworkSession()->getIp());
+            PlayerCacheManager::getInstance()->create($player->getXuid(), $player->getName());
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
@@ -117,6 +120,7 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
+            // $player->setSkin(new Skin());
             if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getName())) > 0) {
                 $player->sendMessage("§a未読メールが{$mail_count}件あります");
             }
@@ -137,7 +141,7 @@ final class EventListener implements Listener
         try {
             $player = $event->getPlayer();
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
-            PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(false);
+            PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(false);
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
@@ -153,7 +157,7 @@ final class EventListener implements Listener
         try {
             $player = $event->getPlayer();
             $message = $event->getMessage();
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             if ($player_data->getFaction() === -1) {
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
             }
@@ -180,7 +184,7 @@ final class EventListener implements Listener
                 foreach ($server->getOnlinePlayers() as $onlinePlayer) {
                     if (!$server->isOp($onlinePlayer->getName())) continue;
                     // メッセージ送信済みの場合は
-                    elseif (PlayerDataManager::getInstance()->get($onlinePlayer->getName())->getFaction() === $player_data->getFaction()) continue;
+                    elseif (PlayerDataManager::getInstance()->getXuid($onlinePlayer->getXuid())->getFaction() === $player_data->getFaction()) continue;
                     $onlinePlayer->sendMessage($event->getFormat());
                 }
 
@@ -203,11 +207,11 @@ final class EventListener implements Listener
             $player = $event->getPlayer();
             $item = $event->getItem();
             $position = $event->getBlock()->getPosition();
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
 
             if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
-                if (!PlayerCacheManager::getInstance()->get($player->getName())->isLockOutiWatch() and $item->getName() === "OutiWatch") {
-                    PlayerCacheManager::getInstance()->get($player->getName())->setLockOutiWatch(true);
+                if (!PlayerCacheManager::getInstance()->getXuid($player->getXuid())->isLockOutiWatch() and $item->getName() === "OutiWatch") {
+                    PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(true);
                     $form = new OutiWatchForm();
                     $form->execute($player);
                 }
@@ -261,7 +265,7 @@ final class EventListener implements Listener
             $player = $event->getPlayer();
             $position = $event->getTo();
             $oldPostion = $event->getFrom();
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
             // 土地保護データがあってその敷地内に移動前にいないなら
             if ($landConfigData !== null and !LandConfigDataManager::getInstance()->getPos($oldPostion->getFloorX(), $oldPostion->getFloorZ(), $oldPostion->getWorld()->getFolderName())) {
@@ -308,7 +312,7 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $position = $event->getBlock()->getPosition();
 
             $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());

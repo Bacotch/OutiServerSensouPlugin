@@ -25,7 +25,7 @@ final class MyInfoForm
     public function execute(Player $player): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
             $form = new ModalForm(function (Player $player, $data) {
                 try {

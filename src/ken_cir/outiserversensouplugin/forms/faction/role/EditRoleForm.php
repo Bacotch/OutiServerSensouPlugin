@@ -28,7 +28,7 @@ final class EditRoleForm
     public function execute(Player $player): void
     {
         try {
-            $playerData = PlayerDataManager::getInstance()->get($player->getName());
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $factionRoles = array_values(RoleDataManager::getInstance()->getFactionRoles($playerData->getFaction()));
             $form = new SimpleForm(function (Player $player, $data) use ($factionRoles) {
                 try {

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\cache\playercache;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
+use pocketmine\network\mcpe\protocol\AddVolumeEntityPacket;
 use function strtolower;
 
 /**
@@ -42,28 +43,36 @@ class PlayerCacheManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(PlayerCacheManager::class);
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
         self::$instance = new self();
     }
 
     /**
      * @return PlayerCacheManager
      */
-    public static function getInstance(): PlayerCacheManager
+    public static function getInstance(): self
     {
         return self::$instance;
     }
 
     /**
-     * プレイヤーキャッシュを取得する
-     *
-     * @param string $name
-     * @return PlayerCache|null
+     * @param string $xuid
+     * @return false|PlayerCache
      */
-    public function get(string $name): ?PlayerCache
+    public function getXuid(string $xuid): false|PlayerCache
     {
-        if (!isset($this->cache[strtolower($name)])) return null;
-        return $this->cache[strtolower($name)];
+        if (!isset($this->cache[$xuid])) return false;
+        return $this->cache[$xuid];
+    }
+
+    public function getName(string $name): false|PlayerCache
+    {
+        $playerCache = array_filter($this->cache, function ($cache) use ($name) {
+            return $cache->getName() === strtolower($name);
+        });
+
+        if (count($playerCache) < 1) return false;
+        return array_shift($playerCache);
     }
 
     /**
@@ -72,20 +81,22 @@ class PlayerCacheManager
      * @param string $name
      * @return void
      */
-    public function create(string $name): void
+    public function create(string $xuid, string $name): void
     {
-        if (isset($this->cache[strtolower($name)])) return;
-        $this->cache[strtolower($name)] = new PlayerCache($name);
+        if (isset($this->cache[$xuid])) return;
+        $this->cache[$xuid] = new PlayerCache($xuid, $name);
     }
 
-    /**
-     * キャッシュを削除する
-     *
-     * @param string $name
-     * @return void
-     */
-    public function delete(string $name): void
+    public function deleteXuid(string $xuid): void
     {
-       unset($this->cache[strtolower($name)]);
+        unset($this->cache[$xuid]);
+    }
+
+    public function deleteName(string $name): void
+    {
+        if (!$this->getName($name)) return;
+        $this->cache = array_filter($this->cache, function ($playerCache) use ($name) {
+            return $playerCache->getName() !== strtolower($name);
+        });
     }
 }

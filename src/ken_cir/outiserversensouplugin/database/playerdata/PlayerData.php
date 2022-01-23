@@ -16,8 +16,15 @@ use function unserialize;
 class PlayerData
 {
     /**
+     * プレイヤーXUID
      * @var string
-     * PlayerName
+     */
+    private string $xuid;
+
+    /**
+     * プレイヤー名
+     *
+     * @var string
      */
     private string $name;
 
@@ -52,6 +59,7 @@ class PlayerData
     private array $roles;
 
     /**
+     * @param string $xuid
      * @param string $name
      * @param string $ip
      * @param int $faction
@@ -59,8 +67,9 @@ class PlayerData
      * @param int $drawscoreboard
      * @param string $roles
      */
-    public function __construct(string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles)
+    public function __construct(string $xuid, string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles)
     {
+        $this->xuid = $xuid;
         $this->name = strtolower($name);
         $this->ip = unserialize($ip);
         $this->faction = $faction;
@@ -74,12 +83,13 @@ class PlayerData
         Main::getInstance()->getDatabase()->executeChange(
             "outiserver.players.update",
             [
+                "name" => $this->name,
                 "ip" => serialize($this->ip),
                 "faction" => $this->faction,
                 "chatmode" => $this->chatmode,
                 "drawscoreboard" => $this->drawscoreboard,
                 "roles" => serialize($this->roles),
-                "name" => $this->name
+                "xuid" => $this->xuid
             ],
             null,
             function (SqlError $error) {
@@ -91,9 +101,25 @@ class PlayerData
     /**
      * @return string
      */
+    public function getXuid(): string
+    {
+        return $this->xuid;
+    }
+
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = strtolower($name);
     }
 
     /**

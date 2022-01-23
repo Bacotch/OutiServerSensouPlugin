@@ -32,7 +32,7 @@ final class PlayerBackGround extends Task
         // ---サーバーにいるプレイヤーを全員取得---
         foreach (Server::getInstance()->getOnlinePlayers() as $player) {
             // ---スコアボードの描写---
-            $player_data = PlayerDataManager::getInstance()->get($player->getName());
+            $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $factionLandData = LandDataManager::getInstance()->getChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
             if ($player_data) {
                 $this->RemoveData($player);
