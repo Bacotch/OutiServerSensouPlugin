@@ -8,6 +8,7 @@
     "ext-zip": "*",
     "ext-curl": "*",
     "ext-sockets": "*",
-    "ext-zlib": "*"
+    "ext-zlib": "*",
+    "ext-gd": "*"
   }
 }
