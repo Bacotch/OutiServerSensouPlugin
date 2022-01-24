@@ -11,6 +11,6 @@ projects:
       - src: CortexPE/DiscordWebhookAPI/DiscordWebhookAPI
         version: ^1.0.2
         branch: PM4
-      - src: Himbeer/LibSkin/LibSkin
+      - src: HimbeersaftLP/LibSkin/LibSkin
         version: ^2.0.0
 ...
