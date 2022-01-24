@@ -12,6 +12,6 @@ projects:
         version: ^1.0.2
         branch: PM4
       - src: Vecnavium\FormsUI\libFormsUI
-        version: ^1.1.1
+        version: ^1.1.0
         branch: master
 ...
