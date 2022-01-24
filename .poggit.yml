@@ -11,7 +11,4 @@ projects:
       - src: CortexPE/DiscordWebhookAPI/DiscordWebhookAPI
         version: ^1.0.2
         branch: PM4
-      - src: jojoe77777/FormAPI/libFormAPI
-        version: ^2.1.0
-        branch: master
 ...
