@@ -7,7 +7,6 @@ namespace ken_cir\outiserversensouplugin\database\factiondata;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
-use function strtolower;
 use function count;
 
 /**
@@ -90,17 +89,17 @@ final class FactionDataManager
 
     /**
      * @param string $name
-     * @param string $owner
+     * @param string $owner_xuid
      * @param int $color
      * 派閥データを作成する
      * @return int
      */
-    public function create(string $name, string $owner, int $color): int
+    public function create(string $name, string $owner_xuid, int $color): int
     {
         Main::getInstance()->getDatabase()->executeInsert("outiserver.factions.create",
             [
                 "name" => $name,
-                "owner" => strtolower($owner),
+                "owner_xuid" => $owner_xuid,
                 "color" => $color
             ],
             null,
@@ -110,7 +109,7 @@ final class FactionDataManager
         );
 
         $this->seq++;
-        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner, $color);
+        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner_xuid, $color);
 
         return $this->seq;
     }

@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS players
     TEXT
     PRIMARY
     KEY,
-    name TEXT NOT NULL,
+    name
+    TEXT
+    NOT
+    NULL,
     ip
     TEXT
     NOT
@@ -23,9 +26,17 @@ CREATE TABLE IF NOT EXISTS players
     NOT
     NULL,
     roles
-    TEXT NOT NULL,
-    punishment INTEGER NOT NULL,
-    money INTEGER NOT NULL
+    TEXT
+    NOT
+    NULL,
+    punishment
+    INTEGER
+    NOT
+    NULL,
+    money
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 
@@ -33,6 +44,7 @@ CREATE TABLE IF NOT EXISTS players
 -- #    :xuid string
 -- #    :name string
 -- #    :ip string
+-- #    :money int
 INSERT INTO players
 VALUES (:xuid,
         :name,
@@ -42,7 +54,7 @@ VALUES (:xuid,
         1,
         "a:0:{}",
         0,
-        0);
+        :money);
 -- # }
 
 -- # { load
@@ -57,14 +69,18 @@ FROM players;
 -- #    :chatmode int
 -- #    :drawscoreboard int
 -- #    :roles string
+-- #    :punishment int
+-- #    :money int
 -- #    :xuid string
 UPDATE players
-SET name = :name,
-ip             = :ip,
+SET name           = :name,
+    ip             = :ip,
     faction        = :faction,
     chatmode       = :chatmode,
     drawscoreboard = :drawscoreboard,
-    roles          = :roles
+    roles          = :roles,
+    punishment          = :punishment,
+    money          = :money
 WHERE xuid = :xuid;
 -- # }
 
@@ -100,7 +116,7 @@ CREATE TABLE IF NOT EXISTS factions
     TEXT
     NOT
     NULL,
-    owner
+    owner_xuid
     TEXT
     NOT
     NULL,
@@ -113,10 +129,10 @@ CREATE TABLE IF NOT EXISTS factions
 
 -- # { create
 -- #    :name string
--- #    :owner string
+-- #    :owner_xuid string
 -- #    :color int
-INSERT INTO factions (name, owner, color)
-VALUES (:name, :owner, :color);
+INSERT INTO factions (name, owner_xuid, color)
+VALUES (:name, :owner_xuid, :color);
 -- # }
 
 -- # { seq
@@ -132,13 +148,13 @@ FROM factions;
 
 -- # { update
 -- #    :name string
--- #    :owner string
+-- #    :owner_xuid string
 -- #    :color int
 -- #    :id int
 UPDATE factions
-SET name  = :name,
-    owner = :owner,
-    color = :color
+SET name       = :name,
+    owner_xuid = :owner_xuid,
+    color      = :color
 WHERE id = :id;
 -- # }
 
@@ -163,7 +179,7 @@ CREATE TABLE IF NOT EXISTS mails
     PRIMARY
     KEY
     AUTOINCREMENT,
-    name
+    sendto_xuid
     TEXT
     NOT
     NULL,
@@ -175,7 +191,7 @@ CREATE TABLE IF NOT EXISTS mails
     TEXT
     NOT
     NULL,
-    author
+    author_xuid
     TEXT
     NOT
     NULL,
@@ -191,13 +207,13 @@ CREATE TABLE IF NOT EXISTS mails
 -- # }
 
 -- # { create
--- #    :name string
+-- #    :sendto_xuid string
 -- #    :title string
 -- #    :content string
--- #    :author string
+-- #    :author_xuid string
 -- #    :date string
-INSERT INTO mails (name, title, content, author, date, read)
-VALUES (:name, :title, :content, :author, :date, 0);
+INSERT INTO mails (sendto_xuid, title, content, author_xuid, date, read)
+VALUES (:sendto_xuid, :title, :content, :author_xuid, :date, 0);
 -- # }
 
 -- # { seq
@@ -566,33 +582,48 @@ DROP TABLE IF EXISTS landconfigs;
 -- # { init
 CREATE TABLE IF NOT EXISTS schedulemessages
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    content TEXT NOT NULL
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    content
+    TEXT
+    NOT
+    NULL
 );
 -- # }
 
 -- # { create
 -- #    :content string
-INSERT INTO schedulemessages (content) VALUES (:content);
+INSERT INTO schedulemessages (content)
+VALUES (:content);
 -- # }
 
 -- # { seq
-SELECT seq FROM sqlite_sequence WHERE name = 'schedulemessages';
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'schedulemessages';
 -- # }
 
 -- # { load
-SELECT * FROM schedulemessages;
+SELECT *
+FROM schedulemessages;
 -- # }
 
 -- # { update
 -- #    :content string
 -- #    :id int
-UPDATE schedulemessages SET content = :content WHERE id = :id;
+UPDATE schedulemessages
+SET content = :content
+WHERE id = :id;
 -- # }
 
 -- # { delete
 -- #    :id int
-DELETE FROM schedulemessages WHERE id = :id;
+DELETE
+FROM schedulemessages
+WHERE id = :id;
 -- # }
 
 -- # { drop
@@ -604,7 +635,11 @@ DROP TABLE IF EXISTS schedulemessages;
 -- # { init
 CREATE TABLE IF NOT EXISTS chestshops
 (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
 
 );
 -- # }

@@ -45,7 +45,7 @@ final class FactionForm
                         if ($player_data->getFaction() === -1) {
                             $form = new CreateFactionForm();
                         } // 所属していてリーダーなら削除に飛ばす
-                        elseif ($faction_data->getOwner() === $player_data->getName()) {
+                        elseif ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                             $form = new DeleteFactionForm();
                         } // それ以外は脱退に飛ばす
                         else {
@@ -80,7 +80,7 @@ final class FactionForm
                         // どこかに所属している
                         if ($player_data->getFaction() !== -1) {
                             // 役職管理権限があるなら役職管理フォームに飛ばす
-                            if ($faction_data->getOwner() === $player_data->getName()) {
+                            if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                                 $form = new RoleManagerForm();
                                 $form->execute($player);
                             } elseif ($player_data->isRoleManager()) {
@@ -96,7 +96,7 @@ final class FactionForm
                         // どこかに所属している
                         if ($player_data->getFaction() !== -1) {
                             // 役職管理権限があるなら役職管理フォームに飛ばす
-                            if ($faction_data->getOwner() === $player_data->getName()) {
+                            if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                                 $form = new LandManagerForm();
                                 $form->execute($player);
                             } elseif ($player_data->isLandManager()) {
@@ -120,7 +120,7 @@ final class FactionForm
                 $form->addButton("§b派閥の作成");
             } else {
                 // 所属派閥所有者なら
-                if ($faction_data->getOwner() === $player_data->getName()) {
+                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                     $form->addButton("§c派閥の削除");
                 } else {
                     $form->addButton("§e派閥から脱退");
@@ -129,7 +129,7 @@ final class FactionForm
                 $form->addButton("自分の詳細表示");
                 $form->addButton("§eチャットモード変更");
                 $form->addButton("役職の詳細表示");
-                if ($faction_data->getOwner() === $player_data->getName()) {
+                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                     $form->addButton("§3役職の管理");
                 } elseif ($player_data->isRoleManager()) {
                     $form->addButton("§3役職の管理");
@@ -137,7 +137,7 @@ final class FactionForm
                 elseif ($player_data->isRoleManager()) {
                     $form->addButton("§3役職の管理");
                 }
-                if ($faction_data->getOwner() === $player_data->getName()) {
+                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                     $form->addButton("土地の管理");
                 } elseif ($player_data->isLandManager()) {
                     $form->addButton("土地の管理");

@@ -8,7 +8,9 @@
     "ext-zip": "*",
     "ext-curl": "*",
     "ext-sockets": "*",
-    "ext-zlib": "*",
-    "ext-gd": "*"
+    "ext-zlib": "*"
+  },
+  "require-dev": {
+    "pocketmine/pocketmine-mp": "4.0.8"
   }
 }

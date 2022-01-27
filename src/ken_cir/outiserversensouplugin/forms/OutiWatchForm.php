@@ -11,6 +11,7 @@ use ken_cir\outiserversensouplugin\EventListener;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\forms\mail\MailForm;
+use ken_cir\outiserversensouplugin\forms\player\SkinManagerForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
 use pocketmine\Server;
@@ -39,22 +40,26 @@ final class OutiWatchForm
 
                     if ($data === null) return true;
                     elseif ($data === 1) {
-                        $form = new FactionForm();
+                        $form = new SkinManagerForm();
                         $form->execute($player);
                     }
                     elseif ($data === 2) {
-                        $form = new MailForm();
+                        $form = new FactionForm();
                         $form->execute($player);
                     }
                     elseif ($data === 3) {
-                        $form = new ReportForm();
+                        $form = new MailForm();
                         $form->execute($player);
                     }
                     elseif ($data === 4) {
+                        $form = new ReportForm();
+                        $form->execute($player);
+                    }
+                    elseif ($data === 5) {
                         $form = new RequestForm();
                         $form->execute($player);
                     }
-                    elseif ($data === 5 and Server::getInstance()->isOp($player->getName())) {
+                    elseif ($data === 6 and Server::getInstance()->isOp($player->getName())) {
                         $form = new AdminForm();
                         $form->execute($player);
                     }
@@ -67,6 +72,7 @@ final class OutiWatchForm
 
             $form->setTitle("おうちウォッチ");
             $form->addButton("§c閉じる");
+            $form->addButton("スキン設定");
             $form->addButton("§d派閥");
             $form->addButton("§eメール");
             $form->addButton("§4レポート");

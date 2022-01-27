@@ -48,7 +48,7 @@ class MailDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->mail_datas[$data["id"]] = new MailData($data["id"], $data["name"], $data["title"], $data["content"], $data["author"], $data["date"], $data["read"]);
+                    $this->mail_datas[$data["id"]] = new MailData($data["id"], $data["sendto_xuid"], $data["title"], $data["content"], $data["author_xuid"], $data["date"], $data["read"]);
                 }
             },
             function (SqlError $error) {
@@ -87,36 +87,36 @@ class MailDataManager
     }
 
     /**
-     * @param string $name
+     * @param string $xuid
      * @return MailData[]
      * nameに届いているメールデータを取得する
      */
-    public function getPlayerName(string $name): array
+    public function getPlayerXuid(string $xuid): array
     {
-        $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($name) {
-            return $mailData->getName() === strtolower($name);
+        $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($xuid) {
+            return $mailData->getAuthorXuid() === $xuid;
         });
 
         return array_reverse($mail, true);
     }
 
     /**
-     * @param string $name
+     * @param string $sendto_xuid
      * @param string $title
      * @param string $content
-     * @param string $author
+     * @param string $author_xuid
      * @param string $date
      * メールを作成する
      */
-    public function create(string $name, string $title, string $content, string $author, string $date)
+    public function create(string $sendto_xuid, string $title, string $content, string $author_xuid, string $date)
     {
         Main::getInstance()->getDatabase()->executeInsert(
             "outiserver.mails.create",
             [
-                "name" => strtolower($name),
+                "sendto_xuid" => $sendto_xuid,
                 "title" => $title,
                 "content" => $content,
-                "author" => $author,
+                "author_xuid" => $author_xuid,
                 "date" => $date
             ],
             null,
@@ -125,7 +125,7 @@ class MailDataManager
             }
         );
         $this->seq++;
-        $this->mail_datas[$this->seq] = new MailData($this->seq, $name, $title, $content, $author, $date, 0);
+        $this->mail_datas[$this->seq] = new MailData($this->seq, $sendto_xuid, $title, $content, $author_xuid, $date, 0);
     }
 
     /**
@@ -150,10 +150,10 @@ class MailDataManager
      * @return int
      * 未読のメール数を返す
      */
-    public function unReadCount(string $name): int
+    public function unReadCount(string $xuid): int
     {
         $count = 0;
-        $mails = $this->getPlayerName($name);
+        $mails = $this->getPlayerXuid($xuid);
         foreach ($mails as $mail) {
             if (!$mail->isRead()) {
                 $count++;

@@ -6,7 +6,6 @@ namespace ken_cir\outiserversensouplugin\database\factiondata;
 
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
-use function strtolower;
 
 /**
  * 派閥データ
@@ -29,7 +28,7 @@ final class FactionData
      * @var string
      * 派閥主Player名
      */
-    private string $owner;
+    private string $owner_xuid;
 
     /**
      * @var int
@@ -40,14 +39,14 @@ final class FactionData
     /**
      * @param int $id
      * @param string $name
-     * @param string $owner
+     * @param string $owner_xuid
      * @param int $color
      */
-    public function __construct(int $id, string $name, string $owner, int $color)
+    public function __construct(int $id, string $name, string $owner_xuid, int $color)
     {
         $this->id = $id;
         $this->name = $name;
-        $this->owner = strtolower($owner);
+        $this->owner_xuid = $owner_xuid;
         $this->color = $color;
     }
 
@@ -59,7 +58,7 @@ final class FactionData
         Main::getInstance()->getDatabase()->executeChange("outiserver.factions.update",
             [
                 "name" => $this->name,
-                "owner" => $this->owner,
+                "owner_xuid" => $this->owner_xuid,
                 "color" => $this->color,
                 "id" => $this->id
             ],
@@ -88,29 +87,19 @@ final class FactionData
     }
 
     /**
-     * @param string $name
+     * @param string $owner_xuid
      */
-    public function setName(string $name): void
+    public function setOwnerXuid(string $owner_xuid): void
     {
-        $this->name = strtolower($name);
-        $this->update();
+        $this->owner_xuid = $owner_xuid;
     }
 
     /**
      * @return string
      */
-    public function getOwner(): string
+    public function getOwnerXuid(): string
     {
-        return $this->owner;
-    }
-
-    /**
-     * @param string $owner
-     */
-    public function setOwner(string $owner): void
-    {
-        $this->owner = $owner;
-        $this->update();
+        return $this->owner_xuid;
     }
 
     /**

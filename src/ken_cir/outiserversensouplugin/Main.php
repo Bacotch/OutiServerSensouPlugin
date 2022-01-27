@@ -143,6 +143,8 @@ final class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
+        $this->database->executeGeneric("outiserver.factions.drop");
+        $this->database->executeGeneric("outiserver.mails.drop");
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -163,30 +165,38 @@ final class Main extends PluginBase
         // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();
 
-        // コンソール出力を読み取る用にこの関数を呼び出す
-        ob_start();
-
         // --- Task登録 ---
         // プレイヤーのスコアボード表示Task
         $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+
         // 自動アップデートチェックTask
         if ($this->config->get("plugin_auto_update_enable", true)) {
-            $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
+            $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
                 function (): void {
                     Server::getInstance()->getUpdater()->doCheck();
                 }
-            ), 20 * 600);
+            ), 20 * 600, 20 * 600);
         }
+
         // 定期メッセージ
         $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
-        // --- DiscordBot用スレッド ---
+
+        // DiscordBot用
         $this->discordClient = new DiscordBot($this->config->get("Discord_Bot_Token", ""),
             $this->getFile(),
             $this->config->get("Discord_Guild_Id", ""),
             $this->config->get("Discord_Console_Channel_Id", ""),
             $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
-        // DiscordBot用スレッドとデータをやり取りし合う用
-        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
+
+        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
+            function() : void {
+                ob_start();
+            }
+        ), 10);
+
+        // コンソールの出力を読みとってDiscordに送信する
+        // ここの period は必ず1に
+        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
             function (): void {
                 if (!$this->discordClient->started) return;
                 $string = ob_get_contents();
@@ -194,10 +204,15 @@ final class Main extends PluginBase
                 if ($string === "") return;
                 $this->discordClient->sendConsoleMessage($string);
                 ob_flush();
+            }
+        ), 10, 1);
 
+        // Discord側からのメッセージを取得してforeachで回してサーバー側に送信したりする
+        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
+            function (): void {
                 foreach ($this->discordClient->fetchConsoleMessages() as $message) {
                     if ($message === "") continue;
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender($this->getServer(), new Language("jpn")), $message);
+                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), new Language("jpn")), $message);
                 }
 
                 foreach ($this->discordClient->fetchChatMessages() as $message) {
@@ -206,7 +221,7 @@ final class Main extends PluginBase
                     Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
                 }
             }
-        ), 1);
+        ), 10, 10);
 
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),

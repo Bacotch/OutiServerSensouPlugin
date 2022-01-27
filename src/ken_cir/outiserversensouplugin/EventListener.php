@@ -14,8 +14,10 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
+use ken_cir\outiserversensouplugin\libs\Himbeer\LibSkin\SkinConverter;
 use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use pocketmine\entity\Skin;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -120,8 +122,7 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            // $player->setSkin(new Skin());
-            if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getName())) > 0) {
+            if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getXuid())) > 0) {
                 $player->sendMessage("§a未読メールが{$mail_count}件あります");
             }
 
@@ -221,7 +222,7 @@ final class EventListener implements Listener
                 if ($landConfigData !== null) {
                     $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
                     // その土地の派閥のオーナーじゃない 派閥のオーナーは全権限持ちということで突破可能
-                    if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwner() !== $playerData->getName()) {
+                    if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwnerXuid() !== $playerData->getXuid()) {
                         $permsManager = $landConfigData->getLandPermsManager();
                         $memberPerms = $permsManager->getMemberLandPerms($player->getName());
                         if ($memberPerms !== null and !$memberPerms->isBlockTap_Place()) {
@@ -271,7 +272,7 @@ final class EventListener implements Listener
             if ($landConfigData !== null and !LandConfigDataManager::getInstance()->getPos($oldPostion->getFloorX(), $oldPostion->getFloorZ(), $oldPostion->getWorld()->getFolderName())) {
                 $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
                 // その土地の派閥のオーナーじゃない 派閥のオーナーは全権限持ちということで突破可能
-                if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwner() !== $playerData->getName()) {
+                if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwnerXuid() !== $playerData->getXuid()) {
                     $permsManager = $landConfigData->getLandPermsManager();
                     $memberPerms = $permsManager->getMemberLandPerms($player->getName());
                     if ($memberPerms !== null and !$memberPerms->isEntry()) {
@@ -320,7 +321,7 @@ final class EventListener implements Listener
             if ($landConfigData !== null) {
                 $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
                 // その土地の派閥のオーナーじゃない 派閥のオーナーは全権限持ちということで突破可能
-                if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwner() !== $playerData->getName()) {
+                if (FactionDataManager::getInstance()->get($landFactionData->getFactionId())->getOwnerXuid() !== $playerData->getXuid()) {
                     $permsManager = $landConfigData->getLandPermsManager();
                     $memberPerms = $permsManager->getMemberLandPerms($player->getName());
                     if ($memberPerms !== null and !$memberPerms->isBlockBreak()) {

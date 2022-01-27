@@ -8,6 +8,7 @@ use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\database\maildata\MailData;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
+use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
@@ -32,7 +33,7 @@ final class MailInfoForm
     public function execute(Player $player): void
     {
         try {
-            $mail_data = MailDataManager::getInstance()->getPlayerName($player->getName());
+            $mail_data = MailDataManager::getInstance()->getPlayerXuid($player->getXuid());
             $form = new SimpleForm(function (Player $player, $data) use ($mail_data) {
                 try {
                     if ($data === null) return true;
@@ -84,7 +85,7 @@ final class MailInfoForm
             });
 
             $form->setTitle("メール {$mailData->getTitle()}");
-            $form->setContent("§6件名: {$mailData->getTitle()}\n§b送信者: {$mailData->getAuthor()}\n§eメール送信時刻: {$mailData->getDate()}\n\n{$mailData->getContent()}");
+            $form->setContent("§6件名: {$mailData->getTitle()}\n§b送信者: " . ($mailData->getAuthorXuid()  === "システム" or $mailData->getAuthorXuid()  === "運営") ? $mailData->getAuthorXuid() :  PlayerDataManager::getInstance()->getXuid($mailData->getAuthorXuid())->getName() . "\n§eメール送信時刻: {$mailData->getDate()}\n\n{$mailData->getContent()}");
             $form->setButton1("§c削除");
             $form->setButton2("閉じる");
             $player->sendForm($form);

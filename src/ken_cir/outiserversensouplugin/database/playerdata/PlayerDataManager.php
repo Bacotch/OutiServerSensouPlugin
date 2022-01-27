@@ -69,11 +69,6 @@ class PlayerDataManager
         return $this->playerDatas;
     }
 
-    public function get()
-    {
-
-    }
-
     /**
      * プレイヤーデータをXUIDで取得する
      *

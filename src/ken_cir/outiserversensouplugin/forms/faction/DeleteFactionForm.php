@@ -44,7 +44,7 @@ final class DeleteFactionForm
                         $time = new DateTime('now');
                         foreach ($faction_players as $faction_player) {
                             MailDataManager::getInstance()->create(
-                                $faction_player->getName(),
+                                $faction_player->getXuid(),
                                 "派閥崩壊通知",
                                 "所属派閥 $faction_name が {$time->format("Y年m月d日 H時i分")} に崩壊しました",
                                 "システム",

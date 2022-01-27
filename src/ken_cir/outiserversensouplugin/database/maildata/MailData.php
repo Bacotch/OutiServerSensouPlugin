@@ -21,9 +21,9 @@ class MailData
 
     /**
      * @var string
-     * メール送信相手
+     * メール送信先プレイヤーXUID
      */
-    private string $name;
+    private string $sendto_xuid;
 
     /**
      * @var string
@@ -39,9 +39,9 @@ class MailData
 
     /**
      * @var string
-     * メール送信者
+     * メール送信プレイヤーXUID
      */
-    private string $author;
+    private string $author_xuid;
 
     /**
      * @var string
@@ -55,13 +55,13 @@ class MailData
      */
     private int $read;
 
-    public function __construct(int $id, string $name, string $title, string $content, string $author, string $date, int $read)
+    public function __construct(int $id, string $sendto_xuid, string $title, string $content, string $author_xuid, string $date, int $read)
     {
         $this->id = $id;
-        $this->name = strtolower($name);
+        $this->sendto_xuid = $sendto_xuid;
         $this->title = $title;
         $this->content = $content;
-        $this->author = $author;
+        $this->author_xuid = $author_xuid;
         $this->date = $date;
         $this->read = $read;
     }
@@ -77,9 +77,9 @@ class MailData
     /**
      * @return string
      */
-    public function getName(): string
+    public function getSendtoXuid(): string
     {
-        return $this->name;
+        return $this->sendto_xuid;
     }
 
     /**
@@ -101,9 +101,9 @@ class MailData
     /**
      * @return string
      */
-    public function getAuthor(): string
+    public function getAuthorXuid(): string
     {
-        return $this->author;
+        return $this->author_xuid;
     }
 
     /**

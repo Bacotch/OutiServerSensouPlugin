@@ -1,4 +1,8 @@
 ---
+# ---プラグインメイン設定---
+# プレイヤーの初期所持金
+default_player_money: 10000
+
 # ---自動アップデート設定---
 # PMMPの自動アップデート・再起動を有効にするか
 pmmp_auto_update_enable: true

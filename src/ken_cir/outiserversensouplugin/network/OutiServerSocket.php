@@ -64,7 +64,7 @@ final class OutiServerSocket implements NetworkInterface
                 $this->thread->response = match ($this->thread->cmd) {
                     "data:faction:6" => json_encode(array(
                         "id" => $factionData->getId(),
-                        "owner" => $factionData->getOwner(),
+                        "owner" => $factionData->getOwnerXuid(),
                         "name" => $factionData->getName()
                     )),
                     default => TextFormat::clean("不明なdata: {$this->thread->cmd}"),

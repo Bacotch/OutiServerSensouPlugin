@@ -44,7 +44,7 @@ final class CreateFactionForm
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                     }
                     else {
-                        $id = FactionDataManager::getInstance()->create($data[0], $player->getName(), (int)$data[1]);
+                        $id = FactionDataManager::getInstance()->create($data[0], $player->getXuid(), (int)$data[1]);
                         $player_data->setFaction($id);
                         $player->sendMessage("§a[システム]派閥 $data[0] を作成しました");
                     }
