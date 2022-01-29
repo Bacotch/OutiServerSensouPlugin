@@ -79,7 +79,7 @@ SET name           = :name,
     chatmode       = :chatmode,
     drawscoreboard = :drawscoreboard,
     roles          = :roles,
-    punishment          = :punishment,
+    punishment     = :punishment,
     money          = :money
 WHERE xuid = :xuid;
 -- # }
@@ -640,7 +640,54 @@ CREATE TABLE IF NOT EXISTS chestshops
     PRIMARY
     KEY
     AUTOINCREMENT,
-
+    faction_id
+    INTEGER
+    NOT
+    NULL,
+    worldname
+    TEXT
+    NOT
+    NULL,
+    chestx
+    INTEGER
+    NOT
+    NULL,
+    chesty
+    INTEGER
+    NOT
+    NULL,
+    chestz
+    INTEGER
+    NOT
+    NULL,
+    signboardx
+    INTEGER
+    NOT
+    NULL,
+    signboardy
+    INTEGER
+    NOT
+    NULL,
+    signboardz
+    INTEGER
+    NOT
+    NULL,
+    itemid
+    INTEGER
+    NOT
+    NULL,
+    itemmeta
+    INTEGER
+    NOT
+    NULL,
+    price
+    INTEGER
+    NOT
+    NULL,
+    duty
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 -- # }
