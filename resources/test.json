@@ -1,0 +1,2024 @@
+[
+  {
+    "id": "333:4",
+    "name": "Acacia Boat",
+    "namespase": "%item.boat.acacia.name",
+    "textures": "textures\/items\/acacia_boat"
+  },
+  {
+    "id": "260:0",
+    "name": "Apple",
+    "namespase": "%item.apple.name",
+    "textures": "textures\/items\/apple"
+  },
+  {
+    "id": "262:0",
+    "name": "Arrow",
+    "namespase": "%item.arrow.name",
+    "textures": "textures\/items\/arrow"
+  },
+  {
+    "id": "373:4",
+    "name": "Awkward Potion",
+    "namespase": "%potion.awkward.name",
+    "textures": "textures\/items\/awkward_potion"
+  },
+  {
+    "id": "438:4",
+    "name": "Awkward Splash Potion",
+    "namespase": "%potion.awkward.splash.name",
+    "textures": "textures\/items\/awkward_splash_potion"
+  },
+  {
+    "id": "393:0",
+    "name": "Baked Potato",
+    "namespase": "%item.baked_potato.name",
+    "textures": "textures\/items\/baked_potato"
+  },
+  {
+    "id": "457:0",
+    "name": "Beetroot",
+    "namespase": "%item.beetroot.name",
+    "textures": "textures\/items\/beetroot"
+  },
+  {
+    "id": "458:0",
+    "name": "Beetroot Seeds",
+    "namespase": "%item.beetroot_seeds.name",
+    "textures": "textures\/items\/beetroot_seeds"
+  },
+  {
+    "id": "459:0",
+    "name": "Beetroot Soup",
+    "namespase": "%item.beetroot_soup.name",
+    "textures": "textures\/items\/beetroot_soup"
+  },
+  {
+    "id": "333:2",
+    "name": "Birch Boat",
+    "namespase": "%item.boat.birch.name",
+    "textures": "textures\/items\/birch_boat"
+  },
+  {
+    "id": "355:15",
+    "name": "Black Bed",
+    "namespase": "%item.bed.black.name",
+    "textures": "textures\/items\/black_bed"
+  },
+  {
+    "id": "351:16",
+    "name": "Black Dye",
+    "namespase": "%item.dye.black_new.name",
+    "textures": "textures\/items\/black_dye"
+  },
+  {
+    "id": "377:0",
+    "name": "Blaze Powder",
+    "namespase": "%item.blaze_powder.name",
+    "textures": "textures\/items\/blaze_powder"
+  },
+  {
+    "id": "369:0",
+    "name": "Blaze Rod",
+    "namespase": "%item.blaze_rod.name",
+    "textures": "textures\/items\/blaze_rod"
+  },
+  {
+    "id": "451:0",
+    "name": "Bleach",
+    "namespase": "%item.bleach.name",
+    "textures": "textures\/items\/bleach"
+  },
+  {
+    "id": "355:11",
+    "name": "Blue Bed",
+    "namespase": "%item.bed.blue.name",
+    "textures": "textures\/items\/blue_bed"
+  },
+  {
+    "id": "351:18",
+    "name": "Blue Dye",
+    "namespase": "%item.dye.blue.name",
+    "textures": "textures\/items\/blue_dye"
+  },
+  {
+    "id": "352:0",
+    "name": "Bone",
+    "namespase": "%item.bone.name",
+    "textures": "textures\/items\/bone"
+  },
+  {
+    "id": "351:15",
+    "name": "Bone Meal",
+    "namespase": "%item.dye.white.name",
+    "textures": "textures\/items\/bone_meal"
+  },
+  {
+    "id": "340:0",
+    "name": "Book",
+    "namespase": "%item.book.name",
+    "textures": "textures\/items\/book"
+  },
+  {
+    "id": "261:0",
+    "name": "Bow",
+    "namespase": "%item.bow.name",
+    "textures": "textures\/items\/bow"
+  },
+  {
+    "id": "281:0",
+    "name": "Bowl",
+    "namespase": "%item.bowl.name",
+    "textures": "textures\/items\/bowl"
+  },
+  {
+    "id": "297:0",
+    "name": "Bread",
+    "namespase": "%item.bread.name",
+    "textures": "textures\/items\/bread"
+  },
+  {
+    "id": "336:0",
+    "name": "Brick",
+    "namespase": "%item.brick.name",
+    "textures": "textures\/items\/brick"
+  },
+  {
+    "id": "355:12",
+    "name": "Brown Bed",
+    "namespase": "%item.bed.brown.name",
+    "textures": "textures\/items\/brown_bed"
+  },
+  {
+    "id": "351:17",
+    "name": "Brown Dye",
+    "namespase": "%item.dye.brown_new.name",
+    "textures": "textures\/items\/brown_dye"
+  },
+  {
+    "id": "325:0",
+    "name": "Bucket",
+    "namespase": "%item.bucket.name",
+    "textures": "textures\/items\/bucket"
+  },
+  {
+    "id": "391:0",
+    "name": "Carrot",
+    "namespase": "%item.carrot.name",
+    "textures": "textures\/items\/carrot"
+  },
+  {
+    "id": "305:0",
+    "name": "Chainmail Boots",
+    "namespase": "%item.chainmail_boots.name",
+    "textures": "textures\/items\/chainmail_boots"
+  },
+  {
+    "id": "303:0",
+    "name": "Chainmail Chestplate",
+    "namespase": "%item.chainmail_chestplate.name",
+    "textures": "textures\/items\/chainmail_chestplate"
+  },
+  {
+    "id": "302:0",
+    "name": "Chainmail Helmet",
+    "namespase": "%item.chainmail_helmet.name",
+    "textures": "textures\/items\/chainmail_helmet"
+  },
+  {
+    "id": "304:0",
+    "name": "Chainmail Leggings",
+    "namespase": "%item.chainmail_leggings.name",
+    "textures": "textures\/items\/chainmail_leggings"
+  },
+  {
+    "id": "263:1",
+    "name": "Charcoal",
+    "namespase": "%item.charcoal.name",
+    "textures": "textures\/items\/charcoal"
+  },
+  {
+    "id": "499:13",
+    "name": "Aluminium Oxide",
+    "namespase": "%item.compound.aluminumoxide.name",
+    "textures": "textures\/items\/aluminium_oxide"
+  },
+  {
+    "id": "499:36",
+    "name": "Ammonia",
+    "namespase": "%item.compound.ammonia.name",
+    "textures": "textures\/items\/ammonia"
+  },
+  {
+    "id": "499:20",
+    "name": "Barium Sulphate",
+    "namespase": "%item.compound.bariumsulfate.name",
+    "textures": "textures\/items\/barium_sulphate"
+  },
+  {
+    "id": "499:33",
+    "name": "Benzene",
+    "namespase": "%item.compound.benzene.name",
+    "textures": "textures\/items\/benzene"
+  },
+  {
+    "id": "499:14",
+    "name": "Boron Trioxide",
+    "namespase": "%item.compound.borontrioxide.name",
+    "textures": "textures\/items\/boron_trioxide"
+  },
+  {
+    "id": "499:7",
+    "name": "Calcium Bromide",
+    "namespase": "%item.compound.calciumbromide.name",
+    "textures": "textures\/items\/calcium_bromide"
+  },
+  {
+    "id": "499:25",
+    "name": "Calcium Chloride",
+    "namespase": "%item.compound.calciumchloride.name",
+    "textures": "textures\/items\/calcium_chloride"
+  },
+  {
+    "id": "499:23",
+    "name": "Cerium Chloride",
+    "namespase": "%item.compound.ceriumchloride.name",
+    "textures": "textures\/items\/cerium_chloride"
+  },
+  {
+    "id": "499:11",
+    "name": "Charcoal",
+    "namespase": "%item.charcoal.name",
+    "textures": "textures\/items\/charcoal"
+  },
+  {
+    "id": "499:29",
+    "name": "Crude Oil",
+    "namespase": "%item.compound.crudeoil.name",
+    "textures": "textures\/items\/crude_oil"
+  },
+  {
+    "id": "499:27",
+    "name": "Glue",
+    "namespase": "%item.compound.glue.name",
+    "textures": "textures\/items\/glue"
+  },
+  {
+    "id": "499:35",
+    "name": "Hydrogen Peroxide",
+    "namespase": "%item.compound.hydrogenperoxide.name",
+    "textures": "textures\/items\/hydrogen_peroxide"
+  },
+  {
+    "id": "499:28",
+    "name": "Hypochlorite",
+    "namespase": "%item.compound.hypochlorite.name",
+    "textures": "textures\/items\/hypochlorite"
+  },
+  {
+    "id": "499:34",
+    "name": "Ink",
+    "namespase": "%item.ink.name",
+    "textures": "textures\/items\/ink"
+  },
+  {
+    "id": "499:4",
+    "name": "Iron Sulphide",
+    "namespase": "%item.compound.ironsulfide.name",
+    "textures": "textures\/items\/iron_sulphide"
+  },
+  {
+    "id": "499:30",
+    "name": "Latex",
+    "namespase": "%item.compound.latex.name",
+    "textures": "textures\/items\/latex"
+  },
+  {
+    "id": "499:5",
+    "name": "Lithium Hydride",
+    "namespase": "%item.compound.lithiumhydride.name",
+    "textures": "textures\/items\/lithium_hydride"
+  },
+  {
+    "id": "499:10",
+    "name": "Luminol",
+    "namespase": "%item.compound.luminol.name",
+    "textures": "textures\/items\/luminol"
+  },
+  {
+    "id": "499:3",
+    "name": "Magnesium Nitrate",
+    "namespase": "%item.compound.magnesiumnitrate.name",
+    "textures": "textures\/items\/magnesium_nitrate"
+  },
+  {
+    "id": "499:8",
+    "name": "Magnesium Oxide",
+    "namespase": "%item.compound.magnesiumoxide.name",
+    "textures": "textures\/items\/magnesium_oxide"
+  },
+  {
+    "id": "499:18",
+    "name": "Magnesium Salts",
+    "namespase": "%item.compound.magnesiumsalts.name",
+    "textures": "textures\/items\/magnesium_salts"
+  },
+  {
+    "id": "499:22",
+    "name": "Mercuric Chloride",
+    "namespase": "%item.compound.mercuricchloride.name",
+    "textures": "textures\/items\/mercuric_chloride"
+  },
+  {
+    "id": "499:16",
+    "name": "Polyethylene",
+    "namespase": "%item.compound.polyethylene.name",
+    "textures": "textures\/items\/polyethylene"
+  },
+  {
+    "id": "499:21",
+    "name": "Potassium Chloride",
+    "namespase": "%item.compound.potassiumchloride.name",
+    "textures": "textures\/items\/potassium_chloride"
+  },
+  {
+    "id": "499:31",
+    "name": "Potassium Iodide",
+    "namespase": "%item.compound.potassiumiodide.name",
+    "textures": "textures\/items\/potassium_iodide"
+  },
+  {
+    "id": "499:17",
+    "name": "Rubbish",
+    "namespase": "%item.rubbish.name",
+    "textures": "textures\/items\/rubbish"
+  },
+  {
+    "id": "499:0",
+    "name": "Salt",
+    "namespase": "%item.compound.salt.name",
+    "textures": "textures\/items\/salt"
+  },
+  {
+    "id": "499:15",
+    "name": "Soap",
+    "namespase": "%item.compound.soap.name",
+    "textures": "textures\/items\/soap"
+  },
+  {
+    "id": "499:9",
+    "name": "Sodium Acetate",
+    "namespase": "%item.compound.sodiumacetate.name",
+    "textures": "textures\/items\/sodium_acetate"
+  },
+  {
+    "id": "499:32",
+    "name": "Sodium Fluoride",
+    "namespase": "%item.compound.sodiumfluoride.name",
+    "textures": "textures\/items\/sodium_fluoride"
+  },
+  {
+    "id": "499:6",
+    "name": "Sodium Hydride",
+    "namespase": "%item.compound.sodiumhydride.name",
+    "textures": "textures\/items\/sodium_hydride"
+  },
+  {
+    "id": "499:2",
+    "name": "Sodium Hydroxide",
+    "namespase": "%item.compound.sodiumhydroxide.name",
+    "textures": "textures\/items\/sodium_hydroxide"
+  },
+  {
+    "id": "499:37",
+    "name": "Sodium Hypochlorite",
+    "namespase": "%item.compound.sodiumhypochlorite.name",
+    "textures": "textures\/items\/sodium_hypochlorite"
+  },
+  {
+    "id": "499:1",
+    "name": "Sodium Oxide",
+    "namespase": "%item.compound.sodiumoxide.name",
+    "textures": "textures\/items\/sodium_oxide"
+  },
+  {
+    "id": "499:12",
+    "name": "Sugar",
+    "namespase": "%item.sugar.name",
+    "textures": "textures\/items\/sugar"
+  },
+  {
+    "id": "499:19",
+    "name": "Sulphate",
+    "namespase": "%item.sulphate.name",
+    "textures": "textures\/items\/sulphate"
+  },
+  {
+    "id": "499:24",
+    "name": "Tungsten Chloride",
+    "namespase": "%item.compound.tungstenchloride.name",
+    "textures": "textures\/items\/tungsten_chloride"
+  },
+  {
+    "id": "499:26",
+    "name": "Water",
+    "namespase": "%item.compound.water.name",
+    "textures": "textures\/items\/water"
+  },
+  {
+    "id": "432:0",
+    "name": "Chorus Fruit",
+    "namespase": "%item.chorus_fruit.name",
+    "textures": "textures\/items\/chorus_fruit"
+  },
+  {
+    "id": "337:0",
+    "name": "Clay",
+    "namespase": "%item.clay.name",
+    "textures": "textures\/items\/clay"
+  },
+  {
+    "id": "347:0",
+    "name": "Clock",
+    "namespase": "%item.clock.name",
+    "textures": "textures\/items\/clock"
+  },
+  {
+    "id": "461:0",
+    "name": "Clownfish",
+    "namespase": "%item.clownfish.name",
+    "textures": "textures\/items\/clownfish"
+  },
+  {
+    "id": "263:0",
+    "name": "Coal",
+    "namespase": "%item.coal.name",
+    "textures": "textures\/items\/coal"
+  },
+  {
+    "id": "351:3",
+    "name": "Cocoa Beans",
+    "namespase": "%item.cocoa_beans.name",
+    "textures": "textures\/items\/cocoa_beans"
+  },
+  {
+    "id": "345:0",
+    "name": "Compass",
+    "namespase": "%item.compass.name",
+    "textures": "textures\/items\/compass"
+  },
+  {
+    "id": "366:0",
+    "name": "Cooked Chicken",
+    "namespase": "%item.cooked_chicken.name",
+    "textures": "textures\/items\/cooked_chicken"
+  },
+  {
+    "id": "350:0",
+    "name": "Cooked Fish",
+    "namespase": "%item.cooked_fish.name",
+    "textures": "textures\/items\/cooked_fish"
+  },
+  {
+    "id": "424:0",
+    "name": "Cooked Mutton",
+    "namespase": "%item.muttonCooked.name",
+    "textures": "textures\/items\/cooked_mutton"
+  },
+  {
+    "id": "320:0",
+    "name": "Cooked Porkchop",
+    "namespase": "%item.cooked_porkchop.name",
+    "textures": "textures\/items\/cooked_porkchop"
+  },
+  {
+    "id": "412:0",
+    "name": "Cooked Rabbit",
+    "namespase": "%item.cooked_rabbit.name",
+    "textures": "textures\/items\/cooked_rabbit"
+  },
+  {
+    "id": "463:0",
+    "name": "Cooked Salmon",
+    "namespase": "%item.cooked_salmon.name",
+    "textures": "textures\/items\/cooked_salmon"
+  },
+  {
+    "id": "357:0",
+    "name": "Cookie",
+    "namespase": "%item.cookie.name",
+    "textures": "textures\/items\/cookie"
+  },
+  {
+    "id": "397:4",
+    "name": "Creeper Head",
+    "namespase": "%item.skull.creeper.name",
+    "textures": "textures\/items\/creeper_head"
+  },
+  {
+    "id": "355:9",
+    "name": "Cyan Bed",
+    "namespase": "%item.bed.cyan.name",
+    "textures": "textures\/items\/cyan_bed"
+  },
+  {
+    "id": "351:6",
+    "name": "Cyan Dye",
+    "namespase": "%item.dye.cyan.name",
+    "textures": "textures\/items\/cyan_dye"
+  },
+  {
+    "id": "333:5",
+    "name": "Dark Oak Boat",
+    "namespase": "%item.boat.big_oak.name",
+    "textures": "textures\/items\/dark_oak_boat"
+  },
+  {
+    "id": "264:0",
+    "name": "Diamond",
+    "namespase": "%item.diamond.name",
+    "textures": "textures\/items\/diamond"
+  },
+  {
+    "id": "279:0",
+    "name": "Diamond Axe",
+    "namespase": "%item.diamond_axe.name",
+    "textures": "textures\/items\/diamond_axe"
+  },
+  {
+    "id": "313:0",
+    "name": "Diamond Boots",
+    "namespase": "%item.diamond_boots.name",
+    "textures": "textures\/items\/diamond_boots"
+  },
+  {
+    "id": "311:0",
+    "name": "Diamond Chestplate",
+    "namespase": "%item.diamond_chestplate.name",
+    "textures": "textures\/items\/diamond_chestplate"
+  },
+  {
+    "id": "310:0",
+    "name": "Diamond Helmet",
+    "namespase": "%item.diamond_helmet.name",
+    "textures": "textures\/items\/diamond_helmet"
+  },
+  {
+    "id": "293:0",
+    "name": "Diamond Hoe",
+    "namespase": "%item.diamond_hoe.name",
+    "textures": "textures\/items\/diamond_hoe"
+  },
+  {
+    "id": "312:0",
+    "name": "Diamond Leggings",
+    "namespase": "%item.diamond_leggings.name",
+    "textures": "textures\/items\/diamond_leggings"
+  },
+  {
+    "id": "278:0",
+    "name": "Diamond Pickaxe",
+    "namespase": "%item.diamond_pickaxe.name",
+    "textures": "textures\/items\/diamond_pickaxe"
+  },
+  {
+    "id": "277:0",
+    "name": "Diamond Shovel",
+    "namespase": "%item.diamond_shovel.name",
+    "textures": "textures\/items\/diamond_shovel"
+  },
+  {
+    "id": "276:0",
+    "name": "Diamond Sword",
+    "namespase": "%item.diamond_sword.name",
+    "textures": "textures\/items\/diamond_sword"
+  },
+  {
+    "id": "437:0",
+    "name": "Dragon's Breath",
+    "namespase": "%item.dragon_breath.name",
+    "textures": "textures\/items\/dragon's_breath"
+  },
+  {
+    "id": "397:5",
+    "name": "Dragon Head",
+    "namespase": "%item.skull.dragon.name",
+    "textures": "textures\/items\/dragon_head"
+  },
+  {
+    "id": "464:0",
+    "name": "Dried Kelp",
+    "namespase": "%item.dried_kelp.name",
+    "textures": "textures\/items\/dried_kelp"
+  },
+  {
+    "id": "344:0",
+    "name": "Egg",
+    "namespase": "%item.egg.name",
+    "textures": "textures\/items\/egg"
+  },
+  {
+    "id": "388:0",
+    "name": "Emerald",
+    "namespase": "%item.emerald.name",
+    "textures": "textures\/items\/emerald"
+  },
+  {
+    "id": "466:0",
+    "name": "Enchanted Golden Apple",
+    "namespase": "%item.appleEnchanted.name",
+    "textures": "textures\/items\/enchanted_golden_apple"
+  },
+  {
+    "id": "368:0",
+    "name": "Ender Pearl",
+    "namespase": "%item.ender_pearl.name",
+    "textures": "textures\/items\/ender_pearl"
+  },
+  {
+    "id": "384:0",
+    "name": "Bottle o' Enchanting",
+    "namespase": "%item.bottle_o'_enchanting.name",
+    "textures": "textures\/items\/bottle_o'_enchanting"
+  },
+  {
+    "id": "288:0",
+    "name": "Feather",
+    "namespase": "%item.feather.name",
+    "textures": "textures\/items\/feather"
+  },
+  {
+    "id": "376:0",
+    "name": "Fermented Spider Eye",
+    "namespase": "%item.fermented_spider_eye.name",
+    "textures": "textures\/items\/fermented_spider_eye"
+  },
+  {
+    "id": "373:12",
+    "name": "Fire Resistance Potion",
+    "namespase": "%potion.fireResistance.name",
+    "textures": "textures\/items\/fire_resistance_potion"
+  },
+  {
+    "id": "438:12",
+    "name": "Fire Resistance Splash Potion",
+    "namespase": "%potion.fireResistance.splash.name",
+    "textures": "textures\/items\/fire_resistance_splash_potion"
+  },
+  {
+    "id": "346:0",
+    "name": "Fishing Rod",
+    "namespase": "%item.fishing_rod.name",
+    "textures": "textures\/items\/fishing_rod"
+  },
+  {
+    "id": "318:0",
+    "name": "Flint",
+    "namespase": "%item.flint.name",
+    "textures": "textures\/items\/flint"
+  },
+  {
+    "id": "259:0",
+    "name": "Flint and Steel",
+    "namespase": "%item.flint_and_steel.name",
+    "textures": "textures\/items\/flint_and_steel"
+  },
+  {
+    "id": "370:0",
+    "name": "Ghast Tear",
+    "namespase": "%item.ghast_tear.name",
+    "textures": "textures\/items\/ghast_tear"
+  },
+  {
+    "id": "374:0",
+    "name": "Glass Bottle",
+    "namespase": "%item.glass_bottle.name",
+    "textures": "textures\/items\/glass_bottle"
+  },
+  {
+    "id": "382:0",
+    "name": "Glistering Melon",
+    "namespase": "%item.speckled_melon.name",
+    "textures": "textures\/items\/glistering_melon"
+  },
+  {
+    "id": "348:0",
+    "name": "Glowstone Dust",
+    "namespase": "%item.glowstone_dust.name",
+    "textures": "textures\/items\/glowstone_dust"
+  },
+  {
+    "id": "266:0",
+    "name": "Gold Ingot",
+    "namespase": "%item.gold_ingot.name",
+    "textures": "textures\/items\/gold_ingot"
+  },
+  {
+    "id": "371:0",
+    "name": "Gold Nugget",
+    "namespase": "%item.gold_nugget.name",
+    "textures": "textures\/items\/gold_nugget"
+  },
+  {
+    "id": "322:0",
+    "name": "Golden Apple",
+    "namespase": "%item.golden_apple.name",
+    "textures": "textures\/items\/golden_apple"
+  },
+  {
+    "id": "286:0",
+    "name": "Golden Axe",
+    "namespase": "%item.golden_axe.name",
+    "textures": "textures\/items\/golden_axe"
+  },
+  {
+    "id": "317:0",
+    "name": "Golden Boots",
+    "namespase": "%item.golden_boots.name",
+    "textures": "textures\/items\/golden_boots"
+  },
+  {
+    "id": "396:0",
+    "name": "Golden Carrot",
+    "namespase": "%item.golden_carrot.name",
+    "textures": "textures\/items\/golden_carrot"
+  },
+  {
+    "id": "315:0",
+    "name": "Golden Chestplate",
+    "namespase": "%item.golden_chestplate.name",
+    "textures": "textures\/items\/golden_chestplate"
+  },
+  {
+    "id": "314:0",
+    "name": "Golden Helmet",
+    "namespase": "%item.golden_helmet.name",
+    "textures": "textures\/items\/golden_helmet"
+  },
+  {
+    "id": "294:0",
+    "name": "Golden Hoe",
+    "namespase": "%item.golden_hoe.name",
+    "textures": "textures\/items\/golden_hoe"
+  },
+  {
+    "id": "316:0",
+    "name": "Golden Leggings",
+    "namespase": "%item.golden_leggings.name",
+    "textures": "textures\/items\/golden_leggings"
+  },
+  {
+    "id": "285:0",
+    "name": "Golden Pickaxe",
+    "namespase": "%item.golden_pickaxe.name",
+    "textures": "textures\/items\/golden_pickaxe"
+  },
+  {
+    "id": "284:0",
+    "name": "Golden Shovel",
+    "namespase": "%item.golden_shovel.name",
+    "textures": "textures\/items\/golden_shovel"
+  },
+  {
+    "id": "283:0",
+    "name": "Golden Sword",
+    "namespase": "%item.golden_sword.name",
+    "textures": "textures\/items\/golden_sword"
+  },
+  {
+    "id": "355:7",
+    "name": "Gray Bed",
+    "namespase": "%item.bed.gray.name",
+    "textures": "textures\/items\/gray_bed"
+  },
+  {
+    "id": "351:8",
+    "name": "Gray Dye",
+    "namespase": "%item.dye.gray.name",
+    "textures": "textures\/items\/gray_dye"
+  },
+  {
+    "id": "355:13",
+    "name": "Green Bed",
+    "namespase": "%item.bed.green.name",
+    "textures": "textures\/items\/green_bed"
+  },
+  {
+    "id": "351:2",
+    "name": "Green Dye",
+    "namespase": "%item.dye.green.name",
+    "textures": "textures\/items\/green_dye"
+  },
+  {
+    "id": "289:0",
+    "name": "Gunpowder",
+    "namespase": "%item.gunpowder.name",
+    "textures": "textures\/items\/gunpowder"
+  },
+  {
+    "id": "373:23",
+    "name": "Harming Potion",
+    "namespase": "%potion.harm.name",
+    "textures": "textures\/items\/harming_potion"
+  },
+  {
+    "id": "438:23",
+    "name": "Harming Splash Potion",
+    "namespase": "%potion.harm.splash.name",
+    "textures": "textures\/items\/harming_splash_potion"
+  },
+  {
+    "id": "373:21",
+    "name": "Healing Potion",
+    "namespase": "%potion.heal.splash.name",
+    "textures": "textures\/items\/healing_potion"
+  },
+  {
+    "id": "438:21",
+    "name": "Healing Splash Potion",
+    "namespase": "%item.healing_splash_potion.name",
+    "textures": "textures\/items\/healing_splash_potion"
+  },
+  {
+    "id": "467:0",
+    "name": "Heart of the Sea",
+    "namespase": "%item.heart_of_the_sea.name",
+    "textures": "textures\/items\/heart_of_the_sea"
+  },
+  {
+    "id": "351:0",
+    "name": "Ink Sac",
+    "namespase": "%item.dye.black.name",
+    "textures": "textures\/items\/ink_sac"
+  },
+  {
+    "id": "373:7",
+    "name": "Invisibility Potion",
+    "namespase": "%potion.invisibility.name",
+    "textures": "textures\/items\/invisibility_potion"
+  },
+  {
+    "id": "438:7",
+    "name": "Invisibility Splash Potion",
+    "namespase": "%potion.invisibility.splash.name",
+    "textures": "textures\/items\/invisibility_splash_potion"
+  },
+  {
+    "id": "258:0",
+    "name": "Iron Axe",
+    "namespase": "%item.iron_axe.name",
+    "textures": "textures\/items\/iron_axe"
+  },
+  {
+    "id": "309:0",
+    "name": "Iron Boots",
+    "namespase": "%item.iron_boots.name",
+    "textures": "textures\/items\/iron_boots"
+  },
+  {
+    "id": "307:0",
+    "name": "Iron Chestplate",
+    "namespase": "%item.iron_chestplate.name",
+    "textures": "textures\/items\/iron_chestplate"
+  },
+  {
+    "id": "306:0",
+    "name": "Iron Helmet",
+    "namespase": "%item.iron_helmet.name",
+    "textures": "textures\/items\/iron_helmet"
+  },
+  {
+    "id": "292:0",
+    "name": "Iron Hoe",
+    "namespase": "%item.iron_hoe.name",
+    "textures": "textures\/items\/iron_hoe"
+  },
+  {
+    "id": "265:0",
+    "name": "Iron Ingot",
+    "namespase": "%item.iron_ingot.name",
+    "textures": "textures\/items\/iron_ingot"
+  },
+  {
+    "id": "308:0",
+    "name": "Iron Leggings",
+    "namespase": "%item.iron_leggings.name",
+    "textures": "textures\/items\/iron_leggings"
+  },
+  {
+    "id": "452:0",
+    "name": "Iron Nugget",
+    "namespase": "%item.iron_nugget.name",
+    "textures": "textures\/items\/iron_nugget"
+  },
+  {
+    "id": "257:0",
+    "name": "Iron Pickaxe",
+    "namespase": "%item.iron_pickaxe.name",
+    "textures": "textures\/items\/iron_pickaxe"
+  },
+  {
+    "id": "256:0",
+    "name": "Iron Shovel",
+    "namespase": "%item.iron_shovel.name",
+    "textures": "textures\/items\/iron_shovel"
+  },
+  {
+    "id": "267:0",
+    "name": "Iron Sword",
+    "namespase": "%item.iron_sword.name",
+    "textures": "textures\/items\/iron_sword"
+  },
+  {
+    "id": "333:3",
+    "name": "Jungle Boat",
+    "namespase": "%item.boat.jungle.name",
+    "textures": "textures\/items\/jungle_boat"
+  },
+  {
+    "id": "351:4",
+    "name": "Lapis Lazuli",
+    "namespase": "%item.dye.blue.name",
+    "textures": "textures\/items\/lapis_lazuli"
+  },
+  {
+    "id": "325:10",
+    "name": "Lava Bucket",
+    "namespase": "%item.bucketLava.name",
+    "textures": "textures\/items\/lava_bucket"
+  },
+  {
+    "id": "373:9",
+    "name": "Leaping Potion",
+    "namespase": "%potion.jump.name",
+    "textures": "textures\/items\/leaping_potion"
+  },
+  {
+    "id": "438:9",
+    "name": "Leaping Splash Potion",
+    "namespase": "%potion.jump.splash.name",
+    "textures": "textures\/items\/leaping_splash_potion"
+  },
+  {
+    "id": "334:0",
+    "name": "Leather",
+    "namespase": "%item.leather.name",
+    "textures": "textures\/items\/leather"
+  },
+  {
+    "id": "301:0",
+    "name": "Leather Boots",
+    "namespase": "%item.leather_boots.name",
+    "textures": "textures\/items\/leather_boots"
+  },
+  {
+    "id": "298:0",
+    "name": "Leather Cap",
+    "namespase": "%item.leather_helmet.name",
+    "textures": "textures\/items\/leather_cap"
+  },
+  {
+    "id": "300:0",
+    "name": "Leather Pants",
+    "namespase": "%item.leather_leggings.name",
+    "textures": "textures\/items\/leather_pants"
+  },
+  {
+    "id": "299:0",
+    "name": "Leather Tunic",
+    "namespase": "%item.leather_chestplate.name",
+    "textures": "textures\/items\/leather_tunic"
+  },
+  {
+    "id": "355:3",
+    "name": "Light Blue Bed",
+    "namespase": "%item.bed.lightBlue.name",
+    "textures": "textures\/items\/light_blue_bed"
+  },
+  {
+    "id": "351:12",
+    "name": "Light Blue Dye",
+    "namespase": "%item.dye.lightBlue.name",
+    "textures": "textures\/items\/light_blue_dye"
+  },
+  {
+    "id": "355:8",
+    "name": "Light Gray Bed",
+    "namespase": "%item.bed.silver.name",
+    "textures": "textures\/items\/light_gray_bed"
+  },
+  {
+    "id": "351:7",
+    "name": "Light Gray Dye",
+    "namespase": "%item.dye.silver.name",
+    "textures": "textures\/items\/light_gray_dye"
+  },
+  {
+    "id": "355:5",
+    "name": "Lime Bed",
+    "namespase": "%item.bed.lime.name",
+    "textures": "textures\/items\/lime_bed"
+  },
+  {
+    "id": "351:10",
+    "name": "Lime Dye",
+    "namespase": "%item.dye.lime.name",
+    "textures": "textures\/items\/lime_dye"
+  },
+  {
+    "id": "373:13",
+    "name": "Long Fire Resistance Potion",
+    "namespase": "%item.long_fire_resistance_potion.name",
+    "textures": "textures\/items\/long_fire_resistance_potion"
+  },
+  {
+    "id": "438:13",
+    "name": "Long Fire Resistance Splash Potion",
+    "namespase": "%item.long_fire_resistance_splash_potion.name",
+    "textures": "textures\/items\/long_fire_resistance_splash_potion"
+  },
+  {
+    "id": "373:8",
+    "name": "Long Invisibility Potion",
+    "namespase": "%item.long_invisibility_potion.name",
+    "textures": "textures\/items\/long_invisibility_potion"
+  },
+  {
+    "id": "438:8",
+    "name": "Long Invisibility Splash Potion",
+    "namespase": "%item.long_invisibility_splash_potion.name",
+    "textures": "textures\/items\/long_invisibility_splash_potion"
+  },
+  {
+    "id": "373:10",
+    "name": "Long Leaping Potion",
+    "namespase": "%item.long_leaping_potion.name",
+    "textures": "textures\/items\/long_leaping_potion"
+  },
+  {
+    "id": "438:10",
+    "name": "Long Leaping Splash Potion",
+    "namespase": "%item.long_leaping_splash_potion.name",
+    "textures": "textures\/items\/long_leaping_splash_potion"
+  },
+  {
+    "id": "373:2",
+    "name": "Long Mundane Potion",
+    "namespase": "%item.long_mundane_potion.name",
+    "textures": "textures\/items\/long_mundane_potion"
+  },
+  {
+    "id": "438:2",
+    "name": "Long Mundane Splash Potion",
+    "namespase": "%item.long_mundane_splash_potion.name",
+    "textures": "textures\/items\/long_mundane_splash_potion"
+  },
+  {
+    "id": "373:6",
+    "name": "Long Night Vision Potion",
+    "namespase": "%item.long_night_vision_potion.name",
+    "textures": "textures\/items\/long_night_vision_potion"
+  },
+  {
+    "id": "438:6",
+    "name": "Long Night Vision Splash Potion",
+    "namespase": "%item.long_night_vision_splash_potion.name",
+    "textures": "textures\/items\/long_night_vision_splash_potion"
+  },
+  {
+    "id": "373:26",
+    "name": "Long Poison Potion",
+    "namespase": "%item.long_poison_potion.name",
+    "textures": "textures\/items\/long_poison_potion"
+  },
+  {
+    "id": "438:26",
+    "name": "Long Poison Splash Potion",
+    "namespase": "%item.long_poison_splash_potion.name",
+    "textures": "textures\/items\/long_poison_splash_potion"
+  },
+  {
+    "id": "373:29",
+    "name": "Long Regeneration Potion",
+    "namespase": "%item.long_regeneration_potion.name",
+    "textures": "textures\/items\/long_regeneration_potion"
+  },
+  {
+    "id": "438:29",
+    "name": "Long Regeneration Splash Potion",
+    "namespase": "%item.long_regeneration_splash_potion.name",
+    "textures": "textures\/items\/long_regeneration_splash_potion"
+  },
+  {
+    "id": "373:41",
+    "name": "Long Slow Falling Potion",
+    "namespase": "%item.long_slow_falling_potion.name",
+    "textures": "textures\/items\/long_slow_falling_potion"
+  },
+  {
+    "id": "438:41",
+    "name": "Long Slow Falling Splash Potion",
+    "namespase": "%item.long_slow_falling_splash_potion.name",
+    "textures": "textures\/items\/long_slow_falling_splash_potion"
+  },
+  {
+    "id": "373:18",
+    "name": "Long Slowness Potion",
+    "namespase": "%item.long_slowness_potion.name",
+    "textures": "textures\/items\/long_slowness_potion"
+  },
+  {
+    "id": "438:18",
+    "name": "Long Slowness Splash Potion",
+    "namespase": "%item.long_slowness_splash_potion.name",
+    "textures": "textures\/items\/long_slowness_splash_potion"
+  },
+  {
+    "id": "373:32",
+    "name": "Long Strength Potion",
+    "namespase": "%item.long_strength_potion.name",
+    "textures": "textures\/items\/long_strength_potion"
+  },
+  {
+    "id": "438:32",
+    "name": "Long Strength Splash Potion",
+    "namespase": "%item.long_strength_splash_potion.name",
+    "textures": "textures\/items\/long_strength_splash_potion"
+  },
+  {
+    "id": "373:15",
+    "name": "Long Swiftness Potion",
+    "namespase": "%item.long_swiftness_potion.name",
+    "textures": "textures\/items\/long_swiftness_potion"
+  },
+  {
+    "id": "438:15",
+    "name": "Long Swiftness Splash Potion",
+    "namespase": "%item.long_swiftness_splash_potion.name",
+    "textures": "textures\/items\/long_swiftness_splash_potion"
+  },
+  {
+    "id": "373:38",
+    "name": "Long Turtle Master Potion",
+    "namespase": "%item.long_turtle_master_potion.name",
+    "textures": "textures\/items\/long_turtle_master_potion"
+  },
+  {
+    "id": "438:38",
+    "name": "Long Turtle Master Splash Potion",
+    "namespase": "%item.long_turtle_master_splash_potion.name",
+    "textures": "textures\/items\/long_turtle_master_splash_potion"
+  },
+  {
+    "id": "373:20",
+    "name": "Long Water Breathing Potion",
+    "namespase": "%item.long_water_breathing_potion.name",
+    "textures": "textures\/items\/long_water_breathing_potion"
+  },
+  {
+    "id": "438:20",
+    "name": "Long Water Breathing Splash Potion",
+    "namespase": "%item.long_water_breathing_splash_potion.name",
+    "textures": "textures\/items\/long_water_breathing_splash_potion"
+  },
+  {
+    "id": "373:35",
+    "name": "Long Weakness Potion",
+    "namespase": "%item.long_weakness_potion.name",
+    "textures": "textures\/items\/long_weakness_potion"
+  },
+  {
+    "id": "438:35",
+    "name": "Long Weakness Splash Potion",
+    "namespase": "%item.long_weakness_splash_potion.name",
+    "textures": "textures\/items\/long_weakness_splash_potion"
+  },
+  {
+    "id": "355:2",
+    "name": "Magenta Bed",
+    "namespase": "%item.bed.magenta.name",
+    "textures": "textures\/items\/magenta_bed"
+  },
+  {
+    "id": "351:13",
+    "name": "Magenta Dye",
+    "namespase": "%item.dye.magenta.name",
+    "textures": "textures\/items\/magenta_dye"
+  },
+  {
+    "id": "378:0",
+    "name": "Magma Cream",
+    "namespase": "%item.magma_cream.name",
+    "textures": "textures\/items\/magma_cream"
+  },
+  {
+    "id": "360:0",
+    "name": "Melon",
+    "namespase": "%item.melon.name",
+    "textures": "textures\/items\/melon"
+  },
+  {
+    "id": "362:0",
+    "name": "Melon Seeds",
+    "namespase": "%item.melon_seeds.name",
+    "textures": "textures\/items\/melon_seeds"
+  },
+  {
+    "id": "325:1",
+    "name": "Milk Bucket",
+    "namespase": "%item.milk_bucket.name",
+    "textures": "textures\/items\/milk_bucket"
+  },
+  {
+    "id": "328:0",
+    "name": "Minecart",
+    "namespase": "%item.minecart.name",
+    "textures": "textures\/items\/minecart"
+  },
+  {
+    "id": "373:1",
+    "name": "Mundane Potion",
+    "namespase": "%potion.mundane.name",
+    "textures": "textures\/items\/mundane_potion"
+  },
+  {
+    "id": "438:1",
+    "name": "Mundane Splash Potion",
+    "namespase": "%potion.mundane.splash.name",
+    "textures": "textures\/items\/mundane_splash_potion"
+  },
+  {
+    "id": "282:0",
+    "name": "Mushroom Stew",
+    "namespase": "%item.mushroom_stew.name",
+    "textures": "textures\/items\/mushroom_stew"
+  },
+  {
+    "id": "465:0",
+    "name": "Nautilus Shell",
+    "namespase": "%item.nautilus_shell.name",
+    "textures": "textures\/items\/nautilus_shell"
+  },
+  {
+    "id": "405:0",
+    "name": "Nether Brick",
+    "namespase": "%item.netherbrick.name",
+    "textures": "textures\/items\/nether_brick"
+  },
+  {
+    "id": "406:0",
+    "name": "Nether Quartz",
+    "namespase": "%item.quartz.name",
+    "textures": "textures\/items\/nether_quartz"
+  },
+  {
+    "id": "399:0",
+    "name": "Nether Star",
+    "namespase": "%item.netherStar.name",
+    "textures": "textures\/items\/nether_star"
+  },
+  {
+    "id": "373:5",
+    "name": "Night Vision Potion",
+    "namespase": "%potion.nightVision.name",
+    "textures": "textures\/items\/night_vision_potion"
+  },
+  {
+    "id": "438:5",
+    "name": "Night Vision Splash Potion",
+    "namespase": "%potion.nightVision.splash.name",
+    "textures": "textures\/items\/night_vision_splash_potion"
+  },
+  {
+    "id": "333:0",
+    "name": "Oak Boat",
+    "namespase": "%item.boat.oak.name",
+    "textures": "textures\/items\/oak_boat"
+  },
+  {
+    "id": "355:1",
+    "name": "Orange Bed",
+    "namespase": "%item.bed.orange.name",
+    "textures": "textures\/items\/orange_bed"
+  },
+  {
+    "id": "351:14",
+    "name": "Orange Dye",
+    "namespase": "%item.dye.orange.name",
+    "textures": "textures\/items\/orange_dye"
+  },
+  {
+    "id": "321:0",
+    "name": "Painting",
+    "namespase": "%item.painting.name",
+    "textures": "textures\/items\/painting"
+  },
+  {
+    "id": "339:0",
+    "name": "Paper",
+    "namespase": "%item.paper.name",
+    "textures": "textures\/items\/paper"
+  },
+  {
+    "id": "355:6",
+    "name": "Pink Bed",
+    "namespase": "%item.bed.pink.name",
+    "textures": "textures\/items\/pink_bed"
+  },
+  {
+    "id": "351:9",
+    "name": "Pink Dye",
+    "namespase": "%item.dye.pink.name",
+    "textures": "textures\/items\/pink_dye"
+  },
+  {
+    "id": "397:3",
+    "name": "Player Head",
+    "namespase": "%item.skull.char.name",
+    "textures": "textures\/items\/player_head"
+  },
+  {
+    "id": "373:25",
+    "name": "Poison Potion",
+    "namespase": "%potion.poison.name",
+    "textures": "textures\/items\/poison_potion"
+  },
+  {
+    "id": "438:25",
+    "name": "Poison Splash Potion",
+    "namespase": "%potion.poison.splash.name",
+    "textures": "textures\/items\/poison_splash_potion"
+  },
+  {
+    "id": "394:0",
+    "name": "Poisonous Potato",
+    "namespase": "%item.poisonous_potato.name",
+    "textures": "textures\/items\/poisonous_potato"
+  },
+  {
+    "id": "433:0",
+    "name": "Popped Chorus Fruit",
+    "namespase": "%item.chorus_fruit_popped.name",
+    "textures": "textures\/items\/popped_chorus_fruit"
+  },
+  {
+    "id": "392:0",
+    "name": "Potato",
+    "namespase": "%item.potato.name",
+    "textures": "textures\/items\/potato"
+  },
+  {
+    "id": "422:0",
+    "name": "Prismarine Crystals",
+    "namespase": "%item.prismarine_crystals.name",
+    "textures": "textures\/items\/prismarine_crystals"
+  },
+  {
+    "id": "409:0",
+    "name": "Prismarine Shard",
+    "namespase": "%item.prismarine_shard.name",
+    "textures": "textures\/items\/prismarine_shard"
+  },
+  {
+    "id": "462:0",
+    "name": "Pufferfish",
+    "namespase": "%item.pufferfish.name",
+    "textures": "textures\/items\/pufferfish"
+  },
+  {
+    "id": "400:0",
+    "name": "Pumpkin Pie",
+    "namespase": "%item.pumpkin_pie.name",
+    "textures": "textures\/items\/pumpkin_pie"
+  },
+  {
+    "id": "361:0",
+    "name": "Pumpkin Seeds",
+    "namespase": "%item.pumpkin_seeds.name",
+    "textures": "textures\/items\/pumpkin_seeds"
+  },
+  {
+    "id": "355:10",
+    "name": "Purple Bed",
+    "namespase": "%item.bed.purple.name",
+    "textures": "textures\/items\/purple_bed"
+  },
+  {
+    "id": "351:5",
+    "name": "Purple Dye",
+    "namespase": "%item.dye.purple.name",
+    "textures": "textures\/items\/purple_dye"
+  },
+  {
+    "id": "414:0",
+    "name": "Rabbit's Foot",
+    "namespase": "%item.rabbit_foot.name",
+    "textures": "textures\/items\/rabbit's_foot"
+  },
+  {
+    "id": "415:0",
+    "name": "Rabbit Hide",
+    "namespase": "%item.rabbit_hide.name",
+    "textures": "textures\/items\/rabbit_hide"
+  },
+  {
+    "id": "413:0",
+    "name": "Rabbit Stew",
+    "namespase": "%item.rabbit_stew.name",
+    "textures": "textures\/items\/rabbit_stew"
+  },
+  {
+    "id": "363:0",
+    "name": "Raw Beef",
+    "namespase": "%item.beef.name",
+    "textures": "textures\/items\/raw_beef"
+  },
+  {
+    "id": "365:0",
+    "name": "Raw Chicken",
+    "namespase": "%item.chicken.name",
+    "textures": "textures\/items\/raw_chicken"
+  },
+  {
+    "id": "349:0",
+    "name": "Raw Fish",
+    "namespase": "%item.fish.name",
+    "textures": "textures\/items\/raw_fish"
+  },
+  {
+    "id": "423:0",
+    "name": "Raw Mutton",
+    "namespase": "%item.muttonRaw.name",
+    "textures": "textures\/items\/raw_mutton"
+  },
+  {
+    "id": "319:0",
+    "name": "Raw Porkchop",
+    "namespase": "%item.porkchop.name",
+    "textures": "textures\/items\/raw_porkchop"
+  },
+  {
+    "id": "411:0",
+    "name": "Raw Rabbit",
+    "namespase": "%item.rabbit.name",
+    "textures": "textures\/items\/raw_rabbit"
+  },
+  {
+    "id": "460:0",
+    "name": "Raw Salmon",
+    "namespase": "%item.salmon.name",
+    "textures": "textures\/items\/raw_salmon"
+  },
+  {
+    "id": "510:0",
+    "name": "Record 11",
+    "namespase": "%item.record_11.desc",
+    "textures": "textures\/items\/record_11"
+  },
+  {
+    "id": "500:0",
+    "name": "Record 13",
+    "namespase": "%item.record_13.desc",
+    "textures": "textures\/items\/record_13"
+  },
+  {
+    "id": "502:0",
+    "name": "Record Blocks",
+    "namespase": "%item.record_blocks.name",
+    "textures": "textures\/items\/record_blocks"
+  },
+  {
+    "id": "501:0",
+    "name": "Record Cat",
+    "namespase": "%item.record_cat.name",
+    "textures": "textures\/items\/record_cat"
+  },
+  {
+    "id": "503:0",
+    "name": "Record Chirp",
+    "namespase": "%item.record_chirp.name",
+    "textures": "textures\/items\/record_chirp"
+  },
+  {
+    "id": "504:0",
+    "name": "Record Far",
+    "namespase": "%item.record_far.name",
+    "textures": "textures\/items\/record_far"
+  },
+  {
+    "id": "505:0",
+    "name": "Record Mall",
+    "namespase": "%item.record_mall.name",
+    "textures": "textures\/items\/record_mall"
+  },
+  {
+    "id": "506:0",
+    "name": "Record Mellohi",
+    "namespase": "%item.record_mellohi.name",
+    "textures": "textures\/items\/record_mellohi"
+  },
+  {
+    "id": "507:0",
+    "name": "Record Stal",
+    "namespase": "%item.record_stal.name",
+    "textures": "textures\/items\/record_stal"
+  },
+  {
+    "id": "508:0",
+    "name": "Record Strad",
+    "namespase": "%item.record_strad.name",
+    "textures": "textures\/items\/record_strad"
+  },
+  {
+    "id": "511:0",
+    "name": "Record Wait",
+    "namespase": "%item.record_wait.name",
+    "textures": "textures\/items\/record_wait"
+  },
+  {
+    "id": "509:0",
+    "name": "Record Ward",
+    "namespase": "%item.record_ward.name",
+    "textures": "textures\/items\/record_ward"
+  },
+  {
+    "id": "355:14",
+    "name": "Red Bed",
+    "namespase": "%item.red_bed.name",
+    "textures": "textures\/items\/red_bed"
+  },
+  {
+    "id": "351:1",
+    "name": "Red Dye",
+    "namespase": "%item.red_dye.name",
+    "textures": "textures\/items\/red_dye"
+  },
+  {
+    "id": "331:0",
+    "name": "Redstone",
+    "namespase": "%item.redstone.name",
+    "textures": "textures\/items\/redstone"
+  },
+  {
+    "id": "373:28",
+    "name": "Regeneration Potion",
+    "namespase": "%item.regeneration_potion.name",
+    "textures": "textures\/items\/regeneration_potion"
+  },
+  {
+    "id": "438:28",
+    "name": "Regeneration Splash Potion",
+    "namespase": "%item.regeneration_splash_potion.name",
+    "textures": "textures\/items\/regeneration_splash_potion"
+  },
+  {
+    "id": "367:0",
+    "name": "Rotten Flesh",
+    "namespase": "%item.rotten_flesh.name",
+    "textures": "textures\/items\/rotten_flesh"
+  },
+  {
+    "id": "468:0",
+    "name": "Scute",
+    "namespase": "%item.scute.name",
+    "textures": "textures\/items\/scute"
+  },
+  {
+    "id": "359:0",
+    "name": "Shears",
+    "namespase": "%item.shears.name",
+    "textures": "textures\/items\/shears"
+  },
+  {
+    "id": "445:0",
+    "name": "Shulker Shell",
+    "namespase": "%item.shulker_shell.name",
+    "textures": "textures\/items\/shulker_shell"
+  },
+  {
+    "id": "397:0",
+    "name": "Skeleton Skull",
+    "namespase": "%item.skeleton_skull.name",
+    "textures": "textures\/items\/skeleton_skull"
+  },
+  {
+    "id": "341:0",
+    "name": "Slimeball",
+    "namespase": "%item.slimeball.name",
+    "textures": "textures\/items\/slimeball"
+  },
+  {
+    "id": "373:40",
+    "name": "Slow Falling Potion",
+    "namespase": "%item.slow_falling_potion.name",
+    "textures": "textures\/items\/slow_falling_potion"
+  },
+  {
+    "id": "438:40",
+    "name": "Slow Falling Splash Potion",
+    "namespase": "%item.slow_falling_splash_potion.name",
+    "textures": "textures\/items\/slow_falling_splash_potion"
+  },
+  {
+    "id": "373:17",
+    "name": "Slowness Potion",
+    "namespase": "%item.slowness_potion.name",
+    "textures": "textures\/items\/slowness_potion"
+  },
+  {
+    "id": "438:17",
+    "name": "Slowness Splash Potion",
+    "namespase": "%item.slowness_splash_potion.name",
+    "textures": "textures\/items\/slowness_splash_potion"
+  },
+  {
+    "id": "332:0",
+    "name": "Snowball",
+    "namespase": "%item.snowball.name",
+    "textures": "textures\/items\/snowball"
+  },
+  {
+    "id": "375:0",
+    "name": "Spider Eye",
+    "namespase": "%item.spider_eye.name",
+    "textures": "textures\/items\/spider_eye"
+  },
+  {
+    "id": "333:1",
+    "name": "Spruce Boat",
+    "namespase": "%item.spruce_boat.name",
+    "textures": "textures\/items\/spruce_boat"
+  },
+  {
+    "id": "383:17",
+    "name": "Squid Spawn Egg",
+    "namespase": "%item.squid_spawn_egg.name",
+    "textures": "textures\/items\/squid_spawn_egg"
+  },
+  {
+    "id": "364:0",
+    "name": "Steak",
+    "namespase": "%item.steak.name",
+    "textures": "textures\/items\/steak"
+  },
+  {
+    "id": "280:0",
+    "name": "Stick",
+    "namespase": "%item.stick.name",
+    "textures": "textures\/items\/stick"
+  },
+  {
+    "id": "275:0",
+    "name": "Stone Axe",
+    "namespase": "%item.stone_axe.name",
+    "textures": "textures\/items\/stone_axe"
+  },
+  {
+    "id": "291:0",
+    "name": "Stone Hoe",
+    "namespase": "%item.stone_hoe.name",
+    "textures": "textures\/items\/stone_hoe"
+  },
+  {
+    "id": "274:0",
+    "name": "Stone Pickaxe",
+    "namespase": "%item.stone_pickaxe.name",
+    "textures": "textures\/items\/stone_pickaxe"
+  },
+  {
+    "id": "273:0",
+    "name": "Stone Shovel",
+    "namespase": "%item.stone_shovel.name",
+    "textures": "textures\/items\/stone_shovel"
+  },
+  {
+    "id": "272:0",
+    "name": "Stone Sword",
+    "namespase": "%item.stone_sword.name",
+    "textures": "textures\/items\/stone_sword"
+  },
+  {
+    "id": "373:31",
+    "name": "Strength Potion",
+    "namespase": "%item.strength_potion.name",
+    "textures": "textures\/items\/strength_potion"
+  },
+  {
+    "id": "438:31",
+    "name": "Strength Splash Potion",
+    "namespase": "%item.strength_splash_potion.name",
+    "textures": "textures\/items\/strength_splash_potion"
+  },
+  {
+    "id": "287:0",
+    "name": "String",
+    "namespase": "%item.string.name",
+    "textures": "textures\/items\/string"
+  },
+  {
+    "id": "373:24",
+    "name": "Strong Harming Potion",
+    "namespase": "%item.strong_harming_potion.name",
+    "textures": "textures\/items\/strong_harming_potion"
+  },
+  {
+    "id": "438:24",
+    "name": "Strong Harming Splash Potion",
+    "namespase": "%item.strong_harming_splash_potion.name",
+    "textures": "textures\/items\/strong_harming_splash_potion"
+  },
+  {
+    "id": "373:22",
+    "name": "Strong Healing Potion",
+    "namespase": "%item.strong_healing_potion.name",
+    "textures": "textures\/items\/strong_healing_potion"
+  },
+  {
+    "id": "438:22",
+    "name": "Strong Healing Splash Potion",
+    "namespase": "%item.strong_healing_splash_potion.name",
+    "textures": "textures\/items\/strong_healing_splash_potion"
+  },
+  {
+    "id": "373:11",
+    "name": "Strong Leaping Potion",
+    "namespase": "%item.strong_leaping_potion.name",
+    "textures": "textures\/items\/strong_leaping_potion"
+  },
+  {
+    "id": "438:11",
+    "name": "Strong Leaping Splash Potion",
+    "namespase": "%item.strong_leaping_splash_potion.name",
+    "textures": "textures\/items\/strong_leaping_splash_potion"
+  },
+  {
+    "id": "373:27",
+    "name": "Strong Poison Potion",
+    "namespase": "%item.strong_poison_potion.name",
+    "textures": "textures\/items\/strong_poison_potion"
+  },
+  {
+    "id": "438:27",
+    "name": "Strong Poison Splash Potion",
+    "namespase": "%item.strong_poison_splash_potion.name",
+    "textures": "textures\/items\/strong_poison_splash_potion"
+  },
+  {
+    "id": "373:30",
+    "name": "Strong Regeneration Potion",
+    "namespase": "%item.strong_regeneration_potion.name",
+    "textures": "textures\/items\/strong_regeneration_potion"
+  },
+  {
+    "id": "438:30",
+    "name": "Strong Regeneration Splash Potion",
+    "namespase": "%item.strong_regeneration_splash_potion.name",
+    "textures": "textures\/items\/strong_regeneration_splash_potion"
+  },
+  {
+    "id": "373:33",
+    "name": "Strong Strength Potion",
+    "namespase": "%item.strong_strength_potion.name",
+    "textures": "textures\/items\/strong_strength_potion"
+  },
+  {
+    "id": "438:33",
+    "name": "Strong Strength Splash Potion",
+    "namespase": "%item.strong_strength_splash_potion.name",
+    "textures": "textures\/items\/strong_strength_splash_potion"
+  },
+  {
+    "id": "373:16",
+    "name": "Strong Swiftness Potion",
+    "namespase": "%item.strong_swiftness_potion.name",
+    "textures": "textures\/items\/strong_swiftness_potion"
+  },
+  {
+    "id": "438:16",
+    "name": "Strong Swiftness Splash Potion",
+    "namespase": "%item.strong_swiftness_splash_potion.name",
+    "textures": "textures\/items\/strong_swiftness_splash_potion"
+  },
+  {
+    "id": "373:39",
+    "name": "Strong Turtle Master Potion",
+    "namespase": "%item.strong_turtle_master_potion.name",
+    "textures": "textures\/items\/strong_turtle_master_potion"
+  },
+  {
+    "id": "438:39",
+    "name": "Strong Turtle Master Splash Potion",
+    "namespase": "%item.strong_turtle_master_splash_potion.name",
+    "textures": "textures\/items\/strong_turtle_master_splash_potion"
+  },
+  {
+    "id": "353:0",
+    "name": "Sugar",
+    "namespase": "%item.sugar.name",
+    "textures": "textures\/items\/sugar"
+  },
+  {
+    "id": "477:0",
+    "name": "Sweet Berries",
+    "namespase": "%item.sweet_berries.name",
+    "textures": "textures\/items\/sweet_berries"
+  },
+  {
+    "id": "373:14",
+    "name": "Swiftness Potion",
+    "namespase": "%item.swiftness_potion.name",
+    "textures": "textures\/items\/swiftness_potion"
+  },
+  {
+    "id": "438:14",
+    "name": "Swiftness Splash Potion",
+    "namespase": "%item.swiftness_splash_potion.name",
+    "textures": "textures\/items\/swiftness_splash_potion"
+  },
+  {
+    "id": "373:3",
+    "name": "Thick Potion",
+    "namespase": "%item.thick_potion.name",
+    "textures": "textures\/items\/thick_potion"
+  },
+  {
+    "id": "438:3",
+    "name": "Thick Splash Potion",
+    "namespase": "%item.thick_splash_potion.name",
+    "textures": "textures\/items\/thick_splash_potion"
+  },
+  {
+    "id": "450:0",
+    "name": "Totem of Undying",
+    "namespase": "%item.totem_of_undying.name",
+    "textures": "textures\/items\/totem_of_undying"
+  },
+  {
+    "id": "373:37",
+    "name": "Turtle Master Potion",
+    "namespase": "%item.turtle_master_potion.name",
+    "textures": "textures\/items\/turtle_master_potion"
+  },
+  {
+    "id": "438:37",
+    "name": "Turtle Master Splash Potion",
+    "namespase": "%item.turtle_master_splash_potion.name",
+    "textures": "textures\/items\/turtle_master_splash_potion"
+  },
+  {
+    "id": "383:15",
+    "name": "Villager Spawn Egg",
+    "namespase": "%item.villager_spawn_egg.name",
+    "textures": "textures\/items\/villager_spawn_egg"
+  },
+  {
+    "id": "373:19",
+    "name": "Water Breathing Potion",
+    "namespase": "%item.water_breathing_potion.name",
+    "textures": "textures\/items\/water_breathing_potion"
+  },
+  {
+    "id": "438:19",
+    "name": "Water Breathing Splash Potion",
+    "namespase": "%item.water_breathing_splash_potion.name",
+    "textures": "textures\/items\/water_breathing_splash_potion"
+  },
+  {
+    "id": "325:8",
+    "name": "Water Bucket",
+    "namespase": "%item.water_bucket.name",
+    "textures": "textures\/items\/water_bucket"
+  },
+  {
+    "id": "373:0",
+    "name": "Water Potion",
+    "namespase": "%item.water_potion.name",
+    "textures": "textures\/items\/water_potion"
+  },
+  {
+    "id": "438:0",
+    "name": "Water Splash Potion",
+    "namespase": "%item.water_splash_potion.name",
+    "textures": "textures\/items\/water_splash_potion"
+  },
+  {
+    "id": "373:34",
+    "name": "Weakness Potion",
+    "namespase": "%item.weakness_potion.name",
+    "textures": "textures\/items\/weakness_potion"
+  },
+  {
+    "id": "438:34",
+    "name": "Weakness Splash Potion",
+    "namespase": "%item.weakness_splash_potion.name",
+    "textures": "textures\/items\/weakness_splash_potion"
+  },
+  {
+    "id": "296:0",
+    "name": "Wheat",
+    "namespase": "%item.wheat.name",
+    "textures": "textures\/items\/wheat"
+  },
+  {
+    "id": "295:0",
+    "name": "Wheat Seeds",
+    "namespase": "%item.wheat_seeds.name",
+    "textures": "textures\/items\/wheat_seeds"
+  },
+  {
+    "id": "355:0",
+    "name": "White Bed",
+    "namespase": "%item.white_bed.name",
+    "textures": "textures\/items\/white_bed"
+  },
+  {
+    "id": "351:19",
+    "name": "White Dye",
+    "namespase": "%item.white_dye.name",
+    "textures": "textures\/items\/white_dye"
+  },
+  {
+    "id": "373:36",
+    "name": "Wither Potion",
+    "namespase": "%item.wither_potion.name",
+    "textures": "textures\/items\/wither_potion"
+  },
+  {
+    "id": "397:1",
+    "name": "Wither Skeleton Skull",
+    "namespase": "%item.wither_skeleton_skull.name",
+    "textures": "textures\/items\/wither_skeleton_skull"
+  },
+  {
+    "id": "438:36",
+    "name": "Wither Splash Potion",
+    "namespase": "%item.wither_splash_potion.name",
+    "textures": "textures\/items\/wither_splash_potion"
+  },
+  {
+    "id": "271:0",
+    "name": "Wooden Axe",
+    "namespase": "%item.wooden_axe.name",
+    "textures": "textures\/items\/wooden_axe"
+  },
+  {
+    "id": "290:0",
+    "name": "Wooden Hoe",
+    "namespase": "%item.wooden_hoe.name",
+    "textures": "textures\/items\/wooden_hoe"
+  },
+  {
+    "id": "270:0",
+    "name": "Wooden Pickaxe",
+    "namespase": "%item.wooden_pickaxe.name",
+    "textures": "textures\/items\/wooden_pickaxe"
+  },
+  {
+    "id": "269:0",
+    "name": "Wooden Shovel",
+    "namespase": "%item.wooden_shovel.name",
+    "textures": "textures\/items\/wooden_shovel"
+  },
+  {
+    "id": "268:0",
+    "name": "Wooden Sword",
+    "namespase": "%item.wooden_sword.name",
+    "textures": "textures\/items\/wooden_sword"
+  },
+  {
+    "id": "386:0",
+    "name": "Book & Quill",
+    "namespase": "%item.book_&_quill.name",
+    "textures": "textures\/items\/book_&_quill"
+  },
+  {
+    "id": "387:0",
+    "name": "Written Book",
+    "namespase": "%item.written_book.name",
+    "textures": "textures\/items\/written_book"
+  },
+  {
+    "id": "355:4",
+    "name": "Yellow Bed",
+    "namespase": "%item.yellow_bed.name",
+    "textures": "textures\/items\/yellow_bed"
+  },
+  {
+    "id": "351:11",
+    "name": "Yellow Dye",
+    "namespase": "%item.yellow_dye.name",
+    "textures": "textures\/items\/yellow_dye"
+  },
+  {
+    "id": "397:2",
+    "name": "Zombie Head",
+    "namespase": "%item.zombie_head.name",
+    "textures": "textures\/items\/zombie_head"
+  },
+  {
+    "id": "383:32",
+    "name": "Zombie Spawn Egg",
+    "namespase": "%item.zombie_spawn_egg.name",
+    "textures": "textures\/items\/zombie_spawn_egg"
+  }
+]
