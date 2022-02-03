@@ -11,14 +11,14 @@
     "id": 196,
     "meta": 0,
     "name": "Acacia Door",
-    "translator": "%tile.acacia_door.name"
+    "translator": "%item.acacia_door.name"
   },
   {
     "key": "85:4",
     "id": 85,
     "meta": 4,
     "name": "Acacia Fence",
-    "translator": "%tile.acacia_fence.name"
+    "translator": "%tile.acaciaFence.name"
   },
   {
     "key": "187:0",
@@ -32,21 +32,21 @@
     "id": 161,
     "meta": 0,
     "name": "Acacia Leaves",
-    "translator": "%tile.acacia_leaves.name"
+    "translator": "%tile.leaves.acacia.name"
   },
   {
     "key": "162:0",
     "id": 162,
     "meta": 0,
     "name": "Acacia Log",
-    "translator": "%tile.acacia_log.name"
+    "translator": "%tile.log.acacia.name"
   },
   {
     "key": "5:4",
     "id": 5,
     "meta": 4,
     "name": "Acacia Planks",
-    "translator": "%tile.acacia_planks.name"
+    "translator": "%tile.planks.acacia.name"
   },
   {
     "key": "405:0",
@@ -60,21 +60,21 @@
     "id": 6,
     "meta": 4,
     "name": "Acacia Sapling",
-    "translator": "%tile.acacia_sapling.name"
+    "translator": "%tile.sapling.acacia.name"
   },
   {
     "key": "445:0",
     "id": 445,
     "meta": 0,
     "name": "Acacia Sign",
-    "translator": "%tile.acacia_sign.name"
+    "translator": "%tile.acacia_standing_sign.name"
   },
   {
     "key": "158:4",
     "id": 158,
     "meta": 4,
     "name": "Acacia Slab",
-    "translator": "%tile.acacia_slab.name"
+    "translator": "%tile.wooden_slab.acacia.name"
   },
   {
     "key": "163:0",
