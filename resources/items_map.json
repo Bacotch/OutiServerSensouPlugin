@@ -1,0 +1,2024 @@
+[
+  {
+    "key": "333:4",
+    "id": "333",
+    "meta": "4",
+    "translator": "%item.boat.acacia.name"
+  },
+  {
+    "key": "260:0",
+    "id": "260",
+    "meta": "0",
+    "translator": "%item.apple.name"
+  },
+  {
+    "key": "262:0",
+    "id": "262",
+    "meta": "0",
+    "translator": "%item.arrow.name"
+  },
+  {
+    "key": "373:4",
+    "id": "373",
+    "meta": "4",
+    "translator": "%potion.awkward.name"
+  },
+  {
+    "key": "438:4",
+    "id": "438",
+    "meta": "4",
+    "translator": "%potion.awkward.splash.name"
+  },
+  {
+    "key": "393:0",
+    "id": "393",
+    "meta": "0",
+    "translator": "%item.baked_potato.name"
+  },
+  {
+    "key": "457:0",
+    "id": "457",
+    "meta": "0",
+    "translator": "%item.beetroot.name"
+  },
+  {
+    "key": "458:0",
+    "id": "458",
+    "meta": "0",
+    "translator": "%item.beetroot_seeds.name"
+  },
+  {
+    "key": "459:0",
+    "id": "459",
+    "meta": "0",
+    "translator": "%item.beetroot_soup.name"
+  },
+  {
+    "key": "333:2",
+    "id": "333",
+    "meta": "2",
+    "translator": "%item.boat.birch.name"
+  },
+  {
+    "key": "355:15",
+    "id": "355",
+    "meta": "15",
+    "translator": "%item.bed.black.name"
+  },
+  {
+    "key": "351:16",
+    "id": "351",
+    "meta": "16",
+    "translator": "%item.dye.black_new.name"
+  },
+  {
+    "key": "377:0",
+    "id": "377",
+    "meta": "0",
+    "translator": "%item.blaze_powder.name"
+  },
+  {
+    "key": "369:0",
+    "id": "369",
+    "meta": "0",
+    "translator": "%item.blaze_rod.name"
+  },
+  {
+    "key": "451:0",
+    "id": "451",
+    "meta": "0",
+    "translator": "%item.bleach.name"
+  },
+  {
+    "key": "355:11",
+    "id": "355",
+    "meta": "11",
+    "translator": "%item.bed.blue.name"
+  },
+  {
+    "key": "351:18",
+    "id": "351",
+    "meta": "18",
+    "translator": "%item.dye.blue.name"
+  },
+  {
+    "key": "352:0",
+    "id": "352",
+    "meta": "0",
+    "translator": "%item.bone.name"
+  },
+  {
+    "key": "351:15",
+    "id": "351",
+    "meta": "15",
+    "translator": "%item.dye.white.name"
+  },
+  {
+    "key": "340:0",
+    "id": "340",
+    "meta": "0",
+    "translator": "%item.book.name"
+  },
+  {
+    "key": "261:0",
+    "id": "261",
+    "meta": "0",
+    "translator": "%item.bow.name"
+  },
+  {
+    "key": "281:0",
+    "id": "281",
+    "meta": "0",
+    "translator": "%item.bowl.name"
+  },
+  {
+    "key": "297:0",
+    "id": "297",
+    "meta": "0",
+    "translator": "%item.bread.name"
+  },
+  {
+    "key": "336:0",
+    "id": "336",
+    "meta": "0",
+    "translator": "%item.brick.name"
+  },
+  {
+    "key": "355:12",
+    "id": "355",
+    "meta": "12",
+    "translator": "%item.bed.brown.name"
+  },
+  {
+    "key": "351:17",
+    "id": "351",
+    "meta": "17",
+    "translator": "%item.dye.brown_new.name"
+  },
+  {
+    "key": "325:0",
+    "id": "325",
+    "meta": "0",
+    "translator": "%item.bucket.name"
+  },
+  {
+    "key": "391:0",
+    "id": "391",
+    "meta": "0",
+    "translator": "%item.carrot.name"
+  },
+  {
+    "key": "305:0",
+    "id": "305",
+    "meta": "0",
+    "translator": "%item.chainmail_boots.name"
+  },
+  {
+    "key": "303:0",
+    "id": "303",
+    "meta": "0",
+    "translator": "%item.chainmail_chestplate.name"
+  },
+  {
+    "key": "302:0",
+    "id": "302",
+    "meta": "0",
+    "translator": "%item.chainmail_helmet.name"
+  },
+  {
+    "key": "304:0",
+    "id": "304",
+    "meta": "0",
+    "translator": "%item.chainmail_leggings.name"
+  },
+  {
+    "key": "263:1",
+    "id": "263",
+    "meta": "1",
+    "translator": "%item.charcoal.name"
+  },
+  {
+    "key": "499:13",
+    "id": "499",
+    "meta": "13",
+    "translator": "%item.compound.aluminumoxide.name"
+  },
+  {
+    "key": "499:36",
+    "id": "499",
+    "meta": "36",
+    "translator": "%item.compound.ammonia.name"
+  },
+  {
+    "key": "499:20",
+    "id": "499",
+    "meta": "20",
+    "translator": "%item.compound.bariumsulfate.name"
+  },
+  {
+    "key": "499:33",
+    "id": "499",
+    "meta": "33",
+    "translator": "%item.compound.benzene.name"
+  },
+  {
+    "key": "499:14",
+    "id": "499",
+    "meta": "14",
+    "translator": "%item.compound.borontrioxide.name"
+  },
+  {
+    "key": "499:7",
+    "id": "499",
+    "meta": "7",
+    "translator": "%item.compound.calciumbromide.name"
+  },
+  {
+    "key": "499:25",
+    "id": "499",
+    "meta": "25",
+    "translator": "%item.compound.calciumchloride.name"
+  },
+  {
+    "key": "499:23",
+    "id": "499",
+    "meta": "23",
+    "translator": "%item.compound.ceriumchloride.name"
+  },
+  {
+    "key": "499:11",
+    "id": "499",
+    "meta": "11",
+    "translator": "%item.charcoal.name"
+  },
+  {
+    "key": "499:29",
+    "id": "499",
+    "meta": "29",
+    "translator": "%item.compound.crudeoil.name"
+  },
+  {
+    "key": "499:27",
+    "id": "499",
+    "meta": "27",
+    "translator": "%item.compound.glue.name"
+  },
+  {
+    "key": "499:35",
+    "id": "499",
+    "meta": "35",
+    "translator": "%item.compound.hydrogenperoxide.name"
+  },
+  {
+    "key": "499:28",
+    "id": "499",
+    "meta": "28",
+    "translator": "%item.compound.hypochlorite.name"
+  },
+  {
+    "key": "499:34",
+    "id": "499",
+    "meta": "34",
+    "translator": "%unknown"
+  },
+  {
+    "key": "499:4",
+    "id": "499",
+    "meta": "4",
+    "translator": "%item.compound.ironsulfide.name"
+  },
+  {
+    "key": "499:30",
+    "id": "499",
+    "meta": "30",
+    "translator": "%item.compound.latex.name"
+  },
+  {
+    "key": "499:5",
+    "id": "499",
+    "meta": "5",
+    "translator": "%item.compound.lithiumhydride.name"
+  },
+  {
+    "key": "499:10",
+    "id": "499",
+    "meta": "10",
+    "translator": "%item.compound.luminol.name"
+  },
+  {
+    "key": "499:3",
+    "id": "499",
+    "meta": "3",
+    "translator": "%item.compound.magnesiumnitrate.name"
+  },
+  {
+    "key": "499:8",
+    "id": "499",
+    "meta": "8",
+    "translator": "%item.compound.magnesiumoxide.name"
+  },
+  {
+    "key": "499:18",
+    "id": "499",
+    "meta": "18",
+    "translator": "%item.compound.magnesiumsalts.name"
+  },
+  {
+    "key": "499:22",
+    "id": "499",
+    "meta": "22",
+    "translator": "%item.compound.mercuricchloride.name"
+  },
+  {
+    "key": "499:16",
+    "id": "499",
+    "meta": "16",
+    "translator": "%item.compound.polyethylene.name"
+  },
+  {
+    "key": "499:21",
+    "id": "499",
+    "meta": "21",
+    "translator": "%item.compound.potassiumchloride.name"
+  },
+  {
+    "key": "499:31",
+    "id": "499",
+    "meta": "31",
+    "translator": "%item.compound.potassiumiodide.name"
+  },
+  {
+    "key": "499:17",
+    "id": "499",
+    "meta": "17",
+    "translator": "%item.compound.garbage.name"
+  },
+  {
+    "key": "499:0",
+    "id": "499",
+    "meta": "0",
+    "translator": "%item.compound.salt.name"
+  },
+  {
+    "key": "499:15",
+    "id": "499",
+    "meta": "15",
+    "translator": "%item.compound.soap.name"
+  },
+  {
+    "key": "499:9",
+    "id": "499",
+    "meta": "9",
+    "translator": "%item.compound.sodiumacetate.name"
+  },
+  {
+    "key": "499:32",
+    "id": "499",
+    "meta": "32",
+    "translator": "%item.compound.sodiumfluoride.name"
+  },
+  {
+    "key": "499:6",
+    "id": "499",
+    "meta": "6",
+    "translator": "%item.compound.sodiumhydride.name"
+  },
+  {
+    "key": "499:2",
+    "id": "499",
+    "meta": "2",
+    "translator": "%item.compound.sodiumhydroxide.name"
+  },
+  {
+    "key": "499:37",
+    "id": "499",
+    "meta": "37",
+    "translator": "%item.compound.sodiumhypochlorite.name"
+  },
+  {
+    "key": "499:1",
+    "id": "499",
+    "meta": "1",
+    "translator": "%item.compound.sodiumoxide.name"
+  },
+  {
+    "key": "499:12",
+    "id": "499",
+    "meta": "12",
+    "translator": "%item.sugar.name"
+  },
+  {
+    "key": "499:19",
+    "id": "499",
+    "meta": "19",
+    "translator": "%item.compound.sulfate.name"
+  },
+  {
+    "key": "499:24",
+    "id": "499",
+    "meta": "24",
+    "translator": "%item.compound.tungstenchloride.name"
+  },
+  {
+    "key": "499:26",
+    "id": "499",
+    "meta": "26",
+    "translator": "%item.compound.water.name"
+  },
+  {
+    "key": "432:0",
+    "id": "432",
+    "meta": "0",
+    "translator": "%item.chorus_fruit.name"
+  },
+  {
+    "key": "337:0",
+    "id": "337",
+    "meta": "0",
+    "translator": "%item.clay_ball.name"
+  },
+  {
+    "key": "347:0",
+    "id": "347",
+    "meta": "0",
+    "translator": "%item.clock.name"
+  },
+  {
+    "key": "461:0",
+    "id": "461",
+    "meta": "0",
+    "translator": "%item.clownfish.name"
+  },
+  {
+    "key": "263:0",
+    "id": "263",
+    "meta": "0",
+    "translator": "%item.coal.name"
+  },
+  {
+    "key": "351:3",
+    "id": "351",
+    "meta": "3",
+    "translator": "%item.dye.brown.name"
+  },
+  {
+    "key": "345:0",
+    "id": "345",
+    "meta": "0",
+    "translator": "%item.compass.name"
+  },
+  {
+    "key": "366:0",
+    "id": "366",
+    "meta": "0",
+    "translator": "%item.cooked_chicken.name"
+  },
+  {
+    "key": "350:0",
+    "id": "350",
+    "meta": "0",
+    "translator": "%item.cooked_fish.name"
+  },
+  {
+    "key": "424:0",
+    "id": "424",
+    "meta": "0",
+    "translator": "%item.muttonCooked.name"
+  },
+  {
+    "key": "320:0",
+    "id": "320",
+    "meta": "0",
+    "translator": "%item.cooked_porkchop.name"
+  },
+  {
+    "key": "412:0",
+    "id": "412",
+    "meta": "0",
+    "translator": "%item.cooked_rabbit.name"
+  },
+  {
+    "key": "463:0",
+    "id": "463",
+    "meta": "0",
+    "translator": "%item.cooked_salmon.name"
+  },
+  {
+    "key": "357:0",
+    "id": "357",
+    "meta": "0",
+    "translator": "%item.cookie.name"
+  },
+  {
+    "key": "397:4",
+    "id": "397",
+    "meta": "4",
+    "translator": "%item.skull.creeper.name"
+  },
+  {
+    "key": "355:9",
+    "id": "355",
+    "meta": "9",
+    "translator": "%item.bed.cyan.name"
+  },
+  {
+    "key": "351:6",
+    "id": "351",
+    "meta": "6",
+    "translator": "%item.dye.cyan.name"
+  },
+  {
+    "key": "333:5",
+    "id": "333",
+    "meta": "5",
+    "translator": "%item.boat.big_oak.name"
+  },
+  {
+    "key": "264:0",
+    "id": "264",
+    "meta": "0",
+    "translator": "%item.diamond.name"
+  },
+  {
+    "key": "279:0",
+    "id": "279",
+    "meta": "0",
+    "translator": "%item.diamond_axe.name"
+  },
+  {
+    "key": "313:0",
+    "id": "313",
+    "meta": "0",
+    "translator": "%item.diamond_boots.name"
+  },
+  {
+    "key": "311:0",
+    "id": "311",
+    "meta": "0",
+    "translator": "%item.diamond_chestplate.name"
+  },
+  {
+    "key": "310:0",
+    "id": "310",
+    "meta": "0",
+    "translator": "%item.diamond_helmet.name"
+  },
+  {
+    "key": "293:0",
+    "id": "293",
+    "meta": "0",
+    "translator": "%item.diamond_hoe.name"
+  },
+  {
+    "key": "312:0",
+    "id": "312",
+    "meta": "0",
+    "translator": "%item.diamond_leggings.name"
+  },
+  {
+    "key": "278:0",
+    "id": "278",
+    "meta": "0",
+    "translator": "%item.diamond_pickaxe.name"
+  },
+  {
+    "key": "277:0",
+    "id": "277",
+    "meta": "0",
+    "translator": "%item.diamond_shovel.name"
+  },
+  {
+    "key": "276:0",
+    "id": "276",
+    "meta": "0",
+    "translator": "%item.diamond_sword.name"
+  },
+  {
+    "key": "437:0",
+    "id": "437",
+    "meta": "0",
+    "translator": "%item.dragon_breath.name"
+  },
+  {
+    "key": "397:5",
+    "id": "397",
+    "meta": "5",
+    "translator": "%item.skull.dragon.name"
+  },
+  {
+    "key": "464:0",
+    "id": "464",
+    "meta": "0",
+    "translator": "%item.dried_kelp.name"
+  },
+  {
+    "key": "344:0",
+    "id": "344",
+    "meta": "0",
+    "translator": "%item.egg.name"
+  },
+  {
+    "key": "388:0",
+    "id": "388",
+    "meta": "0",
+    "translator": "%item.emerald.name"
+  },
+  {
+    "key": "466:0",
+    "id": "466",
+    "meta": "0",
+    "translator": "%item.appleEnchanted.name"
+  },
+  {
+    "key": "368:0",
+    "id": "368",
+    "meta": "0",
+    "translator": "%item.ender_pearl.name"
+  },
+  {
+    "key": "384:0",
+    "id": "384",
+    "meta": "0",
+    "translator": "%entity.xp_bottle.name"
+  },
+  {
+    "key": "288:0",
+    "id": "288",
+    "meta": "0",
+    "translator": "%item.feather.name"
+  },
+  {
+    "key": "376:0",
+    "id": "376",
+    "meta": "0",
+    "translator": "%item.fermented_spider_eye.name"
+  },
+  {
+    "key": "373:12",
+    "id": "373",
+    "meta": "12",
+    "translator": "%potion.fireResistance.name"
+  },
+  {
+    "key": "438:12",
+    "id": "438",
+    "meta": "12",
+    "translator": "%potion.fireResistance.splash.name"
+  },
+  {
+    "key": "346:0",
+    "id": "346",
+    "meta": "0",
+    "translator": "%item.fishing_rod.name"
+  },
+  {
+    "key": "318:0",
+    "id": "318",
+    "meta": "0",
+    "translator": "%item.flint.name"
+  },
+  {
+    "key": "259:0",
+    "id": "259",
+    "meta": "0",
+    "translator": "%item.flint_and_steel.name"
+  },
+  {
+    "key": "370:0",
+    "id": "370",
+    "meta": "0",
+    "translator": "%item.ghast_tear.name"
+  },
+  {
+    "key": "374:0",
+    "id": "374",
+    "meta": "0",
+    "translator": "%item.glass_bottle.name"
+  },
+  {
+    "key": "382:0",
+    "id": "382",
+    "meta": "0",
+    "translator": "%item.speckled_melon.name"
+  },
+  {
+    "key": "348:0",
+    "id": "348",
+    "meta": "0",
+    "translator": "%item.glowstone_dust.name"
+  },
+  {
+    "key": "266:0",
+    "id": "266",
+    "meta": "0",
+    "translator": "%item.gold_ingot.name"
+  },
+  {
+    "key": "371:0",
+    "id": "371",
+    "meta": "0",
+    "translator": "%item.gold_nugget.name"
+  },
+  {
+    "key": "322:0",
+    "id": "322",
+    "meta": "0",
+    "translator": "%item.golden_apple.name"
+  },
+  {
+    "key": "286:0",
+    "id": "286",
+    "meta": "0",
+    "translator": "%item.golden_axe.name"
+  },
+  {
+    "key": "317:0",
+    "id": "317",
+    "meta": "0",
+    "translator": "%item.golden_boots.name"
+  },
+  {
+    "key": "396:0",
+    "id": "396",
+    "meta": "0",
+    "translator": "%item.golden_carrot.name"
+  },
+  {
+    "key": "315:0",
+    "id": "315",
+    "meta": "0",
+    "translator": "%item.golden_chestplate.name"
+  },
+  {
+    "key": "314:0",
+    "id": "314",
+    "meta": "0",
+    "translator": "%item.golden_helmet.name"
+  },
+  {
+    "key": "294:0",
+    "id": "294",
+    "meta": "0",
+    "translator": "%item.golden_hoe.name"
+  },
+  {
+    "key": "316:0",
+    "id": "316",
+    "meta": "0",
+    "translator": "%item.golden_leggings.name"
+  },
+  {
+    "key": "285:0",
+    "id": "285",
+    "meta": "0",
+    "translator": "%item.golden_pickaxe.name"
+  },
+  {
+    "key": "284:0",
+    "id": "284",
+    "meta": "0",
+    "translator": "%item.golden_shovel.name"
+  },
+  {
+    "key": "283:0",
+    "id": "283",
+    "meta": "0",
+    "translator": "%item.golden_sword.name"
+  },
+  {
+    "key": "355:7",
+    "id": "355",
+    "meta": "7",
+    "translator": "%item.bed.gray.name"
+  },
+  {
+    "key": "351:8",
+    "id": "351",
+    "meta": "8",
+    "translator": "%item.dye.gray.name"
+  },
+  {
+    "key": "355:13",
+    "id": "355",
+    "meta": "13",
+    "translator": "%item.bed.green.name"
+  },
+  {
+    "key": "351:2",
+    "id": "351",
+    "meta": "2",
+    "translator": "%item.dye.green.name"
+  },
+  {
+    "key": "289:0",
+    "id": "289",
+    "meta": "0",
+    "translator": "%item.gunpowder.name"
+  },
+  {
+    "key": "373:23",
+    "id": "373",
+    "meta": "23",
+    "translator": "%potion.harm.name"
+  },
+  {
+    "key": "438:23",
+    "id": "438",
+    "meta": "23",
+    "translator": "%potion.harm.splash.name"
+  },
+  {
+    "key": "373:21",
+    "id": "373",
+    "meta": "21",
+    "translator": "%potion.heal.splash.name"
+  },
+  {
+    "key": "438:21",
+    "id": "438",
+    "meta": "21",
+    "translator": "%potion.heal.splash.name"
+  },
+  {
+    "key": "467:0",
+    "id": "467",
+    "meta": "0",
+    "translator": "%item.heart_of_the_sea.name"
+  },
+  {
+    "key": "351:0",
+    "id": "351",
+    "meta": "0",
+    "translator": "%item.dye.black.name"
+  },
+  {
+    "key": "373:7",
+    "id": "373",
+    "meta": "7",
+    "translator": "%potion.invisibility.name"
+  },
+  {
+    "key": "438:7",
+    "id": "438",
+    "meta": "7",
+    "translator": "%potion.invisibility.splash.name"
+  },
+  {
+    "key": "258:0",
+    "id": "258",
+    "meta": "0",
+    "translator": "%item.iron_axe.name"
+  },
+  {
+    "key": "309:0",
+    "id": "309",
+    "meta": "0",
+    "translator": "%item.iron_boots.name"
+  },
+  {
+    "key": "307:0",
+    "id": "307",
+    "meta": "0",
+    "translator": "%item.iron_chestplate.name"
+  },
+  {
+    "key": "306:0",
+    "id": "306",
+    "meta": "0",
+    "translator": "%item.iron_helmet.name"
+  },
+  {
+    "key": "292:0",
+    "id": "292",
+    "meta": "0",
+    "translator": "%item.iron_hoe.name"
+  },
+  {
+    "key": "265:0",
+    "id": "265",
+    "meta": "0",
+    "translator": "%item.iron_ingot.name"
+  },
+  {
+    "key": "308:0",
+    "id": "308",
+    "meta": "0",
+    "translator": "%item.iron_leggings.name"
+  },
+  {
+    "key": "452:0",
+    "id": "452",
+    "meta": "0",
+    "translator": "%item.iron_nugget.name"
+  },
+  {
+    "key": "257:0",
+    "id": "257",
+    "meta": "0",
+    "translator": "%item.iron_pickaxe.name"
+  },
+  {
+    "key": "256:0",
+    "id": "256",
+    "meta": "0",
+    "translator": "%item.iron_shovel.name"
+  },
+  {
+    "key": "267:0",
+    "id": "267",
+    "meta": "0",
+    "translator": "%item.iron_sword.name"
+  },
+  {
+    "key": "333:3",
+    "id": "333",
+    "meta": "3",
+    "translator": "%item.boat.jungle.name"
+  },
+  {
+    "key": "351:4",
+    "id": "351",
+    "meta": "4",
+    "translator": "%item.dye.blue.name"
+  },
+  {
+    "key": "325:10",
+    "id": "325",
+    "meta": "10",
+    "translator": "%item.bucketLava.name"
+  },
+  {
+    "key": "373:9",
+    "id": "373",
+    "meta": "9",
+    "translator": "%potion.jump.name"
+  },
+  {
+    "key": "438:9",
+    "id": "438",
+    "meta": "9",
+    "translator": "%potion.jump.splash.name"
+  },
+  {
+    "key": "334:0",
+    "id": "334",
+    "meta": "0",
+    "translator": "%item.leather.name"
+  },
+  {
+    "key": "301:0",
+    "id": "301",
+    "meta": "0",
+    "translator": "%item.leather_boots.name"
+  },
+  {
+    "key": "298:0",
+    "id": "298",
+    "meta": "0",
+    "translator": "%item.leather_helmet.name"
+  },
+  {
+    "key": "300:0",
+    "id": "300",
+    "meta": "0",
+    "translator": "%item.leather_leggings.name"
+  },
+  {
+    "key": "299:0",
+    "id": "299",
+    "meta": "0",
+    "translator": "%item.leather_chestplate.name"
+  },
+  {
+    "key": "355:3",
+    "id": "355",
+    "meta": "3",
+    "translator": "%item.bed.lightBlue.name"
+  },
+  {
+    "key": "351:12",
+    "id": "351",
+    "meta": "12",
+    "translator": "%item.dye.lightBlue.name"
+  },
+  {
+    "key": "355:8",
+    "id": "355",
+    "meta": "8",
+    "translator": "%item.bed.silver.name"
+  },
+  {
+    "key": "351:7",
+    "id": "351",
+    "meta": "7",
+    "translator": "%item.dye.silver.name"
+  },
+  {
+    "key": "355:5",
+    "id": "355",
+    "meta": "5",
+    "translator": "%item.bed.lime.name"
+  },
+  {
+    "key": "351:10",
+    "id": "351",
+    "meta": "10",
+    "translator": "%item.dye.lime.name"
+  },
+  {
+    "key": "373:13",
+    "id": "373",
+    "meta": "13",
+    "translator": "%potion.fireResistance.name"
+  },
+  {
+    "key": "438:13",
+    "id": "438",
+    "meta": "13",
+    "translator": "%potion.fireResistance.splash.name"
+  },
+  {
+    "key": "373:8",
+    "id": "373",
+    "meta": "8",
+    "translator": "%potion.invisibility.name"
+  },
+  {
+    "key": "438:8",
+    "id": "438",
+    "meta": "8",
+    "translator": "%potion.invisibility.splash.name"
+  },
+  {
+    "key": "373:10",
+    "id": "373",
+    "meta": "10",
+    "translator": "%potion.jump.name"
+  },
+  {
+    "key": "438:10",
+    "id": "438",
+    "meta": "10",
+    "translator": "%potion.jump.splash.name"
+  },
+  {
+    "key": "373:2",
+    "id": "373",
+    "meta": "2",
+    "translator": "%potion.mundane.name"
+  },
+  {
+    "key": "438:2",
+    "id": "438",
+    "meta": "2",
+    "translator": "%potion.mundane.splash.name"
+  },
+  {
+    "key": "373:6",
+    "id": "373",
+    "meta": "6",
+    "translator": "%potion.nightVision.name"
+  },
+  {
+    "key": "438:6",
+    "id": "438",
+    "meta": "6",
+    "translator": "%potion.nightVision.splash.name"
+  },
+  {
+    "key": "373:26",
+    "id": "373",
+    "meta": "26",
+    "translator": "%potion.poison.name"
+  },
+  {
+    "key": "438:26",
+    "id": "438",
+    "meta": "26",
+    "translator": "%potion.poison.splash.name"
+  },
+  {
+    "key": "373:29",
+    "id": "373",
+    "meta": "29",
+    "translator": "%potion.regeneration.name"
+  },
+  {
+    "key": "438:29",
+    "id": "438",
+    "meta": "29",
+    "translator": "%potion.regeneration.splash.name"
+  },
+  {
+    "key": "373:41",
+    "id": "373",
+    "meta": "41",
+    "translator": "%potion.slowFalling.name"
+  },
+  {
+    "key": "438:41",
+    "id": "438",
+    "meta": "41",
+    "translator": "%potion.slowFalling.splash.name"
+  },
+  {
+    "key": "373:18",
+    "id": "373",
+    "meta": "18",
+    "translator": "%potion.moveSlowdown.name"
+  },
+  {
+    "key": "438:18",
+    "id": "438",
+    "meta": "18",
+    "translator": "%potion.moveSlowdown.splash.name"
+  },
+  {
+    "key": "373:32",
+    "id": "373",
+    "meta": "32",
+    "translator": "%potion.damageBoost.name"
+  },
+  {
+    "key": "438:32",
+    "id": "438",
+    "meta": "32",
+    "translator": "%potion.damageBoost.splash.name"
+  },
+  {
+    "key": "373:15",
+    "id": "373",
+    "meta": "15",
+    "translator": "%potion.moveSpeed.name"
+  },
+  {
+    "key": "438:15",
+    "id": "438",
+    "meta": "15",
+    "translator": "%potion.moveSpeed.splash.name"
+  },
+  {
+    "key": "373:38",
+    "id": "373",
+    "meta": "38",
+    "translator": "%potion.turtleMaster.name"
+  },
+  {
+    "key": "438:38",
+    "id": "438",
+    "meta": "38",
+    "translator": "%potion.turtleMaster.splash.name"
+  },
+  {
+    "key": "373:20",
+    "id": "373",
+    "meta": "20",
+    "translator": "%potion.waterBreathing.name"
+  },
+  {
+    "key": "438:20",
+    "id": "438",
+    "meta": "20",
+    "translator": "%potion.waterBreathing.splash.name"
+  },
+  {
+    "key": "373:35",
+    "id": "373",
+    "meta": "35",
+    "translator": "%potion.weakness.name"
+  },
+  {
+    "key": "438:35",
+    "id": "438",
+    "meta": "35",
+    "translator": "%potion.weakness.splash.name"
+  },
+  {
+    "key": "355:2",
+    "id": "355",
+    "meta": "2",
+    "translator": "%item.bed.magenta.name"
+  },
+  {
+    "key": "351:13",
+    "id": "351",
+    "meta": "13",
+    "translator": "%item.dye.magenta.name"
+  },
+  {
+    "key": "378:0",
+    "id": "378",
+    "meta": "0",
+    "translator": "%item.magma_cream.name"
+  },
+  {
+    "key": "360:0",
+    "id": "360",
+    "meta": "0",
+    "translator": "%item.melon.name"
+  },
+  {
+    "key": "362:0",
+    "id": "362",
+    "meta": "0",
+    "translator": "%item.melon_seeds.name"
+  },
+  {
+    "key": "325:1",
+    "id": "325",
+    "meta": "1",
+    "translator": "%item.milk.name"
+  },
+  {
+    "key": "328:0",
+    "id": "328",
+    "meta": "0",
+    "translator": "%item.minecart.name"
+  },
+  {
+    "key": "373:1",
+    "id": "373",
+    "meta": "1",
+    "translator": "%potion.mundane.name"
+  },
+  {
+    "key": "438:1",
+    "id": "438",
+    "meta": "1",
+    "translator": "%potion.mundane.splash.name"
+  },
+  {
+    "key": "282:0",
+    "id": "282",
+    "meta": "0",
+    "translator": "%item.mushroom_stew.name"
+  },
+  {
+    "key": "465:0",
+    "id": "465",
+    "meta": "0",
+    "translator": "%item.nautilus_shell.name"
+  },
+  {
+    "key": "405:0",
+    "id": "405",
+    "meta": "0",
+    "translator": "%item.netherbrick.name"
+  },
+  {
+    "key": "406:0",
+    "id": "406",
+    "meta": "0",
+    "translator": "%item.quartz.name"
+  },
+  {
+    "key": "399:0",
+    "id": "399",
+    "meta": "0",
+    "translator": "%item.netherStar.name"
+  },
+  {
+    "key": "373:5",
+    "id": "373",
+    "meta": "5",
+    "translator": "%potion.nightVision.name"
+  },
+  {
+    "key": "438:5",
+    "id": "438",
+    "meta": "5",
+    "translator": "%potion.nightVision.splash.name"
+  },
+  {
+    "key": "333:0",
+    "id": "333",
+    "meta": "0",
+    "translator": "%item.boat.oak.name"
+  },
+  {
+    "key": "355:1",
+    "id": "355",
+    "meta": "1",
+    "translator": "%item.bed.orange.name"
+  },
+  {
+    "key": "351:14",
+    "id": "351",
+    "meta": "14",
+    "translator": "%item.dye.orange.name"
+  },
+  {
+    "key": "321:0",
+    "id": "321",
+    "meta": "0",
+    "translator": "%item.painting.name"
+  },
+  {
+    "key": "339:0",
+    "id": "339",
+    "meta": "0",
+    "translator": "%item.paper.name"
+  },
+  {
+    "key": "355:6",
+    "id": "355",
+    "meta": "6",
+    "translator": "%item.bed.pink.name"
+  },
+  {
+    "key": "351:9",
+    "id": "351",
+    "meta": "9",
+    "translator": "%item.dye.pink.name"
+  },
+  {
+    "key": "397:3",
+    "id": "397",
+    "meta": "3",
+    "translator": "%item.skull.char.name"
+  },
+  {
+    "key": "373:25",
+    "id": "373",
+    "meta": "25",
+    "translator": "%potion.poison.name"
+  },
+  {
+    "key": "438:25",
+    "id": "438",
+    "meta": "25",
+    "translator": "%potion.poison.splash.name"
+  },
+  {
+    "key": "394:0",
+    "id": "394",
+    "meta": "0",
+    "translator": "%item.poisonous_potato.name"
+  },
+  {
+    "key": "433:0",
+    "id": "433",
+    "meta": "0",
+    "translator": "%item.chorus_fruit_popped.name"
+  },
+  {
+    "key": "392:0",
+    "id": "392",
+    "meta": "0",
+    "translator": "%item.potato.name"
+  },
+  {
+    "key": "422:0",
+    "id": "422",
+    "meta": "0",
+    "translator": "%item.prismarine_crystals.name"
+  },
+  {
+    "key": "409:0",
+    "id": "409",
+    "meta": "0",
+    "translator": "%item.prismarine_shard.name"
+  },
+  {
+    "key": "462:0",
+    "id": "462",
+    "meta": "0",
+    "translator": "%item.pufferfish.name"
+  },
+  {
+    "key": "400:0",
+    "id": "400",
+    "meta": "0",
+    "translator": "%item.pumpkin_pie.name"
+  },
+  {
+    "key": "361:0",
+    "id": "361",
+    "meta": "0",
+    "translator": "%item.pumpkin_seeds.name"
+  },
+  {
+    "key": "355:10",
+    "id": "355",
+    "meta": "10",
+    "translator": "%item.bed.purple.name"
+  },
+  {
+    "key": "351:5",
+    "id": "351",
+    "meta": "5",
+    "translator": "%item.dye.purple.name"
+  },
+  {
+    "key": "414:0",
+    "id": "414",
+    "meta": "0",
+    "translator": "%item.rabbit_foot.name"
+  },
+  {
+    "key": "415:0",
+    "id": "415",
+    "meta": "0",
+    "translator": "%item.rabbit_hide.name"
+  },
+  {
+    "key": "413:0",
+    "id": "413",
+    "meta": "0",
+    "translator": "%item.rabbit_stew.name"
+  },
+  {
+    "key": "363:0",
+    "id": "363",
+    "meta": "0",
+    "translator": "%item.beef.name"
+  },
+  {
+    "key": "365:0",
+    "id": "365",
+    "meta": "0",
+    "translator": "%item.chicken.name"
+  },
+  {
+    "key": "349:0",
+    "id": "349",
+    "meta": "0",
+    "translator": "%item.fish.name"
+  },
+  {
+    "key": "423:0",
+    "id": "423",
+    "meta": "0",
+    "translator": "%item.muttonRaw.name"
+  },
+  {
+    "key": "319:0",
+    "id": "319",
+    "meta": "0",
+    "translator": "%item.porkchop.name"
+  },
+  {
+    "key": "411:0",
+    "id": "411",
+    "meta": "0",
+    "translator": "%item.rabbit.name"
+  },
+  {
+    "key": "460:0",
+    "id": "460",
+    "meta": "0",
+    "translator": "%item.salmon.name"
+  },
+  {
+    "key": "510:0",
+    "id": "510",
+    "meta": "0",
+    "translator": "%item.record_11.desc"
+  },
+  {
+    "key": "500:0",
+    "id": "500",
+    "meta": "0",
+    "translator": "%item.record_13.desc"
+  },
+  {
+    "key": "502:0",
+    "id": "502",
+    "meta": "0",
+    "translator": "%item.record_blocks.desc"
+  },
+  {
+    "key": "501:0",
+    "id": "501",
+    "meta": "0",
+    "translator": "%item.record_cat.desc"
+  },
+  {
+    "key": "503:0",
+    "id": "503",
+    "meta": "0",
+    "translator": "%item.record_chirp.desc"
+  },
+  {
+    "key": "504:0",
+    "id": "504",
+    "meta": "0",
+    "translator": "%item.record_far.desc"
+  },
+  {
+    "key": "505:0",
+    "id": "505",
+    "meta": "0",
+    "translator": "%item.record_mall.desc"
+  },
+  {
+    "key": "506:0",
+    "id": "506",
+    "meta": "0",
+    "translator": "%item.record_mellohi.desc"
+  },
+  {
+    "key": "507:0",
+    "id": "507",
+    "meta": "0",
+    "translator": "%item.record_stal.desc"
+  },
+  {
+    "key": "508:0",
+    "id": "508",
+    "meta": "0",
+    "translator": "%item.record_strad.desc"
+  },
+  {
+    "key": "511:0",
+    "id": "511",
+    "meta": "0",
+    "translator": "%item.record_wait.desc"
+  },
+  {
+    "key": "509:0",
+    "id": "509",
+    "meta": "0",
+    "translator": "%item.record_ward.desc"
+  },
+  {
+    "key": "355:14",
+    "id": "355",
+    "meta": "14",
+    "translator": "%item.bed.red.name"
+  },
+  {
+    "key": "351:1",
+    "id": "351",
+    "meta": "1",
+    "translator": "%item.dye.red.name"
+  },
+  {
+    "key": "331:0",
+    "id": "331",
+    "meta": "0",
+    "translator": "%item.redstone.name"
+  },
+  {
+    "key": "373:28",
+    "id": "373",
+    "meta": "28",
+    "translator": "%potion.regeneration.name"
+  },
+  {
+    "key": "438:28",
+    "id": "438",
+    "meta": "28",
+    "translator": "%potion.regeneration.splash.name"
+  },
+  {
+    "key": "367:0",
+    "id": "367",
+    "meta": "0",
+    "translator": "%item.rotten_flesh.name"
+  },
+  {
+    "key": "468:0",
+    "id": "468",
+    "meta": "0",
+    "translator": "%item.turtle_shell_piece.name"
+  },
+  {
+    "key": "359:0",
+    "id": "359",
+    "meta": "0",
+    "translator": "%item.shears.name"
+  },
+  {
+    "key": "445:0",
+    "id": "445",
+    "meta": "0",
+    "translator": "%item.skull.skeleton.name"
+  },
+  {
+    "key": "397:0",
+    "id": "397",
+    "meta": "0",
+    "translator": "%item.skull.skeleton.name"
+  },
+  {
+    "key": "341:0",
+    "id": "341",
+    "meta": "0",
+    "translator": "%item.slime_ball.name"
+  },
+  {
+    "key": "373:40",
+    "id": "373",
+    "meta": "40",
+    "translator": "%potion.slowFalling.name"
+  },
+  {
+    "key": "438:40",
+    "id": "438",
+    "meta": "40",
+    "translator": "%potion.slowFalling.splash.name"
+  },
+  {
+    "key": "373:17",
+    "id": "373",
+    "meta": "17",
+    "translator": "%potion.moveSlowdown.name"
+  },
+  {
+    "key": "438:17",
+    "id": "438",
+    "meta": "17",
+    "translator": "%potion.moveSlowdown.splash.name"
+  },
+  {
+    "key": "332:0",
+    "id": "332",
+    "meta": "0",
+    "translator": "%item.snowball.name"
+  },
+  {
+    "key": "375:0",
+    "id": "375",
+    "meta": "0",
+    "translator": "%item.spider_eye.name"
+  },
+  {
+    "key": "333:1",
+    "id": "333",
+    "meta": "1",
+    "translator": "%item.boat.spruce.name"
+  },
+  {
+    "key": "383:17",
+    "id": "383",
+    "meta": "17",
+    "translator": "%item.spawn_egg.entity.squid.name"
+  },
+  {
+    "key": "364:0",
+    "id": "364",
+    "meta": "0",
+    "translator": "%item.steak.name"
+  },
+  {
+    "key": "280:0",
+    "id": "280",
+    "meta": "0",
+    "translator": "%item.stick.name"
+  },
+  {
+    "key": "275:0",
+    "id": "275",
+    "meta": "0",
+    "translator": "%item.stone_axe.name"
+  },
+  {
+    "key": "291:0",
+    "id": "291",
+    "meta": "0",
+    "translator": "%item.stone_hoe.name"
+  },
+  {
+    "key": "274:0",
+    "id": "274",
+    "meta": "0",
+    "translator": "%item.stone_pickaxe.name"
+  },
+  {
+    "key": "273:0",
+    "id": "273",
+    "meta": "0",
+    "translator": "%item.stone_shovel.name"
+  },
+  {
+    "key": "272:0",
+    "id": "272",
+    "meta": "0",
+    "translator": "%item.stone_sword.name"
+  },
+  {
+    "key": "373:31",
+    "id": "373",
+    "meta": "31",
+    "translator": "%potion.damageBoost.name"
+  },
+  {
+    "key": "438:31",
+    "id": "438",
+    "meta": "31",
+    "translator": "%potion.damageBoost.splash.name"
+  },
+  {
+    "key": "287:0",
+    "id": "287",
+    "meta": "0",
+    "translator": "%item.string.name"
+  },
+  {
+    "key": "373:24",
+    "id": "373",
+    "meta": "24",
+    "translator": "%potion.harm.name"
+  },
+  {
+    "key": "438:24",
+    "id": "438",
+    "meta": "24",
+    "translator": "%potion.harm.splash.name"
+  },
+  {
+    "key": "373:22",
+    "id": "373",
+    "meta": "22",
+    "translator": "%potion.heal.name"
+  },
+  {
+    "key": "438:22",
+    "id": "438",
+    "meta": "22",
+    "translator": "%potion.heal.splash.name"
+  },
+  {
+    "key": "373:11",
+    "id": "373",
+    "meta": "11",
+    "translator": "%potion.jump.name"
+  },
+  {
+    "key": "438:11",
+    "id": "438",
+    "meta": "11",
+    "translator": "%potion.jump.splash.name"
+  },
+  {
+    "key": "373:27",
+    "id": "373",
+    "meta": "27",
+    "translator": "%potion.poison.name"
+  },
+  {
+    "key": "438:27",
+    "id": "438",
+    "meta": "27",
+    "translator": "%potion.poison.splash.name"
+  },
+  {
+    "key": "373:30",
+    "id": "373",
+    "meta": "30",
+    "translator": "%potion.regeneration.name"
+  },
+  {
+    "key": "438:30",
+    "id": "438",
+    "meta": "30",
+    "translator": "%potion.regeneration.splash.name"
+  },
+  {
+    "key": "373:33",
+    "id": "373",
+    "meta": "33",
+    "translator": "%potion.damageBoost.name"
+  },
+  {
+    "key": "438:33",
+    "id": "438",
+    "meta": "33",
+    "translator": "%potion.damageBoost.splash.name"
+  },
+  {
+    "key": "373:16",
+    "id": "373",
+    "meta": "16",
+    "translator": "%potion.moveSpeed.name"
+  },
+  {
+    "key": "438:16",
+    "id": "438",
+    "meta": "16",
+    "translator": "%potion.moveSpeed.splash.name"
+  },
+  {
+    "key": "373:39",
+    "id": "373",
+    "meta": "39",
+    "translator": "%potion.turtleMaster.name"
+  },
+  {
+    "key": "438:39",
+    "id": "438",
+    "meta": "39",
+    "translator": "%potion.turtleMaster.splash.name"
+  },
+  {
+    "key": "353:0",
+    "id": "353",
+    "meta": "0",
+    "translator": "%item.sugar.name"
+  },
+  {
+    "key": "477:0",
+    "id": "477",
+    "meta": "0",
+    "translator": "%item.sweet_berries.name"
+  },
+  {
+    "key": "373:14",
+    "id": "373",
+    "meta": "14",
+    "translator": "%potion.moveSpeed.name"
+  },
+  {
+    "key": "438:14",
+    "id": "438",
+    "meta": "14",
+    "translator": "%potion.moveSpeed.splash.name"
+  },
+  {
+    "key": "373:3",
+    "id": "373",
+    "meta": "3",
+    "translator": "%potion.thick.name"
+  },
+  {
+    "key": "438:3",
+    "id": "438",
+    "meta": "3",
+    "translator": "%potion.thick.splash.name"
+  },
+  {
+    "key": "450:0",
+    "id": "450",
+    "meta": "0",
+    "translator": "%item.totem.name"
+  },
+  {
+    "key": "373:37",
+    "id": "373",
+    "meta": "37",
+    "translator": "%potion.turtleMaster.name"
+  },
+  {
+    "key": "438:37",
+    "id": "438",
+    "meta": "37",
+    "translator": "%potion.turtleMaster.splash.name"
+  },
+  {
+    "key": "383:15",
+    "id": "383",
+    "meta": "15",
+    "translator": "%item.spawn_egg.entity.villager.name"
+  },
+  {
+    "key": "373:19",
+    "id": "373",
+    "meta": "19",
+    "translator": "%potion.waterBreathing.name"
+  },
+  {
+    "key": "438:19",
+    "id": "438",
+    "meta": "19",
+    "translator": "%potion.waterBreathing.splash.name"
+  },
+  {
+    "key": "325:8",
+    "id": "325",
+    "meta": "8",
+    "translator": "%item.bucketWater.name"
+  },
+  {
+    "key": "373:0",
+    "id": "373",
+    "meta": "0",
+    "translator": "%potion.emptyPotion.name"
+  },
+  {
+    "key": "438:0",
+    "id": "438",
+    "meta": "0",
+    "translator": "%potion.emptyPotion.splash.name"
+  },
+  {
+    "key": "373:34",
+    "id": "373",
+    "meta": "34",
+    "translator": "%potion.weakness.name"
+  },
+  {
+    "key": "438:34",
+    "id": "438",
+    "meta": "34",
+    "translator": "%potion.weakness.splash.name"
+  },
+  {
+    "key": "296:0",
+    "id": "296",
+    "meta": "0",
+    "translator": "%item.wheat.name"
+  },
+  {
+    "key": "295:0",
+    "id": "295",
+    "meta": "0",
+    "translator": "%item.wheat_seeds.name"
+  },
+  {
+    "key": "355:0",
+    "id": "355",
+    "meta": "0",
+    "translator": "%item.bed.white.name"
+  },
+  {
+    "key": "351:19",
+    "id": "351",
+    "meta": "19",
+    "translator": "%item.dye.white.name"
+  },
+  {
+    "key": "373:36",
+    "id": "373",
+    "meta": "36",
+    "translator": "%potion.wither.name"
+  },
+  {
+    "key": "397:1",
+    "id": "397",
+    "meta": "1",
+    "translator": "%item.skull.wither.name"
+  },
+  {
+    "key": "438:36",
+    "id": "438",
+    "meta": "36",
+    "translator": "%potion.wither.splash.name"
+  },
+  {
+    "key": "271:0",
+    "id": "271",
+    "meta": "0",
+    "translator": "%item.wooden_axe.name"
+  },
+  {
+    "key": "290:0",
+    "id": "290",
+    "meta": "0",
+    "translator": "%item.wooden_hoe.name"
+  },
+  {
+    "key": "270:0",
+    "id": "270",
+    "meta": "0",
+    "translator": "%item.wooden_pickaxe.name"
+  },
+  {
+    "key": "269:0",
+    "id": "269",
+    "meta": "0",
+    "translator": "%item.wooden_shovel.name"
+  },
+  {
+    "key": "268:0",
+    "id": "268",
+    "meta": "0",
+    "translator": "%item.wooden_sword.name"
+  },
+  {
+    "key": "386:0",
+    "id": "386",
+    "meta": "0",
+    "translator": "%item.writable_book.name"
+  },
+  {
+    "key": "387:0",
+    "id": "387",
+    "meta": "0",
+    "translator": "%item.written_book.name"
+  },
+  {
+    "key": "355:4",
+    "id": "355",
+    "meta": "4",
+    "translator": "%item.bed.yellow.name"
+  },
+  {
+    "key": "351:11",
+    "id": "351",
+    "meta": "11",
+    "translator": "%item.dye.yellow.name"
+  },
+  {
+    "key": "397:2",
+    "id": "397",
+    "meta": "2",
+    "translator": "%item.skull.zombie.name"
+  },
+  {
+    "key": "383:32",
+    "id": "383",
+    "meta": "32",
+    "translator": "%item.spawn_egg.entity.zombie.name"
+  }
+]

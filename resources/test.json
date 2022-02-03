@@ -1,2024 +1,3761 @@
 [
   {
-    "id": "333:4",
-    "name": "Acacia Boat",
-    "namespase": "%item.boat.acacia.name",
-    "textures": "textures\/items\/acacia_boat"
+    "key": "395:0",
+    "id": 395,
+    "meta": 0,
+    "name": "Acacia Button",
+    "translator": "%tile.acacia_button.name"
   },
   {
-    "id": "260:0",
-    "name": "Apple",
-    "namespase": "%item.apple.name",
-    "textures": "textures\/items\/apple"
+    "key": "196:0",
+    "id": 196,
+    "meta": 0,
+    "name": "Acacia Door",
+    "translator": "%tile.acacia_door.name"
   },
   {
-    "id": "262:0",
-    "name": "Arrow",
-    "namespase": "%item.arrow.name",
-    "textures": "textures\/items\/arrow"
+    "key": "85:4",
+    "id": 85,
+    "meta": 4,
+    "name": "Acacia Fence",
+    "translator": "%tile.acacia_fence.name"
   },
   {
-    "id": "373:4",
-    "name": "Awkward Potion",
-    "namespase": "%potion.awkward.name",
-    "textures": "textures\/items\/awkward_potion"
+    "key": "187:0",
+    "id": 187,
+    "meta": 0,
+    "name": "Acacia Fence Gate",
+    "translator": "%tile.acacia_fence_gate.name"
   },
   {
-    "id": "438:4",
-    "name": "Awkward Splash Potion",
-    "namespase": "%potion.awkward.splash.name",
-    "textures": "textures\/items\/awkward_splash_potion"
+    "key": "161:0",
+    "id": 161,
+    "meta": 0,
+    "name": "Acacia Leaves",
+    "translator": "%tile.acacia_leaves.name"
   },
   {
-    "id": "393:0",
-    "name": "Baked Potato",
-    "namespase": "%item.baked_potato.name",
-    "textures": "textures\/items\/baked_potato"
+    "key": "162:0",
+    "id": 162,
+    "meta": 0,
+    "name": "Acacia Log",
+    "translator": "%tile.acacia_log.name"
   },
   {
-    "id": "457:0",
-    "name": "Beetroot",
-    "namespase": "%item.beetroot.name",
-    "textures": "textures\/items\/beetroot"
+    "key": "5:4",
+    "id": 5,
+    "meta": 4,
+    "name": "Acacia Planks",
+    "translator": "%tile.acacia_planks.name"
   },
   {
-    "id": "458:0",
-    "name": "Beetroot Seeds",
-    "namespase": "%item.beetroot_seeds.name",
-    "textures": "textures\/items\/beetroot_seeds"
+    "key": "405:0",
+    "id": 405,
+    "meta": 0,
+    "name": "Acacia Pressure Plate",
+    "translator": "%tile.acacia_pressure_plate.name"
   },
   {
-    "id": "459:0",
-    "name": "Beetroot Soup",
-    "namespase": "%item.beetroot_soup.name",
-    "textures": "textures\/items\/beetroot_soup"
+    "key": "6:4",
+    "id": 6,
+    "meta": 4,
+    "name": "Acacia Sapling",
+    "translator": "%tile.acacia_sapling.name"
   },
   {
-    "id": "333:2",
-    "name": "Birch Boat",
-    "namespase": "%item.boat.birch.name",
-    "textures": "textures\/items\/birch_boat"
+    "key": "445:0",
+    "id": 445,
+    "meta": 0,
+    "name": "Acacia Sign",
+    "translator": "%tile.acacia_sign.name"
   },
   {
-    "id": "355:15",
-    "name": "Black Bed",
-    "namespase": "%item.bed.black.name",
-    "textures": "textures\/items\/black_bed"
+    "key": "158:4",
+    "id": 158,
+    "meta": 4,
+    "name": "Acacia Slab",
+    "translator": "%tile.acacia_slab.name"
   },
   {
-    "id": "351:16",
-    "name": "Black Dye",
-    "namespase": "%item.dye.black_new.name",
-    "textures": "textures\/items\/black_dye"
+    "key": "163:0",
+    "id": 163,
+    "meta": 0,
+    "name": "Acacia Stairs",
+    "translator": "%tile.acacia_stairs.name"
   },
   {
-    "id": "377:0",
-    "name": "Blaze Powder",
-    "namespase": "%item.blaze_powder.name",
-    "textures": "textures\/items\/blaze_powder"
+    "key": "400:0",
+    "id": 400,
+    "meta": 0,
+    "name": "Acacia Trapdoor",
+    "translator": "%tile.acacia_trapdoor.name"
   },
   {
-    "id": "369:0",
-    "name": "Blaze Rod",
-    "namespase": "%item.blaze_rod.name",
-    "textures": "textures\/items\/blaze_rod"
+    "key": "446:2",
+    "id": 446,
+    "meta": 2,
+    "name": "Acacia Wall Sign",
+    "translator": "%tile.acacia_wall_sign.name"
   },
   {
-    "id": "451:0",
-    "name": "Bleach",
-    "namespase": "%item.bleach.name",
-    "textures": "textures\/items\/bleach"
+    "key": "467:4",
+    "id": 467,
+    "meta": 4,
+    "name": "Acacia Wood",
+    "translator": "%tile.acacia_wood.name"
   },
   {
-    "id": "355:11",
-    "name": "Blue Bed",
-    "namespase": "%item.bed.blue.name",
-    "textures": "textures\/items\/blue_bed"
+    "key": "126:0",
+    "id": 126,
+    "meta": 0,
+    "name": "Activator Rail",
+    "translator": "%tile.activator_rail.name"
   },
   {
-    "id": "351:18",
-    "name": "Blue Dye",
-    "namespase": "%item.dye.blue.name",
-    "textures": "textures\/items\/blue_dye"
+    "key": "0:0",
+    "id": 0,
+    "meta": 0,
+    "name": "Air",
+    "translator": "%tile.air.name"
   },
   {
-    "id": "352:0",
-    "name": "Bone",
-    "namespase": "%item.bone.name",
-    "textures": "textures\/items\/bone"
+    "key": "99:15",
+    "id": 99,
+    "meta": 15,
+    "name": "All Sided Mushroom Stem",
+    "translator": "%tile.all_sided_mushroom_stem.name"
   },
   {
-    "id": "351:15",
-    "name": "Bone Meal",
-    "namespase": "%item.dye.white.name",
-    "textures": "textures\/items\/bone_meal"
+    "key": "38:2",
+    "id": 38,
+    "meta": 2,
+    "name": "Allium",
+    "translator": "%tile.allium.name"
   },
   {
-    "id": "340:0",
-    "name": "Book",
-    "namespase": "%item.book.name",
-    "textures": "textures\/items\/book"
+    "key": "1:5",
+    "id": 1,
+    "meta": 5,
+    "name": "Andesite",
+    "translator": "%tile.andesite.name"
   },
   {
-    "id": "261:0",
-    "name": "Bow",
-    "namespase": "%item.bow.name",
-    "textures": "textures\/items\/bow"
+    "key": "417:3",
+    "id": 417,
+    "meta": 3,
+    "name": "Andesite Slab",
+    "translator": "%tile.andesite_slab.name"
   },
   {
-    "id": "281:0",
-    "name": "Bowl",
-    "namespase": "%item.bowl.name",
-    "textures": "textures\/items\/bowl"
+    "key": "426:0",
+    "id": 426,
+    "meta": 0,
+    "name": "Andesite Stairs",
+    "translator": "%tile.andesite_stairs.name"
   },
   {
-    "id": "297:0",
-    "name": "Bread",
-    "namespase": "%item.bread.name",
-    "textures": "textures\/items\/bread"
+    "key": "139:4",
+    "id": 139,
+    "meta": 4,
+    "name": "Andesite Wall",
+    "translator": "%tile.andesite_wall.name"
   },
   {
-    "id": "336:0",
-    "name": "Brick",
-    "namespase": "%item.brick.name",
-    "textures": "textures\/items\/brick"
+    "key": "145:0",
+    "id": 145,
+    "meta": 0,
+    "name": "Anvil",
+    "translator": "%tile.anvil.name"
   },
   {
-    "id": "355:12",
-    "name": "Brown Bed",
-    "namespase": "%item.bed.brown.name",
-    "textures": "textures\/items\/brown_bed"
+    "key": "38:3",
+    "id": 38,
+    "meta": 3,
+    "name": "Azure Bluet",
+    "translator": "%tile.azure_bluet.name"
   },
   {
-    "id": "351:17",
-    "name": "Brown Dye",
-    "namespase": "%item.dye.brown_new.name",
-    "textures": "textures\/items\/brown_dye"
+    "key": "418:0",
+    "id": 418,
+    "meta": 0,
+    "name": "Bamboo",
+    "translator": "%tile.bamboo.name"
   },
   {
-    "id": "325:0",
-    "name": "Bucket",
-    "namespase": "%item.bucket.name",
-    "textures": "textures\/items\/bucket"
+    "key": "419:0",
+    "id": 419,
+    "meta": 0,
+    "name": "Bamboo Sapling",
+    "translator": "%tile.bamboo_sapling.name"
   },
   {
-    "id": "391:0",
-    "name": "Carrot",
-    "namespase": "%item.carrot.name",
-    "textures": "textures\/items\/carrot"
+    "key": "176:0",
+    "id": 176,
+    "meta": 0,
+    "name": "Banner",
+    "translator": "%tile.banner.name"
   },
   {
-    "id": "305:0",
-    "name": "Chainmail Boots",
-    "namespase": "%item.chainmail_boots.name",
-    "textures": "textures\/items\/chainmail_boots"
+    "key": "458:0",
+    "id": 458,
+    "meta": 0,
+    "name": "Barrel",
+    "translator": "%tile.barrel.name"
   },
   {
-    "id": "303:0",
-    "name": "Chainmail Chestplate",
-    "namespase": "%item.chainmail_chestplate.name",
-    "textures": "textures\/items\/chainmail_chestplate"
+    "key": "416:0",
+    "id": 416,
+    "meta": 0,
+    "name": "Barrier",
+    "translator": "%tile.barrier.name"
   },
   {
-    "id": "302:0",
-    "name": "Chainmail Helmet",
-    "namespase": "%item.chainmail_helmet.name",
-    "textures": "textures\/items\/chainmail_helmet"
+    "key": "138:0",
+    "id": 138,
+    "meta": 0,
+    "name": "Beacon",
+    "translator": "%tile.beacon.name"
   },
   {
-    "id": "304:0",
-    "name": "Chainmail Leggings",
-    "namespase": "%item.chainmail_leggings.name",
-    "textures": "textures\/items\/chainmail_leggings"
+    "key": "26:0",
+    "id": 26,
+    "meta": 0,
+    "name": "Bed Block",
+    "translator": "%tile.bed_block.name"
   },
   {
-    "id": "263:1",
-    "name": "Charcoal",
-    "namespase": "%item.charcoal.name",
-    "textures": "textures\/items\/charcoal"
+    "key": "7:0",
+    "id": 7,
+    "meta": 0,
+    "name": "Bedrock",
+    "translator": "%tile.bedrock.name"
   },
   {
-    "id": "499:13",
-    "name": "Aluminium Oxide",
-    "namespase": "%item.compound.aluminumoxide.name",
-    "textures": "textures\/items\/aluminium_oxide"
+    "key": "244:0",
+    "id": 244,
+    "meta": 0,
+    "name": "Beetroot Block",
+    "translator": "%tile.beetroot_block.name"
   },
   {
-    "id": "499:36",
-    "name": "Ammonia",
-    "namespase": "%item.compound.ammonia.name",
-    "textures": "textures\/items\/ammonia"
+    "key": "461:0",
+    "id": 461,
+    "meta": 0,
+    "name": "Bell",
+    "translator": "%tile.bell.name"
   },
   {
-    "id": "499:20",
-    "name": "Barium Sulphate",
-    "namespase": "%item.compound.bariumsulfate.name",
-    "textures": "textures\/items\/barium_sulphate"
+    "key": "396:0",
+    "id": 396,
+    "meta": 0,
+    "name": "Birch Button",
+    "translator": "%tile.birch_button.name"
   },
   {
-    "id": "499:33",
-    "name": "Benzene",
-    "namespase": "%item.compound.benzene.name",
-    "textures": "textures\/items\/benzene"
+    "key": "194:0",
+    "id": 194,
+    "meta": 0,
+    "name": "Birch Door",
+    "translator": "%tile.birch_door.name"
   },
   {
-    "id": "499:14",
-    "name": "Boron Trioxide",
-    "namespase": "%item.compound.borontrioxide.name",
-    "textures": "textures\/items\/boron_trioxide"
+    "key": "85:2",
+    "id": 85,
+    "meta": 2,
+    "name": "Birch Fence",
+    "translator": "%tile.birch_fence.name"
   },
   {
-    "id": "499:7",
-    "name": "Calcium Bromide",
-    "namespase": "%item.compound.calciumbromide.name",
-    "textures": "textures\/items\/calcium_bromide"
+    "key": "184:0",
+    "id": 184,
+    "meta": 0,
+    "name": "Birch Fence Gate",
+    "translator": "%tile.birch_fence_gate.name"
   },
   {
-    "id": "499:25",
-    "name": "Calcium Chloride",
-    "namespase": "%item.compound.calciumchloride.name",
-    "textures": "textures\/items\/calcium_chloride"
+    "key": "18:2",
+    "id": 18,
+    "meta": 2,
+    "name": "Birch Leaves",
+    "translator": "%tile.birch_leaves.name"
   },
   {
-    "id": "499:23",
-    "name": "Cerium Chloride",
-    "namespase": "%item.compound.ceriumchloride.name",
-    "textures": "textures\/items\/cerium_chloride"
+    "key": "17:2",
+    "id": 17,
+    "meta": 2,
+    "name": "Birch Log",
+    "translator": "%tile.birch_log.name"
   },
   {
-    "id": "499:11",
-    "name": "Charcoal",
-    "namespase": "%item.charcoal.name",
-    "textures": "textures\/items\/charcoal"
+    "key": "5:2",
+    "id": 5,
+    "meta": 2,
+    "name": "Birch Planks",
+    "translator": "%tile.birch_planks.name"
   },
   {
-    "id": "499:29",
-    "name": "Crude Oil",
-    "namespase": "%item.compound.crudeoil.name",
-    "textures": "textures\/items\/crude_oil"
+    "key": "406:0",
+    "id": 406,
+    "meta": 0,
+    "name": "Birch Pressure Plate",
+    "translator": "%tile.birch_pressure_plate.name"
   },
   {
-    "id": "499:27",
-    "name": "Glue",
-    "namespase": "%item.compound.glue.name",
-    "textures": "textures\/items\/glue"
+    "key": "6:2",
+    "id": 6,
+    "meta": 2,
+    "name": "Birch Sapling",
+    "translator": "%tile.birch_sapling.name"
   },
   {
-    "id": "499:35",
-    "name": "Hydrogen Peroxide",
-    "namespase": "%item.compound.hydrogenperoxide.name",
-    "textures": "textures\/items\/hydrogen_peroxide"
+    "key": "441:0",
+    "id": 441,
+    "meta": 0,
+    "name": "Birch Sign",
+    "translator": "%tile.birch_sign.name"
   },
   {
-    "id": "499:28",
-    "name": "Hypochlorite",
-    "namespase": "%item.compound.hypochlorite.name",
-    "textures": "textures\/items\/hypochlorite"
+    "key": "158:2",
+    "id": 158,
+    "meta": 2,
+    "name": "Birch Slab",
+    "translator": "%tile.birch_slab.name"
   },
   {
-    "id": "499:34",
-    "name": "Ink",
-    "namespase": "%item.ink.name",
-    "textures": "textures\/items\/ink"
+    "key": "135:0",
+    "id": 135,
+    "meta": 0,
+    "name": "Birch Stairs",
+    "translator": "%tile.birch_stairs.name"
   },
   {
-    "id": "499:4",
-    "name": "Iron Sulphide",
-    "namespase": "%item.compound.ironsulfide.name",
-    "textures": "textures\/items\/iron_sulphide"
+    "key": "401:0",
+    "id": 401,
+    "meta": 0,
+    "name": "Birch Trapdoor",
+    "translator": "%tile.birch_trapdoor.name"
   },
   {
-    "id": "499:30",
-    "name": "Latex",
-    "namespase": "%item.compound.latex.name",
-    "textures": "textures\/items\/latex"
+    "key": "442:2",
+    "id": 442,
+    "meta": 2,
+    "name": "Birch Wall Sign",
+    "translator": "%tile.birch_wall_sign.name"
   },
   {
-    "id": "499:5",
-    "name": "Lithium Hydride",
-    "namespase": "%item.compound.lithiumhydride.name",
-    "textures": "textures\/items\/lithium_hydride"
+    "key": "467:2",
+    "id": 467,
+    "meta": 2,
+    "name": "Birch Wood",
+    "translator": "%tile.birch_wood.name"
   },
   {
-    "id": "499:10",
-    "name": "Luminol",
-    "namespase": "%item.compound.luminol.name",
-    "textures": "textures\/items\/luminol"
+    "key": "235:2",
+    "id": 235,
+    "meta": 2,
+    "name": "Black Glazed Terracotta",
+    "translator": "%tile.black_glazed_terracotta.name"
   },
   {
-    "id": "499:3",
-    "name": "Magnesium Nitrate",
-    "namespase": "%item.compound.magnesiumnitrate.name",
-    "textures": "textures\/items\/magnesium_nitrate"
+    "key": "451:2",
+    "id": 451,
+    "meta": 2,
+    "name": "Blast Furnace",
+    "translator": "%tile.blast_furnace.name"
   },
   {
-    "id": "499:8",
-    "name": "Magnesium Oxide",
-    "namespase": "%item.compound.magnesiumoxide.name",
-    "textures": "textures\/items\/magnesium_oxide"
+    "key": "231:2",
+    "id": 231,
+    "meta": 2,
+    "name": "Blue Glazed Terracotta",
+    "translator": "%tile.blue_glazed_terracotta.name"
   },
   {
-    "id": "499:18",
-    "name": "Magnesium Salts",
-    "namespase": "%item.compound.magnesiumsalts.name",
-    "textures": "textures\/items\/magnesium_salts"
+    "key": "266:0",
+    "id": 266,
+    "meta": 0,
+    "name": "Blue Ice",
+    "translator": "%tile.blue_ice.name"
   },
   {
-    "id": "499:22",
-    "name": "Mercuric Chloride",
-    "namespase": "%item.compound.mercuricchloride.name",
-    "textures": "textures\/items\/mercuric_chloride"
+    "key": "38:1",
+    "id": 38,
+    "meta": 1,
+    "name": "Blue Orchid",
+    "translator": "%tile.blue_orchid.name"
   },
   {
-    "id": "499:16",
-    "name": "Polyethylene",
-    "namespase": "%item.compound.polyethylene.name",
-    "textures": "textures\/items\/polyethylene"
+    "key": "204:5",
+    "id": 204,
+    "meta": 5,
+    "name": "Blue Torch",
+    "translator": "%tile.blue_torch.name"
   },
   {
-    "id": "499:21",
-    "name": "Potassium Chloride",
-    "namespase": "%item.compound.potassiumchloride.name",
-    "textures": "textures\/items\/potassium_chloride"
+    "key": "216:0",
+    "id": 216,
+    "meta": 0,
+    "name": "Bone Block",
+    "translator": "%tile.bone_block.name"
   },
   {
-    "id": "499:31",
-    "name": "Potassium Iodide",
-    "namespase": "%item.compound.potassiumiodide.name",
-    "textures": "textures\/items\/potassium_iodide"
+    "key": "47:0",
+    "id": 47,
+    "meta": 0,
+    "name": "Bookshelf",
+    "translator": "%tile.bookshelf.name"
   },
   {
-    "id": "499:17",
-    "name": "Rubbish",
-    "namespase": "%item.rubbish.name",
-    "textures": "textures\/items\/rubbish"
+    "key": "117:0",
+    "id": 117,
+    "meta": 0,
+    "name": "Brewing Stand",
+    "translator": "%tile.brewing_stand.name"
   },
   {
-    "id": "499:0",
-    "name": "Salt",
-    "namespase": "%item.compound.salt.name",
-    "textures": "textures\/items\/salt"
+    "key": "44:4",
+    "id": 44,
+    "meta": 4,
+    "name": "Brick Slab",
+    "translator": "%tile.brick_slab.name"
   },
   {
-    "id": "499:15",
-    "name": "Soap",
-    "namespase": "%item.compound.soap.name",
-    "textures": "textures\/items\/soap"
+    "key": "108:0",
+    "id": 108,
+    "meta": 0,
+    "name": "Brick Stairs",
+    "translator": "%tile.brick_stairs.name"
   },
   {
-    "id": "499:9",
-    "name": "Sodium Acetate",
-    "namespase": "%item.compound.sodiumacetate.name",
-    "textures": "textures\/items\/sodium_acetate"
+    "key": "139:6",
+    "id": 139,
+    "meta": 6,
+    "name": "Brick Wall",
+    "translator": "%tile.brick_wall.name"
   },
   {
-    "id": "499:32",
-    "name": "Sodium Fluoride",
-    "namespase": "%item.compound.sodiumfluoride.name",
-    "textures": "textures\/items\/sodium_fluoride"
+    "key": "45:0",
+    "id": 45,
+    "meta": 0,
+    "name": "Bricks",
+    "translator": "%tile.bricks.name"
   },
   {
-    "id": "499:6",
-    "name": "Sodium Hydride",
-    "namespase": "%item.compound.sodiumhydride.name",
-    "textures": "textures\/items\/sodium_hydride"
+    "key": "232:2",
+    "id": 232,
+    "meta": 2,
+    "name": "Brown Glazed Terracotta",
+    "translator": "%tile.brown_glazed_terracotta.name"
   },
   {
-    "id": "499:2",
-    "name": "Sodium Hydroxide",
-    "namespase": "%item.compound.sodiumhydroxide.name",
-    "textures": "textures\/items\/sodium_hydroxide"
+    "key": "39:0",
+    "id": 39,
+    "meta": 0,
+    "name": "Brown Mushroom",
+    "translator": "%tile.brown_mushroom.name"
   },
   {
-    "id": "499:37",
-    "name": "Sodium Hypochlorite",
-    "namespase": "%item.compound.sodiumhypochlorite.name",
-    "textures": "textures\/items\/sodium_hypochlorite"
+    "key": "99:0",
+    "id": 99,
+    "meta": 0,
+    "name": "Brown Mushroom Block",
+    "translator": "%tile.brown_mushroom_block.name"
   },
   {
-    "id": "499:1",
-    "name": "Sodium Oxide",
-    "namespase": "%item.compound.sodiumoxide.name",
-    "textures": "textures\/items\/sodium_oxide"
+    "key": "81:0",
+    "id": 81,
+    "meta": 0,
+    "name": "Cactus",
+    "translator": "%tile.cactus.name"
   },
   {
-    "id": "499:12",
-    "name": "Sugar",
-    "namespase": "%item.sugar.name",
-    "textures": "textures\/items\/sugar"
+    "key": "92:0",
+    "id": 92,
+    "meta": 0,
+    "name": "Cake",
+    "translator": "%tile.cake.name"
   },
   {
-    "id": "499:19",
-    "name": "Sulphate",
-    "namespase": "%item.sulphate.name",
-    "textures": "textures\/items\/sulphate"
+    "key": "171:0",
+    "id": 171,
+    "meta": 0,
+    "name": "Carpet",
+    "translator": "%tile.carpet.name"
   },
   {
-    "id": "499:24",
-    "name": "Tungsten Chloride",
-    "namespase": "%item.compound.tungstenchloride.name",
-    "textures": "textures\/items\/tungsten_chloride"
+    "key": "141:0",
+    "id": 141,
+    "meta": 0,
+    "name": "Carrot Block",
+    "translator": "%tile.carrot_block.name"
   },
   {
-    "id": "499:26",
-    "name": "Water",
-    "namespase": "%item.compound.water.name",
-    "textures": "textures\/items\/water"
+    "key": "410:0",
+    "id": 410,
+    "meta": 0,
+    "name": "Carved Pumpkin",
+    "translator": "%tile.carved_pumpkin.name"
   },
   {
-    "id": "432:0",
-    "name": "Chorus Fruit",
-    "namespase": "%item.chorus_fruit.name",
-    "textures": "textures\/items\/chorus_fruit"
+    "key": "192:0",
+    "id": 192,
+    "meta": 0,
+    "name": "Heat Block",
+    "translator": "%tile.heat_block.name"
   },
   {
-    "id": "337:0",
-    "name": "Clay",
-    "namespase": "%item.clay.name",
-    "textures": "textures\/items\/clay"
+    "key": "54:2",
+    "id": 54,
+    "meta": 2,
+    "name": "Chest",
+    "translator": "%tile.chest.name"
   },
   {
-    "id": "347:0",
-    "name": "Clock",
-    "namespase": "%item.clock.name",
-    "textures": "textures\/items\/clock"
+    "key": "155:1",
+    "id": 155,
+    "meta": 1,
+    "name": "Chiseled Quartz Block",
+    "translator": "%tile.chiseled_quartz_block.name"
   },
   {
-    "id": "461:0",
-    "name": "Clownfish",
-    "namespase": "%item.clownfish.name",
-    "textures": "textures\/items\/clownfish"
+    "key": "179:1",
+    "id": 179,
+    "meta": 1,
+    "name": "Chiseled Red Sandstone",
+    "translator": "%tile.chiseled_red_sandstone.name"
   },
   {
-    "id": "263:0",
-    "name": "Coal",
-    "namespase": "%item.coal.name",
-    "textures": "textures\/items\/coal"
+    "key": "24:1",
+    "id": 24,
+    "meta": 1,
+    "name": "Chiseled Sandstone",
+    "translator": "%tile.chiseled_sandstone.name"
   },
   {
-    "id": "351:3",
-    "name": "Cocoa Beans",
-    "namespase": "%item.cocoa_beans.name",
-    "textures": "textures\/items\/cocoa_beans"
+    "key": "98:3",
+    "id": 98,
+    "meta": 3,
+    "name": "Chiseled Stone Bricks",
+    "translator": "%tile.chiseled_stone_bricks.name"
   },
   {
-    "id": "345:0",
-    "name": "Compass",
-    "namespase": "%item.compass.name",
-    "textures": "textures\/items\/compass"
+    "key": "82:0",
+    "id": 82,
+    "meta": 0,
+    "name": "Clay Block",
+    "translator": "%tile.clay_block.name"
   },
   {
-    "id": "366:0",
-    "name": "Cooked Chicken",
-    "namespase": "%item.cooked_chicken.name",
-    "textures": "textures\/items\/cooked_chicken"
+    "key": "173:0",
+    "id": 173,
+    "meta": 0,
+    "name": "Coal Block",
+    "translator": "%tile.coal_block.name"
   },
   {
-    "id": "350:0",
-    "name": "Cooked Fish",
-    "namespase": "%item.cooked_fish.name",
-    "textures": "textures\/items\/cooked_fish"
+    "key": "16:0",
+    "id": 16,
+    "meta": 0,
+    "name": "Coal Ore",
+    "translator": "%tile.coal_ore.name"
   },
   {
-    "id": "424:0",
-    "name": "Cooked Mutton",
-    "namespase": "%item.muttonCooked.name",
-    "textures": "textures\/items\/cooked_mutton"
+    "key": "4:0",
+    "id": 4,
+    "meta": 0,
+    "name": "Cobblestone",
+    "translator": "%tile.cobblestone.name"
   },
   {
-    "id": "320:0",
-    "name": "Cooked Porkchop",
-    "namespase": "%item.cooked_porkchop.name",
-    "textures": "textures\/items\/cooked_porkchop"
+    "key": "44:3",
+    "id": 44,
+    "meta": 3,
+    "name": "Cobblestone Slab",
+    "translator": "%tile.cobblestone_slab.name"
   },
   {
-    "id": "412:0",
-    "name": "Cooked Rabbit",
-    "namespase": "%item.cooked_rabbit.name",
-    "textures": "textures\/items\/cooked_rabbit"
+    "key": "67:0",
+    "id": 67,
+    "meta": 0,
+    "name": "Cobblestone Stairs",
+    "translator": "%tile.cobblestone_stairs.name"
   },
   {
-    "id": "463:0",
-    "name": "Cooked Salmon",
-    "namespase": "%item.cooked_salmon.name",
-    "textures": "textures\/items\/cooked_salmon"
+    "key": "139:0",
+    "id": 139,
+    "meta": 0,
+    "name": "Cobblestone Wall",
+    "translator": "%tile.cobblestone_wall.name"
   },
   {
-    "id": "357:0",
-    "name": "Cookie",
-    "namespase": "%item.cookie.name",
-    "textures": "textures\/items\/cookie"
+    "key": "30:0",
+    "id": 30,
+    "meta": 0,
+    "name": "Cobweb",
+    "translator": "%tile.cobweb.name"
   },
   {
-    "id": "397:4",
-    "name": "Creeper Head",
-    "namespase": "%item.skull.creeper.name",
-    "textures": "textures\/items\/creeper_head"
+    "key": "127:0",
+    "id": 127,
+    "meta": 0,
+    "name": "Cocoa Block",
+    "translator": "%tile.cocoa_block.name"
   },
   {
-    "id": "355:9",
-    "name": "Cyan Bed",
-    "namespase": "%item.bed.cyan.name",
-    "textures": "textures\/items\/cyan_bed"
+    "key": "238:0",
+    "id": 238,
+    "meta": 0,
+    "name": "Compound Creator",
+    "translator": "%tile.compound_creator.name"
   },
   {
-    "id": "351:6",
-    "name": "Cyan Dye",
-    "namespase": "%item.dye.cyan.name",
-    "textures": "textures\/items\/cyan_dye"
+    "key": "236:0",
+    "id": 236,
+    "meta": 0,
+    "name": "Concrete",
+    "translator": "%tile.concrete.name"
   },
   {
-    "id": "333:5",
-    "name": "Dark Oak Boat",
-    "namespase": "%item.boat.big_oak.name",
-    "textures": "textures\/items\/dark_oak_boat"
+    "key": "237:0",
+    "id": 237,
+    "meta": 0,
+    "name": "Concrete Powder",
+    "translator": "%tile.concrete_powder.name"
   },
   {
-    "id": "264:0",
-    "name": "Diamond",
-    "namespase": "%item.diamond.name",
-    "textures": "textures\/items\/diamond"
+    "key": "386:0",
+    "id": 386,
+    "meta": 0,
+    "name": "Coral",
+    "translator": "%tile.coral.name"
   },
   {
-    "id": "279:0",
-    "name": "Diamond Axe",
-    "namespase": "%item.diamond_axe.name",
-    "textures": "textures\/items\/diamond_axe"
+    "key": "387:0",
+    "id": 387,
+    "meta": 0,
+    "name": "Coral Block",
+    "translator": "%tile.coral_block.name"
   },
   {
-    "id": "313:0",
-    "name": "Diamond Boots",
-    "namespase": "%item.diamond_boots.name",
-    "textures": "textures\/items\/diamond_boots"
+    "key": "388:0",
+    "id": 388,
+    "meta": 0,
+    "name": "Coral Fan",
+    "translator": "%tile.coral_fan.name"
   },
   {
-    "id": "311:0",
-    "name": "Diamond Chestplate",
-    "namespase": "%item.diamond_chestplate.name",
-    "textures": "textures\/items\/diamond_chestplate"
+    "key": "38:9",
+    "id": 38,
+    "meta": 9,
+    "name": "Cornflower",
+    "translator": "%tile.cornflower.name"
   },
   {
-    "id": "310:0",
-    "name": "Diamond Helmet",
-    "namespase": "%item.diamond_helmet.name",
-    "textures": "textures\/items\/diamond_helmet"
+    "key": "98:2",
+    "id": 98,
+    "meta": 2,
+    "name": "Cracked Stone Bricks",
+    "translator": "%tile.cracked_stone_bricks.name"
   },
   {
-    "id": "293:0",
-    "name": "Diamond Hoe",
-    "namespase": "%item.diamond_hoe.name",
-    "textures": "textures\/items\/diamond_hoe"
+    "key": "58:0",
+    "id": 58,
+    "meta": 0,
+    "name": "Crafting Table",
+    "translator": "%tile.crafting_table.name"
   },
   {
-    "id": "312:0",
-    "name": "Diamond Leggings",
-    "namespase": "%item.diamond_leggings.name",
-    "textures": "textures\/items\/diamond_leggings"
+    "key": "179:2",
+    "id": 179,
+    "meta": 2,
+    "name": "Cut Red Sandstone",
+    "translator": "%tile.cut_red_sandstone.name"
   },
   {
-    "id": "278:0",
-    "name": "Diamond Pickaxe",
-    "namespase": "%item.diamond_pickaxe.name",
-    "textures": "textures\/items\/diamond_pickaxe"
+    "key": "421:4",
+    "id": 421,
+    "meta": 4,
+    "name": "Cut Red Sandstone Slab",
+    "translator": "%tile.cut_red_sandstone_slab.name"
   },
   {
-    "id": "277:0",
-    "name": "Diamond Shovel",
-    "namespase": "%item.diamond_shovel.name",
-    "textures": "textures\/items\/diamond_shovel"
+    "key": "24:2",
+    "id": 24,
+    "meta": 2,
+    "name": "Cut Sandstone",
+    "translator": "%tile.cut_sandstone.name"
   },
   {
-    "id": "276:0",
-    "name": "Diamond Sword",
-    "namespase": "%item.diamond_sword.name",
-    "textures": "textures\/items\/diamond_sword"
+    "key": "421:3",
+    "id": 421,
+    "meta": 3,
+    "name": "Cut Sandstone Slab",
+    "translator": "%tile.cut_sandstone_slab.name"
   },
   {
-    "id": "437:0",
-    "name": "Dragon's Breath",
-    "namespase": "%item.dragon_breath.name",
-    "textures": "textures\/items\/dragon's_breath"
+    "key": "229:2",
+    "id": 229,
+    "meta": 2,
+    "name": "Cyan Glazed Terracotta",
+    "translator": "%tile.cyan_glazed_terracotta.name"
   },
   {
-    "id": "397:5",
-    "name": "Dragon Head",
-    "namespase": "%item.skull.dragon.name",
-    "textures": "textures\/items\/dragon_head"
+    "key": "37:0",
+    "id": 37,
+    "meta": 0,
+    "name": "Dandelion",
+    "translator": "%tile.dandelion.name"
   },
   {
-    "id": "464:0",
-    "name": "Dried Kelp",
-    "namespase": "%item.dried_kelp.name",
-    "textures": "textures\/items\/dried_kelp"
+    "key": "397:0",
+    "id": 397,
+    "meta": 0,
+    "name": "Dark Oak Button",
+    "translator": "%tile.dark_oak_button.name"
   },
   {
-    "id": "344:0",
-    "name": "Egg",
-    "namespase": "%item.egg.name",
-    "textures": "textures\/items\/egg"
+    "key": "197:0",
+    "id": 197,
+    "meta": 0,
+    "name": "Dark Oak Door",
+    "translator": "%tile.dark_oak_door.name"
   },
   {
-    "id": "388:0",
-    "name": "Emerald",
-    "namespase": "%item.emerald.name",
-    "textures": "textures\/items\/emerald"
+    "key": "85:5",
+    "id": 85,
+    "meta": 5,
+    "name": "Dark Oak Fence",
+    "translator": "%tile.dark_oak_fence.name"
   },
   {
-    "id": "466:0",
-    "name": "Enchanted Golden Apple",
-    "namespase": "%item.appleEnchanted.name",
-    "textures": "textures\/items\/enchanted_golden_apple"
+    "key": "186:0",
+    "id": 186,
+    "meta": 0,
+    "name": "Dark Oak Fence Gate",
+    "translator": "%tile.dark_oak_fence_gate.name"
   },
   {
-    "id": "368:0",
-    "name": "Ender Pearl",
-    "namespase": "%item.ender_pearl.name",
-    "textures": "textures\/items\/ender_pearl"
+    "key": "161:1",
+    "id": 161,
+    "meta": 1,
+    "name": "Dark Oak Leaves",
+    "translator": "%tile.dark_oak_leaves.name"
   },
   {
-    "id": "384:0",
-    "name": "Bottle o' Enchanting",
-    "namespase": "%item.bottle_o'_enchanting.name",
-    "textures": "textures\/items\/bottle_o'_enchanting"
+    "key": "162:1",
+    "id": 162,
+    "meta": 1,
+    "name": "Dark Oak Log",
+    "translator": "%tile.dark_oak_log.name"
   },
   {
-    "id": "288:0",
-    "name": "Feather",
-    "namespase": "%item.feather.name",
-    "textures": "textures\/items\/feather"
+    "key": "5:5",
+    "id": 5,
+    "meta": 5,
+    "name": "Dark Oak Planks",
+    "translator": "%tile.dark_oak_planks.name"
   },
   {
-    "id": "376:0",
-    "name": "Fermented Spider Eye",
-    "namespase": "%item.fermented_spider_eye.name",
-    "textures": "textures\/items\/fermented_spider_eye"
+    "key": "407:0",
+    "id": 407,
+    "meta": 0,
+    "name": "Dark Oak Pressure Plate",
+    "translator": "%tile.dark_oak_pressure_plate.name"
   },
   {
-    "id": "373:12",
-    "name": "Fire Resistance Potion",
-    "namespase": "%potion.fireResistance.name",
-    "textures": "textures\/items\/fire_resistance_potion"
+    "key": "6:5",
+    "id": 6,
+    "meta": 5,
+    "name": "Dark Oak Sapling",
+    "translator": "%tile.dark_oak_sapling.name"
   },
   {
-    "id": "438:12",
-    "name": "Fire Resistance Splash Potion",
-    "namespase": "%potion.fireResistance.splash.name",
-    "textures": "textures\/items\/fire_resistance_splash_potion"
+    "key": "447:0",
+    "id": 447,
+    "meta": 0,
+    "name": "Dark Oak Sign",
+    "translator": "%tile.dark_oak_sign.name"
   },
   {
-    "id": "346:0",
-    "name": "Fishing Rod",
-    "namespase": "%item.fishing_rod.name",
-    "textures": "textures\/items\/fishing_rod"
+    "key": "158:5",
+    "id": 158,
+    "meta": 5,
+    "name": "Dark Oak Slab",
+    "translator": "%tile.dark_oak_slab.name"
   },
   {
-    "id": "318:0",
-    "name": "Flint",
-    "namespase": "%item.flint.name",
-    "textures": "textures\/items\/flint"
+    "key": "164:0",
+    "id": 164,
+    "meta": 0,
+    "name": "Dark Oak Stairs",
+    "translator": "%tile.dark_oak_stairs.name"
   },
   {
-    "id": "259:0",
-    "name": "Flint and Steel",
-    "namespase": "%item.flint_and_steel.name",
-    "textures": "textures\/items\/flint_and_steel"
+    "key": "402:0",
+    "id": 402,
+    "meta": 0,
+    "name": "Dark Oak Trapdoor",
+    "translator": "%tile.dark_oak_trapdoor.name"
   },
   {
-    "id": "370:0",
-    "name": "Ghast Tear",
-    "namespase": "%item.ghast_tear.name",
-    "textures": "textures\/items\/ghast_tear"
+    "key": "448:2",
+    "id": 448,
+    "meta": 2,
+    "name": "Dark Oak Wall Sign",
+    "translator": "%tile.dark_oak_wall_sign.name"
   },
   {
-    "id": "374:0",
-    "name": "Glass Bottle",
-    "namespase": "%item.glass_bottle.name",
-    "textures": "textures\/items\/glass_bottle"
+    "key": "467:5",
+    "id": 467,
+    "meta": 5,
+    "name": "Dark Oak Wood",
+    "translator": "%tile.dark_oak_wood.name"
   },
   {
-    "id": "382:0",
-    "name": "Glistering Melon",
-    "namespase": "%item.speckled_melon.name",
-    "textures": "textures\/items\/glistering_melon"
+    "key": "168:1",
+    "id": 168,
+    "meta": 1,
+    "name": "Dark Prismarine",
+    "translator": "%tile.dark_prismarine.name"
   },
   {
-    "id": "348:0",
-    "name": "Glowstone Dust",
-    "namespase": "%item.glowstone_dust.name",
-    "textures": "textures\/items\/glowstone_dust"
+    "key": "182:3",
+    "id": 182,
+    "meta": 3,
+    "name": "Dark Prismarine Slab",
+    "translator": "%tile.dark_prismarine_slab.name"
   },
   {
-    "id": "266:0",
-    "name": "Gold Ingot",
-    "namespase": "%item.gold_ingot.name",
-    "textures": "textures\/items\/gold_ingot"
+    "key": "258:0",
+    "id": 258,
+    "meta": 0,
+    "name": "Dark Prismarine Stairs",
+    "translator": "%tile.dark_prismarine_stairs.name"
   },
   {
-    "id": "371:0",
-    "name": "Gold Nugget",
-    "namespase": "%item.gold_nugget.name",
-    "textures": "textures\/items\/gold_nugget"
+    "key": "151:0",
+    "id": 151,
+    "meta": 0,
+    "name": "Daylight Sensor",
+    "translator": "%tile.daylight_sensor.name"
   },
   {
-    "id": "322:0",
-    "name": "Golden Apple",
-    "namespase": "%item.golden_apple.name",
-    "textures": "textures\/items\/golden_apple"
+    "key": "32:0",
+    "id": 32,
+    "meta": 0,
+    "name": "Dead Bush",
+    "translator": "%tile.dead_bush.name"
   },
   {
-    "id": "286:0",
-    "name": "Golden Axe",
-    "namespase": "%item.golden_axe.name",
-    "textures": "textures\/items\/golden_axe"
+    "key": "28:0",
+    "id": 28,
+    "meta": 0,
+    "name": "Detector Rail",
+    "translator": "%tile.detector_rail.name"
   },
   {
-    "id": "317:0",
-    "name": "Golden Boots",
-    "namespase": "%item.golden_boots.name",
-    "textures": "textures\/items\/golden_boots"
+    "key": "57:0",
+    "id": 57,
+    "meta": 0,
+    "name": "Diamond Block",
+    "translator": "%tile.diamond_block.name"
   },
   {
-    "id": "396:0",
-    "name": "Golden Carrot",
-    "namespase": "%item.golden_carrot.name",
-    "textures": "textures\/items\/golden_carrot"
+    "key": "56:0",
+    "id": 56,
+    "meta": 0,
+    "name": "Diamond Ore",
+    "translator": "%tile.diamond_ore.name"
   },
   {
-    "id": "315:0",
-    "name": "Golden Chestplate",
-    "namespase": "%item.golden_chestplate.name",
-    "textures": "textures\/items\/golden_chestplate"
+    "key": "1:3",
+    "id": 1,
+    "meta": 3,
+    "name": "Diorite",
+    "translator": "%tile.diorite.name"
   },
   {
-    "id": "314:0",
-    "name": "Golden Helmet",
-    "namespase": "%item.golden_helmet.name",
-    "textures": "textures\/items\/golden_helmet"
+    "key": "417:4",
+    "id": 417,
+    "meta": 4,
+    "name": "Diorite Slab",
+    "translator": "%tile.diorite_slab.name"
   },
   {
-    "id": "294:0",
-    "name": "Golden Hoe",
-    "namespase": "%item.golden_hoe.name",
-    "textures": "textures\/items\/golden_hoe"
+    "key": "425:0",
+    "id": 425,
+    "meta": 0,
+    "name": "Diorite Stairs",
+    "translator": "%tile.diorite_stairs.name"
   },
   {
-    "id": "316:0",
-    "name": "Golden Leggings",
-    "namespase": "%item.golden_leggings.name",
-    "textures": "textures\/items\/golden_leggings"
+    "key": "139:3",
+    "id": 139,
+    "meta": 3,
+    "name": "Diorite Wall",
+    "translator": "%tile.diorite_wall.name"
   },
   {
-    "id": "285:0",
-    "name": "Golden Pickaxe",
-    "namespase": "%item.golden_pickaxe.name",
-    "textures": "textures\/items\/golden_pickaxe"
+    "key": "3:0",
+    "id": 3,
+    "meta": 0,
+    "name": "Dirt",
+    "translator": "%tile.dirt.name"
   },
   {
-    "id": "284:0",
-    "name": "Golden Shovel",
-    "namespase": "%item.golden_shovel.name",
-    "textures": "textures\/items\/golden_shovel"
+    "key": "175:2",
+    "id": 175,
+    "meta": 2,
+    "name": "Double Tallgrass",
+    "translator": "%tile.double_tallgrass.name"
   },
   {
-    "id": "283:0",
-    "name": "Golden Sword",
-    "namespase": "%item.golden_sword.name",
-    "textures": "textures\/items\/golden_sword"
+    "key": "122:0",
+    "id": 122,
+    "meta": 0,
+    "name": "Dragon Egg",
+    "translator": "%tile.dragon_egg.name"
   },
   {
-    "id": "355:7",
-    "name": "Gray Bed",
-    "namespase": "%item.bed.gray.name",
-    "textures": "textures\/items\/gray_bed"
+    "key": "394:0",
+    "id": 394,
+    "meta": 0,
+    "name": "Dried Kelp Block",
+    "translator": "%tile.dried_kelp_block.name"
   },
   {
-    "id": "351:8",
-    "name": "Gray Dye",
-    "namespase": "%item.dye.gray.name",
-    "textures": "textures\/items\/gray_dye"
+    "key": "218:0",
+    "id": 218,
+    "meta": 0,
+    "name": "Dyed Shulker Box",
+    "translator": "%tile.dyed_shulker_box.name"
   },
   {
-    "id": "355:13",
-    "name": "Green Bed",
-    "namespase": "%item.bed.green.name",
-    "textures": "textures\/items\/green_bed"
+    "key": "355:0",
+    "id": 355,
+    "meta": 0,
+    "name": "Actinium",
+    "translator": "%tile.actinium.name"
   },
   {
-    "id": "351:2",
-    "name": "Green Dye",
-    "namespase": "%item.dye.green.name",
-    "textures": "textures\/items\/green_dye"
+    "key": "279:0",
+    "id": 279,
+    "meta": 0,
+    "name": "Aluminum",
+    "translator": "%tile.aluminum.name"
   },
   {
-    "id": "289:0",
-    "name": "Gunpowder",
-    "namespase": "%item.gunpowder.name",
-    "textures": "textures\/items\/gunpowder"
+    "key": "361:0",
+    "id": 361,
+    "meta": 0,
+    "name": "Americium",
+    "translator": "%tile.americium.name"
   },
   {
-    "id": "373:23",
-    "name": "Harming Potion",
-    "namespase": "%potion.harm.name",
-    "textures": "textures\/items\/harming_potion"
+    "key": "317:0",
+    "id": 317,
+    "meta": 0,
+    "name": "Antimony",
+    "translator": "%tile.antimony.name"
   },
   {
-    "id": "438:23",
-    "name": "Harming Splash Potion",
-    "namespase": "%potion.harm.splash.name",
-    "textures": "textures\/items\/harming_splash_potion"
+    "key": "284:0",
+    "id": 284,
+    "meta": 0,
+    "name": "Argon",
+    "translator": "%tile.argon.name"
   },
   {
-    "id": "373:21",
-    "name": "Healing Potion",
-    "namespase": "%potion.heal.splash.name",
-    "textures": "textures\/items\/healing_potion"
+    "key": "299:0",
+    "id": 299,
+    "meta": 0,
+    "name": "Arsenic",
+    "translator": "%tile.arsenic.name"
   },
   {
-    "id": "438:21",
-    "name": "Healing Splash Potion",
-    "namespase": "%item.healing_splash_potion.name",
-    "textures": "textures\/items\/healing_splash_potion"
+    "key": "351:0",
+    "id": 351,
+    "meta": 0,
+    "name": "Astatine",
+    "translator": "%tile.astatine.name"
   },
   {
-    "id": "467:0",
-    "name": "Heart of the Sea",
-    "namespase": "%item.heart_of_the_sea.name",
-    "textures": "textures\/items\/heart_of_the_sea"
+    "key": "322:0",
+    "id": 322,
+    "meta": 0,
+    "name": "Barium",
+    "translator": "%tile.barium.name"
   },
   {
-    "id": "351:0",
-    "name": "Ink Sac",
-    "namespase": "%item.dye.black.name",
-    "textures": "textures\/items\/ink_sac"
+    "key": "363:0",
+    "id": 363,
+    "meta": 0,
+    "name": "Berkelium",
+    "translator": "%tile.berkelium.name"
   },
   {
-    "id": "373:7",
-    "name": "Invisibility Potion",
-    "namespase": "%potion.invisibility.name",
-    "textures": "textures\/items\/invisibility_potion"
+    "key": "270:0",
+    "id": 270,
+    "meta": 0,
+    "name": "Beryllium",
+    "translator": "%tile.beryllium.name"
   },
   {
-    "id": "438:7",
-    "name": "Invisibility Splash Potion",
-    "namespase": "%potion.invisibility.splash.name",
-    "textures": "textures\/items\/invisibility_splash_potion"
+    "key": "349:0",
+    "id": 349,
+    "meta": 0,
+    "name": "Bismuth",
+    "translator": "%tile.bismuth.name"
   },
   {
-    "id": "258:0",
-    "name": "Iron Axe",
-    "namespase": "%item.iron_axe.name",
-    "textures": "textures\/items\/iron_axe"
+    "key": "373:0",
+    "id": 373,
+    "meta": 0,
+    "name": "Bohrium",
+    "translator": "%tile.bohrium.name"
   },
   {
-    "id": "309:0",
-    "name": "Iron Boots",
-    "namespase": "%item.iron_boots.name",
-    "textures": "textures\/items\/iron_boots"
+    "key": "271:0",
+    "id": 271,
+    "meta": 0,
+    "name": "Boron",
+    "translator": "%tile.boron.name"
   },
   {
-    "id": "307:0",
-    "name": "Iron Chestplate",
-    "namespase": "%item.iron_chestplate.name",
-    "textures": "textures\/items\/iron_chestplate"
+    "key": "301:0",
+    "id": 301,
+    "meta": 0,
+    "name": "Bromine",
+    "translator": "%tile.bromine.name"
   },
   {
-    "id": "306:0",
-    "name": "Iron Helmet",
-    "namespase": "%item.iron_helmet.name",
-    "textures": "textures\/items\/iron_helmet"
+    "key": "314:0",
+    "id": 314,
+    "meta": 0,
+    "name": "Cadmium",
+    "translator": "%tile.cadmium.name"
   },
   {
-    "id": "292:0",
-    "name": "Iron Hoe",
-    "namespase": "%item.iron_hoe.name",
-    "textures": "textures\/items\/iron_hoe"
+    "key": "286:0",
+    "id": 286,
+    "meta": 0,
+    "name": "Calcium",
+    "translator": "%tile.calcium.name"
   },
   {
-    "id": "265:0",
-    "name": "Iron Ingot",
-    "namespase": "%item.iron_ingot.name",
-    "textures": "textures\/items\/iron_ingot"
+    "key": "364:0",
+    "id": 364,
+    "meta": 0,
+    "name": "Californium",
+    "translator": "%tile.californium.name"
   },
   {
-    "id": "308:0",
-    "name": "Iron Leggings",
-    "namespase": "%item.iron_leggings.name",
-    "textures": "textures\/items\/iron_leggings"
+    "key": "272:0",
+    "id": 272,
+    "meta": 0,
+    "name": "Carbon",
+    "translator": "%tile.carbon.name"
   },
   {
-    "id": "452:0",
-    "name": "Iron Nugget",
-    "namespase": "%item.iron_nugget.name",
-    "textures": "textures\/items\/iron_nugget"
+    "key": "324:0",
+    "id": 324,
+    "meta": 0,
+    "name": "Cerium",
+    "translator": "%tile.cerium.name"
   },
   {
-    "id": "257:0",
-    "name": "Iron Pickaxe",
-    "namespase": "%item.iron_pickaxe.name",
-    "textures": "textures\/items\/iron_pickaxe"
+    "key": "321:0",
+    "id": 321,
+    "meta": 0,
+    "name": "Cesium",
+    "translator": "%tile.cesium.name"
   },
   {
-    "id": "256:0",
-    "name": "Iron Shovel",
-    "namespase": "%item.iron_shovel.name",
-    "textures": "textures\/items\/iron_shovel"
+    "key": "283:0",
+    "id": 283,
+    "meta": 0,
+    "name": "Chlorine",
+    "translator": "%tile.chlorine.name"
   },
   {
-    "id": "267:0",
-    "name": "Iron Sword",
-    "namespase": "%item.iron_sword.name",
-    "textures": "textures\/items\/iron_sword"
+    "key": "290:0",
+    "id": 290,
+    "meta": 0,
+    "name": "Chromium",
+    "translator": "%tile.chromium.name"
   },
   {
-    "id": "333:3",
-    "name": "Jungle Boat",
-    "namespase": "%item.boat.jungle.name",
-    "textures": "textures\/items\/jungle_boat"
+    "key": "293:0",
+    "id": 293,
+    "meta": 0,
+    "name": "Cobalt",
+    "translator": "%tile.cobalt.name"
   },
   {
-    "id": "351:4",
-    "name": "Lapis Lazuli",
-    "namespase": "%item.dye.blue.name",
-    "textures": "textures\/items\/lapis_lazuli"
+    "key": "238:8",
+    "id": 238,
+    "meta": 8,
+    "name": "Element Constructor",
+    "translator": "%tile.element_constructor.name"
   },
   {
-    "id": "325:10",
-    "name": "Lava Bucket",
-    "namespase": "%item.bucketLava.name",
-    "textures": "textures\/items\/lava_bucket"
+    "key": "378:0",
+    "id": 378,
+    "meta": 0,
+    "name": "Copernicium",
+    "translator": "%tile.copernicium.name"
   },
   {
-    "id": "373:9",
-    "name": "Leaping Potion",
-    "namespase": "%potion.jump.name",
-    "textures": "textures\/items\/leaping_potion"
+    "key": "295:0",
+    "id": 295,
+    "meta": 0,
+    "name": "Copper",
+    "translator": "%tile.copper.name"
   },
   {
-    "id": "438:9",
-    "name": "Leaping Splash Potion",
-    "namespase": "%potion.jump.splash.name",
-    "textures": "textures\/items\/leaping_splash_potion"
+    "key": "362:0",
+    "id": 362,
+    "meta": 0,
+    "name": "Curium",
+    "translator": "%tile.curium.name"
   },
   {
-    "id": "334:0",
-    "name": "Leather",
-    "namespase": "%item.leather.name",
-    "textures": "textures\/items\/leather"
+    "key": "376:0",
+    "id": 376,
+    "meta": 0,
+    "name": "Darmstadtium",
+    "translator": "%tile.darmstadtium.name"
   },
   {
-    "id": "301:0",
-    "name": "Leather Boots",
-    "namespase": "%item.leather_boots.name",
-    "textures": "textures\/items\/leather_boots"
+    "key": "371:0",
+    "id": 371,
+    "meta": 0,
+    "name": "Dubnium",
+    "translator": "%tile.dubnium.name"
   },
   {
-    "id": "298:0",
-    "name": "Leather Cap",
-    "namespase": "%item.leather_helmet.name",
-    "textures": "textures\/items\/leather_cap"
+    "key": "332:0",
+    "id": 332,
+    "meta": 0,
+    "name": "Dysprosium",
+    "translator": "%tile.dysprosium.name"
   },
   {
-    "id": "300:0",
-    "name": "Leather Pants",
-    "namespase": "%item.leather_leggings.name",
-    "textures": "textures\/items\/leather_pants"
+    "key": "365:0",
+    "id": 365,
+    "meta": 0,
+    "name": "Einsteinium",
+    "translator": "%tile.einsteinium.name"
   },
   {
-    "id": "299:0",
-    "name": "Leather Tunic",
-    "namespase": "%item.leather_chestplate.name",
-    "textures": "textures\/items\/leather_tunic"
+    "key": "334:0",
+    "id": 334,
+    "meta": 0,
+    "name": "Erbium",
+    "translator": "%tile.erbium.name"
   },
   {
-    "id": "355:3",
-    "name": "Light Blue Bed",
-    "namespase": "%item.bed.lightBlue.name",
-    "textures": "textures\/items\/light_blue_bed"
+    "key": "329:0",
+    "id": 329,
+    "meta": 0,
+    "name": "Europium",
+    "translator": "%tile.europium.name"
   },
   {
-    "id": "351:12",
-    "name": "Light Blue Dye",
-    "namespase": "%item.dye.lightBlue.name",
-    "textures": "textures\/items\/light_blue_dye"
+    "key": "366:0",
+    "id": 366,
+    "meta": 0,
+    "name": "Fermium",
+    "translator": "%tile.fermium.name"
   },
   {
-    "id": "355:8",
-    "name": "Light Gray Bed",
-    "namespase": "%item.bed.silver.name",
-    "textures": "textures\/items\/light_gray_bed"
+    "key": "380:0",
+    "id": 380,
+    "meta": 0,
+    "name": "Flerovium",
+    "translator": "%tile.flerovium.name"
   },
   {
-    "id": "351:7",
-    "name": "Light Gray Dye",
-    "namespase": "%item.dye.silver.name",
-    "textures": "textures\/items\/light_gray_dye"
+    "key": "275:0",
+    "id": 275,
+    "meta": 0,
+    "name": "Fluorine",
+    "translator": "%tile.fluorine.name"
   },
   {
-    "id": "355:5",
-    "name": "Lime Bed",
-    "namespase": "%item.bed.lime.name",
-    "textures": "textures\/items\/lime_bed"
+    "key": "353:0",
+    "id": 353,
+    "meta": 0,
+    "name": "Francium",
+    "translator": "%tile.francium.name"
   },
   {
-    "id": "351:10",
-    "name": "Lime Dye",
-    "namespase": "%item.dye.lime.name",
-    "textures": "textures\/items\/lime_dye"
+    "key": "330:0",
+    "id": 330,
+    "meta": 0,
+    "name": "Gadolinium",
+    "translator": "%tile.gadolinium.name"
   },
   {
-    "id": "373:13",
-    "name": "Long Fire Resistance Potion",
-    "namespase": "%item.long_fire_resistance_potion.name",
-    "textures": "textures\/items\/long_fire_resistance_potion"
+    "key": "297:0",
+    "id": 297,
+    "meta": 0,
+    "name": "Gallium",
+    "translator": "%tile.gallium.name"
   },
   {
-    "id": "438:13",
-    "name": "Long Fire Resistance Splash Potion",
-    "namespase": "%item.long_fire_resistance_splash_potion.name",
-    "textures": "textures\/items\/long_fire_resistance_splash_potion"
+    "key": "298:0",
+    "id": 298,
+    "meta": 0,
+    "name": "Germanium",
+    "translator": "%tile.germanium.name"
   },
   {
-    "id": "373:8",
-    "name": "Long Invisibility Potion",
-    "namespase": "%item.long_invisibility_potion.name",
-    "textures": "textures\/items\/long_invisibility_potion"
+    "key": "345:0",
+    "id": 345,
+    "meta": 0,
+    "name": "Gold",
+    "translator": "%tile.gold.name"
   },
   {
-    "id": "438:8",
-    "name": "Long Invisibility Splash Potion",
-    "namespase": "%item.long_invisibility_splash_potion.name",
-    "textures": "textures\/items\/long_invisibility_splash_potion"
+    "key": "338:0",
+    "id": 338,
+    "meta": 0,
+    "name": "Hafnium",
+    "translator": "%tile.hafnium.name"
   },
   {
-    "id": "373:10",
-    "name": "Long Leaping Potion",
-    "namespase": "%item.long_leaping_potion.name",
-    "textures": "textures\/items\/long_leaping_potion"
+    "key": "374:0",
+    "id": 374,
+    "meta": 0,
+    "name": "Hassium",
+    "translator": "%tile.hassium.name"
   },
   {
-    "id": "438:10",
-    "name": "Long Leaping Splash Potion",
-    "namespase": "%item.long_leaping_splash_potion.name",
-    "textures": "textures\/items\/long_leaping_splash_potion"
+    "key": "268:0",
+    "id": 268,
+    "meta": 0,
+    "name": "Helium",
+    "translator": "%tile.helium.name"
   },
   {
-    "id": "373:2",
-    "name": "Long Mundane Potion",
-    "namespase": "%item.long_mundane_potion.name",
-    "textures": "textures\/items\/long_mundane_potion"
+    "key": "333:0",
+    "id": 333,
+    "meta": 0,
+    "name": "Holmium",
+    "translator": "%tile.holmium.name"
   },
   {
-    "id": "438:2",
-    "name": "Long Mundane Splash Potion",
-    "namespase": "%item.long_mundane_splash_potion.name",
-    "textures": "textures\/items\/long_mundane_splash_potion"
+    "key": "267:0",
+    "id": 267,
+    "meta": 0,
+    "name": "Hydrogen",
+    "translator": "%tile.hydrogen.name"
   },
   {
-    "id": "373:6",
-    "name": "Long Night Vision Potion",
-    "namespase": "%item.long_night_vision_potion.name",
-    "textures": "textures\/items\/long_night_vision_potion"
+    "key": "315:0",
+    "id": 315,
+    "meta": 0,
+    "name": "Indium",
+    "translator": "%tile.indium.name"
   },
   {
-    "id": "438:6",
-    "name": "Long Night Vision Splash Potion",
-    "namespase": "%item.long_night_vision_splash_potion.name",
-    "textures": "textures\/items\/long_night_vision_splash_potion"
+    "key": "319:0",
+    "id": 319,
+    "meta": 0,
+    "name": "Iodine",
+    "translator": "%tile.iodine.name"
   },
   {
-    "id": "373:26",
-    "name": "Long Poison Potion",
-    "namespase": "%item.long_poison_potion.name",
-    "textures": "textures\/items\/long_poison_potion"
+    "key": "343:0",
+    "id": 343,
+    "meta": 0,
+    "name": "Iridium",
+    "translator": "%tile.iridium.name"
   },
   {
-    "id": "438:26",
-    "name": "Long Poison Splash Potion",
-    "namespase": "%item.long_poison_splash_potion.name",
-    "textures": "textures\/items\/long_poison_splash_potion"
+    "key": "292:0",
+    "id": 292,
+    "meta": 0,
+    "name": "Iron",
+    "translator": "%tile.iron.name"
   },
   {
-    "id": "373:29",
-    "name": "Long Regeneration Potion",
-    "namespase": "%item.long_regeneration_potion.name",
-    "textures": "textures\/items\/long_regeneration_potion"
+    "key": "302:0",
+    "id": 302,
+    "meta": 0,
+    "name": "Krypton",
+    "translator": "%tile.krypton.name"
   },
   {
-    "id": "438:29",
-    "name": "Long Regeneration Splash Potion",
-    "namespase": "%item.long_regeneration_splash_potion.name",
-    "textures": "textures\/items\/long_regeneration_splash_potion"
+    "key": "323:0",
+    "id": 323,
+    "meta": 0,
+    "name": "Lanthanum",
+    "translator": "%tile.lanthanum.name"
   },
   {
-    "id": "373:41",
-    "name": "Long Slow Falling Potion",
-    "namespase": "%item.long_slow_falling_potion.name",
-    "textures": "textures\/items\/long_slow_falling_potion"
+    "key": "369:0",
+    "id": 369,
+    "meta": 0,
+    "name": "Lawrencium",
+    "translator": "%tile.lawrencium.name"
   },
   {
-    "id": "438:41",
-    "name": "Long Slow Falling Splash Potion",
-    "namespase": "%item.long_slow_falling_splash_potion.name",
-    "textures": "textures\/items\/long_slow_falling_splash_potion"
+    "key": "348:0",
+    "id": 348,
+    "meta": 0,
+    "name": "Lead",
+    "translator": "%tile.lead.name"
   },
   {
-    "id": "373:18",
-    "name": "Long Slowness Potion",
-    "namespase": "%item.long_slowness_potion.name",
-    "textures": "textures\/items\/long_slowness_potion"
+    "key": "269:0",
+    "id": 269,
+    "meta": 0,
+    "name": "Lithium",
+    "translator": "%tile.lithium.name"
   },
   {
-    "id": "438:18",
-    "name": "Long Slowness Splash Potion",
-    "namespase": "%item.long_slowness_splash_potion.name",
-    "textures": "textures\/items\/long_slowness_splash_potion"
+    "key": "382:0",
+    "id": 382,
+    "meta": 0,
+    "name": "Livermorium",
+    "translator": "%tile.livermorium.name"
   },
   {
-    "id": "373:32",
-    "name": "Long Strength Potion",
-    "namespase": "%item.long_strength_potion.name",
-    "textures": "textures\/items\/long_strength_potion"
+    "key": "337:0",
+    "id": 337,
+    "meta": 0,
+    "name": "Lutetium",
+    "translator": "%tile.lutetium.name"
   },
   {
-    "id": "438:32",
-    "name": "Long Strength Splash Potion",
-    "namespase": "%item.long_strength_splash_potion.name",
-    "textures": "textures\/items\/long_strength_splash_potion"
+    "key": "278:0",
+    "id": 278,
+    "meta": 0,
+    "name": "Magnesium",
+    "translator": "%tile.magnesium.name"
   },
   {
-    "id": "373:15",
-    "name": "Long Swiftness Potion",
-    "namespase": "%item.long_swiftness_potion.name",
-    "textures": "textures\/items\/long_swiftness_potion"
+    "key": "291:0",
+    "id": 291,
+    "meta": 0,
+    "name": "Manganese",
+    "translator": "%tile.manganese.name"
   },
   {
-    "id": "438:15",
-    "name": "Long Swiftness Splash Potion",
-    "namespase": "%item.long_swiftness_splash_potion.name",
-    "textures": "textures\/items\/long_swiftness_splash_potion"
+    "key": "375:0",
+    "id": 375,
+    "meta": 0,
+    "name": "Meitnerium",
+    "translator": "%tile.meitnerium.name"
   },
   {
-    "id": "373:38",
-    "name": "Long Turtle Master Potion",
-    "namespase": "%item.long_turtle_master_potion.name",
-    "textures": "textures\/items\/long_turtle_master_potion"
+    "key": "367:0",
+    "id": 367,
+    "meta": 0,
+    "name": "Mendelevium",
+    "translator": "%tile.mendelevium.name"
   },
   {
-    "id": "438:38",
-    "name": "Long Turtle Master Splash Potion",
-    "namespase": "%item.long_turtle_master_splash_potion.name",
-    "textures": "textures\/items\/long_turtle_master_splash_potion"
+    "key": "346:0",
+    "id": 346,
+    "meta": 0,
+    "name": "Mercury",
+    "translator": "%tile.mercury.name"
   },
   {
-    "id": "373:20",
-    "name": "Long Water Breathing Potion",
-    "namespase": "%item.long_water_breathing_potion.name",
-    "textures": "textures\/items\/long_water_breathing_potion"
+    "key": "308:0",
+    "id": 308,
+    "meta": 0,
+    "name": "Molybdenum",
+    "translator": "%tile.molybdenum.name"
   },
   {
-    "id": "438:20",
-    "name": "Long Water Breathing Splash Potion",
-    "namespase": "%item.long_water_breathing_splash_potion.name",
-    "textures": "textures\/items\/long_water_breathing_splash_potion"
+    "key": "381:0",
+    "id": 381,
+    "meta": 0,
+    "name": "Moscovium",
+    "translator": "%tile.moscovium.name"
   },
   {
-    "id": "373:35",
-    "name": "Long Weakness Potion",
-    "namespase": "%item.long_weakness_potion.name",
-    "textures": "textures\/items\/long_weakness_potion"
+    "key": "326:0",
+    "id": 326,
+    "meta": 0,
+    "name": "Neodymium",
+    "translator": "%tile.neodymium.name"
   },
   {
-    "id": "438:35",
-    "name": "Long Weakness Splash Potion",
-    "namespase": "%item.long_weakness_splash_potion.name",
-    "textures": "textures\/items\/long_weakness_splash_potion"
+    "key": "276:0",
+    "id": 276,
+    "meta": 0,
+    "name": "Neon",
+    "translator": "%tile.neon.name"
   },
   {
-    "id": "355:2",
-    "name": "Magenta Bed",
-    "namespase": "%item.bed.magenta.name",
-    "textures": "textures\/items\/magenta_bed"
+    "key": "359:0",
+    "id": 359,
+    "meta": 0,
+    "name": "Neptunium",
+    "translator": "%tile.neptunium.name"
   },
   {
-    "id": "351:13",
-    "name": "Magenta Dye",
-    "namespase": "%item.dye.magenta.name",
-    "textures": "textures\/items\/magenta_dye"
+    "key": "294:0",
+    "id": 294,
+    "meta": 0,
+    "name": "Nickel",
+    "translator": "%tile.nickel.name"
   },
   {
-    "id": "378:0",
-    "name": "Magma Cream",
-    "namespase": "%item.magma_cream.name",
-    "textures": "textures\/items\/magma_cream"
+    "key": "379:0",
+    "id": 379,
+    "meta": 0,
+    "name": "Nihonium",
+    "translator": "%tile.nihonium.name"
   },
   {
-    "id": "360:0",
-    "name": "Melon",
-    "namespase": "%item.melon.name",
-    "textures": "textures\/items\/melon"
+    "key": "307:0",
+    "id": 307,
+    "meta": 0,
+    "name": "Niobium",
+    "translator": "%tile.niobium.name"
   },
   {
-    "id": "362:0",
-    "name": "Melon Seeds",
-    "namespase": "%item.melon_seeds.name",
-    "textures": "textures\/items\/melon_seeds"
+    "key": "273:0",
+    "id": 273,
+    "meta": 0,
+    "name": "Nitrogen",
+    "translator": "%tile.nitrogen.name"
   },
   {
-    "id": "325:1",
-    "name": "Milk Bucket",
-    "namespase": "%item.milk_bucket.name",
-    "textures": "textures\/items\/milk_bucket"
+    "key": "368:0",
+    "id": 368,
+    "meta": 0,
+    "name": "Nobelium",
+    "translator": "%tile.nobelium.name"
   },
   {
-    "id": "328:0",
-    "name": "Minecart",
-    "namespase": "%item.minecart.name",
-    "textures": "textures\/items\/minecart"
+    "key": "384:0",
+    "id": 384,
+    "meta": 0,
+    "name": "Oganesson",
+    "translator": "%tile.oganesson.name"
   },
   {
-    "id": "373:1",
-    "name": "Mundane Potion",
-    "namespase": "%potion.mundane.name",
-    "textures": "textures\/items\/mundane_potion"
+    "key": "342:0",
+    "id": 342,
+    "meta": 0,
+    "name": "Osmium",
+    "translator": "%tile.osmium.name"
   },
   {
-    "id": "438:1",
-    "name": "Mundane Splash Potion",
-    "namespase": "%potion.mundane.splash.name",
-    "textures": "textures\/items\/mundane_splash_potion"
+    "key": "274:0",
+    "id": 274,
+    "meta": 0,
+    "name": "Oxygen",
+    "translator": "%tile.oxygen.name"
   },
   {
-    "id": "282:0",
-    "name": "Mushroom Stew",
-    "namespase": "%item.mushroom_stew.name",
-    "textures": "textures\/items\/mushroom_stew"
+    "key": "312:0",
+    "id": 312,
+    "meta": 0,
+    "name": "Palladium",
+    "translator": "%tile.palladium.name"
   },
   {
-    "id": "465:0",
-    "name": "Nautilus Shell",
-    "namespase": "%item.nautilus_shell.name",
-    "textures": "textures\/items\/nautilus_shell"
+    "key": "281:0",
+    "id": 281,
+    "meta": 0,
+    "name": "Phosphorus",
+    "translator": "%tile.phosphorus.name"
   },
   {
-    "id": "405:0",
-    "name": "Nether Brick",
-    "namespase": "%item.netherbrick.name",
-    "textures": "textures\/items\/nether_brick"
+    "key": "344:0",
+    "id": 344,
+    "meta": 0,
+    "name": "Platinum",
+    "translator": "%tile.platinum.name"
   },
   {
-    "id": "406:0",
-    "name": "Nether Quartz",
-    "namespase": "%item.quartz.name",
-    "textures": "textures\/items\/nether_quartz"
+    "key": "360:0",
+    "id": 360,
+    "meta": 0,
+    "name": "Plutonium",
+    "translator": "%tile.plutonium.name"
   },
   {
-    "id": "399:0",
-    "name": "Nether Star",
-    "namespase": "%item.netherStar.name",
-    "textures": "textures\/items\/nether_star"
+    "key": "350:0",
+    "id": 350,
+    "meta": 0,
+    "name": "Polonium",
+    "translator": "%tile.polonium.name"
   },
   {
-    "id": "373:5",
-    "name": "Night Vision Potion",
-    "namespase": "%potion.nightVision.name",
-    "textures": "textures\/items\/night_vision_potion"
+    "key": "285:0",
+    "id": 285,
+    "meta": 0,
+    "name": "Potassium",
+    "translator": "%tile.potassium.name"
   },
   {
-    "id": "438:5",
-    "name": "Night Vision Splash Potion",
-    "namespase": "%potion.nightVision.splash.name",
-    "textures": "textures\/items\/night_vision_splash_potion"
+    "key": "325:0",
+    "id": 325,
+    "meta": 0,
+    "name": "Praseodymium",
+    "translator": "%tile.praseodymium.name"
   },
   {
-    "id": "333:0",
-    "name": "Oak Boat",
-    "namespase": "%item.boat.oak.name",
-    "textures": "textures\/items\/oak_boat"
+    "key": "327:0",
+    "id": 327,
+    "meta": 0,
+    "name": "Promethium",
+    "translator": "%tile.promethium.name"
   },
   {
-    "id": "355:1",
-    "name": "Orange Bed",
-    "namespase": "%item.bed.orange.name",
-    "textures": "textures\/items\/orange_bed"
+    "key": "357:0",
+    "id": 357,
+    "meta": 0,
+    "name": "Protactinium",
+    "translator": "%tile.protactinium.name"
   },
   {
-    "id": "351:14",
-    "name": "Orange Dye",
-    "namespase": "%item.dye.orange.name",
-    "textures": "textures\/items\/orange_dye"
+    "key": "354:0",
+    "id": 354,
+    "meta": 0,
+    "name": "Radium",
+    "translator": "%tile.radium.name"
   },
   {
-    "id": "321:0",
-    "name": "Painting",
-    "namespase": "%item.painting.name",
-    "textures": "textures\/items\/painting"
+    "key": "352:0",
+    "id": 352,
+    "meta": 0,
+    "name": "Radon",
+    "translator": "%tile.radon.name"
   },
   {
-    "id": "339:0",
-    "name": "Paper",
-    "namespase": "%item.paper.name",
-    "textures": "textures\/items\/paper"
+    "key": "341:0",
+    "id": 341,
+    "meta": 0,
+    "name": "Rhenium",
+    "translator": "%tile.rhenium.name"
   },
   {
-    "id": "355:6",
-    "name": "Pink Bed",
-    "namespase": "%item.bed.pink.name",
-    "textures": "textures\/items\/pink_bed"
+    "key": "311:0",
+    "id": 311,
+    "meta": 0,
+    "name": "Rhodium",
+    "translator": "%tile.rhodium.name"
   },
   {
-    "id": "351:9",
-    "name": "Pink Dye",
-    "namespase": "%item.dye.pink.name",
-    "textures": "textures\/items\/pink_dye"
+    "key": "377:0",
+    "id": 377,
+    "meta": 0,
+    "name": "Roentgenium",
+    "translator": "%tile.roentgenium.name"
   },
   {
-    "id": "397:3",
-    "name": "Player Head",
-    "namespase": "%item.skull.char.name",
-    "textures": "textures\/items\/player_head"
+    "key": "303:0",
+    "id": 303,
+    "meta": 0,
+    "name": "Rubidium",
+    "translator": "%tile.rubidium.name"
   },
   {
-    "id": "373:25",
-    "name": "Poison Potion",
-    "namespase": "%potion.poison.name",
-    "textures": "textures\/items\/poison_potion"
+    "key": "310:0",
+    "id": 310,
+    "meta": 0,
+    "name": "Ruthenium",
+    "translator": "%tile.ruthenium.name"
   },
   {
-    "id": "438:25",
-    "name": "Poison Splash Potion",
-    "namespase": "%potion.poison.splash.name",
-    "textures": "textures\/items\/poison_splash_potion"
+    "key": "370:0",
+    "id": 370,
+    "meta": 0,
+    "name": "Rutherfordium",
+    "translator": "%tile.rutherfordium.name"
   },
   {
-    "id": "394:0",
-    "name": "Poisonous Potato",
-    "namespase": "%item.poisonous_potato.name",
-    "textures": "textures\/items\/poisonous_potato"
+    "key": "328:0",
+    "id": 328,
+    "meta": 0,
+    "name": "Samarium",
+    "translator": "%tile.samarium.name"
   },
   {
-    "id": "433:0",
-    "name": "Popped Chorus Fruit",
-    "namespase": "%item.chorus_fruit_popped.name",
-    "textures": "textures\/items\/popped_chorus_fruit"
+    "key": "287:0",
+    "id": 287,
+    "meta": 0,
+    "name": "Scandium",
+    "translator": "%tile.scandium.name"
   },
   {
-    "id": "392:0",
-    "name": "Potato",
-    "namespase": "%item.potato.name",
-    "textures": "textures\/items\/potato"
+    "key": "372:0",
+    "id": 372,
+    "meta": 0,
+    "name": "Seaborgium",
+    "translator": "%tile.seaborgium.name"
   },
   {
-    "id": "422:0",
-    "name": "Prismarine Crystals",
-    "namespase": "%item.prismarine_crystals.name",
-    "textures": "textures\/items\/prismarine_crystals"
+    "key": "300:0",
+    "id": 300,
+    "meta": 0,
+    "name": "Selenium",
+    "translator": "%tile.selenium.name"
   },
   {
-    "id": "409:0",
-    "name": "Prismarine Shard",
-    "namespase": "%item.prismarine_shard.name",
-    "textures": "textures\/items\/prismarine_shard"
+    "key": "280:0",
+    "id": 280,
+    "meta": 0,
+    "name": "Silicon",
+    "translator": "%tile.silicon.name"
   },
   {
-    "id": "462:0",
-    "name": "Pufferfish",
-    "namespase": "%item.pufferfish.name",
-    "textures": "textures\/items\/pufferfish"
+    "key": "313:0",
+    "id": 313,
+    "meta": 0,
+    "name": "Silver",
+    "translator": "%tile.silver.name"
   },
   {
-    "id": "400:0",
-    "name": "Pumpkin Pie",
-    "namespase": "%item.pumpkin_pie.name",
-    "textures": "textures\/items\/pumpkin_pie"
+    "key": "277:0",
+    "id": 277,
+    "meta": 0,
+    "name": "Sodium",
+    "translator": "%tile.sodium.name"
   },
   {
-    "id": "361:0",
-    "name": "Pumpkin Seeds",
-    "namespase": "%item.pumpkin_seeds.name",
-    "textures": "textures\/items\/pumpkin_seeds"
+    "key": "304:0",
+    "id": 304,
+    "meta": 0,
+    "name": "Strontium",
+    "translator": "%tile.strontium.name"
   },
   {
-    "id": "355:10",
-    "name": "Purple Bed",
-    "namespase": "%item.bed.purple.name",
-    "textures": "textures\/items\/purple_bed"
+    "key": "282:0",
+    "id": 282,
+    "meta": 0,
+    "name": "Sulfur",
+    "translator": "%tile.sulfur.name"
   },
   {
-    "id": "351:5",
-    "name": "Purple Dye",
-    "namespase": "%item.dye.purple.name",
-    "textures": "textures\/items\/purple_dye"
+    "key": "339:0",
+    "id": 339,
+    "meta": 0,
+    "name": "Tantalum",
+    "translator": "%tile.tantalum.name"
   },
   {
-    "id": "414:0",
-    "name": "Rabbit's Foot",
-    "namespase": "%item.rabbit_foot.name",
-    "textures": "textures\/items\/rabbit's_foot"
+    "key": "309:0",
+    "id": 309,
+    "meta": 0,
+    "name": "Technetium",
+    "translator": "%tile.technetium.name"
   },
   {
-    "id": "415:0",
-    "name": "Rabbit Hide",
-    "namespase": "%item.rabbit_hide.name",
-    "textures": "textures\/items\/rabbit_hide"
+    "key": "318:0",
+    "id": 318,
+    "meta": 0,
+    "name": "Tellurium",
+    "translator": "%tile.tellurium.name"
   },
   {
-    "id": "413:0",
-    "name": "Rabbit Stew",
-    "namespase": "%item.rabbit_stew.name",
-    "textures": "textures\/items\/rabbit_stew"
+    "key": "383:0",
+    "id": 383,
+    "meta": 0,
+    "name": "Tennessine",
+    "translator": "%tile.tennessine.name"
   },
   {
-    "id": "363:0",
-    "name": "Raw Beef",
-    "namespase": "%item.beef.name",
-    "textures": "textures\/items\/raw_beef"
+    "key": "331:0",
+    "id": 331,
+    "meta": 0,
+    "name": "Terbium",
+    "translator": "%tile.terbium.name"
   },
   {
-    "id": "365:0",
-    "name": "Raw Chicken",
-    "namespase": "%item.chicken.name",
-    "textures": "textures\/items\/raw_chicken"
+    "key": "347:0",
+    "id": 347,
+    "meta": 0,
+    "name": "Thallium",
+    "translator": "%tile.thallium.name"
   },
   {
-    "id": "349:0",
-    "name": "Raw Fish",
-    "namespase": "%item.fish.name",
-    "textures": "textures\/items\/raw_fish"
+    "key": "356:0",
+    "id": 356,
+    "meta": 0,
+    "name": "Thorium",
+    "translator": "%tile.thorium.name"
   },
   {
-    "id": "423:0",
-    "name": "Raw Mutton",
-    "namespase": "%item.muttonRaw.name",
-    "textures": "textures\/items\/raw_mutton"
+    "key": "335:0",
+    "id": 335,
+    "meta": 0,
+    "name": "Thulium",
+    "translator": "%tile.thulium.name"
   },
   {
-    "id": "319:0",
-    "name": "Raw Porkchop",
-    "namespase": "%item.porkchop.name",
-    "textures": "textures\/items\/raw_porkchop"
+    "key": "316:0",
+    "id": 316,
+    "meta": 0,
+    "name": "Tin",
+    "translator": "%tile.tin.name"
   },
   {
-    "id": "411:0",
-    "name": "Raw Rabbit",
-    "namespase": "%item.rabbit.name",
-    "textures": "textures\/items\/raw_rabbit"
+    "key": "288:0",
+    "id": 288,
+    "meta": 0,
+    "name": "Titanium",
+    "translator": "%tile.titanium.name"
   },
   {
-    "id": "460:0",
-    "name": "Raw Salmon",
-    "namespase": "%item.salmon.name",
-    "textures": "textures\/items\/raw_salmon"
+    "key": "340:0",
+    "id": 340,
+    "meta": 0,
+    "name": "Tungsten",
+    "translator": "%tile.tungsten.name"
   },
   {
-    "id": "510:0",
-    "name": "Record 11",
-    "namespase": "%item.record_11.desc",
-    "textures": "textures\/items\/record_11"
+    "key": "358:0",
+    "id": 358,
+    "meta": 0,
+    "name": "Uranium",
+    "translator": "%tile.uranium.name"
   },
   {
-    "id": "500:0",
-    "name": "Record 13",
-    "namespase": "%item.record_13.desc",
-    "textures": "textures\/items\/record_13"
+    "key": "289:0",
+    "id": 289,
+    "meta": 0,
+    "name": "Vanadium",
+    "translator": "%tile.vanadium.name"
   },
   {
-    "id": "502:0",
-    "name": "Record Blocks",
-    "namespase": "%item.record_blocks.name",
-    "textures": "textures\/items\/record_blocks"
+    "key": "320:0",
+    "id": 320,
+    "meta": 0,
+    "name": "Xenon",
+    "translator": "%tile.xenon.name"
   },
   {
-    "id": "501:0",
-    "name": "Record Cat",
-    "namespase": "%item.record_cat.name",
-    "textures": "textures\/items\/record_cat"
+    "key": "336:0",
+    "id": 336,
+    "meta": 0,
+    "name": "Ytterbium",
+    "translator": "%tile.ytterbium.name"
   },
   {
-    "id": "503:0",
-    "name": "Record Chirp",
-    "namespase": "%item.record_chirp.name",
-    "textures": "textures\/items\/record_chirp"
+    "key": "305:0",
+    "id": 305,
+    "meta": 0,
+    "name": "Yttrium",
+    "translator": "%tile.yttrium.name"
   },
   {
-    "id": "504:0",
-    "name": "Record Far",
-    "namespase": "%item.record_far.name",
-    "textures": "textures\/items\/record_far"
+    "key": "36:0",
+    "id": 36,
+    "meta": 0,
+    "name": "???",
+    "translator": "%tile.???.name"
   },
   {
-    "id": "505:0",
-    "name": "Record Mall",
-    "namespase": "%item.record_mall.name",
-    "textures": "textures\/items\/record_mall"
+    "key": "296:0",
+    "id": 296,
+    "meta": 0,
+    "name": "Zinc",
+    "translator": "%tile.zinc.name"
   },
   {
-    "id": "506:0",
-    "name": "Record Mellohi",
-    "namespase": "%item.record_mellohi.name",
-    "textures": "textures\/items\/record_mellohi"
+    "key": "306:0",
+    "id": 306,
+    "meta": 0,
+    "name": "Zirconium",
+    "translator": "%tile.zirconium.name"
   },
   {
-    "id": "507:0",
-    "name": "Record Stal",
-    "namespase": "%item.record_stal.name",
-    "textures": "textures\/items\/record_stal"
+    "key": "133:0",
+    "id": 133,
+    "meta": 0,
+    "name": "Emerald Block",
+    "translator": "%tile.emerald_block.name"
   },
   {
-    "id": "508:0",
-    "name": "Record Strad",
-    "namespase": "%item.record_strad.name",
-    "textures": "textures\/items\/record_strad"
+    "key": "129:0",
+    "id": 129,
+    "meta": 0,
+    "name": "Emerald Ore",
+    "translator": "%tile.emerald_ore.name"
   },
   {
-    "id": "511:0",
-    "name": "Record Wait",
-    "namespase": "%item.record_wait.name",
-    "textures": "textures\/items\/record_wait"
+    "key": "116:0",
+    "id": 116,
+    "meta": 0,
+    "name": "Enchanting Table",
+    "translator": "%tile.enchanting_table.name"
   },
   {
-    "id": "509:0",
-    "name": "Record Ward",
-    "namespase": "%item.record_ward.name",
-    "textures": "textures\/items\/record_ward"
+    "key": "120:0",
+    "id": 120,
+    "meta": 0,
+    "name": "End Portal Frame",
+    "translator": "%tile.end_portal_frame.name"
   },
   {
-    "id": "355:14",
-    "name": "Red Bed",
-    "namespase": "%item.red_bed.name",
-    "textures": "textures\/items\/red_bed"
+    "key": "208:0",
+    "id": 208,
+    "meta": 0,
+    "name": "End Rod",
+    "translator": "%tile.end_rod.name"
   },
   {
-    "id": "351:1",
-    "name": "Red Dye",
-    "namespase": "%item.red_dye.name",
-    "textures": "textures\/items\/red_dye"
+    "key": "121:0",
+    "id": 121,
+    "meta": 0,
+    "name": "End Stone",
+    "translator": "%tile.end_stone.name"
   },
   {
-    "id": "331:0",
+    "key": "417:0",
+    "id": 417,
+    "meta": 0,
+    "name": "End Stone Brick Slab",
+    "translator": "%tile.end_stone_brick_slab.name"
+  },
+  {
+    "key": "433:0",
+    "id": 433,
+    "meta": 0,
+    "name": "End Stone Brick Stairs",
+    "translator": "%tile.end_stone_brick_stairs.name"
+  },
+  {
+    "key": "139:10",
+    "id": 139,
+    "meta": 10,
+    "name": "End Stone Brick Wall",
+    "translator": "%tile.end_stone_brick_wall.name"
+  },
+  {
+    "key": "206:0",
+    "id": 206,
+    "meta": 0,
+    "name": "End Stone Bricks",
+    "translator": "%tile.end_stone_bricks.name"
+  },
+  {
+    "key": "130:2",
+    "id": 130,
+    "meta": 2,
+    "name": "Ender Chest",
+    "translator": "%tile.ender_chest.name"
+  },
+  {
+    "key": "44:2",
+    "id": 44,
+    "meta": 2,
+    "name": "Fake Wooden Slab",
+    "translator": "%tile.fake_wooden_slab.name"
+  },
+  {
+    "key": "60:0",
+    "id": 60,
+    "meta": 0,
+    "name": "Farmland",
+    "translator": "%tile.farmland.name"
+  },
+  {
+    "key": "31:2",
+    "id": 31,
+    "meta": 2,
+    "name": "Fern",
+    "translator": "%tile.fern.name"
+  },
+  {
+    "key": "51:0",
+    "id": 51,
+    "meta": 0,
+    "name": "Fire Block",
+    "translator": "%tile.fire_block.name"
+  },
+  {
+    "key": "456:0",
+    "id": 456,
+    "meta": 0,
+    "name": "Fletching Table",
+    "translator": "%tile.fletching_table.name"
+  },
+  {
+    "key": "140:0",
+    "id": 140,
+    "meta": 0,
+    "name": "Flower Pot",
+    "translator": "%tile.flower_pot.name"
+  },
+  {
+    "key": "207:0",
+    "id": 207,
+    "meta": 0,
+    "name": "Frosted Ice",
+    "translator": "%tile.frosted_ice.name"
+  },
+  {
+    "key": "61:2",
+    "id": 61,
+    "meta": 2,
+    "name": "Furnace",
+    "translator": "%tile.furnace.name"
+  },
+  {
+    "key": "20:0",
+    "id": 20,
+    "meta": 0,
+    "name": "Glass",
+    "translator": "%tile.glass.name"
+  },
+  {
+    "key": "102:0",
+    "id": 102,
+    "meta": 0,
+    "name": "Glass Pane",
+    "translator": "%tile.glass_pane.name"
+  },
+  {
+    "key": "246:0",
+    "id": 246,
+    "meta": 0,
+    "name": "Glowing Obsidian",
+    "translator": "%tile.glowing_obsidian.name"
+  },
+  {
+    "key": "89:0",
+    "id": 89,
+    "meta": 0,
+    "name": "Glowstone",
+    "translator": "%tile.glowstone.name"
+  },
+  {
+    "key": "41:0",
+    "id": 41,
+    "meta": 0,
+    "name": "Gold Block",
+    "translator": "%tile.gold_block.name"
+  },
+  {
+    "key": "14:0",
+    "id": 14,
+    "meta": 0,
+    "name": "Gold Ore",
+    "translator": "%tile.gold_ore.name"
+  },
+  {
+    "key": "1:1",
+    "id": 1,
+    "meta": 1,
+    "name": "Granite",
+    "translator": "%tile.granite.name"
+  },
+  {
+    "key": "417:6",
+    "id": 417,
+    "meta": 6,
+    "name": "Granite Slab",
+    "translator": "%tile.granite_slab.name"
+  },
+  {
+    "key": "424:0",
+    "id": 424,
+    "meta": 0,
+    "name": "Granite Stairs",
+    "translator": "%tile.granite_stairs.name"
+  },
+  {
+    "key": "139:2",
+    "id": 139,
+    "meta": 2,
+    "name": "Granite Wall",
+    "translator": "%tile.granite_wall.name"
+  },
+  {
+    "key": "2:0",
+    "id": 2,
+    "meta": 0,
+    "name": "Grass",
+    "translator": "%tile.grass.name"
+  },
+  {
+    "key": "198:0",
+    "id": 198,
+    "meta": 0,
+    "name": "Grass Path",
+    "translator": "%tile.grass_path.name"
+  },
+  {
+    "key": "13:0",
+    "id": 13,
+    "meta": 0,
+    "name": "Gravel",
+    "translator": "%tile.gravel.name"
+  },
+  {
+    "key": "227:2",
+    "id": 227,
+    "meta": 2,
+    "name": "Gray Glazed Terracotta",
+    "translator": "%tile.gray_glazed_terracotta.name"
+  },
+  {
+    "key": "233:2",
+    "id": 233,
+    "meta": 2,
+    "name": "Green Glazed Terracotta",
+    "translator": "%tile.green_glazed_terracotta.name"
+  },
+  {
+    "key": "202:13",
+    "id": 202,
+    "meta": 13,
+    "name": "Green Torch",
+    "translator": "%tile.green_torch.name"
+  },
+  {
+    "key": "172:0",
+    "id": 172,
+    "meta": 0,
+    "name": "Hardened Clay",
+    "translator": "%tile.hardened_clay.name"
+  },
+  {
+    "key": "253:0",
+    "id": 253,
+    "meta": 0,
+    "name": "Hardened Glass",
+    "translator": "%tile.hardened_glass.name"
+  },
+  {
+    "key": "190:0",
+    "id": 190,
+    "meta": 0,
+    "name": "Hardened Glass Pane",
+    "translator": "%tile.hardened_glass_pane.name"
+  },
+  {
+    "key": "170:0",
+    "id": 170,
+    "meta": 0,
+    "name": "Hay Bale",
+    "translator": "%tile.hay_bale.name"
+  },
+  {
+    "key": "154:0",
+    "id": 154,
+    "meta": 0,
+    "name": "Hopper",
+    "translator": "%tile.hopper.name"
+  },
+  {
+    "key": "79:0",
+    "id": 79,
+    "meta": 0,
+    "name": "Ice",
+    "translator": "%tile.ice.name"
+  },
+  {
+    "key": "97:5",
+    "id": 97,
+    "meta": 5,
+    "name": "Infested Chiseled Stone Brick",
+    "translator": "%tile.infested_chiseled_stone_brick.name"
+  },
+  {
+    "key": "97:1",
+    "id": 97,
+    "meta": 1,
+    "name": "Infested Cobblestone",
+    "translator": "%tile.infested_cobblestone.name"
+  },
+  {
+    "key": "97:4",
+    "id": 97,
+    "meta": 4,
+    "name": "Infested Cracked Stone Brick",
+    "translator": "%tile.infested_cracked_stone_brick.name"
+  },
+  {
+    "key": "97:3",
+    "id": 97,
+    "meta": 3,
+    "name": "Infested Mossy Stone Brick",
+    "translator": "%tile.infested_mossy_stone_brick.name"
+  },
+  {
+    "key": "97:0",
+    "id": 97,
+    "meta": 0,
+    "name": "Infested Stone",
+    "translator": "%tile.infested_stone.name"
+  },
+  {
+    "key": "97:2",
+    "id": 97,
+    "meta": 2,
+    "name": "Infested Stone Brick",
+    "translator": "%tile.infested_stone_brick.name"
+  },
+  {
+    "key": "248:0",
+    "id": 248,
+    "meta": 0,
+    "name": "update!",
+    "translator": "%tile.update!.name"
+  },
+  {
+    "key": "249:0",
+    "id": 249,
+    "meta": 0,
+    "name": "ate!upd",
+    "translator": "%tile.ate!upd.name"
+  },
+  {
+    "key": "95:0",
+    "id": 95,
+    "meta": 0,
+    "name": "Invisible Bedrock",
+    "translator": "%tile.invisible_bedrock.name"
+  },
+  {
+    "key": "42:0",
+    "id": 42,
+    "meta": 0,
+    "name": "Iron Block",
+    "translator": "%tile.iron_block.name"
+  },
+  {
+    "key": "101:0",
+    "id": 101,
+    "meta": 0,
+    "name": "Iron Bars",
+    "translator": "%tile.iron_bars.name"
+  },
+  {
+    "key": "71:0",
+    "id": 71,
+    "meta": 0,
+    "name": "Iron Door",
+    "translator": "%tile.iron_door.name"
+  },
+  {
+    "key": "15:0",
+    "id": 15,
+    "meta": 0,
+    "name": "Iron Ore",
+    "translator": "%tile.iron_ore.name"
+  },
+  {
+    "key": "167:0",
+    "id": 167,
+    "meta": 0,
+    "name": "Iron Trapdoor",
+    "translator": "%tile.iron_trapdoor.name"
+  },
+  {
+    "key": "199:0",
+    "id": 199,
+    "meta": 0,
+    "name": "Item Frame",
+    "translator": "%tile.item_frame.name"
+  },
+  {
+    "key": "84:0",
+    "id": 84,
+    "meta": 0,
+    "name": "Jukebox",
+    "translator": "%tile.jukebox.name"
+  },
+  {
+    "key": "398:0",
+    "id": 398,
+    "meta": 0,
+    "name": "Jungle Button",
+    "translator": "%tile.jungle_button.name"
+  },
+  {
+    "key": "195:0",
+    "id": 195,
+    "meta": 0,
+    "name": "Jungle Door",
+    "translator": "%tile.jungle_door.name"
+  },
+  {
+    "key": "85:3",
+    "id": 85,
+    "meta": 3,
+    "name": "Jungle Fence",
+    "translator": "%tile.jungle_fence.name"
+  },
+  {
+    "key": "185:0",
+    "id": 185,
+    "meta": 0,
+    "name": "Jungle Fence Gate",
+    "translator": "%tile.jungle_fence_gate.name"
+  },
+  {
+    "key": "18:3",
+    "id": 18,
+    "meta": 3,
+    "name": "Jungle Leaves",
+    "translator": "%tile.jungle_leaves.name"
+  },
+  {
+    "key": "17:3",
+    "id": 17,
+    "meta": 3,
+    "name": "Jungle Log",
+    "translator": "%tile.jungle_log.name"
+  },
+  {
+    "key": "5:3",
+    "id": 5,
+    "meta": 3,
+    "name": "Jungle Planks",
+    "translator": "%tile.jungle_planks.name"
+  },
+  {
+    "key": "408:0",
+    "id": 408,
+    "meta": 0,
+    "name": "Jungle Pressure Plate",
+    "translator": "%tile.jungle_pressure_plate.name"
+  },
+  {
+    "key": "6:3",
+    "id": 6,
+    "meta": 3,
+    "name": "Jungle Sapling",
+    "translator": "%tile.jungle_sapling.name"
+  },
+  {
+    "key": "443:0",
+    "id": 443,
+    "meta": 0,
+    "name": "Jungle Sign",
+    "translator": "%tile.jungle_sign.name"
+  },
+  {
+    "key": "158:3",
+    "id": 158,
+    "meta": 3,
+    "name": "Jungle Slab",
+    "translator": "%tile.jungle_slab.name"
+  },
+  {
+    "key": "136:0",
+    "id": 136,
+    "meta": 0,
+    "name": "Jungle Stairs",
+    "translator": "%tile.jungle_stairs.name"
+  },
+  {
+    "key": "403:0",
+    "id": 403,
+    "meta": 0,
+    "name": "Jungle Trapdoor",
+    "translator": "%tile.jungle_trapdoor.name"
+  },
+  {
+    "key": "444:2",
+    "id": 444,
+    "meta": 2,
+    "name": "Jungle Wall Sign",
+    "translator": "%tile.jungle_wall_sign.name"
+  },
+  {
+    "key": "467:3",
+    "id": 467,
+    "meta": 3,
+    "name": "Jungle Wood",
+    "translator": "%tile.jungle_wood.name"
+  },
+  {
+    "key": "238:12",
+    "id": 238,
+    "meta": 12,
+    "name": "Lab Table",
+    "translator": "%tile.lab_table.name"
+  },
+  {
+    "key": "65:2",
+    "id": 65,
+    "meta": 2,
+    "name": "Ladder",
+    "translator": "%tile.ladder.name"
+  },
+  {
+    "key": "463:0",
+    "id": 463,
+    "meta": 0,
+    "name": "Lantern",
+    "translator": "%tile.lantern.name"
+  },
+  {
+    "key": "22:0",
+    "id": 22,
+    "meta": 0,
+    "name": "Lapis Lazuli Block",
+    "translator": "%tile.lapis_lazuli_block.name"
+  },
+  {
+    "key": "21:0",
+    "id": 21,
+    "meta": 0,
+    "name": "Lapis Lazuli Ore",
+    "translator": "%tile.lapis_lazuli_ore.name"
+  },
+  {
+    "key": "175:3",
+    "id": 175,
+    "meta": 3,
+    "name": "Large Fern",
+    "translator": "%tile.large_fern.name"
+  },
+  {
+    "key": "10:0",
+    "id": 10,
+    "meta": 0,
+    "name": "Lava",
+    "translator": "%tile.lava.name"
+  },
+  {
+    "key": "245:0",
+    "id": 245,
+    "meta": 0,
+    "name": "Stonecutter",
+    "translator": "%tile.stonecutter.name"
+  },
+  {
+    "key": "69:0",
+    "id": 69,
+    "meta": 0,
+    "name": "Lever",
+    "translator": "%tile.lever.name"
+  },
+  {
+    "key": "223:2",
+    "id": 223,
+    "meta": 2,
+    "name": "Light Blue Glazed Terracotta",
+    "translator": "%tile.light_blue_glazed_terracotta.name"
+  },
+  {
+    "key": "228:2",
+    "id": 228,
+    "meta": 2,
+    "name": "Light Gray Glazed Terracotta",
+    "translator": "%tile.light_gray_glazed_terracotta.name"
+  },
+  {
+    "key": "175:1",
+    "id": 175,
+    "meta": 1,
+    "name": "Lilac",
+    "translator": "%tile.lilac.name"
+  },
+  {
+    "key": "38:10",
+    "id": 38,
+    "meta": 10,
+    "name": "Lily of the Valley",
+    "translator": "%tile.lily_of_the_valley.name"
+  },
+  {
+    "key": "111:0",
+    "id": 111,
+    "meta": 0,
+    "name": "Lily Pad",
+    "translator": "%tile.lily_pad.name"
+  },
+  {
+    "key": "225:2",
+    "id": 225,
+    "meta": 2,
+    "name": "Lime Glazed Terracotta",
+    "translator": "%tile.lime_glazed_terracotta.name"
+  },
+  {
+    "key": "91:0",
+    "id": 91,
+    "meta": 0,
+    "name": "Jack o'Lantern",
+    "translator": "%tile.jack_o'lantern.name"
+  },
+  {
+    "key": "459:0",
+    "id": 459,
+    "meta": 0,
+    "name": "Loom",
+    "translator": "%tile.loom.name"
+  },
+  {
+    "key": "222:2",
+    "id": 222,
+    "meta": 2,
+    "name": "Magenta Glazed Terracotta",
+    "translator": "%tile.magenta_glazed_terracotta.name"
+  },
+  {
+    "key": "213:0",
+    "id": 213,
+    "meta": 0,
+    "name": "Magma Block",
+    "translator": "%tile.magma_block.name"
+  },
+  {
+    "key": "238:4",
+    "id": 238,
+    "meta": 4,
+    "name": "Material Reducer",
+    "translator": "%tile.material_reducer.name"
+  },
+  {
+    "key": "103:0",
+    "id": 103,
+    "meta": 0,
+    "name": "Melon Block",
+    "translator": "%tile.melon_block.name"
+  },
+  {
+    "key": "105:0",
+    "id": 105,
+    "meta": 0,
+    "name": "Melon Stem",
+    "translator": "%tile.melon_stem.name"
+  },
+  {
+    "key": "144:2",
+    "id": 144,
+    "meta": 2,
+    "name": "Mob Head",
+    "translator": "%tile.mob_head.name"
+  },
+  {
+    "key": "52:0",
+    "id": 52,
+    "meta": 0,
+    "name": "Monster Spawner",
+    "translator": "%tile.monster_spawner.name"
+  },
+  {
+    "key": "48:0",
+    "id": 48,
+    "meta": 0,
+    "name": "Mossy Cobblestone",
+    "translator": "%tile.mossy_cobblestone.name"
+  },
+  {
+    "key": "182:5",
+    "id": 182,
+    "meta": 5,
+    "name": "Mossy Cobblestone Slab",
+    "translator": "%tile.mossy_cobblestone_slab.name"
+  },
+  {
+    "key": "434:0",
+    "id": 434,
+    "meta": 0,
+    "name": "Mossy Cobblestone Stairs",
+    "translator": "%tile.mossy_cobblestone_stairs.name"
+  },
+  {
+    "key": "139:1",
+    "id": 139,
+    "meta": 1,
+    "name": "Mossy Cobblestone Wall",
+    "translator": "%tile.mossy_cobblestone_wall.name"
+  },
+  {
+    "key": "421:0",
+    "id": 421,
+    "meta": 0,
+    "name": "Mossy Stone Brick Slab",
+    "translator": "%tile.mossy_stone_brick_slab.name"
+  },
+  {
+    "key": "430:0",
+    "id": 430,
+    "meta": 0,
+    "name": "Mossy Stone Brick Stairs",
+    "translator": "%tile.mossy_stone_brick_stairs.name"
+  },
+  {
+    "key": "139:8",
+    "id": 139,
+    "meta": 8,
+    "name": "Mossy Stone Brick Wall",
+    "translator": "%tile.mossy_stone_brick_wall.name"
+  },
+  {
+    "key": "98:1",
+    "id": 98,
+    "meta": 1,
+    "name": "Mossy Stone Bricks",
+    "translator": "%tile.mossy_stone_bricks.name"
+  },
+  {
+    "key": "99:10",
+    "id": 99,
+    "meta": 10,
+    "name": "Mushroom Stem",
+    "translator": "%tile.mushroom_stem.name"
+  },
+  {
+    "key": "110:0",
+    "id": 110,
+    "meta": 0,
+    "name": "Mycelium",
+    "translator": "%tile.mycelium.name"
+  },
+  {
+    "key": "113:0",
+    "id": 113,
+    "meta": 0,
+    "name": "Nether Brick Fence",
+    "translator": "%tile.nether_brick_fence.name"
+  },
+  {
+    "key": "44:7",
+    "id": 44,
+    "meta": 7,
+    "name": "Nether Brick Slab",
+    "translator": "%tile.nether_brick_slab.name"
+  },
+  {
+    "key": "114:0",
+    "id": 114,
+    "meta": 0,
+    "name": "Nether Brick Stairs",
+    "translator": "%tile.nether_brick_stairs.name"
+  },
+  {
+    "key": "139:9",
+    "id": 139,
+    "meta": 9,
+    "name": "Nether Brick Wall",
+    "translator": "%tile.nether_brick_wall.name"
+  },
+  {
+    "key": "112:0",
+    "id": 112,
+    "meta": 0,
+    "name": "Nether Bricks",
+    "translator": "%tile.nether_bricks.name"
+  },
+  {
+    "key": "90:1",
+    "id": 90,
+    "meta": 1,
+    "name": "Nether Portal",
+    "translator": "%tile.nether_portal.name"
+  },
+  {
+    "key": "153:0",
+    "id": 153,
+    "meta": 0,
+    "name": "Nether Quartz Ore",
+    "translator": "%tile.nether_quartz_ore.name"
+  },
+  {
+    "key": "247:0",
+    "id": 247,
+    "meta": 0,
+    "name": "Nether Reactor Core",
+    "translator": "%tile.nether_reactor_core.name"
+  },
+  {
+    "key": "115:0",
+    "id": 115,
+    "meta": 0,
+    "name": "Nether Wart",
+    "translator": "%tile.nether_wart.name"
+  },
+  {
+    "key": "214:0",
+    "id": 214,
+    "meta": 0,
+    "name": "Nether Wart Block",
+    "translator": "%tile.nether_wart_block.name"
+  },
+  {
+    "key": "87:0",
+    "id": 87,
+    "meta": 0,
+    "name": "Netherrack",
+    "translator": "%tile.netherrack.name"
+  },
+  {
+    "key": "25:0",
+    "id": 25,
+    "meta": 0,
+    "name": "Note Block",
+    "translator": "%tile.note_block.name"
+  },
+  {
+    "key": "143:0",
+    "id": 143,
+    "meta": 0,
+    "name": "Oak Button",
+    "translator": "%tile.oak_button.name"
+  },
+  {
+    "key": "64:0",
+    "id": 64,
+    "meta": 0,
+    "name": "Oak Door",
+    "translator": "%tile.oak_door.name"
+  },
+  {
+    "key": "85:0",
+    "id": 85,
+    "meta": 0,
+    "name": "Oak Fence",
+    "translator": "%tile.oak_fence.name"
+  },
+  {
+    "key": "107:0",
+    "id": 107,
+    "meta": 0,
+    "name": "Oak Fence Gate",
+    "translator": "%tile.oak_fence_gate.name"
+  },
+  {
+    "key": "18:0",
+    "id": 18,
+    "meta": 0,
+    "name": "Oak Leaves",
+    "translator": "%tile.oak_leaves.name"
+  },
+  {
+    "key": "17:0",
+    "id": 17,
+    "meta": 0,
+    "name": "Oak Log",
+    "translator": "%tile.oak_log.name"
+  },
+  {
+    "key": "5:0",
+    "id": 5,
+    "meta": 0,
+    "name": "Oak Planks",
+    "translator": "%tile.oak_planks.name"
+  },
+  {
+    "key": "72:0",
+    "id": 72,
+    "meta": 0,
+    "name": "Oak Pressure Plate",
+    "translator": "%tile.oak_pressure_plate.name"
+  },
+  {
+    "key": "6:0",
+    "id": 6,
+    "meta": 0,
+    "name": "Oak Sapling",
+    "translator": "%tile.oak_sapling.name"
+  },
+  {
+    "key": "63:0",
+    "id": 63,
+    "meta": 0,
+    "name": "Oak Sign",
+    "translator": "%tile.oak_sign.name"
+  },
+  {
+    "key": "158:0",
+    "id": 158,
+    "meta": 0,
+    "name": "Oak Slab",
+    "translator": "%tile.oak_slab.name"
+  },
+  {
+    "key": "53:0",
+    "id": 53,
+    "meta": 0,
+    "name": "Oak Stairs",
+    "translator": "%tile.oak_stairs.name"
+  },
+  {
+    "key": "96:0",
+    "id": 96,
+    "meta": 0,
+    "name": "Oak Trapdoor",
+    "translator": "%tile.oak_trapdoor.name"
+  },
+  {
+    "key": "68:2",
+    "id": 68,
+    "meta": 2,
+    "name": "Oak Wall Sign",
+    "translator": "%tile.oak_wall_sign.name"
+  },
+  {
+    "key": "467:0",
+    "id": 467,
+    "meta": 0,
+    "name": "Oak Wood",
+    "translator": "%tile.oak_wood.name"
+  },
+  {
+    "key": "49:0",
+    "id": 49,
+    "meta": 0,
+    "name": "Obsidian",
+    "translator": "%tile.obsidian.name"
+  },
+  {
+    "key": "221:2",
+    "id": 221,
+    "meta": 2,
+    "name": "Orange Glazed Terracotta",
+    "translator": "%tile.orange_glazed_terracotta.name"
+  },
+  {
+    "key": "38:5",
+    "id": 38,
+    "meta": 5,
+    "name": "Orange Tulip",
+    "translator": "%tile.orange_tulip.name"
+  },
+  {
+    "key": "38:8",
+    "id": 38,
+    "meta": 8,
+    "name": "Oxeye Daisy",
+    "translator": "%tile.oxeye_daisy.name"
+  },
+  {
+    "key": "174:0",
+    "id": 174,
+    "meta": 0,
+    "name": "Packed Ice",
+    "translator": "%tile.packed_ice.name"
+  },
+  {
+    "key": "175:5",
+    "id": 175,
+    "meta": 5,
+    "name": "Peony",
+    "translator": "%tile.peony.name"
+  },
+  {
+    "key": "226:2",
+    "id": 226,
+    "meta": 2,
+    "name": "Pink Glazed Terracotta",
+    "translator": "%tile.pink_glazed_terracotta.name"
+  },
+  {
+    "key": "38:7",
+    "id": 38,
+    "meta": 7,
+    "name": "Pink Tulip",
+    "translator": "%tile.pink_tulip.name"
+  },
+  {
+    "key": "243:0",
+    "id": 243,
+    "meta": 0,
+    "name": "Podzol",
+    "translator": "%tile.podzol.name"
+  },
+  {
+    "key": "1:6",
+    "id": 1,
+    "meta": 6,
+    "name": "Polished Andesite",
+    "translator": "%tile.polished_andesite.name"
+  },
+  {
+    "key": "417:2",
+    "id": 417,
+    "meta": 2,
+    "name": "Polished Andesite Slab",
+    "translator": "%tile.polished_andesite_slab.name"
+  },
+  {
+    "key": "429:0",
+    "id": 429,
+    "meta": 0,
+    "name": "Polished Andesite Stairs",
+    "translator": "%tile.polished_andesite_stairs.name"
+  },
+  {
+    "key": "1:4",
+    "id": 1,
+    "meta": 4,
+    "name": "Polished Diorite",
+    "translator": "%tile.polished_diorite.name"
+  },
+  {
+    "key": "417:5",
+    "id": 417,
+    "meta": 5,
+    "name": "Polished Diorite Slab",
+    "translator": "%tile.polished_diorite_slab.name"
+  },
+  {
+    "key": "428:0",
+    "id": 428,
+    "meta": 0,
+    "name": "Polished Diorite Stairs",
+    "translator": "%tile.polished_diorite_stairs.name"
+  },
+  {
+    "key": "1:2",
+    "id": 1,
+    "meta": 2,
+    "name": "Polished Granite",
+    "translator": "%tile.polished_granite.name"
+  },
+  {
+    "key": "417:7",
+    "id": 417,
+    "meta": 7,
+    "name": "Polished Granite Slab",
+    "translator": "%tile.polished_granite_slab.name"
+  },
+  {
+    "key": "427:0",
+    "id": 427,
+    "meta": 0,
+    "name": "Polished Granite Stairs",
+    "translator": "%tile.polished_granite_stairs.name"
+  },
+  {
+    "key": "38:0",
+    "id": 38,
+    "meta": 0,
+    "name": "Poppy",
+    "translator": "%tile.poppy.name"
+  },
+  {
+    "key": "142:0",
+    "id": 142,
+    "meta": 0,
+    "name": "Potato Block",
+    "translator": "%tile.potato_block.name"
+  },
+  {
+    "key": "27:0",
+    "id": 27,
+    "meta": 0,
+    "name": "Powered Rail",
+    "translator": "%tile.powered_rail.name"
+  },
+  {
+    "key": "168:0",
+    "id": 168,
+    "meta": 0,
+    "name": "Prismarine",
+    "translator": "%tile.prismarine.name"
+  },
+  {
+    "key": "168:2",
+    "id": 168,
+    "meta": 2,
+    "name": "Prismarine Bricks",
+    "translator": "%tile.prismarine_bricks.name"
+  },
+  {
+    "key": "182:4",
+    "id": 182,
+    "meta": 4,
+    "name": "Prismarine Bricks Slab",
+    "translator": "%tile.prismarine_bricks_slab.name"
+  },
+  {
+    "key": "259:0",
+    "id": 259,
+    "meta": 0,
+    "name": "Prismarine Bricks Stairs",
+    "translator": "%tile.prismarine_bricks_stairs.name"
+  },
+  {
+    "key": "182:2",
+    "id": 182,
+    "meta": 2,
+    "name": "Prismarine Slab",
+    "translator": "%tile.prismarine_slab.name"
+  },
+  {
+    "key": "257:0",
+    "id": 257,
+    "meta": 0,
+    "name": "Prismarine Stairs",
+    "translator": "%tile.prismarine_stairs.name"
+  },
+  {
+    "key": "139:11",
+    "id": 139,
+    "meta": 11,
+    "name": "Prismarine Wall",
+    "translator": "%tile.prismarine_wall.name"
+  },
+  {
+    "key": "86:0",
+    "id": 86,
+    "meta": 0,
+    "name": "Pumpkin",
+    "translator": "%tile.pumpkin.name"
+  },
+  {
+    "key": "104:0",
+    "id": 104,
+    "meta": 0,
+    "name": "Pumpkin Stem",
+    "translator": "%tile.pumpkin_stem.name"
+  },
+  {
+    "key": "219:2",
+    "id": 219,
+    "meta": 2,
+    "name": "Purple Glazed Terracotta",
+    "translator": "%tile.purple_glazed_terracotta.name"
+  },
+  {
+    "key": "204:13",
+    "id": 204,
+    "meta": 13,
+    "name": "Purple Torch",
+    "translator": "%tile.purple_torch.name"
+  },
+  {
+    "key": "201:0",
+    "id": 201,
+    "meta": 0,
+    "name": "Purpur Block",
+    "translator": "%tile.purpur_block.name"
+  },
+  {
+    "key": "201:2",
+    "id": 201,
+    "meta": 2,
+    "name": "Purpur Pillar",
+    "translator": "%tile.purpur_pillar.name"
+  },
+  {
+    "key": "182:1",
+    "id": 182,
+    "meta": 1,
+    "name": "Purpur Slab",
+    "translator": "%tile.purpur_slab.name"
+  },
+  {
+    "key": "203:0",
+    "id": 203,
+    "meta": 0,
+    "name": "Purpur Stairs",
+    "translator": "%tile.purpur_stairs.name"
+  },
+  {
+    "key": "155:0",
+    "id": 155,
+    "meta": 0,
+    "name": "Quartz Block",
+    "translator": "%tile.quartz_block.name"
+  },
+  {
+    "key": "155:2",
+    "id": 155,
+    "meta": 2,
+    "name": "Quartz Pillar",
+    "translator": "%tile.quartz_pillar.name"
+  },
+  {
+    "key": "44:6",
+    "id": 44,
+    "meta": 6,
+    "name": "Quartz Slab",
+    "translator": "%tile.quartz_slab.name"
+  },
+  {
+    "key": "156:0",
+    "id": 156,
+    "meta": 0,
+    "name": "Quartz Stairs",
+    "translator": "%tile.quartz_stairs.name"
+  },
+  {
+    "key": "66:0",
+    "id": 66,
+    "meta": 0,
+    "name": "Rail",
+    "translator": "%tile.rail.name"
+  },
+  {
+    "key": "234:2",
+    "id": 234,
+    "meta": 2,
+    "name": "Red Glazed Terracotta",
+    "translator": "%tile.red_glazed_terracotta.name"
+  },
+  {
+    "key": "40:0",
+    "id": 40,
+    "meta": 0,
+    "name": "Red Mushroom",
+    "translator": "%tile.red_mushroom.name"
+  },
+  {
+    "key": "100:0",
+    "id": 100,
+    "meta": 0,
+    "name": "Red Mushroom Block",
+    "translator": "%tile.red_mushroom_block.name"
+  },
+  {
+    "key": "182:7",
+    "id": 182,
+    "meta": 7,
+    "name": "Red Nether Brick Slab",
+    "translator": "%tile.red_nether_brick_slab.name"
+  },
+  {
+    "key": "439:0",
+    "id": 439,
+    "meta": 0,
+    "name": "Red Nether Brick Stairs",
+    "translator": "%tile.red_nether_brick_stairs.name"
+  },
+  {
+    "key": "139:13",
+    "id": 139,
+    "meta": 13,
+    "name": "Red Nether Brick Wall",
+    "translator": "%tile.red_nether_brick_wall.name"
+  },
+  {
+    "key": "215:0",
+    "id": 215,
+    "meta": 0,
+    "name": "Red Nether Bricks",
+    "translator": "%tile.red_nether_bricks.name"
+  },
+  {
+    "key": "12:1",
+    "id": 12,
+    "meta": 1,
+    "name": "Red Sand",
+    "translator": "%tile.red_sand.name"
+  },
+  {
+    "key": "179:0",
+    "id": 179,
+    "meta": 0,
+    "name": "Red Sandstone",
+    "translator": "%tile.red_sandstone.name"
+  },
+  {
+    "key": "182:0",
+    "id": 182,
+    "meta": 0,
+    "name": "Red Sandstone Slab",
+    "translator": "%tile.red_sandstone_slab.name"
+  },
+  {
+    "key": "180:0",
+    "id": 180,
+    "meta": 0,
+    "name": "Red Sandstone Stairs",
+    "translator": "%tile.red_sandstone_stairs.name"
+  },
+  {
+    "key": "139:12",
+    "id": 139,
+    "meta": 12,
+    "name": "Red Sandstone Wall",
+    "translator": "%tile.red_sandstone_wall.name"
+  },
+  {
+    "key": "202:5",
+    "id": 202,
+    "meta": 5,
+    "name": "Red Torch",
+    "translator": "%tile.red_torch.name"
+  },
+  {
+    "key": "38:4",
+    "id": 38,
+    "meta": 4,
+    "name": "Red Tulip",
+    "translator": "%tile.red_tulip.name"
+  },
+  {
+    "key": "152:0",
+    "id": 152,
+    "meta": 0,
+    "name": "Redstone Block",
+    "translator": "%tile.redstone_block.name"
+  },
+  {
+    "key": "149:0",
+    "id": 149,
+    "meta": 0,
+    "name": "Redstone Comparator",
+    "translator": "%tile.redstone_comparator.name"
+  },
+  {
+    "key": "123:0",
+    "id": 123,
+    "meta": 0,
+    "name": "Redstone Lamp",
+    "translator": "%tile.redstone_lamp.name"
+  },
+  {
+    "key": "73:0",
+    "id": 73,
+    "meta": 0,
+    "name": "Redstone Ore",
+    "translator": "%tile.redstone_ore.name"
+  },
+  {
+    "key": "93:0",
+    "id": 93,
+    "meta": 0,
+    "name": "Redstone Repeater",
+    "translator": "%tile.redstone_repeater.name"
+  },
+  {
+    "key": "76:5",
+    "id": 76,
+    "meta": 5,
+    "name": "Redstone Torch",
+    "translator": "%tile.redstone_torch.name"
+  },
+  {
+    "key": "55:0",
+    "id": 55,
+    "meta": 0,
     "name": "Redstone",
-    "namespase": "%item.redstone.name",
-    "textures": "textures\/items\/redstone"
+    "translator": "%tile.redstone.name"
   },
   {
-    "id": "373:28",
-    "name": "Regeneration Potion",
-    "namespase": "%item.regeneration_potion.name",
-    "textures": "textures\/items\/regeneration_potion"
+    "key": "255:0",
+    "id": 255,
+    "meta": 0,
+    "name": "reserved6",
+    "translator": "%tile.reserved6.name"
   },
   {
-    "id": "438:28",
-    "name": "Regeneration Splash Potion",
-    "namespase": "%item.regeneration_splash_potion.name",
-    "textures": "textures\/items\/regeneration_splash_potion"
+    "key": "175:4",
+    "id": 175,
+    "meta": 4,
+    "name": "Rose Bush",
+    "translator": "%tile.rose_bush.name"
   },
   {
-    "id": "367:0",
-    "name": "Rotten Flesh",
-    "namespase": "%item.rotten_flesh.name",
-    "textures": "textures\/items\/rotten_flesh"
+    "key": "12:0",
+    "id": 12,
+    "meta": 0,
+    "name": "Sand",
+    "translator": "%tile.sand.name"
   },
   {
-    "id": "468:0",
-    "name": "Scute",
-    "namespase": "%item.scute.name",
-    "textures": "textures\/items\/scute"
+    "key": "24:0",
+    "id": 24,
+    "meta": 0,
+    "name": "Sandstone",
+    "translator": "%tile.sandstone.name"
   },
   {
-    "id": "359:0",
-    "name": "Shears",
-    "namespase": "%item.shears.name",
-    "textures": "textures\/items\/shears"
+    "key": "44:1",
+    "id": 44,
+    "meta": 1,
+    "name": "Sandstone Slab",
+    "translator": "%tile.sandstone_slab.name"
   },
   {
-    "id": "445:0",
-    "name": "Shulker Shell",
-    "namespase": "%item.shulker_shell.name",
-    "textures": "textures\/items\/shulker_shell"
+    "key": "128:0",
+    "id": 128,
+    "meta": 0,
+    "name": "Sandstone Stairs",
+    "translator": "%tile.sandstone_stairs.name"
   },
   {
-    "id": "397:0",
-    "name": "Skeleton Skull",
-    "namespase": "%item.skeleton_skull.name",
-    "textures": "textures\/items\/skeleton_skull"
+    "key": "139:5",
+    "id": 139,
+    "meta": 5,
+    "name": "Sandstone Wall",
+    "translator": "%tile.sandstone_wall.name"
   },
   {
-    "id": "341:0",
-    "name": "Slimeball",
-    "namespase": "%item.slimeball.name",
-    "textures": "textures\/items\/slimeball"
+    "key": "169:0",
+    "id": 169,
+    "meta": 0,
+    "name": "Sea Lantern",
+    "translator": "%tile.sea_lantern.name"
   },
   {
-    "id": "373:40",
-    "name": "Slow Falling Potion",
-    "namespase": "%item.slow_falling_potion.name",
-    "textures": "textures\/items\/slow_falling_potion"
+    "key": "411:0",
+    "id": 411,
+    "meta": 0,
+    "name": "Sea Pickle",
+    "translator": "%tile.sea_pickle.name"
   },
   {
-    "id": "438:40",
-    "name": "Slow Falling Splash Potion",
-    "namespase": "%item.slow_falling_splash_potion.name",
-    "textures": "textures\/items\/slow_falling_splash_potion"
+    "key": "205:0",
+    "id": 205,
+    "meta": 0,
+    "name": "Shulker Box",
+    "translator": "%tile.shulker_box.name"
   },
   {
-    "id": "373:17",
-    "name": "Slowness Potion",
-    "namespase": "%item.slowness_potion.name",
-    "textures": "textures\/items\/slowness_potion"
+    "key": "165:0",
+    "id": 165,
+    "meta": 0,
+    "name": "Slime Block",
+    "translator": "%tile.slime_block.name"
   },
   {
-    "id": "438:17",
-    "name": "Slowness Splash Potion",
-    "namespase": "%item.slowness_splash_potion.name",
-    "textures": "textures\/items\/slowness_splash_potion"
+    "key": "453:2",
+    "id": 453,
+    "meta": 2,
+    "name": "Smoker",
+    "translator": "%tile.smoker.name"
   },
   {
-    "id": "332:0",
-    "name": "Snowball",
-    "namespase": "%item.snowball.name",
-    "textures": "textures\/items\/snowball"
+    "key": "155:3",
+    "id": 155,
+    "meta": 3,
+    "name": "Smooth Quartz Block",
+    "translator": "%tile.smooth_quartz_block.name"
   },
   {
-    "id": "375:0",
-    "name": "Spider Eye",
-    "namespase": "%item.spider_eye.name",
-    "textures": "textures\/items\/spider_eye"
+    "key": "421:1",
+    "id": 421,
+    "meta": 1,
+    "name": "Smooth Quartz Slab",
+    "translator": "%tile.smooth_quartz_slab.name"
   },
   {
-    "id": "333:1",
-    "name": "Spruce Boat",
-    "namespase": "%item.spruce_boat.name",
-    "textures": "textures\/items\/spruce_boat"
+    "key": "440:0",
+    "id": 440,
+    "meta": 0,
+    "name": "Smooth Quartz Stairs",
+    "translator": "%tile.smooth_quartz_stairs.name"
   },
   {
-    "id": "383:17",
-    "name": "Squid Spawn Egg",
-    "namespase": "%item.squid_spawn_egg.name",
-    "textures": "textures\/items\/squid_spawn_egg"
+    "key": "179:3",
+    "id": 179,
+    "meta": 3,
+    "name": "Smooth Red Sandstone",
+    "translator": "%tile.smooth_red_sandstone.name"
   },
   {
-    "id": "364:0",
-    "name": "Steak",
-    "namespase": "%item.steak.name",
-    "textures": "textures\/items\/steak"
+    "key": "417:1",
+    "id": 417,
+    "meta": 1,
+    "name": "Smooth Red Sandstone Slab",
+    "translator": "%tile.smooth_red_sandstone_slab.name"
   },
   {
-    "id": "280:0",
-    "name": "Stick",
-    "namespase": "%item.stick.name",
-    "textures": "textures\/items\/stick"
+    "key": "431:0",
+    "id": 431,
+    "meta": 0,
+    "name": "Smooth Red Sandstone Stairs",
+    "translator": "%tile.smooth_red_sandstone_stairs.name"
   },
   {
-    "id": "275:0",
-    "name": "Stone Axe",
-    "namespase": "%item.stone_axe.name",
-    "textures": "textures\/items\/stone_axe"
+    "key": "24:3",
+    "id": 24,
+    "meta": 3,
+    "name": "Smooth Sandstone",
+    "translator": "%tile.smooth_sandstone.name"
   },
   {
-    "id": "291:0",
-    "name": "Stone Hoe",
-    "namespase": "%item.stone_hoe.name",
-    "textures": "textures\/items\/stone_hoe"
+    "key": "182:6",
+    "id": 182,
+    "meta": 6,
+    "name": "Smooth Sandstone Slab",
+    "translator": "%tile.smooth_sandstone_slab.name"
   },
   {
-    "id": "274:0",
-    "name": "Stone Pickaxe",
-    "namespase": "%item.stone_pickaxe.name",
-    "textures": "textures\/items\/stone_pickaxe"
+    "key": "432:0",
+    "id": 432,
+    "meta": 0,
+    "name": "Smooth Sandstone Stairs",
+    "translator": "%tile.smooth_sandstone_stairs.name"
   },
   {
-    "id": "273:0",
-    "name": "Stone Shovel",
-    "namespase": "%item.stone_shovel.name",
-    "textures": "textures\/items\/stone_shovel"
+    "key": "438:0",
+    "id": 438,
+    "meta": 0,
+    "name": "Smooth Stone",
+    "translator": "%tile.smooth_stone.name"
   },
   {
-    "id": "272:0",
-    "name": "Stone Sword",
-    "namespase": "%item.stone_sword.name",
-    "textures": "textures\/items\/stone_sword"
+    "key": "44:0",
+    "id": 44,
+    "meta": 0,
+    "name": "Smooth Stone Slab",
+    "translator": "%tile.smooth_stone_slab.name"
   },
   {
-    "id": "373:31",
-    "name": "Strength Potion",
-    "namespase": "%item.strength_potion.name",
-    "textures": "textures\/items\/strength_potion"
+    "key": "80:0",
+    "id": 80,
+    "meta": 0,
+    "name": "Snow Block",
+    "translator": "%tile.snow_block.name"
   },
   {
-    "id": "438:31",
-    "name": "Strength Splash Potion",
-    "namespase": "%item.strength_splash_potion.name",
-    "textures": "textures\/items\/strength_splash_potion"
+    "key": "78:0",
+    "id": 78,
+    "meta": 0,
+    "name": "Snow Layer",
+    "translator": "%tile.snow_layer.name"
   },
   {
-    "id": "287:0",
-    "name": "String",
-    "namespase": "%item.string.name",
-    "textures": "textures\/items\/string"
+    "key": "88:0",
+    "id": 88,
+    "meta": 0,
+    "name": "Soul Sand",
+    "translator": "%tile.soul_sand.name"
   },
   {
-    "id": "373:24",
-    "name": "Strong Harming Potion",
-    "namespase": "%item.strong_harming_potion.name",
-    "textures": "textures\/items\/strong_harming_potion"
+    "key": "19:0",
+    "id": 19,
+    "meta": 0,
+    "name": "Sponge",
+    "translator": "%tile.sponge.name"
   },
   {
-    "id": "438:24",
-    "name": "Strong Harming Splash Potion",
-    "namespase": "%item.strong_harming_splash_potion.name",
-    "textures": "textures\/items\/strong_harming_splash_potion"
+    "key": "399:0",
+    "id": 399,
+    "meta": 0,
+    "name": "Spruce Button",
+    "translator": "%tile.spruce_button.name"
   },
   {
-    "id": "373:22",
-    "name": "Strong Healing Potion",
-    "namespase": "%item.strong_healing_potion.name",
-    "textures": "textures\/items\/strong_healing_potion"
+    "key": "193:0",
+    "id": 193,
+    "meta": 0,
+    "name": "Spruce Door",
+    "translator": "%tile.spruce_door.name"
   },
   {
-    "id": "438:22",
-    "name": "Strong Healing Splash Potion",
-    "namespase": "%item.strong_healing_splash_potion.name",
-    "textures": "textures\/items\/strong_healing_splash_potion"
+    "key": "85:1",
+    "id": 85,
+    "meta": 1,
+    "name": "Spruce Fence",
+    "translator": "%tile.spruce_fence.name"
   },
   {
-    "id": "373:11",
-    "name": "Strong Leaping Potion",
-    "namespase": "%item.strong_leaping_potion.name",
-    "textures": "textures\/items\/strong_leaping_potion"
+    "key": "183:0",
+    "id": 183,
+    "meta": 0,
+    "name": "Spruce Fence Gate",
+    "translator": "%tile.spruce_fence_gate.name"
   },
   {
-    "id": "438:11",
-    "name": "Strong Leaping Splash Potion",
-    "namespase": "%item.strong_leaping_splash_potion.name",
-    "textures": "textures\/items\/strong_leaping_splash_potion"
+    "key": "18:1",
+    "id": 18,
+    "meta": 1,
+    "name": "Spruce Leaves",
+    "translator": "%tile.spruce_leaves.name"
   },
   {
-    "id": "373:27",
-    "name": "Strong Poison Potion",
-    "namespase": "%item.strong_poison_potion.name",
-    "textures": "textures\/items\/strong_poison_potion"
+    "key": "17:1",
+    "id": 17,
+    "meta": 1,
+    "name": "Spruce Log",
+    "translator": "%tile.spruce_log.name"
   },
   {
-    "id": "438:27",
-    "name": "Strong Poison Splash Potion",
-    "namespase": "%item.strong_poison_splash_potion.name",
-    "textures": "textures\/items\/strong_poison_splash_potion"
+    "key": "5:1",
+    "id": 5,
+    "meta": 1,
+    "name": "Spruce Planks",
+    "translator": "%tile.spruce_planks.name"
   },
   {
-    "id": "373:30",
-    "name": "Strong Regeneration Potion",
-    "namespase": "%item.strong_regeneration_potion.name",
-    "textures": "textures\/items\/strong_regeneration_potion"
+    "key": "409:0",
+    "id": 409,
+    "meta": 0,
+    "name": "Spruce Pressure Plate",
+    "translator": "%tile.spruce_pressure_plate.name"
   },
   {
-    "id": "438:30",
-    "name": "Strong Regeneration Splash Potion",
-    "namespase": "%item.strong_regeneration_splash_potion.name",
-    "textures": "textures\/items\/strong_regeneration_splash_potion"
+    "key": "6:1",
+    "id": 6,
+    "meta": 1,
+    "name": "Spruce Sapling",
+    "translator": "%tile.spruce_sapling.name"
   },
   {
-    "id": "373:33",
-    "name": "Strong Strength Potion",
-    "namespase": "%item.strong_strength_potion.name",
-    "textures": "textures\/items\/strong_strength_potion"
+    "key": "436:0",
+    "id": 436,
+    "meta": 0,
+    "name": "Spruce Sign",
+    "translator": "%tile.spruce_sign.name"
   },
   {
-    "id": "438:33",
-    "name": "Strong Strength Splash Potion",
-    "namespase": "%item.strong_strength_splash_potion.name",
-    "textures": "textures\/items\/strong_strength_splash_potion"
+    "key": "158:1",
+    "id": 158,
+    "meta": 1,
+    "name": "Spruce Slab",
+    "translator": "%tile.spruce_slab.name"
   },
   {
-    "id": "373:16",
-    "name": "Strong Swiftness Potion",
-    "namespase": "%item.strong_swiftness_potion.name",
-    "textures": "textures\/items\/strong_swiftness_potion"
+    "key": "134:0",
+    "id": 134,
+    "meta": 0,
+    "name": "Spruce Stairs",
+    "translator": "%tile.spruce_stairs.name"
   },
   {
-    "id": "438:16",
-    "name": "Strong Swiftness Splash Potion",
-    "namespase": "%item.strong_swiftness_splash_potion.name",
-    "textures": "textures\/items\/strong_swiftness_splash_potion"
+    "key": "404:0",
+    "id": 404,
+    "meta": 0,
+    "name": "Spruce Trapdoor",
+    "translator": "%tile.spruce_trapdoor.name"
   },
   {
-    "id": "373:39",
-    "name": "Strong Turtle Master Potion",
-    "namespase": "%item.strong_turtle_master_potion.name",
-    "textures": "textures\/items\/strong_turtle_master_potion"
+    "key": "437:2",
+    "id": 437,
+    "meta": 2,
+    "name": "Spruce Wall Sign",
+    "translator": "%tile.spruce_wall_sign.name"
   },
   {
-    "id": "438:39",
-    "name": "Strong Turtle Master Splash Potion",
-    "namespase": "%item.strong_turtle_master_splash_potion.name",
-    "textures": "textures\/items\/strong_turtle_master_splash_potion"
+    "key": "467:1",
+    "id": 467,
+    "meta": 1,
+    "name": "Spruce Wood",
+    "translator": "%tile.spruce_wood.name"
   },
   {
-    "id": "353:0",
-    "name": "Sugar",
-    "namespase": "%item.sugar.name",
-    "textures": "textures\/items\/sugar"
+    "key": "159:0",
+    "id": 159,
+    "meta": 0,
+    "name": "Stained Clay",
+    "translator": "%tile.stained_clay.name"
   },
   {
-    "id": "477:0",
-    "name": "Sweet Berries",
-    "namespase": "%item.sweet_berries.name",
-    "textures": "textures\/items\/sweet_berries"
+    "key": "241:0",
+    "id": 241,
+    "meta": 0,
+    "name": "Stained Glass",
+    "translator": "%tile.stained_glass.name"
   },
   {
-    "id": "373:14",
-    "name": "Swiftness Potion",
-    "namespase": "%item.swiftness_potion.name",
-    "textures": "textures\/items\/swiftness_potion"
+    "key": "160:0",
+    "id": 160,
+    "meta": 0,
+    "name": "Stained Glass Pane",
+    "translator": "%tile.stained_glass_pane.name"
   },
   {
-    "id": "438:14",
-    "name": "Swiftness Splash Potion",
-    "namespase": "%item.swiftness_splash_potion.name",
-    "textures": "textures\/items\/swiftness_splash_potion"
+    "key": "254:0",
+    "id": 254,
+    "meta": 0,
+    "name": "Stained Hardened Glass",
+    "translator": "%tile.stained_hardened_glass.name"
   },
   {
-    "id": "373:3",
-    "name": "Thick Potion",
-    "namespase": "%item.thick_potion.name",
-    "textures": "textures\/items\/thick_potion"
+    "key": "191:0",
+    "id": 191,
+    "meta": 0,
+    "name": "Stained Hardened Glass Pane",
+    "translator": "%tile.stained_hardened_glass_pane.name"
   },
   {
-    "id": "438:3",
-    "name": "Thick Splash Potion",
-    "namespase": "%item.thick_splash_potion.name",
-    "textures": "textures\/items\/thick_splash_potion"
+    "key": "1:0",
+    "id": 1,
+    "meta": 0,
+    "name": "Stone",
+    "translator": "%tile.stone.name"
   },
   {
-    "id": "450:0",
-    "name": "Totem of Undying",
-    "namespase": "%item.totem_of_undying.name",
-    "textures": "textures\/items\/totem_of_undying"
+    "key": "44:5",
+    "id": 44,
+    "meta": 5,
+    "name": "Stone Brick Slab",
+    "translator": "%tile.stone_brick_slab.name"
   },
   {
-    "id": "373:37",
-    "name": "Turtle Master Potion",
-    "namespase": "%item.turtle_master_potion.name",
-    "textures": "textures\/items\/turtle_master_potion"
+    "key": "109:0",
+    "id": 109,
+    "meta": 0,
+    "name": "Stone Brick Stairs",
+    "translator": "%tile.stone_brick_stairs.name"
   },
   {
-    "id": "438:37",
-    "name": "Turtle Master Splash Potion",
-    "namespase": "%item.turtle_master_splash_potion.name",
-    "textures": "textures\/items\/turtle_master_splash_potion"
+    "key": "139:7",
+    "id": 139,
+    "meta": 7,
+    "name": "Stone Brick Wall",
+    "translator": "%tile.stone_brick_wall.name"
   },
   {
-    "id": "383:15",
-    "name": "Villager Spawn Egg",
-    "namespase": "%item.villager_spawn_egg.name",
-    "textures": "textures\/items\/villager_spawn_egg"
+    "key": "98:0",
+    "id": 98,
+    "meta": 0,
+    "name": "Stone Bricks",
+    "translator": "%tile.stone_bricks.name"
   },
   {
-    "id": "373:19",
-    "name": "Water Breathing Potion",
-    "namespase": "%item.water_breathing_potion.name",
-    "textures": "textures\/items\/water_breathing_potion"
+    "key": "77:0",
+    "id": 77,
+    "meta": 0,
+    "name": "Stone Button",
+    "translator": "%tile.stone_button.name"
   },
   {
-    "id": "438:19",
-    "name": "Water Breathing Splash Potion",
-    "namespase": "%item.water_breathing_splash_potion.name",
-    "textures": "textures\/items\/water_breathing_splash_potion"
+    "key": "70:0",
+    "id": 70,
+    "meta": 0,
+    "name": "Stone Pressure Plate",
+    "translator": "%tile.stone_pressure_plate.name"
   },
   {
-    "id": "325:8",
-    "name": "Water Bucket",
-    "namespase": "%item.water_bucket.name",
-    "textures": "textures\/items\/water_bucket"
+    "key": "421:2",
+    "id": 421,
+    "meta": 2,
+    "name": "Stone Slab",
+    "translator": "%tile.stone_slab.name"
   },
   {
-    "id": "373:0",
-    "name": "Water Potion",
-    "namespase": "%item.water_potion.name",
-    "textures": "textures\/items\/water_potion"
+    "key": "435:0",
+    "id": 435,
+    "meta": 0,
+    "name": "Stone Stairs",
+    "translator": "%tile.stone_stairs.name"
   },
   {
-    "id": "438:0",
-    "name": "Water Splash Potion",
-    "namespase": "%item.water_splash_potion.name",
-    "textures": "textures\/items\/water_splash_potion"
+    "key": "263:0",
+    "id": 263,
+    "meta": 0,
+    "name": "Stripped Acacia Log",
+    "translator": "%tile.stripped_acacia_log.name"
   },
   {
-    "id": "373:34",
-    "name": "Weakness Potion",
-    "namespase": "%item.weakness_potion.name",
-    "textures": "textures\/items\/weakness_potion"
+    "key": "467:12",
+    "id": 467,
+    "meta": 12,
+    "name": "Stripped Acacia Wood",
+    "translator": "%tile.stripped_acacia_wood.name"
   },
   {
-    "id": "438:34",
-    "name": "Weakness Splash Potion",
-    "namespase": "%item.weakness_splash_potion.name",
-    "textures": "textures\/items\/weakness_splash_potion"
+    "key": "261:0",
+    "id": 261,
+    "meta": 0,
+    "name": "Stripped Birch Log",
+    "translator": "%tile.stripped_birch_log.name"
   },
   {
-    "id": "296:0",
-    "name": "Wheat",
-    "namespase": "%item.wheat.name",
-    "textures": "textures\/items\/wheat"
+    "key": "467:10",
+    "id": 467,
+    "meta": 10,
+    "name": "Stripped Birch Wood",
+    "translator": "%tile.stripped_birch_wood.name"
   },
   {
-    "id": "295:0",
-    "name": "Wheat Seeds",
-    "namespase": "%item.wheat_seeds.name",
-    "textures": "textures\/items\/wheat_seeds"
+    "key": "264:0",
+    "id": 264,
+    "meta": 0,
+    "name": "Stripped Dark Oak Log",
+    "translator": "%tile.stripped_dark_oak_log.name"
   },
   {
-    "id": "355:0",
-    "name": "White Bed",
-    "namespase": "%item.white_bed.name",
-    "textures": "textures\/items\/white_bed"
+    "key": "467:13",
+    "id": 467,
+    "meta": 13,
+    "name": "Stripped Dark Oak Wood",
+    "translator": "%tile.stripped_dark_oak_wood.name"
   },
   {
-    "id": "351:19",
-    "name": "White Dye",
-    "namespase": "%item.white_dye.name",
-    "textures": "textures\/items\/white_dye"
+    "key": "262:0",
+    "id": 262,
+    "meta": 0,
+    "name": "Stripped Jungle Log",
+    "translator": "%tile.stripped_jungle_log.name"
   },
   {
-    "id": "373:36",
-    "name": "Wither Potion",
-    "namespase": "%item.wither_potion.name",
-    "textures": "textures\/items\/wither_potion"
+    "key": "467:11",
+    "id": 467,
+    "meta": 11,
+    "name": "Stripped Jungle Wood",
+    "translator": "%tile.stripped_jungle_wood.name"
   },
   {
-    "id": "397:1",
-    "name": "Wither Skeleton Skull",
-    "namespase": "%item.wither_skeleton_skull.name",
-    "textures": "textures\/items\/wither_skeleton_skull"
+    "key": "265:0",
+    "id": 265,
+    "meta": 0,
+    "name": "Stripped Oak Log",
+    "translator": "%tile.stripped_oak_log.name"
   },
   {
-    "id": "438:36",
-    "name": "Wither Splash Potion",
-    "namespase": "%item.wither_splash_potion.name",
-    "textures": "textures\/items\/wither_splash_potion"
+    "key": "467:8",
+    "id": 467,
+    "meta": 8,
+    "name": "Stripped Oak Wood",
+    "translator": "%tile.stripped_oak_wood.name"
   },
   {
-    "id": "271:0",
-    "name": "Wooden Axe",
-    "namespase": "%item.wooden_axe.name",
-    "textures": "textures\/items\/wooden_axe"
+    "key": "260:0",
+    "id": 260,
+    "meta": 0,
+    "name": "Stripped Spruce Log",
+    "translator": "%tile.stripped_spruce_log.name"
   },
   {
-    "id": "290:0",
-    "name": "Wooden Hoe",
-    "namespase": "%item.wooden_hoe.name",
-    "textures": "textures\/items\/wooden_hoe"
+    "key": "467:9",
+    "id": 467,
+    "meta": 9,
+    "name": "Stripped Spruce Wood",
+    "translator": "%tile.stripped_spruce_wood.name"
   },
   {
-    "id": "270:0",
-    "name": "Wooden Pickaxe",
-    "namespase": "%item.wooden_pickaxe.name",
-    "textures": "textures\/items\/wooden_pickaxe"
+    "key": "83:0",
+    "id": 83,
+    "meta": 0,
+    "name": "Sugarcane",
+    "translator": "%tile.sugarcane.name"
   },
   {
-    "id": "269:0",
-    "name": "Wooden Shovel",
-    "namespase": "%item.wooden_shovel.name",
-    "textures": "textures\/items\/wooden_shovel"
+    "key": "175:0",
+    "id": 175,
+    "meta": 0,
+    "name": "Sunflower",
+    "translator": "%tile.sunflower.name"
   },
   {
-    "id": "268:0",
-    "name": "Wooden Sword",
-    "namespase": "%item.wooden_sword.name",
-    "textures": "textures\/items\/wooden_sword"
+    "key": "462:0",
+    "id": 462,
+    "meta": 0,
+    "name": "Sweet Berry Bush",
+    "translator": "%tile.sweet_berry_bush.name"
   },
   {
-    "id": "386:0",
-    "name": "Book & Quill",
-    "namespase": "%item.book_&_quill.name",
-    "textures": "textures\/items\/book_&_quill"
+    "key": "31:1",
+    "id": 31,
+    "meta": 1,
+    "name": "Tall Grass",
+    "translator": "%tile.tall_grass.name"
   },
   {
-    "id": "387:0",
-    "name": "Written Book",
-    "namespase": "%item.written_book.name",
-    "textures": "textures\/items\/written_book"
+    "key": "46:0",
+    "id": 46,
+    "meta": 0,
+    "name": "TNT",
+    "translator": "%tile.tnt.name"
   },
   {
-    "id": "355:4",
-    "name": "Yellow Bed",
-    "namespase": "%item.yellow_bed.name",
-    "textures": "textures\/items\/yellow_bed"
+    "key": "50:5",
+    "id": 50,
+    "meta": 5,
+    "name": "Torch",
+    "translator": "%tile.torch.name"
   },
   {
-    "id": "351:11",
-    "name": "Yellow Dye",
-    "namespase": "%item.yellow_dye.name",
-    "textures": "textures\/items\/yellow_dye"
+    "key": "146:2",
+    "id": 146,
+    "meta": 2,
+    "name": "Trapped Chest",
+    "translator": "%tile.trapped_chest.name"
   },
   {
-    "id": "397:2",
-    "name": "Zombie Head",
-    "namespase": "%item.zombie_head.name",
-    "textures": "textures\/items\/zombie_head"
+    "key": "132:0",
+    "id": 132,
+    "meta": 0,
+    "name": "Tripwire",
+    "translator": "%tile.tripwire.name"
   },
   {
-    "id": "383:32",
-    "name": "Zombie Spawn Egg",
-    "namespase": "%item.zombie_spawn_egg.name",
-    "textures": "textures\/items\/zombie_spawn_egg"
+    "key": "131:0",
+    "id": 131,
+    "meta": 0,
+    "name": "Tripwire Hook",
+    "translator": "%tile.tripwire_hook.name"
+  },
+  {
+    "key": "239:5",
+    "id": 239,
+    "meta": 5,
+    "name": "Underwater Torch",
+    "translator": "%tile.underwater_torch.name"
+  },
+  {
+    "key": "106:0",
+    "id": 106,
+    "meta": 0,
+    "name": "Vines",
+    "translator": "%tile.vines.name"
+  },
+  {
+    "key": "177:2",
+    "id": 177,
+    "meta": 2,
+    "name": "Wall Banner",
+    "translator": "%tile.wall_banner.name"
+  },
+  {
+    "key": "390:0",
+    "id": 390,
+    "meta": 0,
+    "name": "Wall Coral Fan",
+    "translator": "%tile.wall_coral_fan.name"
+  },
+  {
+    "key": "8:0",
+    "id": 8,
+    "meta": 0,
+    "name": "Water",
+    "translator": "%tile.water.name"
+  },
+  {
+    "key": "148:0",
+    "id": 148,
+    "meta": 0,
+    "name": "Weighted Pressure Plate Heavy",
+    "translator": "%tile.weighted_pressure_plate_heavy.name"
+  },
+  {
+    "key": "147:0",
+    "id": 147,
+    "meta": 0,
+    "name": "Weighted Pressure Plate Light",
+    "translator": "%tile.weighted_pressure_plate_light.name"
+  },
+  {
+    "key": "59:0",
+    "id": 59,
+    "meta": 0,
+    "name": "Wheat Block",
+    "translator": "%tile.wheat_block.name"
+  },
+  {
+    "key": "220:2",
+    "id": 220,
+    "meta": 2,
+    "name": "White Glazed Terracotta",
+    "translator": "%tile.white_glazed_terracotta.name"
+  },
+  {
+    "key": "38:6",
+    "id": 38,
+    "meta": 6,
+    "name": "White Tulip",
+    "translator": "%tile.white_tulip.name"
+  },
+  {
+    "key": "35:0",
+    "id": 35,
+    "meta": 0,
+    "name": "Wool",
+    "translator": "%tile.wool.name"
+  },
+  {
+    "key": "224:2",
+    "id": 224,
+    "meta": 2,
+    "name": "Yellow Glazed Terracotta",
+    "translator": "%tile.yellow_glazed_terracotta.name"
   }
 ]
