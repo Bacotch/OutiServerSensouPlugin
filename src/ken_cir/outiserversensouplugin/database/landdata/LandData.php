@@ -10,7 +10,7 @@ use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 /**
  * 派閥の土地データ
  */
-class LandData
+final class LandData
 {
     /**
      * 管理用ID
@@ -51,7 +51,7 @@ class LandData
         $this->world = $world;
     }
 
-    public function update(): void
+    private function update(): void
     {
         Main::getInstance()->getDatabase()->executeChange(
             "outiserver.lands.update",

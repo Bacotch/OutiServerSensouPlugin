@@ -74,6 +74,19 @@ final class PlayerCache
      */
     private ?int $worldBackup_StartZ;
 
+    /**
+     * Discord認証一時コード
+     *
+     * @var int|null
+     */
+    private ?int $discordVerifyCode;
+
+    /**
+     * Discord認証一時コード発行時刻
+     * @var int|null
+     */
+    private ?int $discordverifycodeTime;
+
     public function __construct(string $xuid, string $name)
     {
         $this->xuid = $xuid;
@@ -85,6 +98,7 @@ final class PlayerCache
         $this->worldBackup_WorldName = null;
         $this->worldBackup_StartX = null;
         $this->worldBackup_StartZ = null;
+        $this->discordVerifyCode = null;
     }
 
     /**
@@ -250,5 +264,37 @@ final class PlayerCache
     public function setWorldBackupStartZ(?int $worldBackup_StartZ): void
     {
         $this->worldBackup_StartZ = $worldBackup_StartZ;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDiscordVerifyCode(): ?int
+    {
+        return $this->discordVerifyCode;
+    }
+
+    /**
+     * @param int|null $discordVerifyCode
+     */
+    public function setDiscordVerifyCode(?int $discordVerifyCode): void
+    {
+        $this->discordVerifyCode = $discordVerifyCode;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getDiscordverifycodeTime(): ?int
+    {
+        return $this->discordverifycodeTime;
+    }
+
+    /**
+     * @param int|null $discordverifycodeTime
+     */
+    public function setDiscordverifycodeTime(?int $discordverifycodeTime): void
+    {
+        $this->discordverifycodeTime = $discordverifycodeTime;
     }
 }

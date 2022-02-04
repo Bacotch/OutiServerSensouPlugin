@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS players
     money
     INTEGER
     NOT
-    NULL
+    NULL,
+    discord_userid TEXT
 );
 -- # }
 
@@ -54,7 +55,8 @@ VALUES (:xuid,
         1,
         "a:0:{}",
         0,
-        :money);
+        :money,
+        NULL);
 -- # }
 
 -- # { load
@@ -71,6 +73,7 @@ FROM players;
 -- #    :roles string
 -- #    :punishment int
 -- #    :money int
+-- #    :discord_userid string
 -- #    :xuid string
 UPDATE players
 SET name           = :name,
@@ -80,7 +83,8 @@ SET name           = :name,
     drawscoreboard = :drawscoreboard,
     roles          = :roles,
     punishment     = :punishment,
-    money          = :money
+    money          = :money,
+    discord_userid          = :discord_userid
 WHERE xuid = :xuid;
 -- # }
 
@@ -123,7 +127,8 @@ CREATE TABLE IF NOT EXISTS factions
     color
     INTEGER
     NOT
-    NULL
+    NULL,
+    money INTEGER NOT NULL
 );
 -- # }
 
@@ -131,8 +136,9 @@ CREATE TABLE IF NOT EXISTS factions
 -- #    :name string
 -- #    :owner_xuid string
 -- #    :color int
-INSERT INTO factions (name, owner_xuid, color)
-VALUES (:name, :owner_xuid, :color);
+-- #    :money int
+INSERT INTO factions (name, owner_xuid, color, money)
+VALUES (:name, :owner_xuid, :color, :money);
 -- # }
 
 -- # { seq
@@ -150,11 +156,13 @@ FROM factions;
 -- #    :name string
 -- #    :owner_xuid string
 -- #    :color int
+-- #    :money int
 -- #    :id int
 UPDATE factions
 SET name       = :name,
     owner_xuid = :owner_xuid,
-    color      = :color
+    color      = :color,
+    money = :money
 WHERE id = :id;
 -- # }
 
@@ -689,6 +697,53 @@ CREATE TABLE IF NOT EXISTS chestshops
     NOT
     NULL
 );
+-- # }
+
+-- # { create
+-- #    :faction_id int
+-- #    :worldname string
+-- #    :chestx int
+-- #    :chesty int
+-- #    :chestz int
+-- #    :signboardx int
+-- #    :signboardy int
+-- #    :signboardz int
+-- #    :itemid int
+-- #    :itemmeta int
+--#     :price int
+--#     :duty int
+INSERT INTO chestshops (faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz, itemid, itemmeta, price, duty)
+VALUES (:faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid, :itemmeta, :price, :duty);
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'chestshops';
+-- # }
+
+-- # { load
+SELECT *
+FROM chestshops;
+-- # }
+
+-- # { update
+-- #    :content string
+-- #    :id int
+UPDATE chestshops
+SET content = :content
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM chestshops
+WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS chestshops;
 -- # }
 -- # }
 -- # }

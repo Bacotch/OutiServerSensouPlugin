@@ -22,6 +22,8 @@ use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
+use ken_cir\outiserversensouplugin\commands\DiscordCommand;
+use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiWatchCommand;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
@@ -30,6 +32,7 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
+use ken_cir\outiserversensouplugin\entitys\Minecart;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
@@ -39,6 +42,7 @@ use ken_cir\outiserversensouplugin\tasks\DiscordBot;
 use ken_cir\outiserversensouplugin\tasks\PlayerBackGround;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
+use pocketmine\block\BlockFactory;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -57,8 +61,10 @@ use pocketmine\scheduler\ClosureTask;
 use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\world\World;
+use function unlink;
 use function file_exists;
 use function mkdir;
+use function ob_start;
 use function ob_end_clean;
 use function ob_flush;
 use function ob_get_contents;
@@ -118,6 +124,7 @@ final class Main extends PluginBase
      */
     public function onEnable(): void
     {
+        @unlink(Main::getInstance()->getDataFolder() . "test.json");
         // ---バックアップ用のフォルダがなければ作成する---
         if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
             mkdir(Main::getInstance()->getDataFolder() . "backups/");
@@ -127,6 +134,8 @@ final class Main extends PluginBase
         $this->saveResource("config.yml");
         $this->saveResource("database.yml");
         $this->saveResource("data.yml");
+        $this->saveResource("items_map.json");
+        $this->saveResource("test.json");
 
         // ---プラグインコンフィグを読み込む---
         $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
@@ -143,8 +152,6 @@ final class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
-        $this->database->executeGeneric("outiserver.factions.drop");
-        $this->database->executeGeneric("outiserver.mails.drop");
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -152,6 +159,7 @@ final class Main extends PluginBase
         $this->database->executeGeneric("outiserver.lands.init");
         $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->executeGeneric("outiserver.schedulemessages.init");
+        $this->database->executeGeneric("outiserver.chestshops.init");
         $this->database->waitAll();
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
@@ -179,7 +187,7 @@ final class Main extends PluginBase
         }
 
         // 定期メッセージ
-        $this->getScheduler()->scheduleRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20);
+        $this->getScheduler()->scheduleDelayedRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20, $this->config->get("scheduleMessageDelay", 300) * 20);
 
         // DiscordBot用
         $this->discordClient = new DiscordBot($this->config->get("Discord_Bot_Token", ""),
@@ -220,6 +228,17 @@ final class Main extends PluginBase
                     if ($content === "") continue;
                     Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
                 }
+
+                foreach ($this->discordClient->fetchDiscordVerifys() as $discordVerify) {
+                    $playerCache = PlayerCacheManager::getInstance()->getDiscordVerifyCode($discordVerify["code"]);
+                    if (!$playerCache) continue;
+                    PlayerDataManager::getInstance()->getXuid($playerCache->getXuid())->setDiscordUserid($discordVerify["userid"]);
+                    $playerCache->setDiscordVerifyCode(null);
+                    $playerCache->setDiscordverifycodeTime(null);
+                    $this->discordClient->sendDiscordVerifyMessage($playerCache->getName(), $discordVerify["userid"]);
+                    $onlineVerifyPlayer = Server::getInstance()->getPlayerByPrefix($playerCache->getName());
+                    $onlineVerifyPlayer?->sendMessage("§a[システム] Discordアカウント {$discordVerify["username"]} と連携しました");
+                }
             }
         ), 10, 10);
 
@@ -229,6 +248,8 @@ final class Main extends PluginBase
                 new OutiWatchCommand(),
                 new BackupLoadCommand(),
                 new BanAllCOmmand(),
+                new ItemsCommand(),
+                new DiscordCommand()
             ]);
 
         // ---エンティティ系登録
@@ -238,6 +259,9 @@ final class Main extends PluginBase
         EntityFactory::getInstance()->register(Zombie::class, function (World $world, CompoundTag $nbt): Zombie {
             return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Zombie', 'minecraft:zombie'], EntityLegacyIds::ZOMBIE);
+        EntityFactory::getInstance()->register(Minecart::class, function (World $world, CompoundTag $nbt): Minecart {
+            return new Minecart(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ['Minecart', 'minecraft:minecart'], EntityLegacyIds::MINECART);
 
         // スポーンEGGの挙動を登録する
         // 既に登録されている時があるので上書き許可しておく

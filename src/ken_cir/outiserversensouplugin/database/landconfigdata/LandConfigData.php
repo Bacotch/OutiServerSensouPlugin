@@ -66,7 +66,7 @@ final class LandConfigData
         $this->landPermsManager = new LandPermsManager(unserialize($defaultPerms), unserialize($rolePerms), unserialize($memberPerms));
     }
 
-    public function update()
+    private function update()
     {
         Main::getInstance()->getDatabase()->executeChange(
             "outiserver.landconfigs.update",

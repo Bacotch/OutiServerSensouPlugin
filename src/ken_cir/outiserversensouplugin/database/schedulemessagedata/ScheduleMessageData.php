@@ -11,7 +11,7 @@ use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 /**
  * 定期メッセージデータ
  */
-class ScheduleMessageData
+final class ScheduleMessageData
 {
     /**
      * 管理用ID
@@ -36,7 +36,7 @@ class ScheduleMessageData
     /**
      * データ保存
      */
-    public function update()
+    private function update()
     {
         try {
             Main::getInstance()->getDatabase()->executeChange("outiserver.schedulemessages.update",

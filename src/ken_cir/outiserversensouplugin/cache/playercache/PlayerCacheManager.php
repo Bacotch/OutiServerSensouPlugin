@@ -75,6 +75,16 @@ class PlayerCacheManager
         return array_shift($playerCache);
     }
 
+    public function getDiscordVerifyCode(int $code): false|PlayerCache
+    {
+        $playerCache = array_filter($this->cache, function ($cache) use ($code) {
+            return $cache->getDiscordVerifyCode() === $code;
+        });
+
+        if (count($playerCache) < 1) return false;
+        return array_shift($playerCache);
+    }
+
     /**
      * プレイヤーキャッシュを作成する
      *

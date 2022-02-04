@@ -14,7 +14,7 @@ use function ksort;
 /**
  * 派閥のロール系管理クラス
  */
-class RoleDataManager
+final class RoleDataManager
 {
     /**
      * @var RoleDataManager $this

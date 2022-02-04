@@ -11,7 +11,7 @@ use function strtolower;
 /**
  * メールデータ
  */
-class MailData
+final class MailData
 {
     /**
      * @var int

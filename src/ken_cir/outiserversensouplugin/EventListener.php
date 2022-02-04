@@ -12,26 +12,34 @@ use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
+use ken_cir\outiserversensouplugin\entitys\BossBar;
+use ken_cir\outiserversensouplugin\entitys\Minecart;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
-use ken_cir\outiserversensouplugin\libs\Himbeer\LibSkin\SkinConverter;
 use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
-use pocketmine\entity\Skin;
+use pocketmine\entity\Location;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
+use pocketmine\item\VanillaItems;
+use pocketmine\network\mcpe\protocol\InteractPacket;
+use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\utils\Internet;
+use pocketmine\world\Position;
 use function file_put_contents;
 use function extension_loaded;
 use function register_shutdown_function;
@@ -127,6 +135,7 @@ final class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
+            (new BossBar());
         }
         catch (Error | Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);

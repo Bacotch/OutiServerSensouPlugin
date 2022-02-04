@@ -50,7 +50,7 @@ final class FactionDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"]);
+                    $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"], $data["money"]);
                 }
             },
             function (SqlError $error) {
@@ -100,7 +100,8 @@ final class FactionDataManager
             [
                 "name" => $name,
                 "owner_xuid" => $owner_xuid,
-                "color" => $color
+                "color" => $color,
+                "money" => 0
             ],
             null,
             function (SqlError $error) {
@@ -109,7 +110,7 @@ final class FactionDataManager
         );
 
         $this->seq++;
-        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner_xuid, $color);
+        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner_xuid, $color, 0);
 
         return $this->seq;
     }

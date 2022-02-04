@@ -10,7 +10,7 @@ use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 /**
  * 派閥のロールデータ
  */
-class RoleData
+final class RoleData
 {
     /**
      * @var int
@@ -125,7 +125,7 @@ class RoleData
     /**
      * データ保存
      */
-    public function update()
+    private function update()
     {
         Main::getInstance()->getDatabase()->executeChange(
             "outiserver.roles.update",

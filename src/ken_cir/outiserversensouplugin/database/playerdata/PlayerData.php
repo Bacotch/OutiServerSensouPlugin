@@ -13,7 +13,7 @@ use function serialize;
 use function strtolower;
 use function unserialize;
 
-class PlayerData
+final class PlayerData
 {
     /**
      * プレイヤーXUID
@@ -59,6 +59,27 @@ class PlayerData
     private array $roles;
 
     /**
+     * 処罰段階
+     *
+     * @var int
+     */
+    private int $punishment;
+
+    /**
+     * 所持金
+     *
+     * @var int
+     */
+    private int $money;
+
+    /**
+     * Discordアカウントと連携している場合はDiscordユーザーID
+     *
+     * @var string|null
+     */
+    private ?string $discord_userid;
+
+    /**
      * @param string $xuid
      * @param string $name
      * @param string $ip
@@ -66,8 +87,11 @@ class PlayerData
      * @param int $chatmode
      * @param int $drawscoreboard
      * @param string $roles
+     * @param int $punishment
+     * @param int $money
+     * @param string|null $discord_userid
      */
-    public function __construct(string $xuid, string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles)
+    public function __construct(string $xuid, string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles, int $punishment, int $money, ?string $discord_userid = null)
     {
         $this->xuid = $xuid;
         $this->name = strtolower($name);
@@ -76,9 +100,12 @@ class PlayerData
         $this->chatmode = $chatmode;
         $this->drawscoreboard = $drawscoreboard;
         $this->roles = unserialize($roles);
+        $this->punishment = $punishment;
+        $this->money = $money;
+        $this->discord_userid = $discord_userid;
     }
 
-    public function update(): void
+    private function update(): void
     {
         Main::getInstance()->getDatabase()->executeChange(
             "outiserver.players.update",
@@ -89,6 +116,9 @@ class PlayerData
                 "chatmode" => $this->chatmode,
                 "drawscoreboard" => $this->drawscoreboard,
                 "roles" => serialize($this->roles),
+                "punishment" => $this->punishment,
+                "money" => $this->money,
+                "discord_userid" => $this->discord_userid,
                 "xuid" => $this->xuid
             ],
             null,
@@ -275,6 +305,57 @@ class PlayerData
         }
 
         $this->roles = array_values($this->roles);
+        $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getPunishment(): int
+    {
+        return $this->punishment;
+    }
+
+    /**
+     * @param int $punishment
+     */
+    public function setPunishment(int $punishment): void
+    {
+        $this->punishment = $punishment;
+        $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMoney(): int
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param int $money
+     */
+    public function setMoney(int $money): void
+    {
+        $this->money = $money;
+        $this->update();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDiscordUserid(): ?string
+    {
+        return $this->discord_userid;
+    }
+
+    /**
+     * @param string|null $discord_userid
+     */
+    public function setDiscordUserid(?string $discord_userid): void
+    {
+        $this->discord_userid = $discord_userid;
         $this->update();
     }
 

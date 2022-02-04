@@ -10,6 +10,8 @@ use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\User\Activity;
 use Discord\Parts\User\Member;
+use Discord\WebSockets\Intents;
+use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use pocketmine\Thread\Thread;
@@ -89,6 +91,16 @@ final class DiscordBot extends Thread
      */
     protected Threaded $MinecraftChat_Queue;
 
+    /**
+     * Discord認証キュー
+     *
+     * @var Threaded
+     */
+    protected Threaded $discordVerifyQueue;
+
+    protected Threaded $minecraftVerifyQueue;
+
+
     public function __construct(string $token, string $vector_dir, string $guild_id, string $console_channel_id, string $chat_channel_id)
     {
         $this->started = false;
@@ -101,6 +113,8 @@ final class DiscordBot extends Thread
         $this->MinecraftConsole_Queue = new Threaded;
         $this->DiscordChat_Queue = new Threaded;
         $this->MinecraftChat_Queue = new Threaded;
+        $this->discordVerifyQueue = new Threaded;
+        $this->minecraftVerifyQueue = new Threaded;
 
         $this->start(PTHREADS_INHERIT_CONSTANTS);
     }
@@ -122,7 +136,9 @@ final class DiscordBot extends Thread
             $discord = new Discord([
                 "token" => $this->token,
                 "loop" => $loop,
-                "logger" => $logger
+                "logger" => $logger,
+                'loadAllMembers' => true,
+                'intents' => Intents::GUILDS | Intents::GUILD_MESSAGES | Intents::DIRECT_MESSAGES | Intents::GUILD_MEMBERS
             ]);
         }
         catch (IntentException) {
@@ -155,16 +171,28 @@ final class DiscordBot extends Thread
             $discord->updatePresence($activity);
 
             $discord->on('message', function (Message $message) use ($discord) {
-                if ($message->author instanceof Member ? $message->author->user->bot : $message->author->bot or $message->type !== Message::TYPE_NORMAL or $message->channel->type !== Channel::TYPE_TEXT or $message->content === "") return;
-                // コンソールチャンネルからのメッセージだった場合は
-                if ($message->channel_id === $this->console_channel_id) {
-                    $this->DiscordConsole_Queue[] = serialize($message->content);
-                } // チャットチャンネルからのメッセージだった場合は
-                elseif ($message->channel_id === $this->chat_channel_id) {
-                    $this->DiscordChat_Queue[] = serialize([
-                        "username" => $message->author->username,
-                        "content" => $message->content
+                if ($message->author instanceof Member ? $message->author->user->bot : $message->author->bot or $message->type !== Message::TYPE_NORMAL or $message->content === "") return;
+                // DM
+                if ($message->channel->type === Channel::TYPE_DM) {
+                    $code = (int)$message->content;
+                    if ($code === 0) return;
+                    $this->discordVerifyQueue[] = serialize([
+                        "code" => $code,
+                        "userid" => $message->author->id,
+                        "username" => "{$message->author->username}#{$message->author->discriminator}"
                     ]);
+                }
+                elseif ($message->channel->type === Channel::TYPE_TEXT) {
+                    // コンソールチャンネルからのメッセージだった場合は
+                    if ($message->channel_id === $this->console_channel_id) {
+                        $this->DiscordConsole_Queue[] = serialize($message->content);
+                    } // チャットチャンネルからのメッセージだった場合は
+                    elseif ($message->channel_id === $this->chat_channel_id) {
+                        $this->DiscordChat_Queue[] = serialize([
+                            "username" => $message->author->username,
+                            "content" => $message->content
+                        ]);
+                    }
                 }
             });
         });
@@ -197,6 +225,14 @@ final class DiscordBot extends Thread
         $this->MinecraftChat_Queue[] = serialize($message);
     }
 
+    public function sendDiscordVerifyMessage(string $name, string $userid)
+    {
+        $this->minecraftVerifyQueue[] = serialize([
+            "name" => $name,
+            "userid" => $userid
+        ]);
+    }
+
     /**
      * @return array
      * DiscordConsole_Queueのメッセージを配列にして返す
@@ -221,6 +257,16 @@ final class DiscordBot extends Thread
             $messages[] = unserialize($this->DiscordChat_Queue->shift());
         }
         return $messages;
+    }
+
+    public function fetchDiscordVerifys(): array
+    {
+        $discordVerifys = [];
+        while (count($this->discordVerifyQueue) > 0) {
+            $discordVerifys[] = unserialize($this->discordVerifyQueue->shift());
+        }
+
+        return $discordVerifys;
     }
 
     /**
@@ -251,6 +297,12 @@ final class DiscordBot extends Thread
             if (strlen($message) < 2000) {
                 $chat_channel->sendMessage($message);
             }
+        }
+
+        while (count($this->minecraftVerifyQueue) > 0) {
+            $message = unserialize($this->minecraftVerifyQueue->shift());
+            $user = $discord->users->get('id', $message["userid"]);
+            $user->sendMessage("Xboxアカウント {$message["name"]} と連携しました");
         }
     }
 }

@@ -37,29 +37,39 @@ final class FactionData
     private int $color;
 
     /**
+     * 派閥所持金
+     *
+     * @var int
+     */
+    private int $money;
+
+    /**
      * @param int $id
      * @param string $name
      * @param string $owner_xuid
      * @param int $color
+     * @param int $money
      */
-    public function __construct(int $id, string $name, string $owner_xuid, int $color)
+    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money)
     {
         $this->id = $id;
         $this->name = $name;
         $this->owner_xuid = $owner_xuid;
         $this->color = $color;
+        $this->money = $money;
     }
 
     /**
      * db上にアップデート
      */
-    public function update(): void
+    private function update(): void
     {
         Main::getInstance()->getDatabase()->executeChange("outiserver.factions.update",
             [
                 "name" => $this->name,
                 "owner_xuid" => $this->owner_xuid,
                 "color" => $this->color,
+                "money" => $this->money,
                 "id" => $this->id
             ],
             null,
@@ -87,11 +97,21 @@ final class FactionData
     }
 
     /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+        $this->update();
+    }
+
+    /**
      * @param string $owner_xuid
      */
     public function setOwnerXuid(string $owner_xuid): void
     {
         $this->owner_xuid = $owner_xuid;
+        $this->update();
     }
 
     /**
@@ -116,6 +136,23 @@ final class FactionData
     public function setColor(int $color): void
     {
         $this->color = $color;
+        $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getMoney(): int
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param int $money
+     */
+    public function setMoney(int $money): void
+    {
+        $this->money = $money;
         $this->update();
     }
 }

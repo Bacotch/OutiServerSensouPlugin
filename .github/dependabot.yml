@@ -9,4 +9,5 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    target-branch: "develop"
+    reviewers:
+      - "KenCir"

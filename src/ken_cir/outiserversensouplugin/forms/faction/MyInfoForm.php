@@ -41,7 +41,6 @@ final class MyInfoForm
 
                 return true;
             });
-            var_dump($playerData->getRoles());
             $roles = array_map(function (int $id) {
                 $roleData = RoleDataManager::getInstance()->get($id);
                 $color = OutiServerPluginUtils::getChatColor($roleData->getColor());

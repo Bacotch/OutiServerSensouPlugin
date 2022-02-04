@@ -16,7 +16,6 @@ use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use Vecnavium\FormsUI\SimpleForm;
-use function strtolower;
 
 /**
  * おうちウォッチ

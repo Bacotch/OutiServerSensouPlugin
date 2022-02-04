@@ -14,7 +14,7 @@ use function serialize;
 use function strtolower;
 use function array_values;
 
-class PlayerDataManager
+final class PlayerDataManager
 {
     /**
      * @var PlayerDataManager $this
@@ -34,7 +34,7 @@ class PlayerDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->playerDatas[$data["xuid"]] = new PlayerData($data["xuid"], $data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"]);
+                    $this->playerDatas[$data["xuid"]] = new PlayerData($data["xuid"], $data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"], $data["punishment"], $data["money"], $data["discord_userid"]);
                 }
             },
             function (SqlError $error) {
@@ -103,14 +103,15 @@ class PlayerDataManager
             [
                 "xuid" => $player->getXuid(),
                 "name" => strtolower($player->getName()),
-                "ip" => serialize([$player->getNetworkSession()->getIp()])
+                "ip" => serialize([$player->getNetworkSession()->getIp()]),
+                "money" => 0
             ],
             null,
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        $this->playerDatas[$player->getXuid()] = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]));
+        $this->playerDatas[$player->getXuid()] = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]), 0, 0, null);
     }
 
     public function delete()

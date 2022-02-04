@@ -10,7 +10,7 @@ use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
 use function count;
 use function strtolower;
 
-class MailDataManager
+final class MailDataManager
 {
     /**
      * @var MailDataManager $this
