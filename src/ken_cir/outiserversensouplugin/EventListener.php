@@ -7,45 +7,42 @@ namespace ken_cir\outiserversensouplugin;
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
+use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\entitys\BossBar;
-use ken_cir\outiserversensouplugin\entitys\Minecart;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
-use pocketmine\entity\Location;
+use pocketmine\block\Chest;
+use pocketmine\block\tile\Chest as TileChest;
+use pocketmine\block\WallSign;
 use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
-use pocketmine\item\VanillaItems;
-use pocketmine\network\mcpe\protocol\InteractPacket;
-use pocketmine\network\mcpe\protocol\InventoryTransactionPacket;
+use pocketmine\math\Facing;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\utils\Internet;
-use pocketmine\world\Position;
-use function file_put_contents;
-use function extension_loaded;
-use function register_shutdown_function;
-use function unlink;
-use function rename;
 use function count;
+use function extension_loaded;
+use function file_put_contents;
+use function register_shutdown_function;
+use function rename;
+use function unlink;
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -88,14 +85,12 @@ final class EventListener implements Listener
             if (count(Server::getInstance()->getOnlinePlayers()) < 1) {
                 Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！サーバーを再起動しています...");
                 Server::getInstance()->shutdown();
-            }
-            else {
+            } else {
                 Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
                 Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
                 Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
             }
-        }
-        catch (Error | Exception $exception) {
+        } catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -116,8 +111,7 @@ final class EventListener implements Listener
             }
             $playerData->addIp($player->getNetworkSession()->getIp());
             PlayerCacheManager::getInstance()->create($player->getXuid(), $player->getName());
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -136,8 +130,7 @@ final class EventListener implements Listener
 
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
             (new BossBar());
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -152,8 +145,7 @@ final class EventListener implements Listener
             $player = $event->getPlayer();
             Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(false);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -170,8 +162,7 @@ final class EventListener implements Listener
             $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             if ($player_data->getFaction() === -1) {
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
-            }
-            else {
+            } else {
                 $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
                 $color = OutiServerPluginUtils::getChatColor($faction->getColor());
                 $event->setFormat("{$color}[{$faction->getName()}]§f[{$player->getName()}] $message");
@@ -205,8 +196,7 @@ final class EventListener implements Listener
             }
 
             Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -236,8 +226,7 @@ final class EventListener implements Listener
                         $memberPerms = $permsManager->getMemberLandPerms($player->getName());
                         if ($memberPerms !== null and !$memberPerms->isBlockTap_Place()) {
                             $event->cancel();
-                        }
-                        elseif ($memberPerms === null) {
+                        } elseif ($memberPerms === null) {
                             // position順にソートした所持ロールIDを取得する
                             $roles = $playerData->getRoles();
                             $rolePerms = null;
@@ -248,8 +237,7 @@ final class EventListener implements Listener
                             // もしあってfalseなら
                             if ($rolePerms !== null and !$rolePerms->isBlockTap_Place()) {
                                 $event->cancel();
-                            }
-                            // ないならデフォルト
+                            } // ないならデフォルト
                             elseif ($rolePerms === null and !$permsManager->getDefalutLandPerms()->isBlockTap_Place()) {
                                 $event->cancel();
                             }
@@ -257,8 +245,7 @@ final class EventListener implements Listener
                     }
                 }
             }
-        }
-        catch (Error | Exception $exception) {
+        } catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -286,8 +273,7 @@ final class EventListener implements Listener
                     $memberPerms = $permsManager->getMemberLandPerms($player->getName());
                     if ($memberPerms !== null and !$memberPerms->isEntry()) {
                         $event->cancel();
-                    }
-                    elseif ($memberPerms === null) {
+                    } elseif ($memberPerms === null) {
                         // position順にソートした所持ロールIDを取得する
                         $roles = $playerData->getRoles();
                         $rolePerms = null;
@@ -298,19 +284,19 @@ final class EventListener implements Listener
                         // もしあってfalseなら
                         if ($rolePerms !== null and !$rolePerms->isEntry()) {
                             $event->cancel();
-                        }
-                        // ないならデフォルト
+                        } // ないならデフォルト
                         elseif ($rolePerms === null and !$permsManager->getDefalutLandPerms()->isEntry()) {
                             $event->cancel();
                         }
                     }
                 }
             }
-        }
-        catch (Error | Exception $exception) {
+        } catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
+
+    private array $searched = [];
 
     /**
      * ブロック破壊イベント
@@ -324,6 +310,9 @@ final class EventListener implements Listener
             $player = $event->getPlayer();
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $position = $event->getBlock()->getPosition();
+            $block = $event->getBlock();
+            $item = $player->getInventory()->getItemInHand();
+            $vector = $block->getPosition()->asVector3();
 
             $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
             // 土地保護データがあるなら
@@ -335,8 +324,7 @@ final class EventListener implements Listener
                     $memberPerms = $permsManager->getMemberLandPerms($player->getName());
                     if ($memberPerms !== null and !$memberPerms->isBlockBreak()) {
                         $event->cancel();
-                    }
-                    elseif ($memberPerms === null) {
+                    } elseif ($memberPerms === null) {
                         // position順にソートした所持ロールIDを取得する
                         $roles = $playerData->getRoles();
                         $rolePerms = null;
@@ -347,16 +335,65 @@ final class EventListener implements Listener
                         // もしあってfalseなら
                         if ($rolePerms !== null and !$rolePerms->isBlockBreak()) {
                             $event->cancel();
-                        }
-                        // ないならデフォルト
+                        } // ないならデフォルト
                         elseif ($rolePerms === null and !$permsManager->getDefalutLandPerms()->isBlockBreak()) {
                             $event->cancel();
                         }
                     }
                 }
             }
-        }
-        catch (Error | Exception $exception) {
+
+            if (!$event->isCancelled()) {
+                // 一括破壊
+                /*
+                // 木や鉱石ならば
+                if (in_array($block->getId(), [14, 15, 16, 17, 21, 56, 73, 74, 129, 153, 162], true)) {
+                    if (!isset($this->searched[$player->getName()])) {
+                        $this->searched[$player->getName()] = [];
+                    }
+                    // リストにブロックの座標があればここで処理を終える
+                    if (in_array($vector, $this->searched[$player->getName()], true)) {
+                        return;
+                    }
+
+                    // リストにブロックの座標を加える
+                    $this->searched[$player->getName()][] = $vector;
+
+                    // 隣接している6ブロックを探索する
+                    $i = 0;
+                    $nVector = null;
+                    foreach ($block->getAllSides() as $neighbor) {
+                        $nVector = $neighbor->getPosition()->asVector3();
+
+                        // リストに隣接するブロックの座標がある or 掘ったブロックと隣接するブロックのIDが違う場合、スキップして次のブロックへ
+                        if (in_array($nVector, $this->searched[$player->getName()], true) || $block->getId() !== $neighbor->getId()) {
+                            continue;
+                        }
+
+                        $i++;
+
+                        // 数tick遅らせて掘る
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(
+                            function () use ($nVector, $item, $player): void
+                            {
+                                // 遅延が生じるので既に掘られている可能性がある
+                                // その場合は掘らずに処理をここで終える
+                                if ($player->getWorld()->getBlock($nVector)->getId() === 0) {
+                                    return;
+                                }
+
+                                // 掘る。その際にBlockBreakEventが発生する（再帰処理）
+                                $player->getWorld()->useBreakOn($nVector, $item, $player, true);
+                            }
+                        ), $i);
+                    }
+
+                    // 掘ったのでリストから削除する
+                    $this->searched[$player->getName()] = array_values(array_diff($this->searched[$player->getName()], [$vector]));
+                }
+                */
+            }
+        } catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -364,18 +401,49 @@ final class EventListener implements Listener
     public function onDamage(EntityDamageEvent $ev)
     {
         $entity = $ev->getEntity();
-        if($ev instanceof EntityDamageByEntityEvent)
-        {
+        if ($ev instanceof EntityDamageByEntityEvent) {
             $damager = $ev->getDamager();
-            if($damager instanceof Player)
-            {
-                if($entity instanceof Skeleton)
-                {
-                    if(!$entity->hasTarget()){
-                       $entity->setTarget($damager);
+            if ($damager instanceof Player) {
+                if ($entity instanceof Skeleton) {
+                    if (!$entity->hasTarget()) {
+                        $entity->setTarget($damager);
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * 多分看板の文字列が変更された時に呼び出されるイベント
+     *
+     * @param SignChangeEvent $event
+     * @return void
+     */
+    public function SignChange(SignChangeEvent $event)
+    {
+        try {
+            $player = $event->getPlayer();
+            $sign = $event->getSign();
+            $block = $event->getBlock();
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+
+            if ($sign instanceof WallSign) {
+                $signText = $event->getNewText();
+                // もし1行目がshopだった場合は
+                if ($signText->getLine(0) === "shop") {
+                    $mainchest = $block->getSide(Facing::opposite($block->getFacing()));
+                    if (!$mainchest instanceof Chest) {
+                        return;
+                    }
+
+                    $chestPosition = $mainchest->getPosition();
+
+                    $tileChest = $chestPosition->getWorld()->getTile($chestPosition);
+
+                }
+            }
+        } catch (Error|Exception $exception) {
+            Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
 }

@@ -32,7 +32,6 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
-use ken_cir\outiserversensouplugin\entitys\Minecart;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
@@ -42,7 +41,6 @@ use ken_cir\outiserversensouplugin\tasks\DiscordBot;
 use ken_cir\outiserversensouplugin\tasks\PlayerBackGround;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
-use pocketmine\block\BlockFactory;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -259,9 +257,6 @@ final class Main extends PluginBase
         EntityFactory::getInstance()->register(Zombie::class, function (World $world, CompoundTag $nbt): Zombie {
             return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Zombie', 'minecraft:zombie'], EntityLegacyIds::ZOMBIE);
-        EntityFactory::getInstance()->register(Minecart::class, function (World $world, CompoundTag $nbt): Minecart {
-            return new Minecart(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-        }, ['Minecart', 'minecraft:minecart'], EntityLegacyIds::MINECART);
 
         // スポーンEGGの挙動を登録する
         // 既に登録されている時があるので上書き許可しておく
@@ -289,6 +284,10 @@ final class Main extends PluginBase
 
         // 初期化完了！
         $this->discordClient->sendChatMessage("サーバーが起動しました！");
+
+        foreach (Server::getInstance()->getWorldManager()->getWorldByName("world")->getEntities() as $entity) {
+            $entity->kill();
+        }
     }
 
     /**

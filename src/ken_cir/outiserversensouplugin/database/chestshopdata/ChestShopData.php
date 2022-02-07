@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\chestshopdata;
 
+use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use ken_cir\outiserversensouplugin\Main;
+
 final class ChestShopData
 {
     /**
@@ -131,7 +134,19 @@ final class ChestShopData
 
     private function update(): void
     {
-
+        Main::getInstance()->getDatabase()->executeChange("outiserver.chestshops.update",
+            [
+                "itemid" => $this->itemId,
+                "itemmeta" => $this->itemMeta,
+                "price" => $this->price,
+                "duty" => $this->duty,
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
     }
 
     /**
@@ -220,6 +235,7 @@ final class ChestShopData
     public function setItemId(int $itemId): void
     {
         $this->itemId = $itemId;
+        $this->update();
     }
 
     /**
@@ -236,6 +252,7 @@ final class ChestShopData
     public function setItemMeta(int $itemMeta): void
     {
         $this->itemMeta = $itemMeta;
+        $this->update();
     }
 
     /**
@@ -252,6 +269,7 @@ final class ChestShopData
     public function setPrice(int $price): void
     {
         $this->price = $price;
+        $this->update();
     }
 
     /**
@@ -268,5 +286,6 @@ final class ChestShopData
     public function setDuty(int $duty): void
     {
         $this->duty = $duty;
+        $this->update();
     }
 }

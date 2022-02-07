@@ -78,6 +78,14 @@ final class ChestShopDataManager
     }
 
     /**
+     * @return ChestShopDataManager
+     */
+    public static function getInstance(): ChestShopDataManager
+    {
+        return self::$instance;
+    }
+
+    /**
      * チェストショップデータをIDで取得する
      *
      * @param int $id
@@ -105,14 +113,22 @@ final class ChestShopDataManager
         return array_shift($chestShopData);
     }
 
-    public function create(int $factionId, ): void
+    public function create(int $factionId, string $worldName, int $chestx, int $chesty, int $chestz, int $signboardx, int $signboardy, int $signboardz, int $itemId, int $itemMeta, int $price, int $duty): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("outiserver.factions.create",
+        Main::getInstance()->getDatabase()->executeInsert("outiserver.chestshops.create",
             [
-                "faction_id" => $name,
-                "owner_xuid" => $owner_xuid,
-                "color" => $color,
-                "money" => 0
+                "faction_id" => $factionId,
+                "worldName" => $worldName,
+                "chestx" => $chestx,
+                "chesty" => $chesty,
+                "chestz" => $chestz,
+                "signboardx" => $signboardx,
+                "signboardy" => $signboardy,
+                "signboardz" => $signboardz,
+                "itemid" => $itemId,
+                "itemmeta" =>$itemMeta,
+                "price" => $price,
+                "duty" => $duty
             ],
             null,
             function (SqlError $error) {
@@ -121,6 +137,6 @@ final class ChestShopDataManager
         );
 
         $this->seq++;
-        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner_xuid, $color, 0);
+        $this->chestShopDatas[$this->seq] = new ChestShopData($this->seq, $factionId, $worldName, $chestx, $chesty, $chestz, $signboardx, $signboardy, $signboardz, $itemId, $itemMeta, $price, $duty);
     }
 }

@@ -728,10 +728,16 @@ FROM chestshops;
 -- # }
 
 -- # { update
--- #    :content string
+-- #    :itemid int
+-- #    :itemmeta int
+-- #    :price int
+-- #    :duty int
 -- #    :id int
 UPDATE chestshops
-SET content = :content
+SET itemid = :itemid,
+    itemmeta = :itemmeta,
+    price = :price,
+    duty = :duty,
 WHERE id = :id;
 -- # }
 
