@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\player;
 
-use ken_cir\outiserversensouplugin\libs\Himbeer\LibSkin\SkinConverter;
+use Himbeer\LibSkin\SkinConverter;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\entity\Skin;
 use pocketmine\player\Player;

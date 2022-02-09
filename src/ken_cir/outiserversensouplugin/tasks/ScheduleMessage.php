@@ -27,6 +27,9 @@ final class ScheduleMessage extends Task
 
     public function onRun(): void
     {
+        // サーバーに誰もいないなら
+        if (count(Server::getInstance()->getOnlinePlayers()) < 1) return;
+
         $messages = ScheduleMessageDataManager::getInstance()->getAll();
         if (count($messages) < 1) return;
         elseif (count($messages) < ($this->next + 1)) $this->next = 0;

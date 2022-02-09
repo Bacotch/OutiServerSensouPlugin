@@ -2,28 +2,35 @@
 
 declare(strict_types=1);
 
-namespace ken_cir\outiserversensouplugin\commands;
+namespace ken_cir\outiserversensouplugin\commands\subcommands;
 
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
+use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\BaseSubCommand;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use pocketmine\plugin\Plugin;
 
 /**
  * おうちウォッチフォームを出すコマンド
  */
-final class OutiWatchCommand extends Command
+final class OutiWatchCommand extends BaseSubCommand
 {
     public function __construct()
     {
-        parent::__construct("outiwatch", "おうちウォッチフォームを出すコマンド", "/outiwatch", []);
+        parent::__construct("outiwatch", "おうちウォッチフォームを出すコマンド", []);
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args): void
+    protected function prepare(): void
+    {
+    }
+
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         try {
             if (!$sender instanceof Player) {

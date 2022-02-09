@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\database\landconfigdata;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use function serialize;
 use function count;
 use function array_filter;

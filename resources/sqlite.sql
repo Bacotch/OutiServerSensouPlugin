@@ -73,7 +73,7 @@ FROM players;
 -- #    :roles string
 -- #    :punishment int
 -- #    :money int
--- #    :discord_userid string
+-- #    :discord_userid ?string
 -- #    :xuid string
 UPDATE players
 SET name           = :name,
@@ -689,13 +689,8 @@ CREATE TABLE IF NOT EXISTS chestshops
     NOT
     NULL,
     price
-    INTEGER
-    NOT
-    NULL,
-    duty
-    INTEGER
-    NOT
-    NULL
+    INTEGER,
+    duty INTEGER
 );
 -- # }
 
@@ -737,7 +732,7 @@ UPDATE chestshops
 SET itemid = :itemid,
     itemmeta = :itemmeta,
     price = :price,
-    duty = :duty,
+    duty = :duty
 WHERE id = :id;
 -- # }
 

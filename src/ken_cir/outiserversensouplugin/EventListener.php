@@ -7,7 +7,6 @@ namespace ken_cir\outiserversensouplugin;
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
-use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
@@ -15,11 +14,11 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\entitys\BossBar;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
+use ken_cir\outiserversensouplugin\forms\chestshop\CreateChestShop;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
 use pocketmine\block\Chest;
-use pocketmine\block\tile\Chest as TileChest;
 use pocketmine\block\WallSign;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\SignChangeEvent;
@@ -103,7 +102,6 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            $player->releaseHeldItem();
             PlayerDataManager::getInstance()->create($player);
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             if ($playerData->getName() !== strtolower($player->getName())) {
@@ -128,7 +126,6 @@ final class EventListener implements Listener
                 $player->sendMessage("§a未読メールが{$mail_count}件あります");
             }
 
-            Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーに参加しました");
             (new BossBar());
         } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
@@ -143,7 +140,6 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            Main::getInstance()->getDiscordClient()->sendChatMessage("{$player->getName()}がサーバーから退出しました");
             PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(false);
         } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
@@ -194,8 +190,6 @@ final class EventListener implements Listener
                 $event->cancel();
                 return;
             }
-
-            Main::getInstance()->getDiscordClient()->sendChatMessage($event->getFormat());
         } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
@@ -432,17 +426,20 @@ final class EventListener implements Listener
                 // もし1行目がshopだった場合は
                 if ($signText->getLine(0) === "shop") {
                     $mainchest = $block->getSide(Facing::opposite($block->getFacing()));
-                    if (!$mainchest instanceof Chest) {
-                        return;
+                    if ($mainchest instanceof Chest) {
+                        if ($playerData->getFaction() === -1) {
+                            $player->sendMessage("§a[システム] チェストショップ(貿易所)は派閥に所属していないと使用できません");
+                        }
+                        else {
+                            $form = new CreateChestShop();
+                            $form->execute($player, $sign, $sign->getPosition(), $mainchest->getPosition());
+                        }
                     }
-
-                    $chestPosition = $mainchest->getPosition();
-
-                    $tileChest = $chestPosition->getWorld()->getTile($chestPosition);
 
                 }
             }
-        } catch (Error|Exception $exception) {
+        }
+        catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }

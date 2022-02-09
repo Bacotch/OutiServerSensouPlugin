@@ -3,8 +3,8 @@ main: ken_cir\outiserversensouplugin\Main
 description: おうちサーバー用プラグイン シーズン11var
 author: Ken_Cir
 version: 1.0.0-BETA1
-api: 4.1.0
-mcpe-protocol: 475
+api: 4.2.0
+mcpe-protocol: 486
 extensions:
   - pcntl
   - pthreads

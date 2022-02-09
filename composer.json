@@ -1,8 +1,12 @@
 {
   "name": "ken_cir/outiserverplugin",
   "description": "おうち鯖専属プラグイン",
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
   "require": {
-    "team-reflex/discord-php": "^6.0.3",
     "ext-pcntl": "*",
     "ext-pthreads": "*",
     "ext-zip": "*",
@@ -11,6 +15,6 @@
     "ext-zlib": "*"
   },
   "require-dev": {
-    "pocketmine/pocketmine-mp": "4.0.8"
+    "pocketmine/pocketmine-mp": "4.2.0"
   }
 }

@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\playerdata;
 
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use function array_values;
 use function in_array;
 use function serialize;

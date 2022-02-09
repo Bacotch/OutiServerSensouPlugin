@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\database\chestshopdata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use ken_cir\outiserversensouplugin\Main;
 use function count;
 use function array_shift;
@@ -118,7 +118,7 @@ final class ChestShopDataManager
         Main::getInstance()->getDatabase()->executeInsert("outiserver.chestshops.create",
             [
                 "faction_id" => $factionId,
-                "worldName" => $worldName,
+                "worldname" => $worldName,
                 "chestx" => $chestx,
                 "chesty" => $chesty,
                 "chestz" => $chestz,
@@ -138,5 +138,20 @@ final class ChestShopDataManager
 
         $this->seq++;
         $this->chestShopDatas[$this->seq] = new ChestShopData($this->seq, $factionId, $worldName, $chestx, $chesty, $chestz, $signboardx, $signboardy, $signboardz, $itemId, $itemMeta, $price, $duty);
+    }
+
+    public function delete(int $id): void
+    {
+        if (!$this->getId($id)) return;
+        Main::getInstance()->getDatabase()->executeGeneric("outiserver.chestshops.delete",
+            [
+                "id" => $id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+        unset($this->chestShopDatas[$id]);
     }
 }

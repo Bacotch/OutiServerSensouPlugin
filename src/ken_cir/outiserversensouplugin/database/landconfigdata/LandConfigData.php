@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\landconfigdata;
 
 use ken_cir\outiserversensouplugin\database\landconfigdata\perms\LandPermsManager;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use function unserialize;
 use function serialize;
 use function array_map;

@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\landdata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_shift;
 use function count;

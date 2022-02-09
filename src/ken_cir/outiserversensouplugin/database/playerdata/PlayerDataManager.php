@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\database\playerdata;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use function array_filter;
 use function in_array;
 use function serialize;

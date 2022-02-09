@@ -18,13 +18,14 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin;
 
+use CortexPE\Commando\exception\HookAlreadyRegistered;
 use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
-use ken_cir\outiserversensouplugin\commands\DiscordCommand;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
-use ken_cir\outiserversensouplugin\commands\OutiWatchCommand;
+use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
+use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
@@ -34,14 +35,13 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\DataConnector;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\libasynql;
+use CortexPE\Commando\PacketHooker;
+use poggit\libasynql\DataConnector;
+use poggit\libasynql\libasynql;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
-use ken_cir\outiserversensouplugin\tasks\DiscordBot;
 use ken_cir\outiserversensouplugin\tasks\PlayerBackGround;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
-use pocketmine\console\ConsoleCommandSender;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
@@ -51,7 +51,6 @@ use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\item\ItemIds;
 use pocketmine\item\SpawnEgg;
-use pocketmine\lang\Language;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
@@ -62,10 +61,6 @@ use pocketmine\world\World;
 use function unlink;
 use function file_exists;
 use function mkdir;
-use function ob_start;
-use function ob_end_clean;
-use function ob_flush;
-use function ob_get_contents;
 
 /**
  * プラグインメインクラス
@@ -98,12 +93,6 @@ final class Main extends PluginBase
     private OutiServerLogger $outiServerLogger;
 
     /**
-     * DiscordBot
-     * @var DiscordBot
-     */
-    private DiscordBot $discordClient;
-
-    /**
      * DB接続
      * @var DataConnector
      */
@@ -128,6 +117,14 @@ final class Main extends PluginBase
             mkdir(Main::getInstance()->getDataFolder() . "backups/");
         }
 
+        if(!PacketHooker::isRegistered()) {
+            try {
+                PacketHooker::register($this);
+            }
+            catch (HookAlreadyRegistered $e) {
+            }
+        }
+
         // ---リソースを保存---
         $this->saveResource("config.yml");
         $this->saveResource("database.yml");
@@ -150,6 +147,7 @@ final class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
+        $this->database->executeGeneric("outiserver.chestshops.drop");
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -166,6 +164,7 @@ final class Main extends PluginBase
         LandDataManager::createInstance();
         LandConfigDataManager::createInstance();
         ScheduleMessageDataManager::createInstance();
+        ChestShopDataManager::createInstance();
         $this->database->waitAll();
 
         // --- キャッシュ初期化 ---
@@ -187,67 +186,13 @@ final class Main extends PluginBase
         // 定期メッセージ
         $this->getScheduler()->scheduleDelayedRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20, $this->config->get("scheduleMessageDelay", 300) * 20);
 
-        // DiscordBot用
-        $this->discordClient = new DiscordBot($this->config->get("Discord_Bot_Token", ""),
-            $this->getFile(),
-            $this->config->get("Discord_Guild_Id", ""),
-            $this->config->get("Discord_Console_Channel_Id", ""),
-            $this->config->get("Discord_MinecraftChat_Channel_Id", ""));
-
-        $this->getScheduler()->scheduleDelayedTask(new ClosureTask(
-            function() : void {
-                ob_start();
-            }
-        ), 10);
-
-        // コンソールの出力を読みとってDiscordに送信する
-        // ここの period は必ず1に
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
-                if (!$this->discordClient->started) return;
-                $string = ob_get_contents();
-
-                if ($string === "") return;
-                $this->discordClient->sendConsoleMessage($string);
-                ob_flush();
-            }
-        ), 10, 1);
-
-        // Discord側からのメッセージを取得してforeachで回してサーバー側に送信したりする
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ClosureTask(
-            function (): void {
-                foreach ($this->discordClient->fetchConsoleMessages() as $message) {
-                    if ($message === "") continue;
-                    Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), new Language("jpn")), $message);
-                }
-
-                foreach ($this->discordClient->fetchChatMessages() as $message) {
-                    $content = $message["content"];
-                    if ($content === "") continue;
-                    Server::getInstance()->broadcastMessage("[Discord:{$message["username"]}] $content");
-                }
-
-                foreach ($this->discordClient->fetchDiscordVerifys() as $discordVerify) {
-                    $playerCache = PlayerCacheManager::getInstance()->getDiscordVerifyCode($discordVerify["code"]);
-                    if (!$playerCache) continue;
-                    PlayerDataManager::getInstance()->getXuid($playerCache->getXuid())->setDiscordUserid($discordVerify["userid"]);
-                    $playerCache->setDiscordVerifyCode(null);
-                    $playerCache->setDiscordverifycodeTime(null);
-                    $this->discordClient->sendDiscordVerifyMessage($playerCache->getName(), $discordVerify["userid"]);
-                    $onlineVerifyPlayer = Server::getInstance()->getPlayerByPrefix($playerCache->getName());
-                    $onlineVerifyPlayer?->sendMessage("§a[システム] Discordアカウント {$discordVerify["username"]} と連携しました");
-                }
-            }
-        ), 10, 10);
-
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),
             [
-                new OutiWatchCommand(),
                 new BackupLoadCommand(),
                 new BanAllCOmmand(),
                 new ItemsCommand(),
-                new DiscordCommand()
+                new OutiServerCommand($this)
             ]);
 
         // ---エンティティ系登録
@@ -282,9 +227,6 @@ final class Main extends PluginBase
             Server::getInstance()->getTickSleeper()
         ));
 
-        // 初期化完了！
-        $this->discordClient->sendChatMessage("サーバーが起動しました！");
-
         foreach (Server::getInstance()->getWorldManager()->getWorldByName("world")->getEntities() as $entity) {
             $entity->kill();
         }
@@ -296,19 +238,8 @@ final class Main extends PluginBase
     public function onDisable(): void
     {
         if (isset($this->database)) {
-            $this->getLogger()->info("キャッシュデータをdbファイルに書き込んでいます...\nこれには時間がかかることがあります");
             $this->database->waitAll();
             $this->database->close();
-        }
-
-        if (isset($this->discordClient) and $this->discordClient->started) {
-            $this->discordClient->sendChatMessage("サーバーが停止しました");
-            $this->discordClient->shutdown();
-        }
-
-        if (ob_get_contents()) {
-            ob_flush();
-            ob_end_clean();
         }
 
         if (isset($this->pluginData)) {
@@ -358,15 +289,6 @@ final class Main extends PluginBase
     public function getOutiServerLogger(): OutiServerLogger
     {
         return $this->outiServerLogger;
-    }
-
-    /**
-     * @return DiscordBot
-     * DiscordBotClientを返す
-     */
-    public function getDiscordClient(): DiscordBot
-    {
-        return $this->discordClient;
     }
 
     /**

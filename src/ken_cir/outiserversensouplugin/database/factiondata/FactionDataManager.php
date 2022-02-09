@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\factiondata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\libs\poggit\libasynql\SqlError;
+use poggit\libasynql\SqlError;
 use function count;
 
 /**
@@ -50,7 +50,7 @@ final class FactionDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner"], $data["color"], $data["money"]);
+                    $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner_xuid"], $data["color"], $data["money"]);
                 }
             },
             function (SqlError $error) {
