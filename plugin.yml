@@ -9,7 +9,6 @@ extensions:
   - pcntl
   - pthreads
   - zip
-  - curl
   - sockets
   - zlib
 

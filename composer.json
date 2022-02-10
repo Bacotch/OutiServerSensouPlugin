@@ -10,7 +10,6 @@
     "ext-pcntl": "*",
     "ext-pthreads": "*",
     "ext-zip": "*",
-    "ext-curl": "*",
     "ext-sockets": "*",
     "ext-zlib": "*"
   },
