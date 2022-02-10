@@ -31,6 +31,8 @@
       <path value="$PROJECT_DIR$/vendor/pocketmine/raklib-ipc" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/../../virions" />
+      <path value="$PROJECT_DIR$/../../PocketMine-MP.phar" />
+      <path value="$PROJECT_DIR$/vendor" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

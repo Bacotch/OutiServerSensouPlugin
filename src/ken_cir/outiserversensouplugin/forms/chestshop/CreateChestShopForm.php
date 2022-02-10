@@ -17,7 +17,7 @@ use pocketmine\player\Player;
 use pocketmine\world\Position;
 use Vecnavium\FormsUI\CustomForm;
 
-final class CreateChestShop
+final class CreateChestShopForm
 {
     public function __construct()
     {

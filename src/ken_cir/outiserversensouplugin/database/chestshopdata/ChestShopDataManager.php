@@ -50,7 +50,7 @@ final class ChestShopDataManager
                 foreach ($row as $data) {
                     $this->chestShopDatas[$data["id"]] = new ChestShopData($data["id"],
                         $data["faction_id"],
-                        $data["worldName"],
+                        $data["worldname"],
                         $data["chestx"],
                         $data["chesty"],
                         $data["chestz"],
@@ -97,7 +97,7 @@ final class ChestShopDataManager
         return $this->chestShopDatas[$id];
     }
 
-    public function getPosition(string $worldName, ?int $x = 0, ?int $y = 0, int $z = 0): false|ChestShopData
+    public function getPosition(string $worldName, int $x = 0, int $y = 0, int $z = 0): false|ChestShopData
     {
         $chestShopData = array_filter($this->chestShopDatas, function ($chestShopData) use ($worldName, $x, $y, $z) {
             return $chestShopData->getWorldName() === $worldName

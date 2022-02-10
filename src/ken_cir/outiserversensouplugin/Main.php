@@ -58,7 +58,6 @@ use pocketmine\scheduler\ClosureTask;
 use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\world\World;
-use function unlink;
 use function file_exists;
 use function mkdir;
 
@@ -101,7 +100,7 @@ final class Main extends PluginBase
     /**
      * プラグインがロードされた時に呼び出される
      */
-    public function onLoad(): void
+    protected function onLoad(): void
     {
         self::$instance = $this;
     }
@@ -109,19 +108,22 @@ final class Main extends PluginBase
     /**
      * プラグインが有効化された時に呼び出される
      */
-    public function onEnable(): void
+    protected function onEnable(): void
     {
-        @unlink(Main::getInstance()->getDataFolder() . "test.json");
+        // アイテム名翻訳用
+        //  @unlink(Main::getInstance()->getDataFolder() . "test.json");
+
         // ---バックアップ用のフォルダがなければ作成する---
         if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
             mkdir(Main::getInstance()->getDataFolder() . "backups/");
         }
 
+        // Commandoを機能させるために必要らしい
         if(!PacketHooker::isRegistered()) {
             try {
                 PacketHooker::register($this);
             }
-            catch (HookAlreadyRegistered $e) {
+            catch (HookAlreadyRegistered) {
             }
         }
 
@@ -133,8 +135,8 @@ final class Main extends PluginBase
         $this->saveResource("test.json");
 
         // ---プラグインコンフィグを読み込む---
-        $this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
-        $this->pluginData = new Config($this->getDataFolder() . "data.yml", Config::YAML);
+        $this->config = new Config("{$this->getDataFolder()}config.yml", Config::YAML);
+        $this->pluginData = new Config("{$this->getDataFolder()}data.yml", Config::YAML);
 
         // ---イベント処理クラスを登録--
         Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
@@ -147,7 +149,6 @@ final class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
-        $this->database->executeGeneric("outiserver.chestshops.drop");
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -180,7 +181,7 @@ final class Main extends PluginBase
                 function (): void {
                     Server::getInstance()->getUpdater()->doCheck();
                 }
-            ), 20 * 600, 20 * 600);
+            ), $this->config->get("autoUpdateCheckDealy", 600) * 20, $this->config->get("autoUpdateCheckDealy", 600) * 20);
         }
 
         // 定期メッセージ
@@ -195,7 +196,7 @@ final class Main extends PluginBase
                 new OutiServerCommand($this)
             ]);
 
-        // ---エンティティ系登録
+        // ---エンティティ系登録---
         EntityFactory::getInstance()->register(Skeleton::class, function (World $world, CompoundTag $nbt): Skeleton {
             return new Skeleton(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Skeleton', 'minecraft:skeleton'], EntityLegacyIds::SKELETON);
@@ -203,8 +204,7 @@ final class Main extends PluginBase
             return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
         }, ['Zombie', 'minecraft:zombie'], EntityLegacyIds::ZOMBIE);
 
-        // スポーンEGGの挙動を登録する
-        // 既に登録されている時があるので上書き許可しておく
+        // ---アイテム系登録---
         ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::SKELETON), "Skeleton Spawn Egg") extends SpawnEgg {
             public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch): Entity
             {
@@ -220,22 +220,18 @@ final class Main extends PluginBase
         },
             true);
 
-        // WEBとのsocket通信用
+        // API
         Server::getInstance()->getNetwork()->registerInterface(new OutiServerSocket(
-            "0.0.0.0",
+            Server::getInstance()->getIp(),
             19132,
             Server::getInstance()->getTickSleeper()
         ));
-
-        foreach (Server::getInstance()->getWorldManager()->getWorldByName("world")->getEntities() as $entity) {
-            $entity->kill();
-        }
     }
 
     /**
      * プラグインが無効化された時に呼び出される
      */
-    public function onDisable(): void
+    protected function onDisable(): void
     {
         if (isset($this->database)) {
             $this->database->waitAll();
@@ -250,8 +246,6 @@ final class Main extends PluginBase
             }
         }
     }
-
-
 
     /**
      * @return Main

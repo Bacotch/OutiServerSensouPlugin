@@ -95,9 +95,11 @@ final class PlayerDataManager
      * @param Player $player
      * データを作成する
      */
-    public function create(Player $player)
+    public function create(Player $player): PlayerData
     {
-        if ($this->getXuid($player->getXuid())) return;
+        $data = $this->getXuid($player->getXuid());
+        if ($data) return $data;
+
         Main::getInstance()->getDatabase()->executeInsert(
             "outiserver.players.create",
             [
@@ -111,7 +113,11 @@ final class PlayerDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        $this->playerDatas[$player->getXuid()] = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]), 0, 0, null);
+
+        $data = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]), 0, 0, null);
+        $this->playerDatas[$player->getXuid()] = $data;
+
+        return $data;
     }
 
     public function delete()

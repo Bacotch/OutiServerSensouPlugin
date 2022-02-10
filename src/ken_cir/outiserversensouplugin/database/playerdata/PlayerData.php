@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\playerdata;
 
+use JetBrains\PhpStorm\Pure;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
@@ -158,6 +159,16 @@ final class PlayerData
     public function getIp(): array
     {
         return $this->ip;
+    }
+
+    /**
+     * @param string $ip
+     * @return bool
+     */
+    #[Pure] public function hasIp(string $ip): bool
+    {
+        if (in_array($ip, $this->getIp(), true)) return true;
+        return false;
     }
 
     /**

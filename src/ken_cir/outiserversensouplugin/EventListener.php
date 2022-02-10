@@ -7,14 +7,15 @@ namespace ken_cir\outiserversensouplugin;
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
+use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
-use ken_cir\outiserversensouplugin\entitys\BossBar;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
-use ken_cir\outiserversensouplugin\forms\chestshop\CreateChestShop;
+use ken_cir\outiserversensouplugin\forms\chestshop\BuyChestShopForm;
+use ken_cir\outiserversensouplugin\forms\chestshop\CreateChestShopForm;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
@@ -42,6 +43,8 @@ use function file_put_contents;
 use function register_shutdown_function;
 use function rename;
 use function unlink;
+use function pcntl_exec;
+use function strtolower;
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -62,7 +65,7 @@ final class EventListener implements Listener
     {
         try {
             if (!Main::getInstance()->getPluginConfig()->get("pmmp_auto_update_enable", true)) return;
-            elseif (!extension_loaded('pcntl') or DIRECTORY_SEPARATOR !== '/') return;
+            if (!extension_loaded('pcntl') or DIRECTORY_SEPARATOR !== '/') return;
 
             $updateInfos = $event->getUpdater()->getUpdateInfo();
             if ($updateInfos->git_commit === Main::getInstance()->getPluginData()->get("pmmpLastUpdateCommitHash", "")) return;
@@ -84,7 +87,8 @@ final class EventListener implements Listener
             if (count(Server::getInstance()->getOnlinePlayers()) < 1) {
                 Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！サーバーを再起動しています...");
                 Server::getInstance()->shutdown();
-            } else {
+            }
+            else {
                 Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
                 Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
                 Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
@@ -102,14 +106,29 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            PlayerDataManager::getInstance()->create($player);
+
+            // プレイヤーデータがあるか確認して、なければ作成
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+            if (!$playerData) {
+                $playerData = PlayerDataManager::getInstance()->create($player);
+            }
+
+            // もしプレイヤー名が変わっていたら新しい名前に更新
             if ($playerData->getName() !== strtolower($player->getName())) {
                 $playerData->setName($playerData->getName());
             }
-            $playerData->addIp($player->getNetworkSession()->getIp());
-            PlayerCacheManager::getInstance()->create($player->getXuid(), $player->getName());
-        } catch (Error|Exception $error) {
+
+            // もしIPが追加されてないなら追加
+            if (!$playerData->hasIp($player->getNetworkSession()->getIp())) {
+                $playerData->addIp($player->getNetworkSession()->getIp());
+            }
+
+            // もしキャッシュデータがなければ作成する
+            if (!PlayerCacheManager::getInstance()->getXuid($player->getXuid())) {
+                PlayerCacheManager::getInstance()->create($player->getXuid(), $player->getName());
+            }
+        }
+        catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -122,12 +141,13 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getXuid())) > 0) {
-                $player->sendMessage("§a未読メールが{$mail_count}件あります");
-            }
 
-            (new BossBar());
-        } catch (Error|Exception $error) {
+            // 未読メール数を取得して1件以上あれば通知
+            if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getXuid())) > 0) {
+                $player->sendMessage("§a[システム] 未読メールが{$mail_count}件あります");
+            }
+        }
+        catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -140,8 +160,11 @@ final class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
+
+            // おうちウォッチのロック解除
             PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(false);
-        } catch (Error|Exception $error) {
+        }
+        catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -155,42 +178,45 @@ final class EventListener implements Listener
         try {
             $player = $event->getPlayer();
             $message = $event->getMessage();
-            $player_data = PlayerDataManager::getInstance()->getXuid($player->getXuid());
-            if ($player_data->getFaction() === -1) {
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+
+            // 無所属
+            if ($playerData->getFaction() === -1) {
                 $event->setFormat("§f[無所属][{$player->getName()}] $message");
-            } else {
-                $faction = FactionDataManager::getInstance()->get($player_data->getFaction());
-                $color = OutiServerPluginUtils::getChatColor($faction->getColor());
-                $event->setFormat("{$color}[{$faction->getName()}]§f[{$player->getName()}] $message");
+            }
+            // どこかに所属してる
+            else {
+                $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
+                $color = OutiServerPluginUtils::getChatColor($factionData->getColor());
+                $event->setFormat("{$color}[{$factionData->getName()}]§f[{$player->getName()}] $message");
             }
 
             // 派閥専用チャットの場合は
-            if ($player_data->getChatmode() !== -1) {
-                $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
-                $server = Server::getInstance();
+            if ($playerData->getChatmode() !== -1) {
+                $factionPlayers = PlayerDataManager::getInstance()->getFactionPlayers($playerData->getFaction());
 
                 // 同じ派閥にメッセージを送る
-                if ($faction_players) {
-                    foreach ($faction_players as $f_p) {
-                        $faction_player = $server->getPlayerExact($f_p->getName());
-                        $faction_player->sendMessage($event->getFormat());
+                if ($factionPlayers) {
+                    foreach ($factionPlayers as $factionPlayer) {
+                        $factionPlayer = Server::getInstance()->getPlayerExact($factionPlayer->getName());
+                        $factionPlayer->sendMessage($event->getFormat());
                     }
                 }
 
                 // OP持ちにもメッセージを送る
-                foreach ($server->getOnlinePlayers() as $onlinePlayer) {
-                    if (!$server->isOp($onlinePlayer->getName())) continue;
+                foreach (Server::getInstance() as $onlinePlayer) {
+                    if (!Server::getInstance()->isOp($onlinePlayer->getName())) continue;
                     // メッセージ送信済みの場合は
-                    elseif (PlayerDataManager::getInstance()->getXuid($onlinePlayer->getXuid())->getFaction() === $player_data->getFaction()) continue;
+                    elseif (PlayerDataManager::getInstance()->getXuid($onlinePlayer->getXuid())->getFaction() === $playerData->getFaction()) continue;
                     $onlinePlayer->sendMessage($event->getFormat());
                 }
 
                 // ログに記録
                 Main::getInstance()->getLogger()->info($event->getFormat());
                 $event->cancel();
-                return;
             }
-        } catch (Error|Exception $error) {
+        }
+        catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -210,6 +236,7 @@ final class EventListener implements Listener
                     $form->execute($player);
                 }
 
+                // ここから 土地保護処理
                 $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
                 // 土地保護データがあるなら
                 if ($landConfigData !== null) {
@@ -238,8 +265,31 @@ final class EventListener implements Listener
                         }
                     }
                 }
+                // ここまで 土地保護処理
+
+                // ここから チェストショップ処理
+                $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ());
+                if (!$event->isCancelled() and $chestShopData) {
+                    if ($playerData->getFaction() === -1) {
+                        $player->sendMessage("§a[システム] チェストショップはどこかの派閥に所属していないと使えません");
+                        $event->cancel();
+                    }
+                    // チェストをタップしてOPでもなく貿易元の派閥所属でもないなら
+                    elseif ($chestShopData->getChestX() === $position->getFloorX() and $chestShopData->getChestY() === $position->getFloorY() and $chestShopData->getChestZ() === $position->getFloorZ() and !Server::getInstance()->isOp($player->getName()) and $chestShopData->getFactionId() !== $playerData->getFaction()) {
+                        $event->cancel();
+                        $form = new BuyChestShopForm();
+                        $form->execute($player, $chestShopData);
+                    }
+                    // 看板をタップして貿易元の派閥所属でないなら
+                    elseif ($chestShopData->getSignboardX() === $position->getFloorX() and $chestShopData->getSignboardY() === $position->getFloorY() and $chestShopData->getSignboardZ() === $position->getFloorZ() and$chestShopData->getFactionId() !== $playerData->getFaction() ) {
+                        $form = new BuyChestShopForm();
+                        $form->execute($player, $chestShopData);
+                    }
+                }
+                // ここまで チェストショップ処理
             }
-        } catch (Error|Exception $exception) {
+        }
+        catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -431,7 +481,7 @@ final class EventListener implements Listener
                             $player->sendMessage("§a[システム] チェストショップ(貿易所)は派閥に所属していないと使用できません");
                         }
                         else {
-                            $form = new CreateChestShop();
+                            $form = new CreateChestShopForm();
                             $form->execute($player, $sign, $sign->getPosition(), $mainchest->getPosition());
                         }
                     }

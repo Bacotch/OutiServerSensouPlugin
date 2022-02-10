@@ -10,22 +10,12 @@ pmmp_auto_update_enable: true
 # このプラグインの自動アップデート・再起動を有効にするか
 plugin_auto_update_enable: true
 
+# PMMP・プラグインのアップデートをチェックする間隔(秒)
+autoUpdateCheckDealy: 600
+
 # ---定期実行系設定---
-# 定期メッセージの間隔(秒) 20tick = 1秒前提
+# 定期メッセージの間隔(秒)
 scheduleMessageDelay: 300
-
-# ---Discord関係設定---
-# BotのToken
-Discord_Bot_Token: ""
-
-# DiscordのサーバーID
-Discord_Guild_Id: ""
-
-# DiscordのコンソールチャンネルID
-Discord_Console_Channel_Id: ""
-
-# DiscordのマイクラチャットチャンネルID
-Discord_MinecraftChat_Channel_Id: ""
 
 # サーバー関係ログを出力するWebhookURL
 Discord_Server_Webhook: ""

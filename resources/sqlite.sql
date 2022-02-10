@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS players
     INTEGER
     NOT
     NULL,
-    discord_userid TEXT
+    discord_userid
+    TEXT
 );
 -- # }
 
@@ -84,7 +85,7 @@ SET name           = :name,
     roles          = :roles,
     punishment     = :punishment,
     money          = :money,
-    discord_userid          = :discord_userid
+    discord_userid = :discord_userid
 WHERE xuid = :xuid;
 -- # }
 
@@ -128,7 +129,10 @@ CREATE TABLE IF NOT EXISTS factions
     INTEGER
     NOT
     NULL,
-    money INTEGER NOT NULL
+    money
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 
@@ -162,7 +166,7 @@ UPDATE factions
 SET name       = :name,
     owner_xuid = :owner_xuid,
     color      = :color,
-    money = :money
+    money      = :money
 WHERE id = :id;
 -- # }
 
@@ -689,8 +693,13 @@ CREATE TABLE IF NOT EXISTS chestshops
     NOT
     NULL,
     price
-    INTEGER,
-    duty INTEGER
+    INTEGER
+    NOT
+    NULL,
+    duty
+    INTEGER
+    NOT
+    NULL
 );
 -- # }
 
@@ -705,10 +714,12 @@ CREATE TABLE IF NOT EXISTS chestshops
 -- #    :signboardz int
 -- #    :itemid int
 -- #    :itemmeta int
---#     :price int
---#     :duty int
-INSERT INTO chestshops (faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz, itemid, itemmeta, price, duty)
-VALUES (:faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid, :itemmeta, :price, :duty);
+-- #    :price int
+-- #    :duty int
+INSERT INTO chestshops (faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz, itemid,
+                        itemmeta, price, duty)
+VALUES (:faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid, :itemmeta,
+        :price, :duty);
 -- # }
 
 -- # { seq
@@ -729,10 +740,10 @@ FROM chestshops;
 -- #    :duty int
 -- #    :id int
 UPDATE chestshops
-SET itemid = :itemid,
+SET itemid   = :itemid,
     itemmeta = :itemmeta,
-    price = :price,
-    duty = :duty
+    price    = :price,
+    duty     = :duty
 WHERE id = :id;
 -- # }
 
