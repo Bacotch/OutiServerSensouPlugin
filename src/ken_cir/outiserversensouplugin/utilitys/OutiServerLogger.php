@@ -12,9 +12,8 @@ use Error;
 use Exception;
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\tasks\DiscordWebhook;
 use pocketmine\Player\player;
-use pocketmine\Server;
+use function str_replace;
 
 /**
  * おうち鯖プラグインログ関係クラス
@@ -43,7 +42,6 @@ final class OutiServerLogger
             $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
 
             if ($player instanceof Player) {
-
                 if ($emergency) {
                     $errmsgPlayer = "§a[システム] 予期せぬエラーが処理中に発生しました、開発者に連絡してください\n§eーーー以下開発者確認用ーーー\n§cPlayer: {$player->getName()}(XUID: {$player->getXuid()})\nTime: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}";
                     $errmsg = "予期せぬエラーが発生しました```Player: {$player->getName()}(XUID: {$player->getXuid()})\nTime: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}```";
@@ -62,13 +60,15 @@ final class OutiServerLogger
                 $errmsg = "エラーが発生しました```Time: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}```";
             }
 
-            Main::getInstance()->getLogger()->error($errmsg);
-            Server::getInstance()->getAsyncPool()->submitTask(
-                new DiscordWebhook(
-                    Main::getInstance()->getPluginConfig()->get("Discord_Error_Webhook", ""),
-                    $errmsg
-                )
-            );
+            Main::getInstance()->getLogger()->error(str_replace("```", "", $errmsg));
+
+            if (($webhookURL = (string)Main::getInstance()->getPluginConfig()->get("Discord_Error_Webhook", "")) !== "") {
+                $webhook = new Webhook($webhookURL);
+                $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
+                $msg = new Message();
+                $msg->setContent("[{$time->format('Y-m-d H:i:sP')}] $errmsg");
+                $webhook->send($msg);
+            }
         }
         catch (Error | Exception $error_) {
             Main::getInstance()->getLogger()->emergency("予期せぬエラーが発生しました、開発者に連絡してください\nFile: {$error_->getFile()}\nLine: {$error_->getLine()}\nMessage: {$error_->getMessage()}");
@@ -90,7 +90,7 @@ final class OutiServerLogger
                 $webhook = new Webhook($webhookURL);
                 $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
                 $msg = new Message();
-                $msg->setContent("```[{$time->format('Y-m-d H:i:sP')}] $message");
+                $msg->setContent("```[{$time->format('Y-m-d H:i:sP')}] $message```");
                 $webhook->send($msg);
             }
         }
