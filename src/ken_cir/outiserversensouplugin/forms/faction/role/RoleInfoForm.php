@@ -11,7 +11,7 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleData;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 use Vecnavium\FormsUI\SimpleForm;
@@ -51,7 +51,7 @@ final class RoleInfoForm
             $form->setContent("詳細を表示する役職を選択してください");
             $form->addButton("戻る");
             foreach ($factionRoles as $factionRole) {
-                $form->addButton(OutiServerPluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
+                $form->addButton(OutiServerUtilitys::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
         }
@@ -78,7 +78,7 @@ final class RoleInfoForm
             });
 
             $form->setTitle("役職 {$infoRoleData->getName()} の詳細");
-            $form->setContent("役職名: {$infoRoleData->getName()}\n役職カラー: " . OutiServerPluginUtils::getChatColor($infoRoleData->getColor()) . OutiServerPluginUtils::getChatString($infoRoleData->getColor()) . "\n\n§f宣戦布告権限: " . ($infoRoleData->isSensenHukoku() ? '§bある' : '§cない') . "\n\n§f派閥にプレイヤー招待権限: " . ($infoRoleData->isInvitePlayer() ? '§bある' : '§cない') . "\n\n§f派閥プレイヤー全員に一括でメール送信権限: " . ($infoRoleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f敵対派閥と友好派閥（制限あり）の設定権限: " . ($infoRoleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥からプレイヤーを追放権限: " . ($infoRoleData->isKickFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥の土地管理権限: " . ($infoRoleData->isLandManager() ? '§bある' : '§cない') . "\n\n§f派閥銀行管理権限: " . ($infoRoleData->isBankManager() ? '§bある' : '§cない') . "\n\n§f派閥ロール管理権限: " . ($infoRoleData->isRoleManager() ? '§bある' : '§cない'));
+            $form->setContent("役職名: {$infoRoleData->getName()}\n役職カラー: " . OutiServerUtilitys::getChatColor($infoRoleData->getColor()) . OutiServerUtilitys::getChatString($infoRoleData->getColor()) . "\n\n§f宣戦布告権限: " . ($infoRoleData->isSensenHukoku() ? '§bある' : '§cない') . "\n\n§f派閥にプレイヤー招待権限: " . ($infoRoleData->isInvitePlayer() ? '§bある' : '§cない') . "\n\n§f派閥プレイヤー全員に一括でメール送信権限: " . ($infoRoleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f敵対派閥と友好派閥（制限あり）の設定権限: " . ($infoRoleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥からプレイヤーを追放権限: " . ($infoRoleData->isKickFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥の土地管理権限: " . ($infoRoleData->isLandManager() ? '§bある' : '§cない') . "\n\n§f派閥銀行管理権限: " . ($infoRoleData->isBankManager() ? '§bある' : '§cない') . "\n\n§f派閥ロール管理権限: " . ($infoRoleData->isRoleManager() ? '§bある' : '§cない'));
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);

@@ -11,7 +11,7 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleData;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
@@ -49,7 +49,7 @@ final class EditRoleForm
             $form->setContent("編集・削除する役職を選択してください");
             $form->addButton("戻る");
             foreach ($factionRoles as $factionRole) {
-                $form->addButton(OutiServerPluginUtils::getChatColor($factionRole->getColor()) . $factionRole->getName());
+                $form->addButton(OutiServerUtilitys::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
         } catch (Error|Exception $e) {

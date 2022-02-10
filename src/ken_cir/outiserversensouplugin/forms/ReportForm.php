@@ -8,7 +8,7 @@ use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 

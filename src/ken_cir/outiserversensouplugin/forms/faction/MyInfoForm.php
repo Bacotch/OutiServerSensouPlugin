@@ -10,7 +10,7 @@ use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 use function array_map;
@@ -43,7 +43,7 @@ final class MyInfoForm
             });
             $roles = array_map(function (int $id) {
                 $roleData = RoleDataManager::getInstance()->get($id);
-                $color = OutiServerPluginUtils::getChatColor($roleData->getColor());
+                $color = OutiServerUtilitys::getChatColor($roleData->getColor());
                 return "$color {$roleData->getName()}";
             }, $playerData->getRoles());
             $form->setTitle("自分の詳細");

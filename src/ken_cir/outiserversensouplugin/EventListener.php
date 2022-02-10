@@ -18,7 +18,7 @@ use ken_cir\outiserversensouplugin\forms\chestshop\BuyChestShopForm;
 use ken_cir\outiserversensouplugin\forms\chestshop\CreateChestShopForm;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\tasks\AutoUpdateWait;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\block\Chest;
 use pocketmine\block\WallSign;
 use pocketmine\event\block\BlockBreakEvent;
@@ -187,7 +187,7 @@ final class EventListener implements Listener
             // どこかに所属してる
             else {
                 $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
-                $color = OutiServerPluginUtils::getChatColor($factionData->getColor());
+                $color = OutiServerUtilitys::getChatColor($factionData->getColor());
                 $event->setFormat("{$color}[{$factionData->getName()}]§f[{$player->getName()}] $message");
             }
 

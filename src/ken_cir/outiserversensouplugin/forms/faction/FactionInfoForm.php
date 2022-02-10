@@ -11,7 +11,7 @@ use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerData;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerPluginUtils;
+use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 use Vecnavium\FormsUI\SimpleForm;
@@ -48,7 +48,7 @@ final class FactionInfoForm
             });
 
             $form->setTitle("§b派閥の詳細表示フォーム");
-            $form->addButton(OutiServerPluginUtils::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
+            $form->addButton(OutiServerUtilitys::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
         }
         catch (Error|Exception $error) {
@@ -77,7 +77,7 @@ final class FactionInfoForm
             $faction_players_name = array_map(function (PlayerData $playerData) {
                 return $playerData->getName();
             }, $faction_players);
-            $color = OutiServerPluginUtils::getChatColor($faction_data->getColor());
+            $color = OutiServerUtilitys::getChatColor($faction_data->getColor());
             $form->setTitle("派閥 $color {$faction_data->getName()} の詳細");
             $form->setContent("§6 派閥名: {$faction_data->getName()}\n§aリーダー: " . PlayerDataManager::getInstance()->getXuid($faction_data->getOwnerXuid()) . "\n§d総人数: " . count($faction_players) . "人\n§b派閥所属プレイヤー§f\n" . join("\n", $faction_players_name));
             $form->setButton1("戻る");
