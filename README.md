@@ -1,8 +1,5 @@
 # おうち鯖PMMPプラグイン
 
-おうち鯖用のPMMPプラグイン 戦争用
+おうち鯖用のPMMPプラグイン
 
 [データベース中身](/DATABASE.md)
-
-# license 
-libsディレクトリを除きMIT
