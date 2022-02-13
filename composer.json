@@ -7,7 +7,6 @@
     }
   },
   "require": {
-    "ext-pcntl": "*",
     "ext-pthreads": "*",
     "ext-zip": "*",
     "ext-sockets": "*",

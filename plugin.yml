@@ -6,7 +6,6 @@ version: 1.0.0-BETA1
 api: 4.2.0
 mcpe-protocol: 486
 extensions:
-  - pcntl
   - pthreads
   - zip
   - sockets
