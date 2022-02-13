@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\cache\playercache;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
-use pocketmine\network\mcpe\protocol\AddVolumeEntityPacket;
 use function strtolower;
 
 /**

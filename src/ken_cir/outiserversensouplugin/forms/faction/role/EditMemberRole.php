@@ -16,7 +16,7 @@ use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
 use function count;
 
-final class EditMemberRole
+class EditMemberRole
 {
     public function __construct()
     {

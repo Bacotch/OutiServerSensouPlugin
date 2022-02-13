@@ -14,7 +14,7 @@ use function count;
 /**
  * 土地データマネージャー
  */
-final class LandDataManager
+class LandDataManager
 {
     /**
      * インスタンス

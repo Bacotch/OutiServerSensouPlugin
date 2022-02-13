@@ -12,7 +12,7 @@ use function count;
 /**
  * 派閥データマネージャー
  */
-final class FactionDataManager
+class FactionDataManager
 {
     /**
      * @var FactionDataManager $this

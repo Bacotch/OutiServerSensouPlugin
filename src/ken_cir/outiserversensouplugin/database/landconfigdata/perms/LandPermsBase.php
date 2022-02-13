@@ -50,7 +50,7 @@ abstract class LandPermsBase
     /**
      * @return bool
      */
-    final public function isBlockTap_Place(): bool
+    public function isBlockTap_Place(): bool
     {
         return $this->blockTap_Place;
     }
@@ -58,15 +58,15 @@ abstract class LandPermsBase
     /**
      * @param bool $blockTap_Place
      */
-    final public function setBlockTap_Place(bool $blockTap_Place): void
+    public function setBlockTap_Place(bool $blockTap_Place): void
     {
-        $this->blockTap_Place= $blockTap_Place;
+        $this->blockTap_Place = $blockTap_Place;
     }
 
     /**
      * @return bool
      */
-    final public function isBlockBreak(): bool
+    public function isBlockBreak(): bool
     {
         return $this->blockBreak;
     }
@@ -74,7 +74,7 @@ abstract class LandPermsBase
     /**
      * @param bool $blockBreak
      */
-    final public function setBlockBreak(bool $blockBreak): void
+    public function setBlockBreak(bool $blockBreak): void
     {
         $this->blockBreak = $blockBreak;
     }

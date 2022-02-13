@@ -4,22 +4,19 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\commands\subcommands;
 
+use CortexPE\Commando\BaseSubCommand;
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
-use CortexPE\Commando\BaseCommand;
-use CortexPE\Commando\BaseSubCommand;
 use ken_cir\outiserversensouplugin\Main;
-use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use pocketmine\plugin\Plugin;
 
 /**
  * おうちウォッチフォームを出すコマンド
  */
-final class OutiWatchCommand extends BaseSubCommand
+class OutiWatchCommand extends BaseSubCommand
 {
     public function __construct()
     {
@@ -41,8 +38,7 @@ final class OutiWatchCommand extends BaseSubCommand
             $form = new OutiWatchForm();
             $form->execute($sender);
             PlayerCacheManager::getInstance()->getXuid($sender->getXuid())->setLockOutiWatch(true);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $sender);
         }
     }

@@ -13,7 +13,7 @@ use pocketmine\snooze\SleeperNotifier;
 use pocketmine\utils\TextFormat;
 use Socket;
 
-final class OutiServerSocket implements NetworkInterface
+class OutiServerSocket implements NetworkInterface
 {
     /**
      * ソケット本体
@@ -58,7 +58,7 @@ final class OutiServerSocket implements NetworkInterface
         [$this->ipcMainSocket, $this->ipcThreadSocket] = $ipc;
 
         $notifier = new SleeperNotifier();
-        $sleeper->addNotifier($notifier, function() : void{
+        $sleeper->addNotifier($notifier, function (): void {
             if (str_starts_with($this->thread->cmd, "data:")) {
                 $factionData = FactionDataManager::getInstance()->get(6);
                 $this->thread->response = match ($this->thread->cmd) {
@@ -69,16 +69,15 @@ final class OutiServerSocket implements NetworkInterface
                     )),
                     default => TextFormat::clean("不明なdata: {$this->thread->cmd}"),
                 };
-            }
-            else {
+            } else {
                 $this->thread->response = TextFormat::clean("OK");
             }
-            $this->thread->synchronized(function(OutiServerSocketThread $thread) : void{
+            $this->thread->synchronized(function (OutiServerSocketThread $thread): void {
                 $thread->notify();
             }, $this->thread);
         });
 
-        $this->thread = new OutiServerSocketThread($this->socket, $this->ipcThreadSocket, 50,"FYScZ6wuaak=", $notifier);
+        $this->thread = new OutiServerSocketThread($this->socket, $this->ipcThreadSocket, 50, "FYScZ6wuaak=", $notifier);
     }
 
     public function start(): void

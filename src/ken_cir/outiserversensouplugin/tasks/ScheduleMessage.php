@@ -12,7 +12,7 @@ use function count;
 /**
  * 定期メッセージTASK
  */
-final class ScheduleMessage extends Task
+class ScheduleMessage extends Task
 {
     /**
      * メッセージ配列にアクセスする用

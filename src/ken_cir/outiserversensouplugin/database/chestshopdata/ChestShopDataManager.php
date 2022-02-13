@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\database\chestshopdata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
-use poggit\libasynql\SqlError;
 use ken_cir\outiserversensouplugin\Main;
-use function count;
+use poggit\libasynql\SqlError;
 use function array_shift;
+use function count;
 
-final class ChestShopDataManager
+class ChestShopDataManager
 {
     /**
      * @var ChestShopDataManager $this
@@ -102,11 +102,11 @@ final class ChestShopDataManager
         $chestShopData = array_filter($this->chestShopDatas, function ($chestShopData) use ($worldName, $x, $y, $z) {
             return $chestShopData->getWorldName() === $worldName
                 and (($chestShopData->getChestX() === $x
-                    and $chestShopData->getChestY() === $y
-                    and $chestShopData->getChestZ() === $z)
-                or ($chestShopData->getSignboardX() === $x
-                    and $chestShopData->getSignboardY() === $y
-                    and $chestShopData->getSignboardZ() === $z));
+                        and $chestShopData->getChestY() === $y
+                        and $chestShopData->getChestZ() === $z)
+                    or ($chestShopData->getSignboardX() === $x
+                        and $chestShopData->getSignboardY() === $y
+                        and $chestShopData->getSignboardZ() === $z));
         });
 
         if (count($chestShopData) < 1) return false;
@@ -126,7 +126,7 @@ final class ChestShopDataManager
                 "signboardy" => $signboardy,
                 "signboardz" => $signboardz,
                 "itemid" => $itemId,
-                "itemmeta" =>$itemMeta,
+                "itemmeta" => $itemMeta,
                 "price" => $price,
                 "duty" => $duty
             ],

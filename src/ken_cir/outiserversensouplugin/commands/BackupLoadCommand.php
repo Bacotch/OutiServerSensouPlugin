@@ -15,7 +15,7 @@ use pocketmine\nbt\BigEndianNbtSerializer;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
 
-final class BackupLoadCommand extends Command
+class BackupLoadCommand extends Command
 {
     public function __construct()
     {
@@ -55,8 +55,7 @@ final class BackupLoadCommand extends Command
             */
 
             $sender->sendMessage("全ては何事もなかったかのように");
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $sender);
         }
     }

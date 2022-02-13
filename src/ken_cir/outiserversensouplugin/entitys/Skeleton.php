@@ -16,7 +16,7 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
 use pocketmine\world\World;
 
-final class Skeleton extends Living
+class Skeleton extends Living
 {
     private $target = null;
     private bool $isNeutral = true;
@@ -37,20 +37,23 @@ final class Skeleton extends Living
         );
     }
 
-    public static function getNetworkTypeId() : string
+    public static function getNetworkTypeId(): string
     {
         return EntityIds::SKELETON;
     }
 
-    #[Pure] protected function getInitialSizeInfo() : EntitySizeInfo{
+    #[Pure] protected function getInitialSizeInfo(): EntitySizeInfo
+    {
         return new EntitySizeInfo(1.9, 0.6); //TODO: eye height ??
     }
 
-    public function getName() : string{
+    public function getName(): string
+    {
         return "Skeleton";
     }
 
-    public function findClosestPlayer(int $distance) : ?Player {
+    public function findClosestPlayer(int $distance): ?Player
+    {
         $result = null;
         foreach ($this->getWorld()->getPlayers() as $player) {
             //[$playerとこのエンティティの距離 < 前の$playerの距離]なら、$resultに$playerを代入
@@ -67,19 +70,19 @@ final class Skeleton extends Living
     {
         $world = $this->getWorld();
         $time = $world->getTimeOfDay();
-        if(0 <= $time && $time < World::TIME_NIGHT){
+        if (0 <= $time && $time < World::TIME_NIGHT) {
             $this->kill();
         }
         $hasUpdate = parent::entityBaseTick($tickDiff);
         $this->attackTime -= $tickDiff;
         $this->coolTime -= $tickDiff;
 
-        if($this->attackTime > 0)
+        if ($this->attackTime > 0)
             return false;
         else
             $this->attackTime = 0;
 
-        if($this->getTarget() == null) {
+        if ($this->getTarget() == null) {
             if ($this->isNeutral) return $hasUpdate;//中立の状態なら処理を終了
 
             $preTarget = $this->findClosestPlayer(10);
@@ -93,14 +96,14 @@ final class Skeleton extends Living
         }
 
         $target = $this->getTarget();
-        if(!($target instanceof Player))
+        if (!($target instanceof Player))
             return $hasUpdate;
 
         $speed = $this->getSpeed();
         $this->lookAt($target->location);
 
-        if($this->location->distance($target->location) <= 1){
-            if($this->coolTime < 0){
+        if ($this->location->distance($target->location) <= 1) {
+            if ($this->coolTime < 0) {
                 $ev = new EntityDamageByEntityEvent($this, $target, EntityDamageEvent::CAUSE_ENTITY_ATTACK, 3);
                 $target->attack($ev);
                 $this->coolTime = 23;
@@ -129,7 +132,7 @@ final class Skeleton extends Living
 
     public function attack(EntityDamageEvent $source): void
     {
-        if($source instanceof EntityDamageByEntityEvent)
+        if ($source instanceof EntityDamageByEntityEvent)
             $source->setKnockBack(0.5);
 
         parent::attack($source);
@@ -138,7 +141,7 @@ final class Skeleton extends Living
 
     public function jump(): void
     {
-        if($this->onGround)
+        if ($this->onGround)
             $this->motion->y = 0.5;
     }
 
@@ -147,12 +150,10 @@ final class Skeleton extends Living
     {
         $dv = $this->getDirectionVector()->multiply(1);
         $checkPos = $this->location->add($dv->x, 0, $dv->z)->floor();
-        if($this->getWorld()->getBlockAt($checkPos->getFloorX(), $this->location->getFloorY()+1, $checkPos->getFloorZ())->isSolid())
-        {
+        if ($this->getWorld()->getBlockAt($checkPos->getFloorX(), $this->location->getFloorY() + 1, $checkPos->getFloorZ())->isSolid()) {
             return;
         }
-        if($this->getWorld()->getBlockAt($checkPos->getFloorX(), $this->location->getFloorY(), $checkPos->getFloorZ())->isSolid())
-        {
+        if ($this->getWorld()->getBlockAt($checkPos->getFloorX(), $this->location->getFloorY(), $checkPos->getFloorZ())->isSolid()) {
             $this->jump();
         }
     }
@@ -183,7 +184,8 @@ final class Skeleton extends Living
         return !is_null($this->getTarget());
     }
 
-    public function getXpDropAmount() : int{
+    public function getXpDropAmount(): int
+    {
         return 0;
     }
 }

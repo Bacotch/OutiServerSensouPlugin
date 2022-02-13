@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use function strtolower;
 
-final class MemberLandPerms extends LandPermsBase
+class MemberLandPerms extends LandPermsBase
 {
     /**
      * プレイヤー名

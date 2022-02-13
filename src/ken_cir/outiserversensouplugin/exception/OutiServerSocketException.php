@@ -6,7 +6,7 @@ namespace ken_cir\outiserversensouplugin\exception;
 
 use RuntimeException;
 
-final class OutiServerSocketException extends RuntimeException
+class OutiServerSocketException extends RuntimeException
 {
 
 }

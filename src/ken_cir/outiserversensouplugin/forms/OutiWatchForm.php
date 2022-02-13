@@ -7,7 +7,6 @@ namespace ken_cir\outiserversensouplugin\forms;
 use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
-use ken_cir\outiserversensouplugin\EventListener;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\forms\mail\MailForm;
@@ -20,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * おうちウォッチ
  */
-final class OutiWatchForm
+class OutiWatchForm
 {
     public function __construct()
     {
@@ -41,28 +40,23 @@ final class OutiWatchForm
                     elseif ($data === 1) {
                         $form = new SkinManagerForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 2) {
+                    } elseif ($data === 2) {
                         $form = new FactionForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 3) {
+                    } elseif ($data === 3) {
                         $form = new MailForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 4) {
+                    } elseif ($data === 4) {
                         $form = new ReportForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 5) {
+                    } elseif ($data === 5) {
                         $form = new RequestForm();
                         $form->execute($player);
-                    }
-                    elseif ($data === 6 and Server::getInstance()->isOp($player->getName())) {
+                    } elseif ($data === 6 and Server::getInstance()->isOp($player->getName())) {
                         $form = new AdminForm();
                         $form->execute($player);
                     }
-                } catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
@@ -80,9 +74,9 @@ final class OutiWatchForm
                 $form->addButton("管理者");
             }
             $form->addButton("テスト", 0, "textures/items/facebook");
+            $form->addButton("テスト", 0, "textures/items/outiwatch");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }

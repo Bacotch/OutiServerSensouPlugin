@@ -7,14 +7,14 @@ namespace ken_cir\outiserversensouplugin\database\roledata;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function count;
 use function array_filter;
+use function count;
 use function ksort;
 
 /**
  * 派閥のロール系管理クラス
  */
-final class RoleDataManager
+class RoleDataManager
 {
     /**
      * @var RoleDataManager $this
@@ -69,7 +69,7 @@ final class RoleDataManager
 
     public static function createInstance(): void
     {
-        if (isset(self::$instance))  throw new InstanceOverwriteException(RoleDataManager::class);
+        if (isset(self::$instance)) throw new InstanceOverwriteException(RoleDataManager::class);
         self::$instance = new self();
     }
 
@@ -173,8 +173,7 @@ final class RoleDataManager
             }
             ksort($sort2);
             return $sort2;
-        }
-        else {
+        } else {
             return array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
                 return $roleData->getFactionId() === $factionId;
             });

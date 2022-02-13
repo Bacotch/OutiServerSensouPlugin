@@ -14,7 +14,7 @@ use Vecnavium\FormsUI\CustomForm;
 /**
  * チャットモード変更フォーム
  */
-final class ChangeChatModeForm
+class ChangeChatModeForm
 {
     public function __construct()
     {
@@ -34,13 +34,11 @@ final class ChangeChatModeForm
                     elseif ($data[0] === 0) {
                         $player_data->setChatmode(-1);
                         $player->sendMessage("§a[システム] チャットモードを§f全体§aに変更しました");
-                    }
-                    elseif ($data[0] === 1) {
+                    } elseif ($data[0] === 1) {
                         $player_data->setChatmode($player_data->getFaction());
                         $player->sendMessage("§a[システム] チャットモードを§f所属派閥と友好関係派閥§aに変更しました");
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -50,8 +48,7 @@ final class ChangeChatModeForm
             $form->setTitle("チャットモード変更");
             $form->addDropdown("モード", ["全体", "所属派閥と友好関係派閥"]);
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

@@ -16,10 +16,10 @@ use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 use Vecnavium\FormsUI\SimpleForm;
 use function array_values;
-use function is_numeric;
 use function count;
+use function is_numeric;
 
-final class EditRoleForm
+class EditRoleForm
 {
     public function __construct()
     {
@@ -39,7 +39,7 @@ final class EditRoleForm
                     } else {
                         $this->edit($player, $factionRoles[$data - 1]);
                     }
-                } catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -97,8 +97,7 @@ final class EditRoleForm
                     elseif ($data[0] === true) {
                         $this->execute($player);
                         return true;
-                    }
-                    elseif (!isset($data[1], $data[3]) or !is_numeric($data[3])) return true;
+                    } elseif (!isset($data[1], $data[3]) or !is_numeric($data[3])) return true;
 
                     $position = (int)$data[3];
                     if ($position < 1) $position = 1;
@@ -124,8 +123,7 @@ final class EditRoleForm
                             elseif ($oldRolePos >= $position and $factionRole->getPosition() <= $oldRolePos and $factionRole->getId() !== $editRoleData->getId()) {
                                 if ($factionRole->getPosition() < 1) {
                                     $factionRole->setPosition($factionRole->getPosition() + 2);
-                                }
-                                else {
+                                } else {
                                     $factionRole->setPosition($factionRole->getPosition() + 1);
                                 }
                             }

@@ -14,7 +14,7 @@ use pocketmine\player\Player;
 /**
  * 土地を拡張する
  */
-final class LandExtendForm
+class LandExtendForm
 {
     public function __construct()
     {

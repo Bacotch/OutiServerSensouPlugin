@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\commands\subcommands;
 
-use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use CortexPE\Commando\BaseSubCommand;
+use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use function mt_rand;
 
-final class DiscordCommand extends BaseSubCommand
+class DiscordCommand extends BaseSubCommand
 {
     public function __construct()
     {

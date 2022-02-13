@@ -6,12 +6,11 @@ namespace ken_cir\outiserversensouplugin\database\maildata;
 
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function strtolower;
 
 /**
  * メールデータ
  */
-final class MailData
+class MailData
 {
     /**
      * @var int

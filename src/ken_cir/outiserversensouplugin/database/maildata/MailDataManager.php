@@ -8,9 +8,8 @@ use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
-use function strtolower;
 
-final class MailDataManager
+class MailDataManager
 {
     /**
      * @var MailDataManager $this

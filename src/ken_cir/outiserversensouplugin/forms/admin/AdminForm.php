@@ -23,12 +23,10 @@ class AdminForm
             elseif ($data === 0) {
                 $form = new OutiWatchForm();
                 $form->execute($player);
-            }
-            elseif ($data === 1) {
+            } elseif ($data === 1) {
                 $form = new ScheduleMessageManagerForm();
                 $form->execute($player);
-            }
-            elseif ($data === 2) {
+            } elseif ($data === 2) {
                 $form = new WorldBackupManager();
                 $form->execute($player);
             }

@@ -5,18 +5,16 @@ namespace ken_cir\outiserversensouplugin\commands;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\utils\CommandException;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\lang\Language;
-use pocketmine\lang\Translatable;
 use pocketmine\Server;
 
-final class BanAllCOmmand extends Command
+class BanAllCOmmand extends Command
 {
-public function __construct()
-{
-    parent::__construct("banall");
-}
+    public function __construct()
+    {
+        parent::__construct("banall");
+    }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {

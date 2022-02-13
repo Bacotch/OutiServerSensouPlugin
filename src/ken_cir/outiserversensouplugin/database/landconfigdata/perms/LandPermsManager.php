@@ -8,7 +8,7 @@ use JetBrains\PhpStorm\Pure;
 use function array_values;
 use function strtolower;
 
-final class LandPermsManager
+class LandPermsManager
 {
     /**
      * デフォルト権限

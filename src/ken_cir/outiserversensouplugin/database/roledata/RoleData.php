@@ -10,7 +10,7 @@ use poggit\libasynql\SqlError;
 /**
  * 派閥のロールデータ
  */
-final class RoleData
+class RoleData
 {
     /**
      * @var int

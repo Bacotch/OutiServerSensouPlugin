@@ -23,12 +23,10 @@ class ScheduleMessageManagerForm
             elseif ($data === 0) {
                 $form = new AdminForm();
                 $form->execute($player);
-            }
-            elseif ($data === 1) {
+            } elseif ($data === 1) {
                 $form = new ScheduleMessageAddForm();
                 $form->execute($player);
-            }
-            else {
+            } else {
                 $form = new ScheduleMessageEditForm();
                 $form->execute($player, $scheduleMessages[$data - 2]);
             }

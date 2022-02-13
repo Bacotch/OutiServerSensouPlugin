@@ -2,15 +2,16 @@
 
 namespace ken_cir\outiserversensouplugin\commands;
 
+use Error;
+use Exception;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\item\ItemFactory;
-use pocketmine\lang\Translatable;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
-final class ItemsCommand extends Command
+class ItemsCommand extends Command
 {
     public function __construct()
     {
@@ -25,8 +26,7 @@ final class ItemsCommand extends Command
                 if ($data === null) return;
                 $idmeta = explode(":", $items[$data]["key"]);
                 $player->getInventory()->addItem(ItemFactory::getInstance()->get($idmeta[0], $idmeta[1]));
-            }
-            catch (\Exception | \Error $e) {
+            } catch (Exception|Error $e) {
                 echo $e->getMessage() . PHP_EOL;
             }
         });

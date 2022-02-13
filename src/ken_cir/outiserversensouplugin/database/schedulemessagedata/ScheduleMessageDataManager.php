@@ -8,13 +8,13 @@ use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function count;
 use function array_values;
+use function count;
 
 /**
  * 定期メッセージデータマネージャー
  */
-final class ScheduleMessageDataManager
+class ScheduleMessageDataManager
 {
     /**
      * インスタンス
@@ -42,7 +42,7 @@ final class ScheduleMessageDataManager
         Main::getInstance()->getDatabase()->executeSelect("outiserver.schedulemessages.seq",
             [],
             function (array $row) {
-                if (count($row) < 1)  {
+                if (count($row) < 1) {
                     $this->seq = 0;
                     return;
                 }
@@ -60,8 +60,7 @@ final class ScheduleMessageDataManager
                     foreach ($row as $data) {
                         $this->scheduleMessageDatas[$data["id"]] = new ScheduleMessageData($data["id"], $data["content"]);
                     }
-                }
-                catch (InvalidArgumentException $error) {
+                } catch (InvalidArgumentException $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             },
@@ -77,7 +76,7 @@ final class ScheduleMessageDataManager
      */
     public static function createInstance(): void
     {
-        if (isset(self::$instance))  throw new InstanceOverwriteException(ScheduleMessageDataManager::class);
+        if (isset(self::$instance)) throw new InstanceOverwriteException(ScheduleMessageDataManager::class);
         self::$instance = new self();
     }
 

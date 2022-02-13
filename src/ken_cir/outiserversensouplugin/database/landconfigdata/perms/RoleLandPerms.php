@@ -5,7 +5,7 @@ namespace ken_cir\outiserversensouplugin\database\landconfigdata\perms;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
-final class RoleLandPerms extends LandPermsBase
+class RoleLandPerms extends LandPermsBase
 {
     /**
      * ロールID

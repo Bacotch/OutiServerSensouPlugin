@@ -14,7 +14,7 @@ use function serialize;
 use function strtolower;
 use function unserialize;
 
-final class PlayerData
+class PlayerData
 {
     /**
      * プレイヤーXUID
@@ -271,8 +271,7 @@ final class PlayerData
             }
             ksort($sort);
             return $sort;
-        }
-        else {
+        } else {
             return $this->roles;
         }
     }

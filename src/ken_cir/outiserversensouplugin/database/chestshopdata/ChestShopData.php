@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\chestshopdata;
 
-use poggit\libasynql\SqlError;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\SqlError;
 
-final class ChestShopData
+class ChestShopData
 {
     /**
      * 管理ID

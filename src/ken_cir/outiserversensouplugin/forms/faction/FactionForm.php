@@ -19,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * 派閥関係フォーム
  */
-final class FactionForm
+class FactionForm
 {
     public function __construct()
     {
@@ -86,8 +86,7 @@ final class FactionForm
                             } elseif ($player_data->isRoleManager()) {
                                 $form = new RoleManagerForm();
                                 $form->execute($player);
-                            }
-                            elseif ($player_data->isRoleManager()) {
+                            } elseif ($player_data->isRoleManager()) {
                                 $form = new RoleManagerForm();
                                 $form->execute($player);
                             }
@@ -105,8 +104,7 @@ final class FactionForm
                             }
                         }
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -133,8 +131,7 @@ final class FactionForm
                     $form->addButton("§3役職の管理");
                 } elseif ($player_data->isRoleManager()) {
                     $form->addButton("§3役職の管理");
-                }
-                elseif ($player_data->isRoleManager()) {
+                } elseif ($player_data->isRoleManager()) {
                     $form->addButton("§3役職の管理");
                 }
                 if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
@@ -144,8 +141,7 @@ final class FactionForm
                 }
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

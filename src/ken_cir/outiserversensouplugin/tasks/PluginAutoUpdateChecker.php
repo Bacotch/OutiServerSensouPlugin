@@ -8,20 +8,20 @@ use ken_cir\outiserversensouplugin\Main;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\utils\Internet;
-use function json_decode;
-use function file_put_contents;
 use function count;
 use function extension_loaded;
-use function register_shutdown_function;
-use function unlink;
-use function rename;
+use function file_put_contents;
+use function json_decode;
 use function pcntl_exec;
+use function register_shutdown_function;
+use function rename;
+use function unlink;
 use const DIRECTORY_SEPARATOR;
 
 /**
  * このプラグインのアップデートを確認するAsyncTask
  */
-final class PluginAutoUpdateChecker extends AsyncTask
+class PluginAutoUpdateChecker extends AsyncTask
 {
     public function __construct()
     {
@@ -33,8 +33,7 @@ final class PluginAutoUpdateChecker extends AsyncTask
         if ($response !== null) {
             $response = json_decode($response->getBody(), true);
             $this->setResult($response);
-        }
-        else {
+        } else {
             $this->setResult(null);
         }
     }
@@ -53,21 +52,20 @@ final class PluginAutoUpdateChecker extends AsyncTask
             Main::getInstance()->getPluginData()->set("pluginLastUpdateVersion", $result["version"]);
 
             // シャットダウン関数を登録
-            register_shutdown_function(function() {
-                @unlink(Server::getInstance()->getPluginPath() ."outiserverpmmpplugin.phar");
-                rename(Server::getInstance()->getPluginPath() . "outiserverpmmpplugin1.phar",Server::getInstance()->getPluginPath() . "outiserverpmmpplugin.phar");
+            register_shutdown_function(function () {
+                @unlink(Server::getInstance()->getPluginPath() . "outiserverpmmpplugin.phar");
+                rename(Server::getInstance()->getPluginPath() . "outiserverpmmpplugin1.phar", Server::getInstance()->getPluginPath() . "outiserverpmmpplugin.phar");
                 pcntl_exec("./start.sh");
             });
 
             if (count(Server::getInstance()->getOnlinePlayers()) < 1) {
                 Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！サーバーを再起動しています...");
                 Server::getInstance()->shutdown();
+            } else {
+                Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
+                Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
+                Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
             }
-           else {
-               Main::getInstance()->getLogger()->alert("アップデートの準備が整いました！アップデートを待機しています...");
-               Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
-               Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
-           }
         }
     }
 }

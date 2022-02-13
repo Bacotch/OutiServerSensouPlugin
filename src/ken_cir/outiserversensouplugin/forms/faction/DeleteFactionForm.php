@@ -19,7 +19,7 @@ use Vecnavium\FormsUI\ModalForm;
 /**
  * 派閥削除フォーム
  */
-final class DeleteFactionForm
+class DeleteFactionForm
 {
     public function __construct()
     {
@@ -58,8 +58,7 @@ final class DeleteFactionForm
                         Server::getInstance()->broadcastMessage("§a[システム] 派閥 $faction_name が崩壊しました");
                         Main::getInstance()->getDiscordClient()->sendChatMessage("[システム] 派閥 $faction_name が崩壊しました");
                     }
-                }
-                catch (Error | Exception $exception) {
+                } catch (Error|Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
@@ -71,8 +70,7 @@ final class DeleteFactionForm
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

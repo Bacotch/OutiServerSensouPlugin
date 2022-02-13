@@ -10,7 +10,7 @@ use pocketmine\entity\Skin;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
-final class SkinManagerForm
+class SkinManagerForm
 {
     public function __construct()
     {
@@ -22,14 +22,11 @@ final class SkinManagerForm
             if ($data === null) return true;
             elseif ($data === 0) {
                 $player->setSkin(new Skin($player->getSkin()->getSkinId(), SkinConverter::imageToSkinDataFromPngPath(Main::getInstance()->getDataFolder() . "skins/{$player->getName()}.default.png")));
-            }
-            elseif ($data === 1) {
+            } elseif ($data === 1) {
                 $player->setSkin(new Skin($player->getSkin()->getSkinId(), SkinConverter::imageToSkinDataFromPngPath(Main::getInstance()->getDataFolder() . "skins/test.png")));
-            }
-            elseif ($data === 2) {
+            } elseif ($data === 2) {
                 $player->setSkin(new Skin($player->getSkin()->getSkinId(), SkinConverter::imageToSkinDataFromPngPath(Main::getInstance()->getDataFolder() . "skins/shinmyoumaru.png")));
-            }
-            elseif ($data === 3) {
+            } elseif ($data === 3) {
                 $player->setSkin(new Skin($player->getSkin()->getSkinId(), SkinConverter::imageToSkinDataFromPngPath(Main::getInstance()->getDataFolder() . "skins/sirokumasan.png")));
             }
 

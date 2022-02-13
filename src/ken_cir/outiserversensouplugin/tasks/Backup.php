@@ -15,7 +15,7 @@ use function opendir;
 use function readdir;
 use function str_ends_with;
 
-final class Backup extends AsyncTask
+class Backup extends AsyncTask
 {
     private string $serverDataFloder;
     private string $pluginDataFloder;
@@ -55,8 +55,7 @@ final class Backup extends AsyncTask
                 $fullpath = "$path/$entry";
                 if (is_file($fullpath)) {
                     $zip->addFile($fullpath, "$localPath");
-                }
-                elseif (is_dir($fullpath)) {
+                } elseif (is_dir($fullpath)) {
                     $this->zipSub($zip, $fullpath, $localPath . '/');
                 }
             }

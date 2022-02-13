@@ -10,7 +10,7 @@ use poggit\libasynql\SqlError;
 /**
  * 派閥の土地データ
  */
-final class LandData
+class LandData
 {
     /**
      * 管理用ID

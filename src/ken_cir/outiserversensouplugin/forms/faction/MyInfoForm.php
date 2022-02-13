@@ -16,7 +16,7 @@ use Vecnavium\FormsUI\ModalForm;
 use function array_map;
 use function join;
 
-final class MyInfoForm
+class MyInfoForm
 {
     public function __construct()
     {
@@ -34,8 +34,7 @@ final class MyInfoForm
                         $form = new FactionForm();
                         $form->execute($player);
                     }
-                }
-                catch (Error | Exception $error) {
+                } catch (Error|Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -51,8 +50,7 @@ final class MyInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

@@ -11,7 +11,7 @@ use poggit\libasynql\SqlError;
 /**
  * 定期メッセージデータ
  */
-final class ScheduleMessageData
+class ScheduleMessageData
 {
     /**
      * 管理用ID
@@ -49,8 +49,7 @@ final class ScheduleMessageData
                     Main::getInstance()->getOutiServerLogger()->error($error);
                 }
             );
-        }
-        catch (InvalidArgumentException $error) {
+        } catch (InvalidArgumentException $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }

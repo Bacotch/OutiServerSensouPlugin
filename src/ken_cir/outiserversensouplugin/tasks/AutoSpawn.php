@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\tasks;
 
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
-use ken_cir\outiserversensouplugin\Main;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Location;
@@ -19,7 +18,7 @@ use pocketmine\world\format\Chunk;
 use pocketmine\world\Position;
 use pocketmine\world\World;
 
-final class AutoSpawn extends Task
+class AutoSpawn extends Task
 {
     const HOSTILE_CAP_CONSTANT = 70;
     const PASSIVE_WET_CAP_CONSTANT = 10;

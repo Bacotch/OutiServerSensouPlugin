@@ -19,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * 派閥詳細表示フォーム
  */
-final class FactionInfoForm
+class FactionInfoForm
 {
     public function __construct()
     {
@@ -39,8 +39,7 @@ final class FactionInfoForm
                 try {
                     if ($data === null) return true;
                     $this->Info($player, $faction_data);
-                }
-                catch (Error|Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -50,8 +49,7 @@ final class FactionInfoForm
             $form->setTitle("§b派閥の詳細表示フォーム");
             $form->addButton(OutiServerUtilitys::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -65,8 +63,7 @@ final class FactionInfoForm
                     elseif ($data === true) {
                         $this->execute($player);
                     }
-                }
-                catch (Error | Exception $error) {
+                } catch (Error|Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -83,8 +80,7 @@ final class FactionInfoForm
             $form->setButton1("戻る");
             $form->setButton1("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

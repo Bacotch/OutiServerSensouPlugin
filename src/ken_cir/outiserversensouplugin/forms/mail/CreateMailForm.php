@@ -7,19 +7,17 @@ namespace ken_cir\outiserversensouplugin\forms\mail;
 use DateTime;
 use Error;
 use Exception;
-use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
-use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 
 /**
  * メール作成フォーム
  */
-final class CreateMailForm
+class CreateMailForm
 {
     public function __construct()
     {
@@ -38,8 +36,7 @@ final class CreateMailForm
                     elseif (!isset($data[0], $data[1], $data[2])) {
                         $player->sendMessage("§a[システム] メールタイトルと内容と送信相手部分を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    }
-                    else {
+                    } else {
                         $author = $player->getName();
                         $time = new DateTime('now');
                         // 送信者名義を「運営」に
@@ -60,8 +57,7 @@ final class CreateMailForm
                         $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 

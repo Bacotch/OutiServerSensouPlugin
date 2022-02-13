@@ -15,7 +15,7 @@ use function socket_write;
 use function strlen;
 use function substr;
 
-final class OutiServerSocketThread extends Thread
+class OutiServerSocketThread extends Thread
 {
     /**
      * ソケット
@@ -83,8 +83,7 @@ final class OutiServerSocketThread extends Thread
                         if (($client = socket_accept($this->socket)) !== false) {
                             if (count($sockets) >= $this->maxClients) {
                                 @socket_close($client);
-                            }
-                            else {
+                            } else {
                                 socket_set_nonblock($client);
                                 socket_set_option($client, SOL_SOCKET, SO_KEEPALIVE, 1);
 
@@ -94,12 +93,10 @@ final class OutiServerSocketThread extends Thread
                                 $socketTimeouts[$id] = microtime(true) + 5;
                             }
                         }
-                    }
-                    elseif ($socket === $this->ipcSocket) {
+                    } elseif ($socket === $this->ipcSocket) {
                         //read dummy data
                         socket_read($socket, 65535);
-                    }
-                    else {
+                    } else {
                         $p = $this->readPacket($socket, $requestID, $packetType, $payload);
                         if ($p === false) {
                             $socketDisconnects[$id] = $socket;
@@ -117,8 +114,7 @@ final class OutiServerSocketThread extends Thread
                                     $this->writePacket($socket, $requestID, 2, "");
                                     $socketAuthenticated[$id] = true;
 
-                                }
-                                else {
+                                } else {
                                     $socketDisconnects[$id] = $socket;
                                     $this->writePacket($socket, -1, 2, "");
                                 }

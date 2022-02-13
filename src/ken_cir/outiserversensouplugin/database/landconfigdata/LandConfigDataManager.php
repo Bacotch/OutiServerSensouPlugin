@@ -8,11 +8,11 @@ use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function serialize;
-use function count;
 use function array_filter;
+use function count;
+use function serialize;
 
-final class LandConfigDataManager
+class LandConfigDataManager
 {
     /**
      * インスタンス
@@ -106,8 +106,7 @@ final class LandConfigDataManager
             $landData = LandDataManager::getInstance()->get($landConfigData->getLandid());
             if (!$landData) {
                 $this->delete($landConfigData->getId());
-            }
-            elseif ($landData->getWorld() === $worldName
+            } elseif ($landData->getWorld() === $worldName
                 and $landConfigData->getStartx() <= $x and $x <= $landConfigData->getEndx()
                 and $landConfigData->getStartz() <= $z and $z <= $landConfigData->getEndz()) {
                 return $landConfigData;

@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\database\landconfigdata\perms;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
-final class DefalutLandPerms extends LandPermsBase
+class DefalutLandPerms extends LandPermsBase
 {
     #[Pure] public function __construct(bool $entry, bool $blockTap_Place, bool $blockBreak)
     {

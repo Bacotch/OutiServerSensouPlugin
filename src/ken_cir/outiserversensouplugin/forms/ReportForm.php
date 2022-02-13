@@ -8,14 +8,13 @@ use Error;
 use Exception;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
-use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
 
 /**
  * 要望フォーム
  */
-final class ReportForm
+class ReportForm
 {
     public function __construct()
     {
@@ -34,12 +33,10 @@ final class ReportForm
                     elseif (!isset($data[0], $data[1])) {
                         $player->sendMessage("§a[システム] プレイヤー名と内容部分を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    }
-                    else {
+                    } else {
                         $player->sendMessage("§a[システム] レポートを送信しました");
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -51,9 +48,8 @@ final class ReportForm
             $form->addInput("§d内容", "content");
             $form->addLabel("§e[注意] 嘘のレポートは処罰される可能性があります\n処罰等が決定次第、内部メールで連絡致します");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
-            Main::getInstance()->getOutiServerLogger()->error($error,true, $player);
+        } catch (Error|Exception $error) {
+            Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
 }

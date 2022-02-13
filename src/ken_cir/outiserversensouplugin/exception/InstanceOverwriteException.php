@@ -10,7 +10,7 @@ use RuntimeException;
 /**
  * クラスインスタンスを上書きしようとした時の例外
  */
-final class InstanceOverwriteException extends RuntimeException
+class InstanceOverwriteException extends RuntimeException
 {
     #[Pure] public function __construct(string $className = "")
     {

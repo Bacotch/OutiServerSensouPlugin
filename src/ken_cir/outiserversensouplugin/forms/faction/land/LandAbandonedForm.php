@@ -12,7 +12,7 @@ use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 
-final class LandAbandonedForm
+class LandAbandonedForm
 {
     public function __construct()
     {

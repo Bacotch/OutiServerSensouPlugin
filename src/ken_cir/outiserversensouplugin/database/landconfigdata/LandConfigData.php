@@ -7,11 +7,11 @@ namespace ken_cir\outiserversensouplugin\database\landconfigdata;
 use ken_cir\outiserversensouplugin\database\landconfigdata\perms\LandPermsManager;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function unserialize;
-use function serialize;
 use function array_map;
+use function serialize;
+use function unserialize;
 
-final class LandConfigData
+class LandConfigData
 {
     /**
      * 識別用ID
@@ -72,8 +72,12 @@ final class LandConfigData
             "outiserver.landconfigs.update",
             [
                 "defaultperms" => serialize($this->landPermsManager->getDefalutLandPerms()->toArray()),
-                "roleperms" => serialize(array_map(function ($roleLandPerms) { return $roleLandPerms->toArray(); }, $this->landPermsManager->getAllRoleLandPerms())),
-                "memberperms" => serialize(array_map(function ($memberLandPerms) { return $memberLandPerms->toArray(); }, $this->landPermsManager->getAllMemberLandPerms())),
+                "roleperms" => serialize(array_map(function ($roleLandPerms) {
+                    return $roleLandPerms->toArray();
+                }, $this->landPermsManager->getAllRoleLandPerms())),
+                "memberperms" => serialize(array_map(function ($memberLandPerms) {
+                    return $memberLandPerms->toArray();
+                }, $this->landPermsManager->getAllMemberLandPerms())),
                 "id" => $this->id
             ],
             null,

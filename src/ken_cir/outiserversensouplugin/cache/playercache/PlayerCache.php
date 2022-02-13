@@ -9,7 +9,7 @@ use function strtolower;
 /**
  * プレイヤーキャッシュ
  */
-final class PlayerCache
+class PlayerCache
 {
     /**
      * プレイヤーXUID

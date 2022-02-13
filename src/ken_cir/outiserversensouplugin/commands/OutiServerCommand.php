@@ -2,13 +2,13 @@
 
 namespace ken_cir\outiserversensouplugin\commands;
 
+use CortexPE\Commando\BaseCommand;
 use ken_cir\outiserversensouplugin\commands\subcommands\DiscordCommand;
 use ken_cir\outiserversensouplugin\commands\subcommands\OutiWatchCommand;
-use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
 
-final class OutiServerCommand extends BaseCommand
+class OutiServerCommand extends BaseCommand
 {
     public function __construct(Plugin $plugin)
     {

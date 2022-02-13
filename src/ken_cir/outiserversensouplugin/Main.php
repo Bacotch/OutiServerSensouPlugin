@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin;
 
 use CortexPE\Commando\exception\HookAlreadyRegistered;
+use CortexPE\Commando\PacketHooker;
 use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
@@ -35,9 +36,6 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
-use CortexPE\Commando\PacketHooker;
-use poggit\libasynql\DataConnector;
-use poggit\libasynql\libasynql;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
 use ken_cir\outiserversensouplugin\tasks\PlayerBackGround;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
@@ -58,13 +56,15 @@ use pocketmine\scheduler\ClosureTask;
 use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\world\World;
+use poggit\libasynql\DataConnector;
+use poggit\libasynql\libasynql;
 use function file_exists;
 use function mkdir;
 
 /**
  * プラグインメインクラス
  */
-final class Main extends PluginBase
+class Main extends PluginBase
 {
     /**
      * プラグインインスタンス
@@ -119,11 +119,10 @@ final class Main extends PluginBase
         }
 
         // Commandoを機能させるために必要らしい
-        if(!PacketHooker::isRegistered()) {
+        if (!PacketHooker::isRegistered()) {
             try {
                 PacketHooker::register($this);
-            }
-            catch (HookAlreadyRegistered) {
+            } catch (HookAlreadyRegistered) {
             }
         }
 
@@ -211,7 +210,7 @@ final class Main extends PluginBase
                 return new Skeleton(Location::fromObject($pos, $world, $yaw, $pitch));
             }
         },
-        true);
+            true);
         ItemFactory::getInstance()->register(new class(new ItemIdentifier(ItemIds::SPAWN_EGG, EntityLegacyIds::ZOMBIE), "Zombie Spawn Egg") extends SpawnEgg {
             public function createEntity(World $world, Vector3 $pos, float $yaw, float $pitch): Entity
             {
@@ -241,8 +240,7 @@ final class Main extends PluginBase
         if (isset($this->pluginData)) {
             try {
                 $this->pluginData->save();
-            }
-            catch (JsonException) {
+            } catch (JsonException) {
             }
         }
     }

@@ -9,12 +9,12 @@ use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
 use poggit\libasynql\SqlError;
 use function array_filter;
+use function array_values;
 use function in_array;
 use function serialize;
 use function strtolower;
-use function array_values;
 
-final class PlayerDataManager
+class PlayerDataManager
 {
     /**
      * @var PlayerDataManager $this
@@ -172,8 +172,8 @@ final class PlayerDataManager
     public function getFactionPlayers(int $id): array
     {
         return array_values(array_filter($this->playerDatas, function ($playerData) use ($id) {
-                return $playerData->getFaction() === $id;
-            }));
+            return $playerData->getFaction() === $id;
+        }));
     }
 
     /**

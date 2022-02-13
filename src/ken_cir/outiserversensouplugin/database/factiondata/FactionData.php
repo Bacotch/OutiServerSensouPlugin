@@ -10,7 +10,7 @@ use poggit\libasynql\SqlError;
 /**
  * 派閥データ
  */
-final class FactionData
+class FactionData
 {
     /**
      * @var int

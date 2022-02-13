@@ -24,18 +24,15 @@ class ScheduleMessageEditForm
             elseif ($data[0]) {
                 $form = new ScheduleMessageManagerForm();
                 $form->execute($player);
-            }
-            elseif ($data[1]) {
+            } elseif ($data[1]) {
                 ScheduleMessageDataManager::getInstance()->delete($scheduleMessageData->getId());
                 $player->sendMessage("§a[システム] 定期メッセージを削除しました");
                 Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([new ScheduleMessageManagerForm(), "execute"], [$player]), 10);
-            }
-            elseif (isset($data[2])) {
+            } elseif (isset($data[2])) {
                 $scheduleMessageData->setContent($data[2]);
                 $player->sendMessage("§a[システム] 定期メッセージの内容を変更しました");
                 Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([new ScheduleMessageManagerForm(), "execute"], [$player]), 10);
-            }
-            else {
+            } else {
                 $this->execute($player, $scheduleMessageData);
             }
 

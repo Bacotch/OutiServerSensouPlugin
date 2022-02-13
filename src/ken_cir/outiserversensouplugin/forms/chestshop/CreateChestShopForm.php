@@ -17,7 +17,7 @@ use pocketmine\player\Player;
 use pocketmine\world\Position;
 use Vecnavium\FormsUI\CustomForm;
 
-final class CreateChestShopForm
+class CreateChestShopForm
 {
     public function __construct()
     {
@@ -26,7 +26,7 @@ final class CreateChestShopForm
     public function execute(Player $player, BaseSign $sign, Position $signPostion, Position $chestPosition): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) use ($sign, $signPostion, $chestPosition): void{
+            $form = new CustomForm(function (Player $player, $data) use ($sign, $signPostion, $chestPosition): void {
                 try {
                     if ($data === null) return;
                     elseif (!isset($data[0], $data[1], $data[2], $data[3]) or (isset($data[0], $data[1], $data[2], $data[3]) and (!is_numeric($data[0]) or !is_numeric($data[1]) or !is_numeric($data[2]) or !is_numeric($data[3])))) {
@@ -51,8 +51,7 @@ final class CreateChestShopForm
                     ])));
 
                     $player->sendMessage("§a[システム] チェストショップ(貿易所)を作成しました");
-                }
-                catch (Error|Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
             });
@@ -63,8 +62,7 @@ final class CreateChestShopForm
             $form->addInput("値段", "price");
             $form->addInput("関税(%)", "duty");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }

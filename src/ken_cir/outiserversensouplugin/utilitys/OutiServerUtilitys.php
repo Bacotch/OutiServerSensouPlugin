@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\utilitys;
 /**
  * おうち鯖プラグイン ユーティリティ
  */
-final class OutiServerUtilitys
+class OutiServerUtilitys
 {
     private function __construct()
     {

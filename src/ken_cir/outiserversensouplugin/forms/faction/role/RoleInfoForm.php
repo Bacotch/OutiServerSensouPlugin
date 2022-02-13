@@ -19,7 +19,7 @@ use Vecnavium\FormsUI\SimpleForm;
 /**
  * ロール詳細表示フォーム
  */
-final class RoleInfoForm
+class RoleInfoForm
 {
     public function __construct()
     {
@@ -36,12 +36,10 @@ final class RoleInfoForm
                     elseif ($data === 0) {
                         $form = new FactionForm();
                         $form->execute($player);
-                    }
-                    else {
+                    } else {
                         $this->info($player, $factionRoles[$data - 1]);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -54,8 +52,7 @@ final class RoleInfoForm
                 $form->addButton(OutiServerUtilitys::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
-        }
-        catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
@@ -69,8 +66,7 @@ final class RoleInfoForm
                     elseif ($data === true) {
                         $this->execute($player);
                     }
-                }
-                catch (Error | Exception $error) {
+                } catch (Error|Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -82,8 +78,7 @@ final class RoleInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

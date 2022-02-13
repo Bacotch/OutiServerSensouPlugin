@@ -18,7 +18,7 @@ use function str_replace;
 /**
  * おうち鯖プラグインログ関係クラス
  */
-final class OutiServerLogger
+class OutiServerLogger
 {
     public function __construct()
     {
@@ -45,18 +45,15 @@ final class OutiServerLogger
                 if ($emergency) {
                     $errmsgPlayer = "§a[システム] 予期せぬエラーが処理中に発生しました、開発者に連絡してください\n§eーーー以下開発者確認用ーーー\n§cPlayer: {$player->getName()}(XUID: {$player->getXuid()})\nTime: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}";
                     $errmsg = "予期せぬエラーが発生しました```Player: {$player->getName()}(XUID: {$player->getXuid()})\nTime: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}```";
-                }
-                else {
+                } else {
                     $errmsgPlayer = "§a[システム] 処理中にエラー発生しました、現在行っていた処理は中断されます\n§eーーー以下開発者確認用ーーー\n§cPlayer: {$player->getName()}(XUID: {$player->getXuid()})\nTime: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}";
                     $errmsg = "処理中にエラー発生しました```Player: {$player->getName()}(XUID: {$player->getXuid()})\nTime: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}```";
                 }
 
                 $player->sendMessage($errmsgPlayer);
-            }
-            elseif ($emergency) {
+            } elseif ($emergency) {
                 $errmsg = "予期せぬエラーが発生しました```Time: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}```";
-            }
-            else {
+            } else {
                 $errmsg = "エラーが発生しました```Time: {$time->format('Y-m-d H:i:sP')}\nFile: {$error->getFile()}\nLine: {$error->getLine()}\nMessage: {$error->getMessage()}```";
             }
 
@@ -69,8 +66,7 @@ final class OutiServerLogger
                 $msg->setContent("[{$time->format('Y-m-d H:i:sP')}] $errmsg");
                 $webhook->send($msg);
             }
-        }
-        catch (Error | Exception $error_) {
+        } catch (Error|Exception $error_) {
             Main::getInstance()->getLogger()->emergency("予期せぬエラーが発生しました、開発者に連絡してください\nFile: {$error_->getFile()}\nLine: {$error_->getLine()}\nMessage: {$error_->getMessage()}");
         }
     }
@@ -90,11 +86,10 @@ final class OutiServerLogger
                 $webhook = new Webhook($webhookURL);
                 $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
                 $msg = new Message();
-                $msg->setContent("```[{$time->format('Y-m-d H:i:sP')}] $message```");
+                $msg->setContent("```[DEUUG] [{$time->format('Y-m-d H:i:sP')}] $message```");
                 $webhook->send($msg);
             }
-        }
-        catch (Error | Exception $error_) {
+        } catch (Error|Exception $error_) {
             Main::getInstance()->getLogger()->emergency("予期せぬエラーが発生しました、開発者に連絡してください\nFile: {$error_->getFile()}\nLine: {$error_->getLine()}\nMessage: {$error_->getMessage()}");
         }
     }

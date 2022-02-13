@@ -14,13 +14,13 @@ use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\ModalForm;
 use Vecnavium\FormsUI\SimpleForm;
-use function current;
 use function array_slice;
+use function current;
 
 /**
  * メール閲覧フォーム
  */
-final class MailInfoForm
+class MailInfoForm
 {
     public function __construct()
     {
@@ -38,8 +38,7 @@ final class MailInfoForm
                 try {
                     if ($data === null) return true;
                     $this->info($player, current(array_slice($mail_data, $data, $data + 1)));
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -55,7 +54,7 @@ final class MailInfoForm
                 }
             }
             $player->sendForm($form);
-        } catch (Error | Exception $e) {
+        } catch (Error|Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
@@ -73,24 +72,21 @@ final class MailInfoForm
                         MailDataManager::getInstance()->delete($mailData->getId());
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    }
-                    else {
+                    } else {
                         $mailData->setRead(true);
                         $this->execute($player);
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
             });
 
             $form->setTitle("メール {$mailData->getTitle()}");
-            $form->setContent("§6件名: {$mailData->getTitle()}\n§b送信者: " . ($mailData->getAuthorXuid()  === "システム" or $mailData->getAuthorXuid()  === "運営") ? $mailData->getAuthorXuid() :  PlayerDataManager::getInstance()->getXuid($mailData->getAuthorXuid())->getName() . "\n§eメール送信時刻: {$mailData->getDate()}\n\n{$mailData->getContent()}");
+            $form->setContent("§6件名: {$mailData->getTitle()}\n§b送信者: " . ($mailData->getAuthorXuid() === "システム" or $mailData->getAuthorXuid() === "運営") ? $mailData->getAuthorXuid() : PlayerDataManager::getInstance()->getXuid($mailData->getAuthorXuid())->getName() . "\n§eメール送信時刻: {$mailData->getDate()}\n\n{$mailData->getContent()}");
             $form->setButton1("§c削除");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

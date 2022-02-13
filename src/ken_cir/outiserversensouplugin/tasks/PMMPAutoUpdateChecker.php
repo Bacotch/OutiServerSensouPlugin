@@ -10,7 +10,7 @@ use pocketmine\Server;
 /**
  * PMMPのアップデートを確認するTask
  */
-final class PMMPAutoUpdateChecker extends Task
+class PMMPAutoUpdateChecker extends Task
 {
     public function __construct()
     {

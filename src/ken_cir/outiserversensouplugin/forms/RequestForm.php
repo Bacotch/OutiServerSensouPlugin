@@ -14,7 +14,7 @@ use Vecnavium\FormsUI\CustomForm;
 /**
  * 要望フォーム
  */
-final class RequestForm
+class RequestForm
 {
     public function __construct()
     {
@@ -33,12 +33,10 @@ final class RequestForm
                     elseif (!isset($data[0])) {
                         $player->sendMessage("§a[システム] 要望部分を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    }
-                    else {
+                    } else {
                         $player->sendMessage("§a[システム] 要望を送信しました");
                     }
-                }
-                catch (Error | Exception $e) {
+                } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -49,8 +47,7 @@ final class RequestForm
             $form->addInput("§d内容", "content");
             $form->addLabel("§e要望内容に対する返信は内部メールで行います");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

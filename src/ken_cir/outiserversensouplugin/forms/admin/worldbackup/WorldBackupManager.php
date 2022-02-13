@@ -16,7 +16,7 @@ use pocketmine\nbt\TreeRoot;
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\SimpleForm;
 
-final class WorldBackupManager
+class WorldBackupManager
 {
     public function __construct()
     {
@@ -30,14 +30,12 @@ final class WorldBackupManager
                 elseif ($data === 0) {
                     $form = new AdminForm();
                     $form->execute($player);
-                }
-                elseif ($data === 1 and PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupWorldName() === null) {
+                } elseif ($data === 1 and PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupWorldName() === null) {
                     PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setWorldBackupWorldName($player->getWorld()->getFolderName());
                     PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setWorldBackupStartX($player->getPosition()->getFloorX());
                     PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setWorldBackupStartZ($player->getPosition()->getFloorZ());
                     $player->sendMessage("§a[システム] 開始X座標を{$player->getPosition()->getFloorX()}\n開始Z座標を{$player->getPosition()->getFloorZ()}に設定しました");
-                }
-                elseif ($data === 1) {
+                } elseif ($data === 1) {
                     $startX = PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupStartX();
                     $endX = $player->getPosition()->getFloorX();
                     $startZ = PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupStartZ();
@@ -57,17 +55,16 @@ final class WorldBackupManager
                     $tag->setInt("version", 1);
                     $tag->setString("worldName", $player->getWorld()->getFolderName());
 
-                    for($y = $player->getWorld()->getMinY(); $y < $player->getWorld()->getMaxY(); $y++) {
+                    for ($y = $player->getWorld()->getMinY(); $y < $player->getWorld()->getMaxY(); $y++) {
 
-                        for($x = $startX; $x < $endX; $x++) {
-                            for($z = $startZ; $z < $endZ; $z++){
+                        for ($x = $startX; $x < $endX; $x++) {
+                            for ($z = $startZ; $z < $endZ; $z++) {
                                 $oldBlock = $player->getWorld()->getBlockAt($x, $y, $z, addToCache: false);
 
                                 //At the moment support sign conversion only from java to bedrock
-                                if($oldBlock instanceof BaseSign) {
-                                     continue;
-                                }
-                                else{
+                                if ($oldBlock instanceof BaseSign) {
+                                    continue;
+                                } else {
                                     $oldId = $oldBlock->getId();
                                     $oldMeta = $oldBlock->getMeta();
                                     $tag->setTag("{$player->getWorld()->getFolderName()}-$x-$y-$z", (new CompoundTag())
@@ -88,8 +85,7 @@ final class WorldBackupManager
 
                     $player->sendMessage("終了");
                 }
-            }
-            catch (Error | Exception $e) {
+            } catch (Error|Exception $e) {
                 Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
             }
 
@@ -99,8 +95,7 @@ final class WorldBackupManager
         $form->addButton("戻る");
         if (PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getWorldBackupWorldName() === null) {
             $form->addButton("バックアップの開始座標の設定");
-        }
-        else {
+        } else {
             $form->addButton("バックアップの終了座標の設定");
         }
         $player->sendForm($form);

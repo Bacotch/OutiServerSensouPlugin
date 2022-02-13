@@ -16,7 +16,7 @@ use Vecnavium\FormsUI\ModalForm;
 /**
  * 派閥脱退フォーム
  */
-final class LeaveFactionForm
+class LeaveFactionForm
 {
     public function __construct()
     {
@@ -50,8 +50,7 @@ final class LeaveFactionForm
                         $player_data->setFaction(-1);
                         $player->sendMessage("§a[システム] 派閥 {$player_data->getFaction()} から脱退しました");
                     }
-                }
-                catch (Error | Exception $exception) {
+                } catch (Error|Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
@@ -63,8 +62,7 @@ final class LeaveFactionForm
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);
-        }
-        catch (Error | Exception $error) {
+        } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
