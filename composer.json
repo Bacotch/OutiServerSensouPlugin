@@ -10,7 +10,8 @@
     "ext-pthreads": "*",
     "ext-zip": "*",
     "ext-sockets": "*",
-    "ext-zlib": "*"
+    "ext-zlib": "*",
+    "ext-pcntl": "*"
   },
   "require-dev": {
     "pocketmine/pocketmine-mp": "4.2.0"
