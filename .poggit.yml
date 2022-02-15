@@ -19,6 +19,4 @@ projects:
       - src: thebigsmileXD/apibossbar/apibossbar
         version: ^0.1.5
         branch: PM4
-      - src: jojoe77777/FormAPI/libFormAPI
-        version: ^2.1.0
 ...
