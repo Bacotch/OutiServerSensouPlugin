@@ -12,9 +12,10 @@ use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
+use ken_cir\pmmpoutiserverbot\PMMPOutiServerBot;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use Vecnavium\FormsUI\ModalForm;
+use jojoe77777\FormAPI\ModalForm;
 
 /**
  * 派閥削除フォーム
@@ -55,8 +56,8 @@ class DeleteFactionForm
                         LandDataManager::getInstance()->deleteFaction($factionId);
                         FactionDataManager::getInstance()->delete($factionId);
                         $player->sendMessage("§a[システム] 派閥 $faction_name を削除しました");
-                        Server::getInstance()->broadcastMessage("§a[システム] 派閥 $faction_name が崩壊しました");
-                        Main::getInstance()->getDiscordClient()->sendChatMessage("[システム] 派閥 $faction_name が崩壊しました");
+                        Server::getInstance()->broadcastMessage("§<システム> 派閥 $faction_name が崩壊しました");
+                        PMMPOutiServerBot::getInstance()->getDiscordBotThread()->sendChatMessage("<システム> 派閥 $faction_name が崩壊しました");
                     }
                 } catch (Error|Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);

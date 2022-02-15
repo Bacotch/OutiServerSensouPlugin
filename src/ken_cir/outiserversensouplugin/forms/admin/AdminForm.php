@@ -8,7 +8,7 @@ use ken_cir\outiserversensouplugin\forms\admin\schedulemessage\ScheduleMessageMa
 use ken_cir\outiserversensouplugin\forms\admin\worldbackup\WorldBackupManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\SimpleForm;
+use jojoe77777\FormAPI\SimpleForm;
 
 class AdminForm
 {

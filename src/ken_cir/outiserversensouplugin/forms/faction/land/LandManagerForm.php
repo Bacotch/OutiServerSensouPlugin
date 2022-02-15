@@ -10,7 +10,7 @@ use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\SimpleForm;
+use jojoe77777\FormAPI\SimpleForm;
 
 class LandManagerForm
 {

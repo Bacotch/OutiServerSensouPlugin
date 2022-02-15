@@ -12,8 +12,8 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\CustomForm;
-use Vecnavium\FormsUI\SimpleForm;
+use jojoe77777\FormAPI\CustomForm;
+use jojoe77777\FormAPI\SimpleForm;
 use function count;
 
 class EditMemberRole

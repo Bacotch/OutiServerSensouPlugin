@@ -13,8 +13,8 @@ use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\ModalForm;
-use Vecnavium\FormsUI\SimpleForm;
+use jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\SimpleForm;
 
 /**
  * 派閥詳細表示フォーム

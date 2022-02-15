@@ -11,7 +11,7 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\ModalForm;
+use jojoe77777\FormAPI\ModalForm;
 
 /**
  * 派閥脱退フォーム

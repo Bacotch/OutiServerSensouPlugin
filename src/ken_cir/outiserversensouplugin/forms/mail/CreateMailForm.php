@@ -12,7 +12,7 @@ use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\CustomForm;
+use jojoe77777\FormAPI\CustomForm;
 
 /**
  * メール作成フォーム

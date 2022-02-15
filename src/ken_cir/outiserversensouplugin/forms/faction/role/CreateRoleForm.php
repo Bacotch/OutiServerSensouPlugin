@@ -11,7 +11,7 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\CustomForm;
+use jojoe77777\FormAPI\CustomForm;
 
 /**
  * 役職作成フォーム

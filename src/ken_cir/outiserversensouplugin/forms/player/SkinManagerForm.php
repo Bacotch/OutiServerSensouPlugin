@@ -8,7 +8,7 @@ use Himbeer\LibSkin\SkinConverter;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\entity\Skin;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\SimpleForm;
+use jojoe77777\FormAPI\SimpleForm;
 
 class SkinManagerForm
 {

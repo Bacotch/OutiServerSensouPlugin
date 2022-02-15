@@ -10,7 +10,7 @@ use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\ModalForm;
+use jojoe77777\FormAPI\ModalForm;
 
 class LandAbandonedForm
 {

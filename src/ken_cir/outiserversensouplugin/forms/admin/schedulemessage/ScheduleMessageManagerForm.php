@@ -7,7 +7,7 @@ namespace ken_cir\outiserversensouplugin\forms\admin\schedulemessage;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\SimpleForm;
+use jojoe77777\FormAPI\SimpleForm;
 
 class ScheduleMessageManagerForm
 {

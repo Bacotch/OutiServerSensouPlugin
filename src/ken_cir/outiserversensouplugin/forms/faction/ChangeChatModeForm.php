@@ -9,7 +9,7 @@ use Exception;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use Vecnavium\FormsUI\CustomForm;
+use jojoe77777\FormAPI\CustomForm;
 
 /**
  * チャットモード変更フォーム
