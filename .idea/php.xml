@@ -29,10 +29,10 @@
       <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
       <path value="$PROJECT_DIR$/vendor/ramsey/collection" />
       <path value="$PROJECT_DIR$/vendor/pocketmine/raklib-ipc" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/../../virions" />
-      <path value="$PROJECT_DIR$/../../PocketMine-MP.phar" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
       <path value="$PROJECT_DIR$/vendor" />
+      <path value="$PROJECT_DIR$/../PMMPOutiServerBot" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
