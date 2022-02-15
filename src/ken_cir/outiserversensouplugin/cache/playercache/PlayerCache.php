@@ -83,9 +83,17 @@ class PlayerCache
 
     /**
      * Discord認証一時コード発行時刻
+     *
      * @var int|null
      */
     private ?int $discordverifycodeTime;
+
+    /**
+     * Discordと連携していた場合はDiscordのユーザータグ
+     *
+     * @var string|null
+     */
+    private ?string $discordUserTag;
 
     public function __construct(string $xuid, string $name)
     {
@@ -99,6 +107,7 @@ class PlayerCache
         $this->worldBackup_StartX = null;
         $this->worldBackup_StartZ = null;
         $this->discordVerifyCode = null;
+        $this->discordUserTag = null;
     }
 
     /**
@@ -296,5 +305,21 @@ class PlayerCache
     public function setDiscordverifycodeTime(?int $discordverifycodeTime): void
     {
         $this->discordverifycodeTime = $discordverifycodeTime;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDiscordUserTag(): ?string
+    {
+        return $this->discordUserTag;
+    }
+
+    /**
+     * @param string|null $discordUserTag
+     */
+    public function setDiscordUserTag(?string $discordUserTag): void
+    {
+        $this->discordUserTag = $discordUserTag;
     }
 }

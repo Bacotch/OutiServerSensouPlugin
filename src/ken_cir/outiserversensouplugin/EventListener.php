@@ -33,7 +33,6 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
-use pocketmine\item\ItemFactory;
 use pocketmine\math\Facing;
 use pocketmine\player\Player;
 use pocketmine\Server;
@@ -140,9 +139,6 @@ class EventListener implements Listener
     {
         try {
             $player = $event->getPlayer();
-            $item = ItemFactory::getInstance()->get(1002, 0);
-            $item2 = ItemFactory::getInstance()->get(1001, 0);
-            $player->getInventory()->addItem($item, $item2);
 
             // 未読メール数を取得して1件以上あれば通知
             if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getXuid())) > 0) {
@@ -179,15 +175,16 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             $message = $event->getMessage();
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+            $playerCacheData = PlayerCacheManager::getInstance()->getXuid($player->getXuid());
 
             // 無所属
             if ($playerData->getFaction() === -1) {
-                $event->setFormat("§f[無所属][{$player->getName()}] $message");
+                $event->setFormat("§f<無所属><{$player->getName()}>" . $playerCacheData->getDiscordUserTag() ? "<{$playerCacheData->getDiscordUserTag()}>" : " $message");
             } // どこかに所属してる
             else {
                 $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
                 $color = OutiServerUtilitys::getChatColor($factionData->getColor());
-                $event->setFormat("{$color}[{$factionData->getName()}]§f[{$player->getName()}] $message");
+                $event->setFormat("$color<{$factionData->getName()}>§f<{$player->getName()}>" . ($playerCacheData->getDiscordUserTag() ? "<{$playerCacheData->getDiscordUserTag()}>" : "") . " $message");
             }
 
             // 派閥専用チャットの場合は
