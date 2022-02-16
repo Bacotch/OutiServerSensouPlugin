@@ -132,6 +132,14 @@ CREATE TABLE IF NOT EXISTS factions
     money
     INTEGER
     NOT
+    NULL,
+    currency_name
+    TEXT
+    NOT
+    NULL,
+    currency_rate
+    INTEGER
+    NOT
     NULL
 );
 -- # }
@@ -141,8 +149,10 @@ CREATE TABLE IF NOT EXISTS factions
 -- #    :owner_xuid string
 -- #    :color int
 -- #    :money int
-INSERT INTO factions (name, owner_xuid, color, money)
-VALUES (:name, :owner_xuid, :color, :money);
+-- #    :currency_name string
+-- #    :currency_rate int
+INSERT INTO factions (name, owner_xuid, color, money, currency_name, currency_rate)
+VALUES (:name, :owner_xuid, :color, :money, :currency_name, :currency_rate);
 -- # }
 
 -- # { seq
@@ -161,12 +171,16 @@ FROM factions;
 -- #    :owner_xuid string
 -- #    :color int
 -- #    :money int
+-- #    :currency_name string
+-- #    :currency_rate int
 -- #    :id int
 UPDATE factions
 SET name       = :name,
     owner_xuid = :owner_xuid,
     color      = :color,
-    money      = :money
+    money      = :money,
+    currency_name = :currency_name,
+    currency_rate = :currency_rate
 WHERE id = :id;
 -- # }
 

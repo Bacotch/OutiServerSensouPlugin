@@ -56,8 +56,8 @@ class DeleteFactionForm
                         LandDataManager::getInstance()->deleteFaction($factionId);
                         FactionDataManager::getInstance()->delete($factionId);
                         $player->sendMessage("§a[システム] 派閥 $faction_name を削除しました");
-                        Server::getInstance()->broadcastMessage("§<システム> 派閥 $faction_name が崩壊しました");
-                        PMMPOutiServerBot::getInstance()->getDiscordBotThread()->sendChatMessage("<システム> 派閥 $faction_name が崩壊しました");
+                        Server::getInstance()->broadcastMessage("§[システム] 派閥 $faction_name が崩壊しました");
+                        PMMPOutiServerBot::getInstance()->getDiscordBotThread()->sendChatMessage("[システム] 派閥 $faction_name が崩壊しました");
                     }
                 } catch (Error|Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);

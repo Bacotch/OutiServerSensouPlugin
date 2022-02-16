@@ -265,7 +265,6 @@ class EventListener implements Listener
                 // ここから チェストショップ処理
                 $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ());
                 if (!$event->isCancelled() and $chestShopData) {
-                    var_dump($chestShopData->getSignboardX() === $position->getFloorX() and $chestShopData->getSignboardY() === $position->getFloorY() and $chestShopData->getSignboardZ() === $position->getFloorZ() and $chestShopData->getFactionId() !== $playerData->getFaction());
                     if ($playerData->getFaction() === -1) {
                         $player->sendMessage("§a[システム] チェストショップはどこかの派閥に所属していないと使えません");
                         $event->cancel();

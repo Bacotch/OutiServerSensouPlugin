@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin;
 
+use ken_cir\outiserversensouplugin\forms\admin\player\PlayerForm;
 use ken_cir\outiserversensouplugin\forms\admin\schedulemessage\ScheduleMessageManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\worldbackup\WorldBackupManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
@@ -29,6 +30,8 @@ class AdminForm
             } elseif ($data === 2) {
                 $form = new WorldBackupManager();
                 $form->execute($player);
+            } elseif ($data === 3) {
+                (new PlayerForm())->execute($player);
             }
 
             return true;
@@ -38,6 +41,7 @@ class AdminForm
         $form->addButton("戻る");
         $form->addButton("定期メッセージの管理");
         $form->addButton("チャンクバックアップの管理");
+        $form->addButton("プレイヤー系");
         $player->sendForm($form);
     }
 }
