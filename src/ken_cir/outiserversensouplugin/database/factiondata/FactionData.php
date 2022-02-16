@@ -44,37 +44,19 @@ class FactionData
     private int $money;
 
     /**
-     * 派閥の通貨名
-     *
-     * @var string
-     */
-    private string $currencyName;
-
-    /**
-     * 通貨レート(100円あたり)
-     *
-     * @var int
-     */
-    private int $currencyRate;
-
-    /**
      * @param int $id
      * @param string $name
      * @param string $owner_xuid
      * @param int $color
      * @param int $money
-     * @param string $currencyName
-     * @param int $currencyRate
      */
-    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money, string $currencyName, int $currencyRate)
+    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money)
     {
         $this->id = $id;
         $this->name = $name;
         $this->owner_xuid = $owner_xuid;
         $this->color = $color;
         $this->money = $money;
-        $this->currencyName = $currencyName;
-        $this->currencyRate = $currencyRate;
     }
 
     /**
@@ -88,8 +70,6 @@ class FactionData
                 "owner_xuid" => $this->owner_xuid,
                 "color" => $this->color,
                 "money" => $this->money,
-                "currency_name" => $this->currencyName,
-                "currency_rate" => $this->currencyRate,
                 "id" => $this->id
             ],
             null,
@@ -173,40 +153,6 @@ class FactionData
     public function setMoney(int $money): void
     {
         $this->money = $money;
-        $this->update();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrencyName(): string
-    {
-        return $this->currencyName;
-    }
-
-    /**
-     * @param string $currencyName
-     */
-    public function setCurrencyName(string $currencyName): void
-    {
-        $this->currencyName = $currencyName;
-        $this->update();
-    }
-
-    /**
-     * @return int
-     */
-    public function getCurrencyRate(): int
-    {
-        return $this->currencyRate;
-    }
-
-    /**
-     * @param int $currencyRate
-     */
-    public function setCurrencyRate(int $currencyRate): void
-    {
-        $this->currencyRate = $currencyRate;
         $this->update();
     }
 }
