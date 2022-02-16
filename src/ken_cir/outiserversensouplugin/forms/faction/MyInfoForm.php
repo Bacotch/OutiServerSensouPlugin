@@ -6,13 +6,13 @@ namespace ken_cir\outiserversensouplugin\forms\faction;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\ModalForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\ModalForm;
 use function array_map;
 use function join;
 

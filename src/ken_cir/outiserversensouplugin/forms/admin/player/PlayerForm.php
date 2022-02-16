@@ -16,12 +16,11 @@ class PlayerForm
 
     public function execute(Player $player): void
     {
-        $form = new SimpleForm(function (Player $player, $data){
+        $form = new SimpleForm(function (Player $player, $data) {
             if ($data === null) return;
             elseif ($data === 0) {
                 (new AdminForm())->execute($player);
-            }
-            elseif ($data === 1) {
+            } elseif ($data === 1) {
 
             }
         });

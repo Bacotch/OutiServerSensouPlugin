@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\forms\chestshop;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopData;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -13,7 +14,6 @@ use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\CustomForm;
 
 class BuyChestShopForm
 {
@@ -29,11 +29,10 @@ class BuyChestShopForm
                     if ($data === null) return;
                     elseif (!isset($data[1]) or !is_numeric($data[1])) {
                         $this->execute($player, $chestShopData);
-                    }
-                    else {
+                    } else {
                         $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
                         // 関税
-                        $duty =  ($chestShopData->getPrice() * (int)$data[1]) * ($chestShopData->getDuty() * 0.01);
+                        $duty = ($chestShopData->getPrice() * (int)$data[1]) * ($chestShopData->getDuty() * 0.01);
                         // 価格
                         $price = $duty + ((int)$data[1] * $chestShopData->getPrice());
                         if ($price > $playerData->getMoney()) {

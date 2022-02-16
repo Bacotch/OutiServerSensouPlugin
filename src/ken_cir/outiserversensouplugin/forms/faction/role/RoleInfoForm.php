@@ -6,6 +6,8 @@ namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleData;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
@@ -13,8 +15,6 @@ use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\ModalForm;
-use jojoe77777\FormAPI\SimpleForm;
 
 /**
  * ロール詳細表示フォーム

@@ -7,12 +7,12 @@ namespace ken_cir\outiserversensouplugin\forms\mail;
 use DateTime;
 use Error;
 use Exception;
+use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\CustomForm;
 
 /**
  * メール作成フォーム

@@ -6,10 +6,10 @@ namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\SimpleForm;
 
 /**
  * 役職管理フォーム

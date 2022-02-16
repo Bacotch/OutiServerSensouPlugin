@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\forms\faction;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\forms\faction\land\LandManagerForm;
@@ -14,7 +15,6 @@ use ken_cir\outiserversensouplugin\forms\faction\role\RoleManagerForm;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\SimpleForm;
 
 /**
  * 派閥関係フォーム

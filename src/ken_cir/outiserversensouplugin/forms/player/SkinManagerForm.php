@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\forms\player;
 
 use Himbeer\LibSkin\SkinConverter;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\entity\Skin;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\SimpleForm;
 
 class SkinManagerForm
 {

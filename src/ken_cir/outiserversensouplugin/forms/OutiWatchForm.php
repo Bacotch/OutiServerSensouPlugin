@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\forms;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
@@ -14,7 +15,6 @@ use ken_cir\outiserversensouplugin\forms\player\SkinManagerForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use jojoe77777\FormAPI\SimpleForm;
 
 /**
  * おうちウォッチ

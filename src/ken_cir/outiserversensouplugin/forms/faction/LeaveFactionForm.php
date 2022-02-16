@@ -7,11 +7,11 @@ namespace ken_cir\outiserversensouplugin\forms\faction;
 use DateTime;
 use Error;
 use Exception;
+use jojoe77777\FormAPI\ModalForm;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\ModalForm;
 
 /**
  * 派閥脱退フォーム

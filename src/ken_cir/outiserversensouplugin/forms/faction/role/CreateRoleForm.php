@@ -6,12 +6,12 @@ namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
 use Error;
 use Exception;
+use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use jojoe77777\FormAPI\CustomForm;
 
 /**
  * 役職作成フォーム

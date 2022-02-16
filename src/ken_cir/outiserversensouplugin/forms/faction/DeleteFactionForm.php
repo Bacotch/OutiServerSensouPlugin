@@ -7,6 +7,7 @@ namespace ken_cir\outiserversensouplugin\forms\faction;
 use DateTime;
 use Error;
 use Exception;
+use jojoe77777\FormAPI\ModalForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
@@ -15,7 +16,6 @@ use ken_cir\outiserversensouplugin\Main;
 use ken_cir\pmmpoutiserverbot\PMMPOutiServerBot;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use jojoe77777\FormAPI\ModalForm;
 
 /**
  * 派閥削除フォーム
