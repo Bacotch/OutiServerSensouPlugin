@@ -2,5 +2,5 @@
 database:
   type: sqlite
   sqlite:
-    file: outiserver.db
+    file: data.sqlite
   worker-limit: 1
