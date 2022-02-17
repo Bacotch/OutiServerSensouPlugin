@@ -222,6 +222,7 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             $item = $event->getItem();
             $position = $event->getBlock()->getPosition();
+            var_dump($position);
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
 
             if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
@@ -232,7 +233,7 @@ class EventListener implements Listener
                 }
 
                 // ここから 土地保護処理
-                $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
+                $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $player->getWorld()->getFolderName());
                 // 土地保護データがあるなら
                 if ($landConfigData !== null) {
                     $landFactionData = LandDataManager::getInstance()->get($landConfigData->getLandid());
@@ -263,7 +264,7 @@ class EventListener implements Listener
                 // ここまで 土地保護処理
 
                 // ここから チェストショップ処理
-                $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ());
+                $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $position->getFloorX(), $position->getFloorY(), $position->getFloorZ());
                 if (!$event->isCancelled() and $chestShopData) {
                     if ($playerData->getFaction() === -1) {
                         $player->sendMessage("§a[システム] チェストショップはどこかの派閥に所属していないと使えません");
@@ -377,7 +378,7 @@ class EventListener implements Listener
             }
 
             $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ());
-            if ($chestShopData and ($chestShopData->getFactionId() === $playerData->getFaction() and !$event->isCancelled()) or Server::getInstance()->isOp($player->getName())) {
+            if ($chestShopData and (($chestShopData->getFactionId() === $playerData->getFaction() and !$event->isCancelled()) or Server::getInstance()->isOp($player->getName()))) {
                 ChestShopDataManager::getInstance()->delete($chestShopData->getId());
                 $player->sendMessage("§a[システム] このチェストショップを閉店しました");
             }
