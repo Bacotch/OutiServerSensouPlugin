@@ -376,10 +376,15 @@ class EventListener implements Listener
                 }
             }
 
-            $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ());
-            if ($chestShopData and (($chestShopData->getFactionId() === $playerData->getFaction() and !$event->isCancelled()) or Server::getInstance()->isOp($player->getName()))) {
-                ChestShopDataManager::getInstance()->delete($chestShopData->getId());
-                $player->sendMessage("§a[システム] このチェストショップを閉店しました");
+            $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $position->getFloorX(), $position->getFloorY(), $position->getFloorZ());
+            if ($chestShopData) {
+                if (($chestShopData->getFactionId() === $playerData->getFaction() and !$event->isCancelled()) or Server::getInstance()->isOp($player->getName())) {
+                    ChestShopDataManager::getInstance()->delete($chestShopData->getId());
+                    $player->sendMessage("§a[システム] このチェストショップを閉店しました");
+                }
+                else {
+                    $event->cancel();
+                }
             }
         } catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);

@@ -49,6 +49,7 @@ class ChestShopDataManager
             function (array $row) {
                 foreach ($row as $data) {
                     $this->chestShopDatas[$data["id"]] = new ChestShopData($data["id"],
+                        $data["owner_xuid"],
                         $data["faction_id"],
                         $data["worldname"],
                         $data["chestx"],
@@ -113,10 +114,11 @@ class ChestShopDataManager
         return array_shift($chestShopData);
     }
 
-    public function create(int $factionId, string $worldName, int $chestx, int $chesty, int $chestz, int $signboardx, int $signboardy, int $signboardz, int $itemId, int $itemMeta, int $price, int $duty): void
+    public function create(string $ownerXuid, int $factionId, string $worldName, int $chestx, int $chesty, int $chestz, int $signboardx, int $signboardy, int $signboardz, int $itemId, int $itemMeta, int $price, int $duty): void
     {
         Main::getInstance()->getDatabase()->executeInsert("outiserver.chestshops.create",
             [
+                "owner_xuid" => $ownerXuid,
                 "faction_id" => $factionId,
                 "worldname" => $worldName,
                 "chestx" => $chestx,
@@ -137,7 +139,7 @@ class ChestShopDataManager
         );
 
         $this->seq++;
-        $this->chestShopDatas[$this->seq] = new ChestShopData($this->seq, $factionId, $worldName, $chestx, $chesty, $chestz, $signboardx, $signboardy, $signboardz, $itemId, $itemMeta, $price, $duty);
+        $this->chestShopDatas[$this->seq] = new ChestShopData($this->seq, $ownerXuid, $factionId, $worldName, $chestx, $chesty, $chestz, $signboardx, $signboardy, $signboardz, $itemId, $itemMeta, $price, $duty);
     }
 
     public function delete(int $id): void
