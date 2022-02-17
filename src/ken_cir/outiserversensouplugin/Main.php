@@ -39,6 +39,7 @@ use ken_cir\outiserversensouplugin\network\OutiServerSocket;
 use ken_cir\outiserversensouplugin\tasks\Backup;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
+use ken_cir\outiserversensouplugin\translator\ItemTranslator;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -251,6 +252,8 @@ class Main extends PluginBase
             }
         },
             true);
+
+        ItemTranslator::initialize();
 
         // API
         Server::getInstance()->getNetwork()->registerInterface(new OutiServerSocket(
