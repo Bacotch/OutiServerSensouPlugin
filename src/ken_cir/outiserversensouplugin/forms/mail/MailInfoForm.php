@@ -82,7 +82,7 @@ class MailInfoForm
             });
 
             $form->setTitle("メール {$mailData->getTitle()}");
-            $form->setContent("§6件名: {$mailData->getTitle()}\n§b送信者: " . ($mailData->getAuthorXuid() === "システム" or $mailData->getAuthorXuid() === "運営") ? $mailData->getAuthorXuid() : PlayerDataManager::getInstance()->getXuid($mailData->getAuthorXuid())->getName() . "\n§eメール送信時刻: {$mailData->getDate()}\n\n{$mailData->getContent()}");
+            $form->setContent("§6件名: {$mailData->getTitle()}\n§b送信者: " . (($mailData->getAuthorXuid() === "システム" or $mailData->getAuthorXuid() === "運営") ? $mailData->getAuthorXuid() : PlayerDataManager::getInstance()->getXuid($mailData->getAuthorXuid())->getName()) . "\n§eメール送信時刻: {$mailData->getDate()}\n\n{$mailData->getContent()}");
             $form->setButton1("§c削除");
             $form->setButton2("閉じる");
             $player->sendForm($form);
