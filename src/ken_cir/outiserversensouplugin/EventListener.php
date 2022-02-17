@@ -222,7 +222,6 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             $item = $event->getItem();
             $position = $event->getBlock()->getPosition();
-            var_dump($position);
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
 
             if ($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
