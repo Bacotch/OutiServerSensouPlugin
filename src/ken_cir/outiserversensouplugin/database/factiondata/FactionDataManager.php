@@ -88,6 +88,14 @@ class FactionDataManager
     }
 
     /**
+     * @return FactionData[]
+     */
+    public function getAll(): array
+    {
+        return $this->faction_datas;
+    }
+
+    /**
      * @param string $name
      * @param string $owner_xuid
      * @param int $color
