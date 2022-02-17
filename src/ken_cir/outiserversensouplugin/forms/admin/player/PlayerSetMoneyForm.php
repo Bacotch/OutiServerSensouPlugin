@@ -25,7 +25,7 @@ class PlayerSetMoneyForm
             elseif ($data[0]) {
                 (new PlayerForm())->execute($player);
                 return;
-            } elseif (!isset($data[2], $data[3]) or (isset($data[2], $data[3]) and is_numeric($data[3]))) {
+            } elseif (!isset($data[2], $data[3]) or (isset($data[2], $data[3]) and !is_numeric($data[3]))) {
                 $player->sendMessage("§a[システム] プレイヤー名と金額は入力必須項目で、金額は数値入力です");
                 Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                 return;

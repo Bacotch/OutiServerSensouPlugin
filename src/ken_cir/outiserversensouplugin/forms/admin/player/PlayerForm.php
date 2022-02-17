@@ -21,7 +21,7 @@ class PlayerForm
             elseif ($data === 0) {
                 (new AdminForm())->execute($player);
             } elseif ($data === 1) {
-
+                (new PlayerSetMoneyForm())->execute($player);
             }
         });
 

@@ -346,9 +346,6 @@ class EventListener implements Listener
             $player = $event->getPlayer();
             $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
             $position = $event->getBlock()->getPosition();
-            $block = $event->getBlock();
-            $item = $player->getInventory()->getItemInHand();
-            $vector = $block->getPosition()->asVector3();
 
             $landConfigData = LandConfigDataManager::getInstance()->getPos($position->getFloorX(), $position->getFloorZ(), $position->getWorld()->getFolderName());
             // 土地保護データがあるなら
@@ -379,55 +376,10 @@ class EventListener implements Listener
                 }
             }
 
-            if (!$event->isCancelled()) {
-                // 一括破壊
-                /*
-                // 木や鉱石ならば
-                if (in_array($block->getId(), [14, 15, 16, 17, 21, 56, 73, 74, 129, 153, 162], true)) {
-                    if (!isset($this->searched[$player->getName()])) {
-                        $this->searched[$player->getName()] = [];
-                    }
-                    // リストにブロックの座標があればここで処理を終える
-                    if (in_array($vector, $this->searched[$player->getName()], true)) {
-                        return;
-                    }
-
-                    // リストにブロックの座標を加える
-                    $this->searched[$player->getName()][] = $vector;
-
-                    // 隣接している6ブロックを探索する
-                    $i = 0;
-                    $nVector = null;
-                    foreach ($block->getAllSides() as $neighbor) {
-                        $nVector = $neighbor->getPosition()->asVector3();
-
-                        // リストに隣接するブロックの座標がある or 掘ったブロックと隣接するブロックのIDが違う場合、スキップして次のブロックへ
-                        if (in_array($nVector, $this->searched[$player->getName()], true) || $block->getId() !== $neighbor->getId()) {
-                            continue;
-                        }
-
-                        $i++;
-
-                        // 数tick遅らせて掘る
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(
-                            function () use ($nVector, $item, $player): void
-                            {
-                                // 遅延が生じるので既に掘られている可能性がある
-                                // その場合は掘らずに処理をここで終える
-                                if ($player->getWorld()->getBlock($nVector)->getId() === 0) {
-                                    return;
-                                }
-
-                                // 掘る。その際にBlockBreakEventが発生する（再帰処理）
-                                $player->getWorld()->useBreakOn($nVector, $item, $player, true);
-                            }
-                        ), $i);
-                    }
-
-                    // 掘ったのでリストから削除する
-                    $this->searched[$player->getName()] = array_values(array_diff($this->searched[$player->getName()], [$vector]));
-                }
-                */
+            $chestShopData = ChestShopDataManager::getInstance()->getPosition($player->getWorld()->getFolderName(), $player->getPosition()->getFloorX(), $player->getPosition()->getFloorY(), $player->getPosition()->getFloorZ());
+            if ($chestShopData and ($chestShopData->getFactionId() === $playerData->getFaction() and !$event->isCancelled()) or Server::getInstance()->isOp($player->getName())) {
+                ChestShopDataManager::getInstance()->delete($chestShopData->getId());
+                $player->sendMessage("§a[システム] このチェストショップを閉店しました");
             }
         } catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);

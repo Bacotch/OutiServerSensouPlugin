@@ -37,7 +37,7 @@ use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageD
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
-use ken_cir\outiserversensouplugin\tasks\PlayerBackGround;
+use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
 use pocketmine\data\bedrock\EntityLegacyIds;
@@ -172,7 +172,20 @@ class Main extends PluginBase
 
         // --- Task登録 ---
         // プレイヤーのスコアボード表示Task
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerBackGround(), 5);
+        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 10);
+
+        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
+            function (): void {
+                foreach (Server::getInstance()->getOnlinePlayers() as $onlinePlayer) {
+                    // おうちウォッチを持っていなかったら渡す
+                    $item = ItemFactory::getInstance()->get(1002);
+                    $item->setCustomName("OutiWatch");
+                    if (!$onlinePlayer->getInventory()->contains($item)) {
+                        $onlinePlayer->getInventory()->addItem($item);
+                    }
+                }
+            }
+        ), 10);
 
         // 自動アップデートチェックTask
         if ($this->config->get("plugin_auto_update_enable", true)) {
