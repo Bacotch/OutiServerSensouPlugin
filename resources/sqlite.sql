@@ -652,6 +652,7 @@ CREATE TABLE IF NOT EXISTS chestshops
     PRIMARY
     KEY
     AUTOINCREMENT,
+    owner_xuid TEXT NOT NULL,
     faction_id
     INTEGER
     NOT
@@ -704,6 +705,7 @@ CREATE TABLE IF NOT EXISTS chestshops
 -- # }
 
 -- # { create
+-- #    :owner_xuid string
 -- #    :faction_id int
 -- #    :worldname string
 -- #    :chestx int
@@ -716,9 +718,9 @@ CREATE TABLE IF NOT EXISTS chestshops
 -- #    :itemmeta int
 -- #    :price int
 -- #    :duty int
-INSERT INTO chestshops (faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz, itemid,
+INSERT INTO chestshops (owner_xuid, faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz, itemid,
                         itemmeta, price, duty)
-VALUES (:faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid, :itemmeta,
+VALUES (:owner_xuid, :faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid, :itemmeta,
         :price, :duty);
 -- # }
 

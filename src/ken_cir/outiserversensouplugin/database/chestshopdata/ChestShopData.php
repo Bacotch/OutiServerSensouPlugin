@@ -17,6 +17,13 @@ class ChestShopData
     private int $id;
 
     /**
+     * チェストショップオーナーのXUID
+     *
+     * @var string
+     */
+    private string $ownerXuid;
+
+    /**
      * 派閥ID
      *
      * @var int
@@ -102,6 +109,7 @@ class ChestShopData
 
     /**
      * @param int $id
+     * @param string $ownerXuid
      * @param int $faction_id
      * @param string $worldName
      * @param int $chestX
@@ -115,9 +123,10 @@ class ChestShopData
      * @param int $price
      * @param int $duty
      */
-    public function __construct(int $id, int $faction_id, string $worldName, int $chestX, int $chestY, int $chestZ, int $signboardX, int $signboardY, int $signboardZ, int $itemId, int $itemMeta, int $price, int $duty)
+    public function __construct(int $id, string $ownerXuid, int $faction_id, string $worldName, int $chestX, int $chestY, int $chestZ, int $signboardX, int $signboardY, int $signboardZ, int $itemId, int $itemMeta, int $price, int $duty)
     {
         $this->id = $id;
+        $this->ownerXuid = $ownerXuid;
         $this->faction_id = $faction_id;
         $this->worldName = $worldName;
         $this->chestX = $chestX;
@@ -155,6 +164,14 @@ class ChestShopData
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOwnerXuid(): string
+    {
+        return $this->ownerXuid;
     }
 
     /**

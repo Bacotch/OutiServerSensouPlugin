@@ -42,7 +42,7 @@ class CreateChestShopForm
 
                     $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
                     $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
-                    ChestShopDataManager::getInstance()->create($playerData->getFaction(), $player->getWorld()->getFolderName(), $chestPosition->getFloorX(), $chestPosition->getFloorY(), $chestPosition->getFloorZ(), $signPostion->getFloorX(), $signPostion->getFloorY(), $signPostion->getFloorZ(), $item->getId(), $item->getMeta(), (int)$data[2], (int)$data[3]);
+                    ChestShopDataManager::getInstance()->create($player->getXuid(), $playerData->getFaction(), $player->getWorld()->getFolderName(), $chestPosition->getFloorX(), $chestPosition->getFloorY(), $chestPosition->getFloorZ(), $signPostion->getFloorX(), $signPostion->getFloorY(), $signPostion->getFloorZ(), $item->getId(), $item->getMeta(), (int)$data[2], (int)$data[3]);
                     $player->getWorld()->setBlock($signPostion, $sign->setText(new SignText([
                         "{$factionData->getName()}の貿易所",
                         "販売物: {$item->getName()}",

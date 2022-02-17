@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\chestshop;
 
+use DateTime;
 use Error;
 use Exception;
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopData;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
+use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
+use pocketmine\block\tile\Chest;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
+use function floor;
 
 class BuyChestShopForm
 {
@@ -35,6 +39,9 @@ class BuyChestShopForm
                         $duty = ($chestShopData->getPrice() * (int)$data[1]) * ($chestShopData->getDuty() * 0.01);
                         // 価格
                         $price = $duty + ((int)$data[1] * $chestShopData->getPrice());
+                        $duty = (int)floor($duty);
+                        $price = (int)floor($price);
+
                         if ($price > $playerData->getMoney()) {
                             $player->sendMessage("§a[システム] 所持金があと" . $price - $playerData->getMoney() . "円足りていません");
                             Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player, $chestShopData]), 10);
@@ -43,16 +50,34 @@ class BuyChestShopForm
 
                         $item = ItemFactory::getInstance()->get($chestShopData->getItemId(), $chestShopData->getItemMeta(), (int)$data[1]);
                         $factionData = FactionDataManager::getInstance()->get($chestShopData->getFactionId());
-                        if (!$player->getInventory()->canAddItem($item)) {
+                        $chestTile = $player->getWorld()->getTileAt($chestShopData->getChestX(), $chestShopData->getChestY(), $chestShopData->getChestZ());
+                        if (!$chestTile instanceof Chest) {
+                            $player->sendMessage("§a[システム] チェストの検知に失敗しました");
+                            return;
+                        }
+                        elseif (!$player->getInventory()->canAddItem($item)) {
                             $player->sendMessage("§a[システム] インベントリの空きが足りていません");
                             return;
                         }
+                        elseif (!$chestTile->getInventory()->contains($item)) {
+                            $player->sendMessage("§a[システム] 在庫が足りていません");
+                            return;
+                        }
 
+                        $ownerPlayerData = PlayerDataManager::getInstance()->getXuid($chestShopData->getOwnerXuid());
                         $player->getInventory()->addItem($item);
-                        $player->getWorld()->getTileAt($chestShopData->getChestX(), $chestShopData->getChestY(), $chestShopData->getChestZ())->getInventory()->removeItem($item);
-                        $playerData->setMoney($price - $playerData->getMoney());
-                        $factionData->setMoney($factionData->getMoney() + $price);
+                        $chestTile->getInventory()->removeItem($item);
+                        $playerData->setMoney($playerData->getMoney() - $price);
+                        $factionData->setMoney($factionData->getMoney() + $duty);
+                        $ownerPlayerData->setMoney($ownerPlayerData->getMoney() + ((int)$data[1] * $chestShopData->getPrice()));
                         $player->sendMessage("§a[システム] {$item->getName()}を$data[1]個、{$price}円で{$factionData->getName()}から購入しました");
+                        $time = new DateTime('now');
+                        MailDataManager::getInstance()->create($ownerPlayerData->getXuid(),
+                        "チェストショップ購入通知",
+                        "{$player->getName()}があなたのチェストショップで{$item->getName()}を{$item->getCount()}個購入しました\n利益として" . ((int)$data[1] * $chestShopData->getPrice()) . "円受け取りました",
+                            "システム",
+                            $time->format("Y年m月d日 H時i分")
+                        );
                     }
                 } catch (Error|Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
