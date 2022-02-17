@@ -93,7 +93,7 @@ class MailDataManager
     public function getPlayerXuid(string $xuid): array
     {
         $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($xuid) {
-            return $mailData->getAuthorXuid() === $xuid;
+            return $mailData->getSendtoXuid() === $xuid;
         });
 
         return array_reverse($mail, true);
