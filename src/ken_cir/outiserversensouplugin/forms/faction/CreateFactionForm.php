@@ -43,7 +43,7 @@ class CreateFactionForm
                         $player->sendMessage("§a[システム] 派閥名を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                     }
-                    elseif (FactionDataManager::getInstance()->get($data[0])) {
+                    elseif (FactionDataManager::getInstance()->getName($data[0])) {
                         $player->sendMessage("§a[システム] 派閥名を他と同じにすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                     }
