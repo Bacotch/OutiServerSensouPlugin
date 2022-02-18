@@ -114,19 +114,25 @@ class PlayerDatabaseForm
                         $this->viewPlayerData($player, $playerData);
                         return;
                     }
-                    elseif (!isset($data[1], $data[6]) or !is_numeric($data[6])) {
+                    elseif ($data[1]) {
+                        PlayerDataManager::getInstance()->deleteXuid($playerData->getXuid());
+                        $player->sendMessage("§a[システム] 削除しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
+                        return;
+                    }
+                    elseif (!isset($data[2], $data[7]) or !is_numeric($data[7])) {
                         $player->sendMessage("§a[システム] プレイヤー名と所持金は入力必須項目で、所持金は数値入力です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editPlayerData"], [$player, $playerData]), 20);
                         return;
                     }
 
                     $factionDatas = array_values(FactionDataManager::getInstance()->getAll());
-                    $playerData->setName($data[1]);
-                    $playerData->setFaction($data[2] === 0 ? -1 : $factionDatas[$data[1]]->getId());
-                    $playerData->setChatmode($data[3] === 0 ? -1 : $playerData->getFaction());
-                    $playerData->setDrawscoreboard($data[4]);
-                    $playerData->setPunishment($data[5]);
-                    $playerData->setMoney((int)$data[6]);
+                    $playerData->setName($data[2]);
+                    $playerData->setFaction($data[3] === 0 ? -1 : $factionDatas[$data[3] - 1]->getId());
+                    $playerData->setChatmode($data[4] === 0 ? -1 : $playerData->getFaction());
+                    $playerData->setDrawscoreboard($data[5]);
+                    $playerData->setPunishment($data[6]);
+                    $playerData->setMoney((int)$data[7]);
 
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
@@ -151,6 +157,7 @@ class PlayerDatabaseForm
 
             $form->setTitle("プレイヤーデータ編集");
             $form->addToggle("キャンセルして戻る");
+            $form->addToggle("削除して戻る");
             $form->addInput("プレイヤー名§e(基本書き換え禁止)", "playerName", $playerData->getName());
             $form->addDropdown("派閥", $factionDatas, $factionDefault);
             $form->addDropdown("チャットモード", ["全体", "所属派閥"], $playerData->getChatmode() === -1 ? 0 : 1);
