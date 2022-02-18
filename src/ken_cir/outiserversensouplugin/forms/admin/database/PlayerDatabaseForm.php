@@ -8,6 +8,7 @@ use Error;
 use Exception;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionData;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerData;
@@ -31,33 +32,15 @@ class PlayerDatabaseForm
     public function execute(Player $player): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return;
-                    elseif ($data[0]) {
+                    elseif ($data === 0) {
                         (new DatabaseManagerForm())->execute($player);
                         return;
                     }
-                    elseif (!isset($data[2])) {
-                        $player->sendMessage("§a[システム] キーは入力必須項目です");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                        return;
-                    }
 
-                    $playerData = null;
-                    if ($data[1] === 0) {
-                        $playerData = PlayerDataManager::getInstance()->getName(strtolower($data[2]));
-                    }
-                    elseif ($data[1] === 1) {
-                        $playerData = PlayerDataManager::getInstance()->getXuid($data[2]);
-                    }
-
-                    if (!$playerData) {
-                        $player->sendMessage("§a[システム] プレイヤーデータが見つかりません");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                        return;
-                    }
-
+                    $playerData = PlayerDataManager::getInstance()->getAll(true)[$data - 1];
                     $this->viewPlayerData($player, $playerData);
                 }
                 catch (Error|Exception $exception) {
@@ -66,9 +49,10 @@ class PlayerDatabaseForm
             });
 
             $form->setTitle("プレイヤーデータ管理");
-            $form->addToggle("キャンセルして戻る");
-            $form->addDropdown("検索キー", ["プレイヤー名", "プレイヤーXUID"]);
-            $form->addInput("検索キー", "key");
+            $form->addButton("キャンセルして戻る");
+            foreach (PlayerDataManager::getInstance()->getAll() as $playerData) {
+                $form->addButton("{$playerData->getName()} {$playerData->getXuid()}");
+            }
             $player->sendForm($form);
         }
         catch (Error|Exception $exception) {

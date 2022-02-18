@@ -70,6 +70,15 @@ class PlayerDataManager
     }
 
     /**
+     * @return PlayerData[]
+     */
+    public function getAll(?bool $keyValue = false): array
+    {
+        if ($keyValue) return array_values($this->playerDatas);
+        return $this->playerDatas;
+    }
+
+    /**
      * プレイヤーデータをXUIDで取得する
      *
      * @param string $xuid

@@ -10,6 +10,7 @@ use poggit\libasynql\SqlError;
 use function count;
 use function array_filter;
 use function array_shift;
+use function array_values;
 
 /**
  * 派閥データマネージャー
@@ -108,8 +109,9 @@ class FactionDataManager
     /**
      * @return FactionData[]
      */
-    public function getAll(): array
+    public function getAll(?bool $keyValue = false): array
     {
+        if ($keyValue) return array_values($this->faction_datas);
         return $this->faction_datas;
     }
 

@@ -8,6 +8,7 @@ use Error;
 use Exception;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCache;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\Main;
@@ -23,32 +24,15 @@ class PlayerCacheForm
     public function execute(Player $player): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return;
-                    elseif ($data[0]) {
+                    elseif ($data === 0) {
                         (new CacheManagerForm())->execute($player);
                         return;
                     }
-                    elseif (!isset($data[2])) {
-                        $player->sendMessage("§a[システム] キーは入力必須項目です");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                        return;
-                    }
 
-                    $playerCache = null;
-                    if ($data[1] === 0) {
-                        $playerCache = PlayerCacheManager::getInstance()->getName(strtolower($data[2]));
-                    }
-                    elseif ($data[1] === 1) {
-                        $playerCache = PlayerCacheManager::getInstance()->getXuid($data[2]);
-                    }
-
-                    if (!$playerCache) {
-                        $player->sendMessage("§a[システム] プレイヤーデータが見つかりません");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                        return;
-                    }
+                    $playerCache = PlayerCacheManager::getInstance()->getAll(true)[$data - 1];
                     $this->viewPlayerCache($player, $playerCache);
                 }
                 catch (Error|Exception $exception) {
@@ -57,9 +41,10 @@ class PlayerCacheForm
             });
 
             $form->setTitle("プレイヤーキャッシュ管理");
-            $form->addToggle("キャンセルして戻る");
-            $form->addDropdown("検索キー", ["プレイヤー名", "プレイヤーXUID"]);
-            $form->addInput("検索キー", "key");
+            $form->addButton("キャンセルして戻る");
+            foreach (PlayerCacheManager::getInstance()->getAll() as $playerCache) {
+                $form->addButton("{$playerCache->getName()} {$playerCache->getXuid()}");
+            }
             $player->sendForm($form);
         }
         catch (Error|Exception $exception) {

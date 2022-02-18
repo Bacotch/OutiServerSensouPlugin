@@ -7,6 +7,7 @@ namespace ken_cir\outiserversensouplugin\forms\admin\database;
 use DateTime;
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionData;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
@@ -30,33 +31,15 @@ class FactionDatabaseForm
     public function execute(Player $player): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return;
-                    elseif ($data[0]) {
+                    elseif ($data === 0) {
                         (new DatabaseManagerForm())->execute($player);
                         return;
                     }
-                    elseif (!isset($data[2]) or ($data[1] === 1 and !is_numeric($data[2]))) {
-                        $player->sendMessage("§a[システム] キーは入力必須項目でID検索の場合は数値入力である必要があります");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                        return;
-                    }
 
-                    $factionData = null;
-                    if ($data[1] === 0) {
-                        $factionData = FactionDataManager::getInstance()->getName($data[2]);
-                    }
-                    elseif ($data[1] === 1) {
-                        $factionData = FactionDataManager::getInstance()->get((int)$data[2]);
-                    }
-
-                    if (!$factionData) {
-                        $player->sendMessage("§a[システム] 派閥データが見つかりません");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                        return;
-                    }
-
+                    $factionData = FactionDataManager::getInstance()->getAll(true)[$data - 1];
                     $this->viewFactionData($player, $factionData);
                 }
                 catch (\Error | \Exception $exception) {
@@ -65,9 +48,10 @@ class FactionDatabaseForm
             });
 
             $form->setTitle("派閥データ管理");
-            $form->addToggle("キャンセルして戻る");
-            $form->addDropdown("検索キー", ["派閥名", "派閥ID"]);
-            $form->addInput("検索キー", "key");
+            $form->addButton("キャンセルして戻る");
+            foreach (FactionDataManager::getInstance()->getAll() as $factionData) {
+                $form->addButton("#{$factionData->getId()} {$factionData->getName()}");
+            }
             $player->sendForm($form);
         }
         catch (\Error | \Exception $exception) {
