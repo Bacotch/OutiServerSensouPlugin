@@ -26,7 +26,7 @@ class DatabaseManagerForm
                         (new AdminForm())->execute($player);
                     }
                     elseif ($data === 1) {
-                        (new PlayerForm())->execute($player);
+                        (new PlayerDatabaseForm())->execute($player);
                     }
                 }
                 catch (Error|Exception $exception) {
