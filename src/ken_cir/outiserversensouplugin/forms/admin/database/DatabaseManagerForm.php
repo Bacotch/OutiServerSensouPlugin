@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin\database;
 
-use Error;
-use Exception;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\Main;
@@ -28,8 +26,11 @@ class DatabaseManagerForm
                     elseif ($data === 1) {
                         (new PlayerDatabaseForm())->execute($player);
                     }
+                    elseif ($data === 2) {
+                        (new FactionDatabaseForm())->execute($player);
+                    }
                 }
-                catch (Error|Exception $exception) {
+                catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -37,9 +38,10 @@ class DatabaseManagerForm
             $form->setTitle("データベース管理");
             $form->addButton("キャンセルして戻る");
             $form->addButton("プレイヤーデータ");
+            $form->addButton("派閥データ");
             $player->sendForm($form);
         }
-        catch (Error|Exception $exception) {
+        catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
