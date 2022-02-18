@@ -120,11 +120,6 @@ class PlayerDataManager
         return $data;
     }
 
-    public function delete()
-    {
-
-    }
-
     public function deleteXuid(string $xuid): void
     {
         Main::getInstance()->getDatabase()->executeGeneric(
