@@ -32,7 +32,7 @@ class PlayerCacheForm
                     }
                     elseif (!isset($data[2])) {
                         $player->sendMessage("§a[システム] キーは入力必須項目です");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
                     }
 
@@ -46,7 +46,7 @@ class PlayerCacheForm
 
                     if (!$playerCache) {
                         $player->sendMessage("§a[システム] プレイヤーデータが見つかりません");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
                     }
                     $this->viewPlayerCache($player, $playerCache);
@@ -98,14 +98,48 @@ class PlayerCacheForm
     public function editPlayerCache(Player $player, PlayerCache $playerCache): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) {
+            $form = new CustomForm(function (Player $player, $data) use ($playerCache) {
+                try {
+                    if ($data === null) return;
+                    elseif ($data[0]) {
+                        $this->viewPlayerCache($player, $playerCache);
+                        return;
+                    }
+                    elseif ($data[1]) {
+                        PlayerCacheManager::getInstance()->deleteXuid($playerCache->getXuid());
+                        $player->sendMessage("§a[システム] 削除しました");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
+                        return;
+                    }
+                    elseif (!isset($data[2]) or ($data[5] and !is_numeric($data[5])) or ($data[6] and !is_numeric($data[6]))) {
+                        $player->sendMessage("§a[システム] プレイヤー名は入力必須項目で土地保護の開始X座標、Z座標は数値入力です");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editPlayerCache"], [$player, $playerCache]), 20);
+                        return;
+                    }
 
+                    $playerCache->setName($data[2]);
+                    $playerCache->setLockOutiWatch($data[3]);
+                    $playerCache->setLandConfigWorldName($data[4] ?? null);
+                    $playerCache->setLandConfigStartX($data[5] ? (int)$data[5] : null);
+                    $playerCache->setLandConfigStartZ($data[6] ? (int)$data[6] : null);
+
+                    $player->sendMessage("変更しました");
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
+                }
+                catch (Error|Exception $exception) {
+                    Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
+                }
             });
 
             $form->setTitle("プレイヤーキャッシュ {$playerCache->getName()} 編集");
             $form->addToggle("キャンセルして戻る");
             $form->addToggle("削除して戻る");
             $form->addInput("プレイヤー名§e(基本書き換え禁止)", "playerName", $playerCache->getName());
+            $form->addToggle("おうちウォッチをロック", $playerCache->isLockOutiWatch());
+            $form->addInput("土地保護のワールド名", "landConfig_WorldName", $playerCache->getLandConfigWorldName());
+            $form->addInput("土地保護の開始X座標", "landConfig_StartX", $playerCache->getLandConfigStartX());
+            $form->addInput("土地保護の開始Z座標", "landConfig_StartZ", $playerCache->getLandConfigStartZ());
+            $player->sendForm($form);
         }
         catch (Error|Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);

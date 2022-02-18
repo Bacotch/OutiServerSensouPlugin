@@ -7,6 +7,7 @@ namespace ken_cir\outiserversensouplugin\forms\admin;
 use Error;
 use Exception;
 use jojoe77777\FormAPI\SimpleForm;
+use ken_cir\outiserversensouplugin\forms\admin\cache\CacheManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\database\DatabaseManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\schedulemessage\ScheduleMessageManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\worldbackup\WorldBackupManager;
@@ -37,6 +38,9 @@ class AdminForm
                         $form->execute($player);
                     } elseif ($data === 3) {
                         (new DatabaseManagerForm())->execute($player);
+                    }
+                    elseif ($data === 4) {
+                        (new CacheManagerForm())->execute($player);
                     }
                 }
                 catch (Error|Exception $exception) {
