@@ -29,6 +29,9 @@ class DatabaseManagerForm
                     elseif ($data === 2) {
                         (new FactionDatabaseForm())->execute($player);
                     }
+                    elseif ($data === 3) {
+                        (new MailDatabaseForm())->execute($player);
+                    }
                 }
                 catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
@@ -39,6 +42,7 @@ class DatabaseManagerForm
             $form->addButton("キャンセルして戻る");
             $form->addButton("プレイヤーデータ");
             $form->addButton("派閥データ");
+            $form->addButton("メールデータ");
             $player->sendForm($form);
         }
         catch (\Error|\Exception $exception) {

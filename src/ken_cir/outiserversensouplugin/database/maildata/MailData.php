@@ -65,6 +65,23 @@ class MailData
         $this->read = $read;
     }
 
+    private function update(): void
+    {
+        Main::getInstance()->getDatabase()->executeChange(
+            "outiserver.mails.update",
+            [
+                "title" => $this->title,
+                "content" => $this->content,
+                "read" => $this->read,
+                "id" => $this->id
+            ],
+            null,
+            function (SqlError $error) {
+                Main::getInstance()->getOutiServerLogger()->error($error);
+            }
+        );
+    }
+
     /**
      * @return int
      */
@@ -90,11 +107,27 @@ class MailData
     }
 
     /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
      * @return string
      */
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 
     /**
@@ -127,16 +160,5 @@ class MailData
     public function setRead(bool $read): void
     {
         $this->read = (int)$read;
-        Main::getInstance()->getDatabase()->executeChange(
-            "outiserver.mails.update",
-            [
-                "read" => $this->read,
-                "id" => $this->id
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getOutiServerLogger()->error($error);
-            }
-        );
     }
 }

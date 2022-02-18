@@ -8,6 +8,7 @@ use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
+use function array_values;
 
 class MailDataManager
 {
@@ -83,6 +84,15 @@ class MailDataManager
     {
         if (!isset($this->mail_datas[$id])) return false;
         return $this->mail_datas[$id];
+    }
+
+    /**
+     * @return MailData[]
+     */
+    public function getAll(?bool $keyValue = false): array
+    {
+        if ($keyValue) return array_values($this->mail_datas);
+        return $this->mail_datas;
     }
 
     /**
