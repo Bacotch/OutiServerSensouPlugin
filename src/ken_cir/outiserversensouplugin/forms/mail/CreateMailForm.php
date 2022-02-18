@@ -33,27 +33,33 @@ class CreateMailForm
             $form = new CustomForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return true;
-                    elseif (!isset($data[0], $data[1], $data[2])) {
+                    elseif (!$data[0] or !$data[1] or !$data[2]) {
                         $player->sendMessage("§a[システム] メールタイトルと内容と送信相手部分を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                     } else {
-                        $author = $player->getName();
+                        $author = $player->getXuid();
                         $time = new DateTime('now');
                         // 送信者名義を「運営」に
-                        if (isset($data[4])) {
+                        if ($data[4]) {
                             $author = "運営";
                         }
                         // 全員に送信する
-                        if (isset($data[3])) {
-                            foreach (PlayerDataManager::getInstance()->getPlayerDatas() as $playerData) {
-                                MailDataManager::getInstance()->create($playerData->getName(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                        if ($data[3]) {
+                            foreach (PlayerDataManager::getInstance()->getAll() as $playerData) {
+                                MailDataManager::getInstance()->create($playerData->getXuid(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                             }
                             $player->sendMessage("§a[システム] プレイヤー全員にメールを送信しました");
                             Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                             return true;
                         }
 
-                        MailDataManager::getInstance()->create($data[2], $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                        if (!$sendToPlayerData = PlayerDataManager::getInstance()->getName($data[2])) {
+                            $player->sendMessage("§a[システム] プレイヤーが見つかりませんでした");
+                            Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
+                            return true;
+                        }
+
+                        MailDataManager::getInstance()->create($sendToPlayerData->getXuid(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                         $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                     }
@@ -69,9 +75,10 @@ class CreateMailForm
             $form->addInput("§d内容", "content", "");
             $form->addInput("§6送信相手", "send_to", "");
             if (Main::getInstance()->getServer()->isOp($player->getName())) {
-                $form->addToggle("§3[運営専用] プレイヤーにメールを送信する");
+                $form->addToggle("§3[運営専用] プレイヤー全員にメールを送信する");
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
+            $player->sendForm($form);
         } catch (Error|Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
