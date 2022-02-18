@@ -8,6 +8,8 @@ use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
+use function array_filter;
+use function array_shift;
 
 /**
  * 派閥データマネージャー
@@ -85,6 +87,22 @@ class FactionDataManager
     {
         if (!isset($this->faction_datas[$id])) return false;
         return $this->faction_datas[$id];
+    }
+
+    /**
+     * 派閥名でデータの取得
+     *
+     * @param string $name
+     * @return false|FactionData
+     */
+    public function getName(string $name): false|FactionData
+    {
+        $factionData = array_filter($this->faction_datas, function (FactionData $factionData) use ($name) {
+            return $factionData->getName() === $name;
+        });
+
+        if (count($factionData) < 1) return false;
+        return array_shift($factionData);
     }
 
     /**

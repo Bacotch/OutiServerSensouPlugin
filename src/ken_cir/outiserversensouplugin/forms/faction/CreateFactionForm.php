@@ -42,7 +42,12 @@ class CreateFactionForm
                     elseif (!isset($data[0])) {
                         $player->sendMessage("§a[システム] 派閥名を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    } else {
+                    }
+                    elseif (FactionDataManager::getInstance()->get($data[0])) {
+                        $player->sendMessage("§a[システム] 派閥名を他と同じにすることはできません");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
+                    }
+                    else {
                         $id = FactionDataManager::getInstance()->create($data[0], $player->getXuid(), (int)$data[1]);
                         $player_data->setFaction($id);
                         $player->sendMessage("§a[システム]派閥 $data[0] を作成しました");
