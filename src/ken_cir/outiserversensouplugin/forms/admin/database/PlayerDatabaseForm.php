@@ -35,7 +35,7 @@ class PlayerDatabaseForm
                 try {
                     if ($data === null) return;
                     elseif ($data[0]) {
-                        (new AdminForm())->execute($player);
+                        (new DatabaseManagerForm())->execute($player);
                         return;
                     }
                     elseif (!isset($data[2])) {
