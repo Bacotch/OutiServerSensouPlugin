@@ -33,8 +33,8 @@ class DatabaseManagerForm
                     elseif ($data === 3) {
                         (new MailDatabaseForm())->execute($player);
                     }
-                    elseif ($data === 4 and ($landData = LandDataManager::getInstance()->getChunk($player->getPosition()->getFloorX() >> 4, $player->getPosition()->getFloorZ() >> 4, $player->getWorld()->getFolderName()))) {
-                        (new LandDatabaseForm())->execute($player, $landData);
+                    elseif ($data === 4) {
+                        (new LandDatabaseForm())->execute($player);
                     }
                 }
                 catch (\Error|\Exception $exception) {
@@ -47,9 +47,7 @@ class DatabaseManagerForm
             $form->addButton("プレイヤーデータ");
             $form->addButton("派閥データ");
             $form->addButton("メールデータ");
-            if (LandDataManager::getInstance()->getChunk($player->getPosition()->getFloorX() >> 4, $player->getPosition()->getFloorZ() >> 4, $player->getWorld()->getFolderName())) {
-                $form->addButton("土地データ");
-            }
+            $form->addButton("土地データ");
             $player->sendForm($form);
         }
         catch (\Error|\Exception $exception) {
