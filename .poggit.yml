@@ -21,4 +21,6 @@ projects:
         branch: PM4
       - src: KenCir/FormAPI/libFormAPI
         version: ^2.1.0
+      - src: Ifera/ScoreFactory/ScoreFactory
+        version: ^3.1.0
 ...
