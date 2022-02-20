@@ -24,7 +24,6 @@ use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
-use ken_cir\outiserversensouplugin\commands\Destoroy;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
@@ -207,7 +206,6 @@ class Main extends PluginBase
                 new BanAllCOmmand(),
                 new ItemsCommand(),
                 new OutiServerCommand($this),
-                new Destoroy($this)
             ]);
 
         // ---エンティティ系登録---
