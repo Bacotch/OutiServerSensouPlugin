@@ -59,7 +59,7 @@ class RoleDatabaseForm
         }
     }
 
-    private function selectRoleData(Player $player, FactionData $factionData): void
+    public function selectRoleData(Player $player, FactionData $factionData): void
     {
         try {
             $form = new SimpleForm(function (Player $player, $data) use ($factionData) {
@@ -69,8 +69,12 @@ class RoleDatabaseForm
                         $this->execute($player);
                         return;
                     }
+                    elseif ($data === 1) {
+                        $this->createRoleData($player, $factionData);
+                        return;
+                    }
 
-                    $this->viewRoleData($player, $factionData, RoleDataManager::getInstance()->getFactionRoles($factionData->getId(), true)[$data]);
+                    $this->viewRoleData($player, $factionData, RoleDataManager::getInstance()->getFactionRoles($factionData->getId(), true)[$data - 1]);
                 }
                 catch (\Error | \Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
@@ -79,6 +83,7 @@ class RoleDatabaseForm
 
             $form->setTitle("役職データ {$factionData->getName()}派閥");
             $form->addButton("戻る");
+            $form->addButton("新しく役職を作成");
             foreach (RoleDataManager::getInstance()->getFactionRoles($factionData->getId(), true) as $roleData) {
                 $form->addButton(OutiServerUtilitys::getChatColor($roleData->getColor()) . "{$roleData->getName()} #{$roleData->getId()}");
             }
@@ -88,6 +93,9 @@ class RoleDatabaseForm
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
+
+    // ここから
+    // 既存役職処理
 
     private function viewRoleData(Player $player, FactionData $factionData, RoleData $roleData): void
     {
@@ -130,12 +138,12 @@ class RoleDatabaseForm
                     }
                     elseif ($data[1]) {
                         RoleDataManager::getInstance()->delete($roleData->getId());
-                        $player->sendMessage("[システム] 削除しました");
+                        $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
                         return;
                     }
                     elseif (!$data[4]) {
-                        $player->sendMessage("[システム] 役職名は入力必須項目です");
+                        $player->sendMessage("§a[システム] 役職名は入力必須項目です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editRoleData"], [$player, $factionData]), 20);
                         return;
                     }
@@ -146,7 +154,7 @@ class RoleDatabaseForm
                     $roleData->setFactionId(FactionDataManager::getInstance()->getAll(true)[$data[3]]->getId());
                     $roleData->setName($data[4]);
                     $roleData->setColor($data[5]);
-                    $roleData->setPosition($oldRoleFaction !== $roleData->getFactionId() ? count(RoleDataManager::getInstance()->getFactionRoles($roleData->getFactionId())) + 1 : $data[6]);
+                    $roleData->setPosition($oldRoleFaction !== $roleData->getFactionId() ? count(RoleDataManager::getInstance()->getFactionRoles($roleData->getFactionId())) + 1 : (int)$data[6]);
                     $roleData->setSensenHukoku($data[7]);
                     $roleData->setInvitePlayer($data[8]);
                     $roleData->setSendmailAllFactionPlayer($data[9]);
@@ -172,7 +180,8 @@ class RoleDatabaseForm
                         }
                     }
 
-
+                    $player->sendMessage("§a[システム] 変更しました");
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
                 }
                 catch (\Error | \Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
@@ -183,13 +192,15 @@ class RoleDatabaseForm
             $factionDatas = FactionDataManager::getInstance()->getAll(true);
             foreach ($factionDatas as $key => $roleFactionData) {
                 if ($roleFactionData->getId() === $roleData->getId()) {
-                    $factionDefault = $key + 1;
+                    $factionDefault = $key - 1;
                     break;
                 }
             }
             $factionDatas = array_map(function (FactionData $factionData) {
                 return $factionData->getName();
             }, FactionDataManager::getInstance()->getAll(true));
+
+            var_dump($roleData->getPosition());
 
             $form->setTitle("役職データ {$roleData->getName()} #{$roleData->getId()} 編集 {$factionData->getName()}派閥");
             $form->addToggle("キャンセルして戻る");
@@ -198,7 +209,7 @@ class RoleDatabaseForm
             $form->addDropdown("派閥", $factionDatas, $factionDefault);
             $form->addInput("役職名", "roleName", $roleData->getName());
             $form->addDropdown("役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"], $roleData->getColor());
-            $form->addSlider("役職位置", 1, count(RoleDataManager::getInstance()->getFactionRoles($factionData->getId())), $roleData->getPosition());
+            $form->addSlider("役職位置", 1, count(RoleDataManager::getInstance()->getFactionRoles($factionData->getId())), default: $roleData->getPosition());
             $form->addToggle("宣戦布告権限", $roleData->isSensenHukoku());
             $form->addToggle("派閥にプレイヤー招待権限", $roleData->isInvitePlayer());
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限", $roleData->isSendmailAllFactionPlayer());
@@ -207,6 +218,64 @@ class RoleDatabaseForm
             $form->addToggle("派閥の土地管理権限", $roleData->isLandManager());
             $form->addToggle("派閥銀行管理権限", $roleData->isBankManager());
             $form->addToggle("派閥ロール管理権限", $roleData->isRoleManager());
+            $player->sendForm($form);
+        }
+        catch (\Error | \Exception $exception) {
+            Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
+        }
+    }
+
+    // ここまで
+    // 既存役職処理
+
+    public function createRoleData(Player $player, FactionData $factionData): void
+    {
+        try {
+            $form = new CustomForm(function (Player $player, $data) use ($factionData) {
+                try {
+                    if ($data === null) return;
+                    elseif ($data[0]) {
+                        $this->selectRoleData($player, $factionData);
+                        return;
+                    }
+                    elseif (!$data[1]) {
+                        $player->sendMessage("§a[システム] 役職名は入力必須項目です");
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "createRoleData"], [$player, $factionData]), 20);
+                        return;
+                    }
+
+                    RoleDataManager::getInstance()->create($factionData->getId(),
+                        $data[1],
+                        $data[2],
+                        $data[3],
+                        $data[4],
+                        $data[5],
+                        $data[6],
+                        $data[7],
+                        $data[8],
+                        $data[9],
+                        $data[10]);
+
+                    $player->sendMessage("§a[システム] 作成しました");
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
+                }
+                catch (\Error | \Exception $exception) {
+                    Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
+                }
+            });
+
+            $form->setTitle("役職データ作成");
+            $form->addToggle("キャンセルして戻る");
+            $form->addInput("役職名", "rolename");
+            $form->addDropdown("役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"]);
+            $form->addToggle("宣戦布告権限");
+            $form->addToggle("派閥にプレイヤー招待権限");
+            $form->addToggle("派閥プレイヤー全員に一括でメール送信権限");
+            $form->addToggle("敵対派閥と友好派閥（制限あり）の設定権限");
+            $form->addToggle("派閥からプレイヤーを追放権限");
+            $form->addToggle("派閥の土地管理権限");
+            $form->addToggle("派閥銀行管理権限");
+            $form->addToggle("派閥ロール管理権限");
             $player->sendForm($form);
         }
         catch (\Error | \Exception $exception) {
