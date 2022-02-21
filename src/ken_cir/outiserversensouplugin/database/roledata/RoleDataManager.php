@@ -142,6 +142,15 @@ class RoleDataManager
      */
     public function delete(int $id): void
     {
+        $deleteRole = $this->faction_role_datas[$id];
+        foreach ($this->getFactionRoles($deleteRole->getFactionId()) as $factionRole) {
+            // 削除する役職より下の位置にある役職は
+            if ($factionRole->getPosition() > $deleteRole->getPosition()) {
+                // 1ずらす
+                $factionRole->setPosition($factionRole->getPosition() - 1);
+            }
+        }
+
         Main::getInstance()->getDatabase()->executeGeneric(
             "outiserver.roles.delete",
             [
