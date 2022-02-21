@@ -200,8 +200,6 @@ class RoleDatabaseForm
                 return $factionData->getName();
             }, FactionDataManager::getInstance()->getAll(true));
 
-            var_dump($roleData->getPosition());
-
             $form->setTitle("役職データ {$roleData->getName()} #{$roleData->getId()} 編集 {$factionData->getName()}派閥");
             $form->addToggle("キャンセルして戻る");
             $form->addToggle("削除して戻る");
