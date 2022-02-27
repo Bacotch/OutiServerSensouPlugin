@@ -51,9 +51,10 @@ class LandConfigForm
                         PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLandConfigStartX($player->getPosition()->getFloorX());
                         PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLandConfigStartZ($player->getPosition()->getFloorZ());
                         $player->sendMessage("§a[システム] 開始X座標を{$player->getPosition()->getFloorX()}\n開始Z座標を{$player->getPosition()->getFloorZ()}に設定しました");
-                    } elseif ($data === 1 and $landConfigData === null) {
-                        $this->checkLandConfig($player);
-                    } elseif ($data === 1) {
+                    } elseif ($data === 1 and $landConfigData !== null) {
+                        $this->checkLandConfig($player, $landConfigData);
+                    }
+                    elseif ($data === 1) {
                         if (PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigWorldName() !== $player->getWorld()->getFolderName()) {
                             $player->sendMessage("§a[システム] 開始座標ワールドと現在いるワールドが違います");
                         } else {
@@ -73,7 +74,7 @@ class LandConfigForm
                                 $endZ = $backup;
                             }
 
-                            LandConfigDataManager::getInstance()->create(
+                            $landConfigData = LandConfigDataManager::getInstance()->create(
                                 $landData->getId(),
                                 $startX,
                                 $startZ,
@@ -87,7 +88,7 @@ class LandConfigForm
                                 array(),
                                 array()
                             );
-                            $this->checkLandConfig($player);
+                            $this->checkLandConfig($player, $landConfigData);
                         }
                     } elseif ($data === 2 and $landConfigData === null and PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigWorldName() !== null) {
                         PlayerCacheManager::getInstance()->getXuid($player->getXuid())->resetLandConfig();
@@ -121,10 +122,9 @@ class LandConfigForm
         }
     }
 
-    public function checkLandConfig(Player $player): void
+    public function checkLandConfig(Player $player, LandConfigData $landConfigData): void
     {
         try {
-            $landConfigData = LandConfigDataManager::getInstance()->getPos((int)$player->getPosition()->getX(), (int)$player->getPosition()->getZ(), $player->getWorld()->getFolderName());
             $form = new SimpleForm(function (Player $player, $data) use ($landConfigData) {
                 try {
                     if ($data === null) return true;
@@ -149,9 +149,7 @@ class LandConfigForm
 
             $form->setTitle("土地の詳細設定");
             $form->addButton("戻る");
-            if ($landConfigData !== null) {
-                $form->addButton("削除");
-            }
+            $form->addButton("削除");
             $form->addButton("デフォルト権限の編集");
             $form->addButton("役職権限の編集");
             $form->addButton("メンバー権限の編集");
@@ -174,7 +172,7 @@ class LandConfigForm
                 try {
                     if ($data === null) return true;
                     elseif ($data[0] === true) {
-                        $this->checkLandConfig($player);
+                        $this->checkLandConfig($player, $landConfigData);
                     } else {
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setEntry($data[1]);
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockTap_Place($data[2]);
@@ -216,7 +214,7 @@ class LandConfigForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        $this->checkLandConfig($player);
+                        $this->checkLandConfig($player, $landConfigData);
                     } elseif ($data === 1) {
                         $this->addRolePermsRoleSelect($player, $landConfigData);
                     } else {
@@ -394,7 +392,7 @@ class LandConfigForm
                 try {
                     if ($data === null) return true;
                     elseif ($data === 0) {
-                        $this->checkLandConfig($player);
+                        $this->checkLandConfig($player, $landConfigData);
                     } elseif ($data === 1) {
                         $this->addMemberPermsMemberSelect($player, $landConfigData);
                     } elseif ($data === 2) {

@@ -116,7 +116,7 @@ class LandConfigDataManager
         return null;
     }
 
-    public function create(int $landid, int $startx, int $startz, int $endx, int $endz, array $defaultPerms, array $rolePerms, array $memberPerms): void
+    public function create(int $landid, int $startx, int $startz, int $endx, int $endz, array $defaultPerms, array $rolePerms, array $memberPerms): LandConfigData
     {
         Main::getInstance()->getDatabase()->executeInsert(
             "outiserver.landconfigs.create",
@@ -137,6 +137,8 @@ class LandConfigDataManager
         );
         $this->seq++;
         $this->landConfigDatas[$this->seq] = new LandConfigData($this->seq, $landid, $startx, $startz, $endx, $endz, serialize($defaultPerms), serialize($rolePerms), serialize($memberPerms));
+
+        return $this->landConfigDatas[$this->seq];
     }
 
     /**
