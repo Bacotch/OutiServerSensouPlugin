@@ -173,12 +173,14 @@ class LandConfigForm
                     if ($data === null) return true;
                     elseif ($data[0] === true) {
                         $this->checkLandConfig($player, $landConfigData);
-                    } else {
+                        return true;
+                    }
+                    else {
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setEntry($data[1]);
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockTap_Place($data[2]);
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockBreak($data[3]);
                         $player->sendMessage("§a[システム] デフォルト権限を変更しました");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player, $landConfigData]), 10);
                     }
 
                     // update関数は絶対に呼び出してください、dbの方が更新されません
@@ -303,7 +305,7 @@ class LandConfigForm
                         $landConfigData->getLandPermsManager()->createRoleLandPerms($roleData->getId(), $data[1], $data[2], $data[3]);
                         $landConfigData->update();
                         $player->sendMessage("§a[システム] {$roleData->getName()}のロール権限を追加しました");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player, $landConfigData]), 10);
                     }
 
                     // update関数は絶対に呼び出してください、dbの方が更新されません
@@ -480,7 +482,7 @@ class LandConfigForm
                     } else {
                         $landConfigData->getLandPermsManager()->createMemberLandPerms($playerData->getName(), $data[1], $data[2], $data[3]);
                         $player->sendMessage("§a[システム] {$playerData->getName()}のメンバー権限を追加しました");
-                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player]), 10);
+                        Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "checkLandConfig"], [$player, $landConfigData]), 10);
                     }
 
                     // update関数は絶対に呼び出してください、dbの方が更新されません
