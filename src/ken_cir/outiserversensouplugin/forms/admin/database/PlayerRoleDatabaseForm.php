@@ -53,7 +53,7 @@ class PlayerRoleDatabaseForm
         }
     }
 
-    public function viewPlayerRolesData(Player $player, PlayerData $playerData): void
+    private function viewPlayerRolesData(Player $player, PlayerData $playerData): void
     {
         try {
             $form = new ModalForm(function (Player $player, $data) use ($playerData) {
@@ -109,7 +109,7 @@ class PlayerRoleDatabaseForm
                     }
 
                     $player->sendMessage("§a[システム] {$playerData->getName()}の役職を変更しました");
-                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "viewPlayerRolesData"], [$player, $playerData]), 20);
+                    Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                 }
                 catch (\Error | \Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
