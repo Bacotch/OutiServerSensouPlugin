@@ -95,6 +95,27 @@ class PlayerCache
      */
     private ?string $discordUserTag;
 
+    /**
+     * 土地保護設定のワールド名
+     *
+     * @var string|null
+     */
+    private ?string $landConfigDatabase_WorldName;
+
+    /**
+     * 土地保護設定の開始X座標
+     *
+     * @var int|null
+     */
+    private ?int $landConfigDatabase_StartX;
+
+    /**
+     * 土地保護設定の開始Z座標
+     *
+     * @var int|null
+     */
+    private ?int $landConfigDatabase_StartZ;
+
     public function __construct(string $xuid, string $name)
     {
         $this->xuid = $xuid;
@@ -108,6 +129,9 @@ class PlayerCache
         $this->worldBackup_StartZ = null;
         $this->discordVerifyCode = null;
         $this->discordUserTag = null;
+        $this->landConfigDatabase_WorldName = null;
+        $this->landConfigDatabase_StartX = null;
+        $this->landConfigDatabase_StartZ = null;
     }
 
     /**
@@ -321,5 +345,64 @@ class PlayerCache
     public function setDiscordUserTag(?string $discordUserTag): void
     {
         $this->discordUserTag = $discordUserTag;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLandConfigDatabaseWorldName(): ?string
+    {
+        return $this->landConfigDatabase_WorldName;
+    }
+
+    /**
+     * @param string|null $landConfigDatabase_WorldName
+     */
+    public function setLandConfigDatabaseWorldName(?string $landConfigDatabase_WorldName): void
+    {
+        $this->landConfigDatabase_WorldName = $landConfigDatabase_WorldName;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLandConfigDatabaseStartX(): ?int
+    {
+        return $this->landConfigDatabase_StartX;
+    }
+
+    /**
+     * @param int|null $landConfigDatabase_StartX
+     */
+    public function setLandConfigDatabaseStartX(?int $landConfigDatabase_StartX): void
+    {
+        $this->landConfigDatabase_StartX = $landConfigDatabase_StartX;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLandConfigDatabaseStartZ(): ?int
+    {
+        return $this->landConfigDatabase_StartZ;
+    }
+
+    /**
+     * @param int|null $landConfigDatabase_StartZ
+     */
+    public function setLandConfigDatabaseStartZ(?int $landConfigDatabase_StartZ): void
+    {
+        $this->landConfigDatabase_StartZ = $landConfigDatabase_StartZ;
+    }
+
+    /**
+     * 土地保護データベース操作リセット
+     * @return void
+     */
+    public function resetLandConfigDatabase(): void
+    {
+        $this->landConfigDatabase_WorldName = null;
+        $this->landConfigDatabase_StartX = null;
+        $this->landConfigDatabase_StartZ = null;
     }
 }

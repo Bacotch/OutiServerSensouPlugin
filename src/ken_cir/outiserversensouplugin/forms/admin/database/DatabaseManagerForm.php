@@ -42,6 +42,9 @@ class DatabaseManagerForm
                     elseif ($data === 6) {
                         (new PlayerRoleDatabaseForm())->execute($player);
                     }
+                    elseif ($data === 7) {
+                        (new LandConfigDatabaseForm())->execute($player);
+                    }
                 }
                 catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
@@ -56,6 +59,7 @@ class DatabaseManagerForm
             $form->addButton("土地データ");
             $form->addButton("役職データ");
             $form->addButton("プレイヤー役職データ");
+            $form->addButton("土地保護データ");
             $player->sendForm($form);
         }
         catch (\Error|\Exception $exception) {
