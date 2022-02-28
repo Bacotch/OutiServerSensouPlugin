@@ -56,6 +56,18 @@ jobs:
         with:
           add-labels: "Type: Testing"
 
+  assign_issue_to_project:
+    name: Assign issues to project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign issues to project
+        uses: technote-space/create-project-card-action@v1
+        if: "github.event.action == 'opened'"
+        with:
+          PROJECT: ${{env.PROJECT_NAME}}
+          COLUMN: 未処理
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
   move_assigned_card:
     runs-on: ubuntu-latest
     name: Move assigned card
@@ -65,10 +77,10 @@ jobs:
         with:
           project: ${{env.PROJECT_NAME}}
           column: 進行中 or 作業中Issue・Pull Request
-          repo-token: ${{ secrets.GHPROJECT_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: alex-page/github-project-automation-plus@v0.8.1
         if: "github.event.action == 'reopened'"
         with:
           project: ${{env.PROJECT_NAME}}
           column: 進行中 or 作業中Issue・Pull Request
-          repo-token: ${{ secrets.GHPROJECT_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
