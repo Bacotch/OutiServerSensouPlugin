@@ -169,6 +169,15 @@ class RoleData
     }
 
     /**
+     * @param int $faction_id
+     */
+    public function setFactionId(int $faction_id): void
+    {
+        $this->faction_id = $faction_id;
+        $this->update();
+    }
+
+    /**
      * @return string
      * ロール名取得
      */

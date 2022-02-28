@@ -10,6 +10,7 @@ namespace ken_cir\outiserversensouplugin\cache\playercache;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use function strtolower;
+use function array_values;
 
 /**
  * プレイヤーキャッシュマネージャー
@@ -52,6 +53,15 @@ class PlayerCacheManager
     public static function getInstance(): self
     {
         return self::$instance;
+    }
+
+    /**
+     * @return PlayerCache[]
+     */
+    public function getAll(?bool $keyValue = false): array
+    {
+        if ($keyValue) return array_values($this->cache);
+        return $this->cache;
     }
 
     /**

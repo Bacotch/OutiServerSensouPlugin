@@ -64,8 +64,9 @@ class PlayerDataManager
     /**
      * @return PlayerData[]
      */
-    public function getPlayerDatas(): array
+    public function getAll(?bool $keyValue = false): array
     {
+        if ($keyValue) return array_values($this->playerDatas);
         return $this->playerDatas;
     }
 
@@ -118,11 +119,6 @@ class PlayerDataManager
         $this->playerDatas[$player->getXuid()] = $data;
 
         return $data;
-    }
-
-    public function delete()
-    {
-
     }
 
     public function deleteXuid(string $xuid): void

@@ -240,10 +240,14 @@ FROM mails;
 -- # }
 
 -- # { update
+-- #    :title string
+-- #    :content string
 -- #    :read int
 -- #    :id int
 UPDATE mails
-SET read = :read
+SET title = :title,
+    content = :content,
+    read = :read
 WHERE id = :id;
 -- # }
 

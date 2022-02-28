@@ -175,6 +175,14 @@ class ChestShopData
     }
 
     /**
+     * @param string $ownerXuid
+     */
+    public function setOwnerXuid(string $ownerXuid): void
+    {
+        $this->ownerXuid = $ownerXuid;
+    }
+
+    /**
      * @return int
      */
     public function getFactionId(): int

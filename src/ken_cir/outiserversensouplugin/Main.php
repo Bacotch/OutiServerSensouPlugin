@@ -205,7 +205,7 @@ class Main extends PluginBase
                 new BackupLoadCommand(),
                 new BanAllCOmmand(),
                 new ItemsCommand(),
-                new OutiServerCommand($this)
+                new OutiServerCommand($this),
             ]);
 
         // ---エンティティ系登録---
