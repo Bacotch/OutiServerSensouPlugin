@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\roledata;
 
+use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
+use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
@@ -13,6 +15,9 @@ use function ksort;
 
 /**
  * 派閥のロール系管理クラス
+ *
+ * RoleData -> FactionData
+ * RoleData <- PlayerData
  */
 class RoleDataManager
 {
@@ -142,12 +147,20 @@ class RoleDataManager
      */
     public function delete(int $id): void
     {
-        $deleteRole = $this->faction_role_datas[$id];
-        foreach ($this->getFactionRoles($deleteRole->getFactionId()) as $factionRole) {
+        if (!$deleteRoleData = $this->get($id)) return;
+        foreach ($this->getFactionRoles($deleteRoleData->getFactionId()) as $factionRole) {
             // 削除する役職より下の位置にある役職は
-            if ($factionRole->getPosition() > $deleteRole->getPosition()) {
+            if ($factionRole->getPosition() > $deleteRoleData->getPosition()) {
                 // 1ずらす
                 $factionRole->setPosition($factionRole->getPosition() - 1);
+            }
+        }
+
+        // 土地保護データ(RolePerms)を削除する
+        foreach (LandDataManager::getInstance()->getFactionLands($deleteRoleData->getFactionId()) as $factionLand) {
+            foreach (LandConfigDataManager::getInstance()->getLandConfigs($factionLand->getId()) as $landConfigData) {
+                $landConfigData->getLandPermsManager()->deleteRoleLandPerms($deleteRoleData->getId());
+                $landConfigData->update();
             }
         }
 

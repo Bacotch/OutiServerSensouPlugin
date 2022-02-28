@@ -25,7 +25,6 @@ class LandAbandonedForm
                 try {
                     if ($data === true) {
                         $landData = LandDataManager::getInstance()->getChunk((int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
-                        LandConfigDataManager::getInstance()->deleteLand($landData->getId());
                         LandDataManager::getInstance()->delete($landData->getId());
                         $player->sendMessage("§a[システム] 放棄しました");
                     }

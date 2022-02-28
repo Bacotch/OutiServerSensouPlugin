@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\playerdata;
 
+use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
+use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
+use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
+use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
+use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
@@ -14,6 +19,15 @@ use function in_array;
 use function serialize;
 use function strtolower;
 
+/**
+ * プレイヤーデータマネージャー
+ *
+ * 依存関係:
+ * PlayerData <-> FactionData
+ * PlayerData <- ChestShopData
+ * PlayerData <- MailData
+ * PlayerData -> RoleData
+ */
 class PlayerDataManager
 {
     /**
@@ -123,8 +137,38 @@ class PlayerDataManager
 
     public function deleteXuid(string $xuid): void
     {
+        if (!$deletePlayerData = $this->getXuid($xuid)) return;
+
+        if ($deletePlayerData->getFaction() !== -1) {
+            // もし所有してる派閥があるなら
+            if (FactionDataManager::getInstance()->get($deletePlayerData->getFaction())->getOwnerXuid() === $deletePlayerData->getXuid()) {
+                FactionDataManager::getInstance()->delete($deletePlayerData->getFaction());
+            }
+            // 所有してないならチェストショップデータと土地保護データ(MemberPerms)を削除する、
+            // 所有してた場合は派閥削除と同時に消されるのでここの処理は要りません
+            else {
+                // チェストショップデータ
+                foreach (ChestShopDataManager::getInstance()->getPlayerChestShops($deletePlayerData->getXuid()) as $playerChestShop) {
+                    ChestShopDataManager::getInstance()->delete($playerChestShop->getId());
+                }
+
+                // 土地保護データ(MemberPerms)
+                foreach (LandDataManager::getInstance()->getFactionLands($deletePlayerData->getFaction()) as $factionLand) {
+                    foreach (LandConfigDataManager::getInstance()->getLandConfigs($factionLand->getId()) as $landConfig) {
+                        $landConfig->getLandPermsManager()->deleteMemberLandPerms($deletePlayerData->getName());
+                        $landConfig->update();
+                    }
+                }
+            }
+        }
+
+        // メールデータを削除する
+        foreach (MailDataManager::getInstance()->getPlayerMailDatas($xuid) as $mailData) {
+            MailDataManager::getInstance()->delete($mailData->getId());
+        }
+
         Main::getInstance()->getDatabase()->executeGeneric(
-            "outiserver.players.delete_xuid",
+            "outiserver.players.delete",
             [
                 "xuid" => $xuid
             ],
@@ -143,21 +187,8 @@ class PlayerDataManager
      */
     public function deleteName(string $name): void
     {
-        if (!$this->getName($name)) return;
-        Main::getInstance()->getDatabase()->executeGeneric(
-            "outiserver.players.delete_name",
-            [
-                "name" => strtolower($name)
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getOutiServerLogger()->error($error);
-            }
-        );
-
-        $this->playerDatas = array_filter($this->playerDatas, function ($playerData) use ($name) {
-            return $playerData->getName() !== strtolower($name);
-        });
+        if (!$deletePlayerData = $this->getName($name)) return;
+        $this->deleteXuid($deletePlayerData->getXuid());
     }
 
     /**

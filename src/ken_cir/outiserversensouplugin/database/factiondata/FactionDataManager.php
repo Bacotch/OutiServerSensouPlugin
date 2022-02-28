@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\factiondata;
 
+use DateTime;
+use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
+use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
+use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
+use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
+use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
@@ -14,6 +20,12 @@ use function array_values;
 
 /**
  * 派閥データマネージャー
+ *
+ * 依存関係:
+ * FactionData <- RoleData
+ * FactionData <- LandData
+ * FactionData <- ChestShopData
+ * FactionData <-> PlayerData
  */
 class FactionDataManager
 {
@@ -148,7 +160,36 @@ class FactionDataManager
      */
     public function delete(int $id): void
     {
-        if (!$this->get($id)) return;
+        if (!$deleteFactionData = $this->get($id)) return;
+
+        // 派閥崩壊通知を送る
+        $factionPlayers = PlayerDataManager::getInstance()->getFactionPlayers($deleteFactionData->getId());
+        $time = new DateTime("now");
+        foreach ($factionPlayers as $factionPlayer) {
+            MailDataManager::getInstance()->create($factionPlayer->getXuid(),
+            "派閥崩壊通知",
+            "所属派閥{$deleteFactionData->getName()}が{$time->format("Y年m月d日 H時i分")}}に崩壊しました",
+            "システム",
+                $time->format("Y年m月d日 H時i分"));
+            $factionPlayer->setFaction(-1);
+            $factionPlayer->setRoles([]);
+        }
+
+        // 派閥役職を全て削除する
+        foreach (RoleDataManager::getInstance()->getFactionRoles($deleteFactionData->getId()) as $factionRole) {
+            RoleDataManager::getInstance()->delete($factionRole->getId());
+        }
+
+        // 派閥の土地を全て削除する
+        foreach (LandDataManager::getInstance()->getFactionLands($deleteFactionData->getId()) as $factionLand) {
+            LandDataManager::getInstance()->delete($factionLand->getId());
+        }
+
+        // 派閥のチェストショップを全て削除する
+        foreach (ChestShopDataManager::getInstance()->getFactionChestShops($deleteFactionData->getId()) as $chestShopData) {
+            ChestShopDataManager::getInstance()->delete($chestShopData->getId());
+        }
+
         Main::getInstance()->getDatabase()->executeGeneric("outiserver.factions.delete",
             [
                 "id" => $id

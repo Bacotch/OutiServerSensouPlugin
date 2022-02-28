@@ -41,19 +41,6 @@ class DeleteFactionForm
                     elseif ($data === true) {
                         $faction_name = $faction_data->getName();
                         $factionId = $player_data->getFaction();
-                        $faction_players = PlayerDataManager::getInstance()->getFactionPlayers($player_data->getFaction());
-                        $time = new DateTime('now');
-                        foreach ($faction_players as $faction_player) {
-                            MailDataManager::getInstance()->create(
-                                $faction_player->getXuid(),
-                                "派閥崩壊通知",
-                                "所属派閥 $faction_name が {$time->format("Y年m月d日 H時i分")} に崩壊しました",
-                                "システム",
-                                $time->format("Y年m月d日 H時i分")
-                            );
-                            $faction_player->setFaction(-1);
-                        }
-                        LandDataManager::getInstance()->deleteFaction($factionId);
                         FactionDataManager::getInstance()->delete($factionId);
                         $player->sendMessage("§a[システム] 派閥 $faction_name を削除しました");
                         Server::getInstance()->broadcastMessage("§[システム] 派閥 $faction_name が崩壊しました");
