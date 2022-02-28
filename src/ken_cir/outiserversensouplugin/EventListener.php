@@ -14,6 +14,7 @@ use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
+use ken_cir\outiserversensouplugin\forms\admin\database\ChestShopDatabaseForm;
 use ken_cir\outiserversensouplugin\forms\chestshop\BuyChestShopForm;
 use ken_cir\outiserversensouplugin\forms\chestshop\CreateChestShopForm;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
@@ -273,10 +274,17 @@ class EventListener implements Listener
                         $event->cancel();
                         $form = new BuyChestShopForm();
                         $form->execute($player, $chestShopData);
-                    } // 看板をタップして貿易元の派閥所属でないなら
-                    elseif ($chestShopData->getSignboardX() === $position->getFloorX() and $chestShopData->getSignboardY() === $position->getFloorY() and $chestShopData->getSignboardZ() === $position->getFloorZ() and $chestShopData->getFactionId() !== $playerData->getFaction()) {
-                        $form = new BuyChestShopForm();
-                        $form->execute($player, $chestShopData);
+                    } // 看板をタップして
+                    elseif ($chestShopData->getSignboardX() === $position->getFloorX() and $chestShopData->getSignboardY() === $position->getFloorY() and $chestShopData->getSignboardZ() === $position->getFloorZ()) {
+                        // OP餅なら
+                        if (Server::getInstance()->isOp($player->getName())) {
+                            (new ChestShopDatabaseForm())->execute($player, $chestShopData);
+                        }
+                        // OP餅ではなくて貿易元と所属派閥が違うなら
+                        elseif ($chestShopData->getFactionId() !== $playerData->getFaction()) {
+                            $form = new BuyChestShopForm();
+                            $form->execute($player, $chestShopData);
+                        }
                     }
                 }
                 // ここまで チェストショップ処理
