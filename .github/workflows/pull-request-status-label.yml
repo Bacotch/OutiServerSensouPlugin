@@ -46,4 +46,4 @@ jobs:
         with:
           PROJECT: ${{env.PROJECT_NAME}}
           COLUMN: 進行中 or 作業中Issue・Pull Request
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
