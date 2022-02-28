@@ -89,18 +89,11 @@ SET name           = :name,
 WHERE xuid = :xuid;
 -- # }
 
--- # { delete_xuid
+-- # { delete
 -- #    :xuid string
 DELETE
 FROM players
 WHERE xuid = :xuid;
--- # }
-
--- # { delete_name
--- #    :name string
-DELETE
-FROM players
-WHERE name = :name;
 -- # }
 
 -- # { drop
@@ -468,13 +461,6 @@ FROM lands
 WHERE id = :id;
 -- # }
 
--- # { delete_faction
--- #    :faction_id int
-DELETE
-FROM lands
-WHERE faction_id = :faction_id;
--- # }
-
 -- # { drop
 DROP TABLE IF EXISTS lands;
 -- # }
@@ -580,13 +566,6 @@ WHERE id = :id;
 DELETE
 FROM landconfigs
 WHERE id = :id;
--- # }
-
--- # { delete_land
--- #    :landid int
-DELETE
-FROM landconfigs
-WHERE landid = :landid;
 -- # }
 
 -- # { drop

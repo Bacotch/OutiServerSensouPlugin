@@ -234,6 +234,15 @@ class PlayerData
     }
 
     /**
+     * @param int[] $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+        $this->update();
+    }
+
+    /**
      * @param int $id
      * ロールを追加する
      */

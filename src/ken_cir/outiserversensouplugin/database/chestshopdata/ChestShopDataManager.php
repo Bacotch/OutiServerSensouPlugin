@@ -9,7 +9,15 @@ use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function array_shift;
 use function count;
+use function array_values;
 
+/**
+ * チェストショップデータマネージャー
+ *
+ * 依存関係:
+ * ChestShopData -> FactionData
+ * ChestShopData -> PlayerData
+ */
 class ChestShopDataManager
 {
     /**
@@ -112,6 +120,36 @@ class ChestShopDataManager
 
         if (count($chestShopData) < 1) return false;
         return array_shift($chestShopData);
+    }
+
+    /**
+     * @param int $factionId
+     * @param bool|null $keyValue
+     * @return ChestShopData[]
+     */
+    public function getFactionChestShops(int $factionId, ?bool $keyValue = false): array
+    {
+        $factionChestShops = array_filter($this->chestShopDatas, function (ChestShopData $chestShopData) use ($factionId) {
+            return $chestShopData->getFactionId() === $factionId;
+        });
+
+        if ($keyValue) return array_values($factionChestShops);
+        return $factionChestShops;
+    }
+
+    /**
+     * @param string $playerXuid
+     * @param bool|null $keyValue
+     * @return ChestShopData[]
+     */
+    public function getPlayerChestShops(string $playerXuid, ?bool $keyValue = false): array
+    {
+        $playerChestShops = array_filter($this->chestShopDatas, function (ChestShopData $chestShopData) use ($playerXuid) {
+            return $chestShopData->getOwnerXuid() === $playerXuid;
+        });
+
+        if ($keyValue) return array_values($playerChestShops);
+        return $playerChestShops;
     }
 
     public function create(string $ownerXuid, int $factionId, string $worldName, int $chestx, int $chesty, int $chestz, int $signboardx, int $signboardy, int $signboardz, int $itemId, int $itemMeta, int $price, int $duty): void

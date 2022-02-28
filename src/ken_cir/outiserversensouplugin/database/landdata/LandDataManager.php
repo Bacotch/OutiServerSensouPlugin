@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\landdata;
 
+use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_shift;
 use function count;
+use function array_values;
 
 /**
  * 土地データマネージャー
+ *
+ * 依存関係:
+ * LandData <- LandConfigData
+ * LandData -> FactionData
  */
 class LandDataManager
 {
@@ -97,6 +103,21 @@ class LandDataManager
     }
 
     /**
+     * @param int $factionId
+     * @param bool|null $keyValue
+     * @return LandData[]
+     */
+    public function getFactionLands(int $factionId, ?bool $keyValue = false): array
+    {
+        $factionLands = array_filter($this->land_datas, function (LandData $landData) use ($factionId) {
+            return $landData->getFactionId() === $factionId;
+        });
+
+        if ($keyValue) return array_values($factionLands);
+        return $factionLands;
+    }
+
+    /**
      * @param int $x
      * @param int $z
      * @param string $world
@@ -156,6 +177,13 @@ class LandDataManager
 
     public function delete(int $id)
     {
+        if (!$deleteLandData = $this->get($id)) return;
+
+        // 該当の土地保護データを削除する
+        foreach (LandConfigDataManager::getInstance()->getLandConfigs($deleteLandData->getId()) as $landConfigData) {
+            LandConfigDataManager::getInstance()->delete($landConfigData->getId());
+        }
+
         Main::getInstance()->getDatabase()->executeGeneric(
             "outiserver.lands.delete",
             [
@@ -166,28 +194,7 @@ class LandDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
+
         unset($this->land_datas[$id]);
-    }
-
-    /**
-     * @param int $factionId
-     * @return void
-     */
-    public function deleteFaction(int $factionId): void
-    {
-        Main::getInstance()->getDatabase()->executeGeneric(
-            "outiserver.lands.delete_faction",
-            [
-                "faction_id" => $factionId
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getOutiServerLogger()->error($error);
-            }
-        );
-
-        $this->land_datas = array_filter($this->land_datas, function ($landData) use ($factionId) {
-            return $landData->getFactionId() !== $factionId;
-        });
     }
 }

@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\maildata;
 
+use ken_cir\outiserversensouplugin\database\landdata\LandData;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function count;
 use function array_values;
 
+/**
+ * メールデータマネージャー
+ *
+ * MailData -> PlayerData
+ */
 class MailDataManager
 {
     /**
@@ -93,6 +99,21 @@ class MailDataManager
     {
         if ($keyValue) return array_values($this->mail_datas);
         return $this->mail_datas;
+    }
+
+    /**
+     * @param string $playerXuid
+     * @param bool|null $keyValue
+     * @return MailData[]
+     */
+    public function getPlayerMailDatas(string $playerXuid, ?bool $keyValue = false): array
+    {
+        $factionLands = array_filter($this->mail_datas, function (MailData $mailData) use ($playerXuid) {
+            return $mailData->getSendtoXuid() === $playerXuid or $mailData->getAuthorXuid() === $playerXuid;
+        });
+
+        if ($keyValue) return array_values($factionLands);
+        return $factionLands;
     }
 
     /**

@@ -11,7 +11,16 @@ use poggit\libasynql\SqlError;
 use function array_filter;
 use function count;
 use function serialize;
+use function array_values;
 
+/**
+ * 土地保護データマネージャー
+ *
+ * 依存関係:
+ * LandConfigData -> LandData
+ * LandConfigData(MemberPerms) -> PlayerData
+ * LandConfigData(RolePerms) -> RoleData
+ */
 class LandConfigDataManager
 {
     /**
@@ -94,6 +103,21 @@ class LandConfigDataManager
     }
 
     /**
+     * @param int $landId
+     * @param bool|null $keyValue
+     * @return LandConfigData[]
+     */
+    public function getLandConfigs(int $landId, ?bool $keyValue = false): array
+    {
+        $landConfigDatas = array_filter($this->landConfigDatas, function (LandConfigData $landConfigData) use ($landId) {
+            return $landConfigData->getId() === $landId;
+        });
+
+        if ($keyValue) return array_values($landConfigDatas);
+        return $landConfigDatas;
+    }
+
+    /**
      * X座標とY座標とワールド名を元にコンフィグデータを返す、無ければnullを返す
      * @param int $x
      * @param int $z
@@ -158,27 +182,5 @@ class LandConfigDataManager
             }
         );
         unset($this->landConfigDatas[$id]);
-    }
-
-    /**
-     * @param int $landid
-     * @return void
-     */
-    public function deleteLand(int $landid): void
-    {
-        Main::getInstance()->getDatabase()->executeGeneric(
-            "outiserver.landconfigs.delete_land",
-            [
-                "landid" => $landid
-            ],
-            null,
-            function (SqlError $error) {
-                Main::getInstance()->getOutiServerLogger()->error($error);
-            }
-        );
-
-        $this->landConfigDatas = array_filter($this->landConfigDatas, function ($landConfigData) use ($landid) {
-            return $landConfigData->getLandid() !== $landid;
-        });
     }
 }
