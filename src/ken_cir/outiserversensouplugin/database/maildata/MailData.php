@@ -112,6 +112,7 @@ class MailData
     public function setTitle(string $title): void
     {
         $this->title = $title;
+        $this->update();
     }
 
     /**
@@ -128,6 +129,7 @@ class MailData
     public function setContent(string $content): void
     {
         $this->content = $content;
+        $this->update();
     }
 
     /**
@@ -160,5 +162,6 @@ class MailData
     public function setRead(bool $read): void
     {
         $this->read = (int)$read;
+        $this->update();
     }
 }

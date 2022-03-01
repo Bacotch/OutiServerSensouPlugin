@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\commands\subcommands;
 
 use CortexPE\Commando\BaseSubCommand;
-use Error;
-use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+
 
 /**
  * おうちウォッチフォームを出すコマンド
@@ -38,7 +37,7 @@ class OutiWatchCommand extends BaseSubCommand
             $form = new OutiWatchForm();
             $form->execute($sender);
             PlayerCacheManager::getInstance()->getXuid($sender->getXuid())->setLockOutiWatch(true);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $sender);
         }
     }

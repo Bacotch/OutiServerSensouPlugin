@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\maildata;
 
-use ken_cir\outiserversensouplugin\database\landdata\LandData;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function count;
 use function array_values;
+use function count;
 
 /**
  * メールデータマネージャー

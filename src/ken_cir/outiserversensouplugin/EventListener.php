@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin;
 
-use Error;
-use Exception;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
@@ -93,7 +91,7 @@ class EventListener implements Listener
                 Server::getInstance()->broadcastMessage("§a[システム] §e[警告] §fサーバーアップデートの準備が整いました！あと10分でサーバーは再起動されます");
                 Main::getInstance()->getScheduler()->scheduleRepeatingTask(new AutoUpdateWait(), 20);
             }
-        } catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -127,7 +125,7 @@ class EventListener implements Listener
             if (!PlayerCacheManager::getInstance()->getXuid($player->getXuid())) {
                 PlayerCacheManager::getInstance()->create($player->getXuid(), $player->getName());
             }
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -145,7 +143,7 @@ class EventListener implements Listener
             if (($mail_count = MailDataManager::getInstance()->unReadCount($player->getXuid())) > 0) {
                 $player->sendMessage("§a[システム] 未読メールが{$mail_count}件あります");
             }
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -161,7 +159,7 @@ class EventListener implements Listener
 
             // おうちウォッチのロック解除
             PlayerCacheManager::getInstance()->getXuid($player->getXuid())->setLockOutiWatch(false);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true);
         }
     }
@@ -212,7 +210,7 @@ class EventListener implements Listener
                 Main::getInstance()->getLogger()->info($event->getFormat());
                 $event->cancel();
             }
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }
@@ -279,8 +277,7 @@ class EventListener implements Listener
                         // OP餅なら
                         if (Server::getInstance()->isOp($player->getName())) {
                             (new ChestShopDatabaseForm())->execute($player, $chestShopData);
-                        }
-                        // OP餅ではなくて貿易元と所属派閥が違うなら
+                        } // OP餅ではなくて貿易元と所属派閥が違うなら
                         elseif ($chestShopData->getFactionId() !== $playerData->getFaction()) {
                             $form = new BuyChestShopForm();
                             $form->execute($player, $chestShopData);
@@ -289,7 +286,7 @@ class EventListener implements Listener
                 }
                 // ここまで チェストショップ処理
             }
-        } catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -335,7 +332,7 @@ class EventListener implements Listener
                     }
                 }
             }
-        } catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -389,12 +386,11 @@ class EventListener implements Listener
                 if (($chestShopData->getFactionId() === $playerData->getFaction() and !$event->isCancelled()) or Server::getInstance()->isOp($player->getName())) {
                     ChestShopDataManager::getInstance()->delete($chestShopData->getId());
                     $player->sendMessage("§a[システム] このチェストショップを閉店しました");
-                }
-                else {
+                } else {
                     $event->cancel();
                 }
             }
-        } catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }
@@ -444,7 +440,7 @@ class EventListener implements Listener
 
                 }
             }
-        } catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }

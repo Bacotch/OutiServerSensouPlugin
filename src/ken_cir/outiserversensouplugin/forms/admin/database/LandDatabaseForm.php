@@ -38,13 +38,12 @@ class LandDatabaseForm
                     }
 
                     LandDataManager::getInstance()->create(FactionDataManager::getInstance()->getAll(true)[$data[2]]->getId(),
-                    $player->getPosition()->getFloorX()  >> 4,
-                        $player->getPosition()->getFloorZ()  >> 4,
-                    $player->getWorld()->getFolderName());
+                        $player->getPosition()->getFloorX() >> 4,
+                        $player->getPosition()->getFloorZ() >> 4,
+                        $player->getWorld()->getFolderName());
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([new DatabaseManagerForm(), "execute"], [$player]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -58,8 +57,7 @@ class LandDatabaseForm
             $form->addLabel("この土地はどの派閥も所有してないようです、所有させる派閥を選択してください");
             $form->addDropdown("所有させる派閥", $factionDatas);
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -72,12 +70,10 @@ class LandDatabaseForm
                     if ($data === null) return;
                     elseif ($data === true) {
                         (new DatabaseManagerForm())->execute($player);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editLandData($player, $landData);
                     }
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -87,8 +83,7 @@ class LandDatabaseForm
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -102,8 +97,7 @@ class LandDatabaseForm
                     elseif ($data[0]) {
                         $this->viewLandData($player, $landData);
                         return;
-                    }
-                    elseif ($data[1]) {
+                    } elseif ($data[1]) {
                         LandDataManager::getInstance()->delete($landData->getId());
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([new DatabaseManagerForm(), "execute"], [$player]), 20);
@@ -113,8 +107,7 @@ class LandDatabaseForm
                     $landData->setFactionId(FactionDataManager::getInstance()->getAll(true)[$data[2]]->getId());
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([new DatabaseManagerForm(), "execute"], [$player]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -136,8 +129,7 @@ class LandDatabaseForm
             $form->addToggle("削除して戻る");
             $form->addDropdown("所有派閥", $factionDatas, $factionDefault);
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

@@ -20,7 +20,6 @@ namespace ken_cir\outiserversensouplugin;
 
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
-use JsonException;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
@@ -253,7 +252,7 @@ class Main extends PluginBase
         if (isset($this->pluginData)) {
             try {
                 $this->pluginData->save();
-            } catch (JsonException) {
+            } catch (\JsonException) {
             }
         }
     }

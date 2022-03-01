@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\forms\mail;
 
 use DateTime;
-use Error;
-use Exception;
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
+
 
 /**
  * メール作成フォーム
@@ -63,7 +62,7 @@ class CreateMailForm
                         $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -79,7 +78,7 @@ class CreateMailForm
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
             }
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

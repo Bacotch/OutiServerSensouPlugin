@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin\worldbackup;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
@@ -85,7 +84,7 @@ class WorldBackupManager
 
                     $player->sendMessage("終了");
                 }
-            } catch (Error|Exception $e) {
+            } catch (\Error|\Exception $e) {
                 Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
             }
 

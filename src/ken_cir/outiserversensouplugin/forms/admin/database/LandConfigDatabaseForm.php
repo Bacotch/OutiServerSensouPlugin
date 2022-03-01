@@ -44,8 +44,7 @@ class LandConfigDatabaseForm
                         $player->sendMessage("§a[システム] 開始X座標を{$player->getPosition()->getFloorX()}\n開始Z座標を{$player->getPosition()->getFloorZ()}に設定しました");
                     } elseif ($data === 1 and $landConfigData !== null) {
                         $this->checkLandConfig($player, $landConfigData);
-                    }
-                    elseif ($data === 1) {
+                    } elseif ($data === 1) {
                         if (PlayerCacheManager::getInstance()->getXuid($player->getXuid())->getLandConfigDatabaseWorldName() !== $player->getWorld()->getFolderName()) {
                             $player->sendMessage("§a[システム] 開始座標ワールドと現在いるワールドが違います");
                         } else {
@@ -85,7 +84,7 @@ class LandConfigDatabaseForm
                         PlayerCacheManager::getInstance()->getXuid($player->getXuid())->resetLandConfig();
                         $player->sendMessage("§a[システム] 開始座標をリセットしました");
                     }
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -108,7 +107,7 @@ class LandConfigDatabaseForm
             }
 
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -131,7 +130,7 @@ class LandConfigDatabaseForm
                     } elseif (($data === 4 and $landConfigData !== null) or ($data === 3 and $landConfigData === null)) {
                         $this->editMemberPermsSelect($player, $landConfigData);
                     }
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -145,7 +144,7 @@ class LandConfigDatabaseForm
             $form->addButton("役職権限の編集");
             $form->addButton("メンバー権限の編集");
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -165,8 +164,7 @@ class LandConfigDatabaseForm
                     elseif ($data[0] === true) {
                         $this->checkLandConfig($player, $landConfigData);
                         return true;
-                    }
-                    else {
+                    } else {
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setEntry($data[1]);
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockTap_Place($data[2]);
                         $landConfigData->getLandPermsManager()->getDefalutLandPerms()->setBlockBreak($data[3]);
@@ -176,7 +174,7 @@ class LandConfigDatabaseForm
 
                     // update関数は絶対に呼び出してください、dbの方が更新されません
                     $landConfigData->update();
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -189,7 +187,7 @@ class LandConfigDatabaseForm
             $form->addToggle("ブロックタップ・設置", $landConfigData->getLandPermsManager()->getDefalutLandPerms()->isBlockTap_Place());
             $form->addToggle("ブロック破壊", $landConfigData->getLandPermsManager()->getDefalutLandPerms()->isBlockBreak());
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -213,7 +211,7 @@ class LandConfigDatabaseForm
                     } else {
                         $this->editRolePerms($player, $landConfigData->getLandPermsManager()->getAllRoleLandPerms()[$data - 2], $landConfigData);
                     }
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -228,7 +226,7 @@ class LandConfigDatabaseForm
                 $form->addButton($role->getName());
             }
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -257,7 +255,7 @@ class LandConfigDatabaseForm
                     } else {
                         $this->addRolePermsSetRolePerms($player, array_values($factionRoleData)[$data - 1], $landConfigData);
                     }
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -270,7 +268,7 @@ class LandConfigDatabaseForm
                 $form->addButton($role->getName());
             }
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -301,7 +299,7 @@ class LandConfigDatabaseForm
 
                     // update関数は絶対に呼び出してください、dbの方が更新されません
                     $landConfigData->update();
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -314,7 +312,7 @@ class LandConfigDatabaseForm
             $form->addToggle("ブロックタップ・設置", true);
             $form->addToggle("ブロック設置", true);
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -352,7 +350,7 @@ class LandConfigDatabaseForm
                     // update関数は絶対に呼び出してください、dbの方が更新されません
                     $landConfigData->update();
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editRolePermsSelect"], [$player, $landConfigData]), 10);
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -366,7 +364,7 @@ class LandConfigDatabaseForm
             $form->addToggle("ブロックタップ・設置", $rolePerms->isBlockTap_Place());
             $form->addToggle("ブロック破壊", $rolePerms->isBlockBreak());
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -391,7 +389,7 @@ class LandConfigDatabaseForm
                     } elseif ($data === 2) {
                         $this->editMemberPerms($player, $landConfigData->getLandPermsManager()->getAllMemberLandPerms()[$data - 2], $landConfigData);
                     }
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -405,7 +403,7 @@ class LandConfigDatabaseForm
                 $form->addButton($landMember->getName());
             }
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -435,7 +433,7 @@ class LandConfigDatabaseForm
                     } else {
                         $this->addMemberPermsSetMemberPerms($player, $factionMember[$data - 1], $landConfigData);
                     }
-                } catch (\Error | \Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -448,7 +446,7 @@ class LandConfigDatabaseForm
                 $form->addButton($member->getName());
             }
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -478,7 +476,7 @@ class LandConfigDatabaseForm
 
                     // update関数は絶対に呼び出してください、dbの方が更新されません
                     $landConfigData->update();
-                } catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
@@ -491,7 +489,7 @@ class LandConfigDatabaseForm
             $form->addToggle("ブロックタップ・設置", true);
             $form->addToggle("ブロック設置", true);
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -526,7 +524,7 @@ class LandConfigDatabaseForm
                     // update関数は絶対に呼び出してください、dbの方が更新されません
                     $landConfigData->update();
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editMemberPermsSelect"], [$player, $landConfigData]), 10);
-                } catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
@@ -540,7 +538,7 @@ class LandConfigDatabaseForm
             $form->addToggle("ブロックタップ・設置", $memberPerms->isBlockTap_Place());
             $form->addToggle("ブロック破壊", $memberPerms->isBlockBreak());
             $player->sendForm($form);
-        } catch (\Error | \Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
@@ -38,7 +37,7 @@ class ChangeChatModeForm
                         $player_data->setChatmode($player_data->getFaction());
                         $player->sendMessage("§a[システム] チャットモードを§f所属派閥と友好関係派閥§aに変更しました");
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -48,7 +47,7 @@ class ChangeChatModeForm
             $form->setTitle("チャットモード変更");
             $form->addDropdown("モード", ["全体", "所属派閥と友好関係派閥"]);
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

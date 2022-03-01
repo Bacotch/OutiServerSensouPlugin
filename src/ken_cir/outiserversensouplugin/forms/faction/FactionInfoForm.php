@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionData;
@@ -39,7 +38,7 @@ class FactionInfoForm
                 try {
                     if ($data === null) return true;
                     $this->Info($player, $faction_data);
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -49,7 +48,7 @@ class FactionInfoForm
             $form->setTitle("§b派閥の詳細表示フォーム");
             $form->addButton(OutiServerUtilitys::getChatColor($faction_data->getColor()) . "{$faction_data->getName()}");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
@@ -63,7 +62,7 @@ class FactionInfoForm
                     elseif ($data === true) {
                         $this->execute($player);
                     }
-                } catch (Error|Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -80,7 +79,7 @@ class FactionInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

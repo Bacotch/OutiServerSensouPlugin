@@ -8,8 +8,6 @@ use CortexPE\DiscordWebhookAPI\Message;
 use CortexPE\DiscordWebhookAPI\Webhook;
 use DateTime;
 use DateTimeZone;
-use Error;
-use Exception;
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\Player\player;
@@ -66,7 +64,7 @@ class OutiServerLogger
                 $msg->setContent("[{$time->format('Y-m-d H:i:sP')}] $errmsg");
                 $webhook->send($msg);
             }
-        } catch (Error|Exception $error_) {
+        } catch (\Error|\Exception $error_) {
             Main::getInstance()->getLogger()->emergency("予期せぬエラーが発生しました、開発者に連絡してください\nFile: {$error_->getFile()}\nLine: {$error_->getLine()}\nMessage: {$error_->getMessage()}");
         }
     }
@@ -89,7 +87,7 @@ class OutiServerLogger
                 $msg->setContent("```[DEUUG] [{$time->format('Y-m-d H:i:sP')}] $message```");
                 $webhook->send($msg);
             }
-        } catch (Error|Exception $error_) {
+        } catch (\Error|\Exception $error_) {
             Main::getInstance()->getLogger()->emergency("予期せぬエラーが発生しました、開発者に連絡してください\nFile: {$error_->getFile()}\nLine: {$error_->getLine()}\nMessage: {$error_->getMessage()}");
         }
     }

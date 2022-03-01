@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin\database;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\SimpleForm;
@@ -13,15 +12,14 @@ use ken_cir\outiserversensouplugin\database\factiondata\FactionData;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerData;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
-use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use function join;
 use function array_map;
-use function array_values;
 use function array_unshift;
+use function array_values;
 use function is_numeric;
+use function join;
 
 class PlayerDatabaseForm
 {
@@ -42,8 +40,7 @@ class PlayerDatabaseForm
 
                     $playerData = PlayerDataManager::getInstance()->getAll(true)[$data - 1];
                     $this->viewPlayerData($player, $playerData);
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -54,8 +51,7 @@ class PlayerDatabaseForm
                 $form->addButton("{$playerData->getName()} {$playerData->getXuid()}");
             }
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -67,12 +63,10 @@ class PlayerDatabaseForm
                 try {
                     if ($data === true) {
                         $this->execute($player);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editPlayerData($player, $playerData);
                     }
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -82,8 +76,7 @@ class PlayerDatabaseForm
             $form->setButton1("戻る");
             $form->setButton2("変更");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -97,14 +90,12 @@ class PlayerDatabaseForm
                     elseif ($data[0]) {
                         $this->viewPlayerData($player, $playerData);
                         return;
-                    }
-                    elseif ($data[1]) {
+                    } elseif ($data[1]) {
                         PlayerDataManager::getInstance()->deleteXuid($playerData->getXuid());
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
-                    }
-                    elseif (!isset($data[2], $data[7]) or !is_numeric($data[7])) {
+                    } elseif (!isset($data[2], $data[7]) or !is_numeric($data[7])) {
                         $player->sendMessage("§a[システム] プレイヤー名と所持金は入力必須項目で、所持金は数値入力です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editPlayerData"], [$player, $playerData]), 20);
                         return;
@@ -120,8 +111,7 @@ class PlayerDatabaseForm
 
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -149,8 +139,7 @@ class PlayerDatabaseForm
             $form->addDropdown("プレイヤーの処罰段階", ["なし", "注意", "警告", "一部機能制限", "被処罰プレイヤー一定期間アクセス禁止 or データ消去 or 両方", "被処罰プレイヤーアクセス永久禁止 and データ消去", "被処罰プレイヤーがログインしたことのある全IPアドレスアクセス永久禁止 and データ消去"], $playerData->getPunishment());
             $form->addInput("所持金", "money", (string)$playerData->getMoney());
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -42,17 +41,15 @@ class CreateFactionForm
                     elseif (!isset($data[0])) {
                         $player->sendMessage("§a[システム] 派閥名を空にすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    }
-                    elseif (FactionDataManager::getInstance()->getName($data[0])) {
+                    } elseif (FactionDataManager::getInstance()->getName($data[0])) {
                         $player->sendMessage("§a[システム] 派閥名を他と同じにすることはできません");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                    }
-                    else {
+                    } else {
                         $id = FactionDataManager::getInstance()->create($data[0], $player->getXuid(), (int)$data[1]);
                         $player_data->setFaction($id);
                         $player->sendMessage("§a[システム]派閥 $data[0] を作成しました");
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -63,7 +60,7 @@ class CreateFactionForm
             $form->addInput("§a派閥名§c", "name");
             $form->addDropdown("§e派閥チャットカラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"]);
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\admin\cache\CacheManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\database\DatabaseManagerForm;
@@ -38,12 +37,10 @@ class AdminForm
                         $form->execute($player);
                     } elseif ($data === 3) {
                         (new DatabaseManagerForm())->execute($player);
-                    }
-                    elseif ($data === 4) {
+                    } elseif ($data === 4) {
                         (new CacheManagerForm())->execute($player);
                     }
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -55,8 +52,7 @@ class AdminForm
             $form->addButton("データベース管理");
             $form->addButton("キャッシュ管理");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

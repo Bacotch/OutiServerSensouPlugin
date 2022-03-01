@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -39,7 +38,7 @@ class EditRoleForm
                     } else {
                         $this->edit($player, $factionRoles[$data - 1]);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -52,7 +51,7 @@ class EditRoleForm
                 $form->addButton(OutiServerUtilitys::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
@@ -72,7 +71,7 @@ class EditRoleForm
                         $player->sendMessage("[システム]役職 {$editRoleData->getName()} を削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
@@ -83,7 +82,7 @@ class EditRoleForm
             $form->addButton("役職を編集する");
             $form->addButton("役職を削除する");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
@@ -132,7 +131,7 @@ class EditRoleForm
 
                     $player->sendMessage("[システム]役職 {$editRoleData->getName()}の設定を編集しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                } catch (Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -153,7 +152,7 @@ class EditRoleForm
             $form->addToggle("派閥銀行管理権限", $editRoleData->isBankManager());
             $form->addToggle("派閥ロール管理権限", $editRoleData->isRoleManager());
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }

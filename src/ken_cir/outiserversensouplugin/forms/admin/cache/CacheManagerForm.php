@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin\cache;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\Main;
@@ -24,12 +23,10 @@ class CacheManagerForm
                 try {
                     if ($data === 0) {
                         (new AdminForm())->execute($player);
-                    }
-                    elseif ($data === 1) {
+                    } elseif ($data === 1) {
                         (new PlayerCacheForm())->execute($player);
                     }
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -38,8 +35,7 @@ class CacheManagerForm
             $form->addButton("キャンセルして戻る");
             $form->addButton("プレイヤーキャッシュ");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

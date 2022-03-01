@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\land;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\ModalForm;
-use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
@@ -28,7 +26,7 @@ class LandAbandonedForm
                         LandDataManager::getInstance()->delete($landData->getId());
                         $player->sendMessage("§a[システム] 放棄しました");
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
             });
@@ -38,7 +36,7 @@ class LandAbandonedForm
             $form->setButton1("放棄");
             $form->setButton2("キャンセル");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }

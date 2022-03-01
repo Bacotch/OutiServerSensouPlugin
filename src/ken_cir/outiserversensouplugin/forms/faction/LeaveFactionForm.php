@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
 use DateTime;
-use Error;
-use Exception;
 use jojoe77777\FormAPI\ModalForm;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
+
 
 /**
  * 派閥脱退フォーム
@@ -50,7 +49,7 @@ class LeaveFactionForm
                         $player_data->setFaction(-1);
                         $player->sendMessage("§a[システム] 派閥 {$player_data->getFaction()} から脱退しました");
                     }
-                } catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
@@ -62,7 +61,7 @@ class LeaveFactionForm
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

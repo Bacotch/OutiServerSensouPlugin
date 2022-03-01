@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\admin\cache;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\SimpleForm;
@@ -34,8 +33,7 @@ class PlayerCacheForm
 
                     $playerCache = PlayerCacheManager::getInstance()->getAll(true)[$data - 1];
                     $this->viewPlayerCache($player, $playerCache);
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -46,8 +44,7 @@ class PlayerCacheForm
                 $form->addButton("{$playerCache->getName()} {$playerCache->getXuid()}");
             }
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -59,12 +56,10 @@ class PlayerCacheForm
                 try {
                     if ($data === true) {
                         $this->execute($player);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editPlayerCache($player, $playerCache);
                     }
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -74,8 +69,7 @@ class PlayerCacheForm
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -89,14 +83,12 @@ class PlayerCacheForm
                     elseif ($data[0]) {
                         $this->viewPlayerCache($player, $playerCache);
                         return;
-                    }
-                    elseif ($data[1]) {
+                    } elseif ($data[1]) {
                         PlayerCacheManager::getInstance()->deleteXuid($playerCache->getXuid());
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
-                    }
-                    elseif (!isset($data[2]) or ($data[5] and !is_numeric($data[5])) or ($data[6] and !is_numeric($data[6]))) {
+                    } elseif (!isset($data[2]) or ($data[5] and !is_numeric($data[5])) or ($data[6] and !is_numeric($data[6]))) {
                         $player->sendMessage("§a[システム] プレイヤー名は入力必須項目で土地保護の開始X座標、Z座標は数値入力です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editPlayerCache"], [$player, $playerCache]), 20);
                         return;
@@ -110,8 +102,7 @@ class PlayerCacheForm
 
                     $player->sendMessage("変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                }
-                catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -125,8 +116,7 @@ class PlayerCacheForm
             $form->addInput("土地保護の開始X座標", "landConfig_StartX", $playerCache->getLandConfigStartX());
             $form->addInput("土地保護の開始Z座標", "landConfig_StartZ", $playerCache->getLandConfigStartZ());
             $player->sendForm($form);
-        }
-        catch (Error|Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

@@ -23,7 +23,7 @@ class MailDatabaseForm
     public function execute(Player $player): void
     {
         try {
-            $form =  new SimpleForm(function (Player $player, $data) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return;
                     elseif ($data === 0) {
@@ -33,8 +33,7 @@ class MailDatabaseForm
 
                     $mailData = MailDataManager::getInstance()->getAll(true)[$data - 1];
                     $this->viewMailData($player, $mailData);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -45,8 +44,7 @@ class MailDatabaseForm
                 $form->addButton("#{$mailData->getId()} {$mailData->getTitle()} To" . PlayerDataManager::getInstance()->getXuid($mailData->getSendtoXuid())->getName());
             }
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -59,12 +57,10 @@ class MailDatabaseForm
                     if ($data === null) return;
                     elseif ($data === true) {
                         $this->execute($player);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editMailData($player, $mailData);
                     }
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -74,8 +70,7 @@ class MailDatabaseForm
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -89,14 +84,12 @@ class MailDatabaseForm
                     elseif ($data[0]) {
                         $this->viewMailData($player, $mailData);
                         return;
-                    }
-                    elseif ($data[1]) {
+                    } elseif ($data[1]) {
                         MailDataManager::getInstance()->delete($mailData->getId());
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
-                    }
-                    elseif (!$data[2] or !$data[3]) {
+                    } elseif (!$data[2] or !$data[3]) {
                         $player->sendMessage("§a[システム] メールタイトルとメール内容は入力必須項目です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editMailData"], [$player, $mailData]), 20);
                         return;
@@ -108,8 +101,7 @@ class MailDatabaseForm
 
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -121,8 +113,7 @@ class MailDatabaseForm
             $form->addInput("メール内容", "mailContent", $mailData->getContent());
             $form->addToggle("既読", $mailData->isRead());
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
