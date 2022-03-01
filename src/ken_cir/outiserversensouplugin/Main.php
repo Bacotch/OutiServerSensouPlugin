@@ -39,6 +39,7 @@ use ken_cir\outiserversensouplugin\network\OutiServerSocket;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
+use pocketmine\console\ConsoleReaderThread;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
@@ -51,6 +52,7 @@ use pocketmine\item\SpawnEgg;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
+use pocketmine\plugin\PluginException;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\Server;
 use pocketmine\utils\Config;
@@ -65,6 +67,8 @@ use function mkdir;
  */
 class Main extends PluginBase
 {
+    public const DEVMODE = true;
+
     /**
      * プラグインインスタンス
      * @var Main $this
@@ -135,6 +139,11 @@ class Main extends PluginBase
         // ---プラグインコンフィグを読み込む---
         $this->config = new Config("{$this->getDataFolder()}config.yml", Config::YAML);
         $this->pluginData = new Config("{$this->getDataFolder()}data.yml", Config::YAML);
+
+        // 開発ビルドよう
+        if (!$this->config->get("enable_devmode", false) and self::DEVMODE){
+            throw new PluginException("This Plugin is DevMode");
+        }
 
         // ---イベント処理クラスを登録--
         Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);

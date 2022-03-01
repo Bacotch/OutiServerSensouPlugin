@@ -29,7 +29,9 @@ class CreateMailForm
     public function execute(Player $player): void
     {
         try {
-            $form = new CustomForm(function (Player $player, $data) {
+            $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+
+            $form = new CustomForm(function (Player $player, $data) use ($playerData) {
                 try {
                     if ($data === null) return true;
                     elseif (!$data[0] or !$data[1] or !$data[2]) {
@@ -38,12 +40,21 @@ class CreateMailForm
                     } else {
                         $author = $player->getXuid();
                         $time = new DateTime('now');
+
                         // 送信者名義を「運営」に
-                        if ($data[4]) {
+                        if ($data[5]) {
                             $author = "運営";
                         }
-                        // 全員に送信する
-                        if ($data[3]) {
+
+                        // 権限餅
+                        if ($playerData->isSendmailAllFactionPlayer() and $data[3]) {
+                            foreach (PlayerDataManager::getInstance()->getFactionPlayers($playerData->getFaction()) as $factionPlayer) {
+                                MailDataManager::getInstance()->create($factionPlayer->getXuid(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
+                            }
+                        }
+
+                        // OPの全員に送信する
+                        if (($playerData->isSendmailAllFactionPlayer() and $data[4]) or (!$playerData->isSendmailAllFactionPlayer() and $data[3])) {
                             foreach (PlayerDataManager::getInstance()->getAll() as $playerData) {
                                 MailDataManager::getInstance()->create($playerData->getXuid(), $data[0], $data[1], $author, $time->format("Y年m月d日 H時i分"));
                             }
@@ -73,6 +84,10 @@ class CreateMailForm
             $form->addInput("§cメールタイトル", "title", "");
             $form->addInput("§d内容", "content", "");
             $form->addInput("§6送信相手", "send_to", "");
+            // メール
+            if ($playerData->isSendmailAllFactionPlayer()) {
+                $form->addToggle("[権限餅専用] 派閥メンバー全員にメールを送信する");
+            }
             if (Main::getInstance()->getServer()->isOp($player->getName())) {
                 $form->addToggle("§3[運営専用] プレイヤー全員にメールを送信する");
                 $form->addToggle("§3[運営専用] 送信者名義を「運営」にして送信する");
