@@ -51,14 +51,13 @@ class PlayerInfoScoreBoard extends Task
                         ScoreFactory::setScoreLine($player, 7, "チャンク所有: なし");
                     } else {
                         $landFaction = FactionDataManager::getInstance()->get($factionLandData->getFactionId());
-                        ScoreFactory::setScoreLine($player, 7,"チャンク所有: {$landFaction->getName()}");
+                        ScoreFactory::setScoreLine($player, 7, "チャンク所有: {$landFaction->getName()}");
                     }
 
                     ScoreFactory::sendLines($player);
                 }
             }
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
         }
     }

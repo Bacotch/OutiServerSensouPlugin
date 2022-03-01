@@ -15,8 +15,8 @@ use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
-use function count;
 use function array_filter;
+use function count;
 
 class RoleDatabaseForm
 {
@@ -39,8 +39,7 @@ class RoleDatabaseForm
                         return count(RoleDataManager::getInstance()->getFactionRoles($factionData->getId())) > 0;
                     });
                     $this->selectRoleData($player, $factionDatas[$data - 1]);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -53,8 +52,7 @@ class RoleDatabaseForm
                 $form->addButton($factionData->getName());
             }
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -68,15 +66,13 @@ class RoleDatabaseForm
                     elseif ($data === 0) {
                         $this->execute($player);
                         return;
-                    }
-                    elseif ($data === 1) {
+                    } elseif ($data === 1) {
                         $this->createRoleData($player, $factionData);
                         return;
                     }
 
                     $this->viewRoleData($player, $factionData, RoleDataManager::getInstance()->getFactionRoles($factionData->getId(), true)[$data - 1]);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -88,8 +84,7 @@ class RoleDatabaseForm
                 $form->addButton(OutiServerUtilitys::getChatColor($roleData->getColor()) . "{$roleData->getName()} #{$roleData->getId()}");
             }
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -105,23 +100,20 @@ class RoleDatabaseForm
                     if ($data === null) return;
                     elseif ($data === true) {
                         $this->selectRoleData($player, $factionData);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editRoleData($player, $factionData, $roleData);
                     }
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
 
             $form->setTitle("役職データ {$roleData->getName()} #{$roleData->getId()} {$factionData->getName()}派閥");
-            $form->setContent("役職ID: {$roleData->getId()}\n派閥: {$factionData->getName()}(ID: {$factionData->getId()})\n役職名: {$roleData->getName()}\n役職カラー: " . OutiServerUtilitys::getChatColor($roleData->getColor()) . OutiServerUtilitys::getChatString($roleData->getColor()) .  "\n§f役職位置: {$roleData->getPosition()}\n\n宣戦布告権限: " . ($roleData->isSensenHukoku() ? '§bある' : '§cない') . "\n\n§f派閥にプレイヤー招待権限: " . ($roleData->isInvitePlayer() ? '§bある' : '§cない') . "\n\n§f派閥プレイヤー全員に一括でメール送信権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f敵対派閥と友好派閥（制限あり）の設定権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥からプレイヤーを追放権限: " . ($roleData->isKickFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥の土地管理権限: " . ($roleData->isLandManager() ? '§bある' : '§cない') . "\n\n§f派閥銀行管理権限: " . ($roleData->isBankManager() ? '§bある' : '§cない') . "\n\n§f派閥ロール管理権限: " . ($roleData->isRoleManager() ? '§bある' : '§cない'));
+            $form->setContent("役職ID: {$roleData->getId()}\n派閥: {$factionData->getName()}(ID: {$factionData->getId()})\n役職名: {$roleData->getName()}\n役職カラー: " . OutiServerUtilitys::getChatColor($roleData->getColor()) . OutiServerUtilitys::getChatString($roleData->getColor()) . "\n§f役職位置: {$roleData->getPosition()}\n\n宣戦布告権限: " . ($roleData->isSensenHukoku() ? '§bある' : '§cない') . "\n\n§f派閥にプレイヤー招待権限: " . ($roleData->isInvitePlayer() ? '§bある' : '§cない') . "\n\n§f派閥プレイヤー全員に一括でメール送信権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f敵対派閥と友好派閥（制限あり）の設定権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥からプレイヤーを追放権限: " . ($roleData->isKickFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥の土地管理権限: " . ($roleData->isLandManager() ? '§bある' : '§cない') . "\n\n§f派閥銀行管理権限: " . ($roleData->isBankManager() ? '§bある' : '§cない') . "\n\n§f派閥ロール管理権限: " . ($roleData->isRoleManager() ? '§bある' : '§cない'));
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -135,14 +127,12 @@ class RoleDatabaseForm
                     elseif ($data[0]) {
                         $this->viewRoleData($player, $factionData, $roleData);
                         return;
-                    }
-                    elseif ($data[1]) {
+                    } elseif ($data[1]) {
                         RoleDataManager::getInstance()->delete($roleData->getId());
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
                         return;
-                    }
-                    elseif (!$data[4]) {
+                    } elseif (!$data[4]) {
                         $player->sendMessage("§a[システム] 役職名は入力必須項目です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editRoleData"], [$player, $factionData]), 20);
                         return;
@@ -182,8 +172,7 @@ class RoleDatabaseForm
 
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -217,8 +206,7 @@ class RoleDatabaseForm
             $form->addToggle("派閥銀行管理権限", $roleData->isBankManager());
             $form->addToggle("派閥ロール管理権限", $roleData->isRoleManager());
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -235,8 +223,7 @@ class RoleDatabaseForm
                     elseif ($data[0]) {
                         $this->selectRoleData($player, $factionData);
                         return;
-                    }
-                    elseif (!$data[1]) {
+                    } elseif (!$data[1]) {
                         $player->sendMessage("§a[システム] 役職名は入力必須項目です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "createRoleData"], [$player, $factionData]), 20);
                         return;
@@ -256,8 +243,7 @@ class RoleDatabaseForm
 
                     $player->sendMessage("§a[システム] 作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -275,8 +261,7 @@ class RoleDatabaseForm
             $form->addToggle("派閥銀行管理権限");
             $form->addToggle("派閥ロール管理権限");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

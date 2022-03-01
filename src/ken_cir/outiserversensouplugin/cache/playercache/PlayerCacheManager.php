@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\cache\playercache;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
-use function strtolower;
 use function array_values;
+use function strtolower;
 
 /**
  * プレイヤーキャッシュマネージャー
@@ -97,6 +97,7 @@ class PlayerCacheManager
     /**
      * プレイヤーキャッシュを作成する
      *
+     * @param string $xuid
      * @param string $name
      * @return void
      */

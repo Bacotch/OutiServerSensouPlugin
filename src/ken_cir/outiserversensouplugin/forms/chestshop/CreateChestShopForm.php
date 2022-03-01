@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\chestshop;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
@@ -51,7 +50,7 @@ class CreateChestShopForm
                     ])));
 
                     $player->sendMessage("§a[システム] チェストショップ(貿易所)を作成しました");
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
             });
@@ -62,7 +61,7 @@ class CreateChestShopForm
             $form->addInput("値段", "price");
             $form->addInput("関税(%)", "duty");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }

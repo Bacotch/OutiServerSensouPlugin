@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerData;
@@ -36,7 +35,7 @@ class EditMemberRole
                         return true;
                     }
                     $this->edit($player, $factionPlayers[$data - 1]);
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
@@ -48,7 +47,7 @@ class EditMemberRole
                 $form->addButton($factionPlayer->getName());
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }
@@ -77,7 +76,7 @@ class EditMemberRole
 
                     $player->sendMessage($msg);
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
@@ -95,7 +94,7 @@ class EditMemberRole
                 }
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }

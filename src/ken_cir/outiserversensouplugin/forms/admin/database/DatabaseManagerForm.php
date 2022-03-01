@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\forms\admin\database;
 
 use jojoe77777\FormAPI\SimpleForm;
-use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\forms\admin\AdminForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
@@ -23,30 +22,22 @@ class DatabaseManagerForm
                 try {
                     if ($data === 0) {
                         (new AdminForm())->execute($player);
-                    }
-                    elseif ($data === 1) {
+                    } elseif ($data === 1) {
                         (new PlayerDatabaseForm())->execute($player);
-                    }
-                    elseif ($data === 2) {
+                    } elseif ($data === 2) {
                         (new FactionDatabaseForm())->execute($player);
-                    }
-                    elseif ($data === 3) {
+                    } elseif ($data === 3) {
                         (new MailDatabaseForm())->execute($player);
-                    }
-                    elseif ($data === 4) {
+                    } elseif ($data === 4) {
                         (new LandDatabaseForm())->execute($player);
-                    }
-                    elseif ($data === 5) {
+                    } elseif ($data === 5) {
                         (new RoleDatabaseForm())->execute($player);
-                    }
-                    elseif ($data === 6) {
+                    } elseif ($data === 6) {
                         (new PlayerRoleDatabaseForm())->execute($player);
-                    }
-                    elseif ($data === 7) {
+                    } elseif ($data === 7) {
                         (new LandConfigDatabaseForm())->execute($player);
                     }
-                }
-                catch (\Error|\Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -61,8 +52,7 @@ class DatabaseManagerForm
             $form->addButton("プレイヤー役職データ");
             $form->addButton("土地保護データ");
             $player->sendForm($form);
-        }
-        catch (\Error|\Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

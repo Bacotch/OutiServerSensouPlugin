@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\forms\chestshop;
 
 use DateTime;
-use Error;
-use Exception;
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopData;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
@@ -18,6 +16,7 @@ use pocketmine\block\tile\Chest;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
 use function floor;
+
 
 class BuyChestShopForm
 {
@@ -54,12 +53,10 @@ class BuyChestShopForm
                         if (!$chestTile instanceof Chest) {
                             $player->sendMessage("§a[システム] チェストの検知に失敗しました");
                             return;
-                        }
-                        elseif (!$player->getInventory()->canAddItem($item)) {
+                        } elseif (!$player->getInventory()->canAddItem($item)) {
                             $player->sendMessage("§a[システム] インベントリの空きが足りていません");
                             return;
-                        }
-                        elseif (!$chestTile->getInventory()->contains($item)) {
+                        } elseif (!$chestTile->getInventory()->contains($item)) {
                             $player->sendMessage("§a[システム] 在庫が足りていません");
                             return;
                         }
@@ -73,13 +70,13 @@ class BuyChestShopForm
                         $player->sendMessage("§a[システム] {$item->getName()}を$data[1]個、{$price}円で{$factionData->getName()}から購入しました");
                         $time = new DateTime('now');
                         MailDataManager::getInstance()->create($ownerPlayerData->getXuid(),
-                        "チェストショップ購入通知",
-                        "{$player->getName()}があなたのチェストショップで{$item->getName()}を{$item->getCount()}個購入しました\n利益として" . ((int)$data[1] * $chestShopData->getPrice()) . "円受け取りました",
+                            "チェストショップ購入通知",
+                            "{$player->getName()}があなたのチェストショップで{$item->getName()}を{$item->getCount()}個購入しました\n利益として" . ((int)$data[1] * $chestShopData->getPrice()) . "円受け取りました",
                             "システム",
                             $time->format("Y年m月d日 H時i分")
                         );
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
             });
@@ -89,7 +86,7 @@ class BuyChestShopForm
             $form->addLabel("販売物: {$item->getVanillaName()}\n1個" . $chestShopData->getPrice() + ($chestShopData->getPrice() * ($chestShopData->getDuty() * 0.01)) . "円\n関税{$chestShopData->getDuty()}パーセント");
             $form->addInput("購入個数", "buycount");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }

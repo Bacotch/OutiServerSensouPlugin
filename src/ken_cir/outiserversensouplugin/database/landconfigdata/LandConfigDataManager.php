@@ -9,9 +9,9 @@ use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
+use function array_values;
 use function count;
 use function serialize;
-use function array_values;
 
 /**
  * 土地保護データマネージャー

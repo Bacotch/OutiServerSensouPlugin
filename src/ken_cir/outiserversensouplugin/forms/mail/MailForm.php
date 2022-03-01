@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\mail;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\Main;
@@ -40,7 +39,7 @@ class MailForm
                         $form = new MailInfoForm();
                         $form->execute($player);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -52,7 +51,7 @@ class MailForm
             $form->addButton("§aメールを作成");
             $form->addButton("§bメールを閲覧・削除");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }

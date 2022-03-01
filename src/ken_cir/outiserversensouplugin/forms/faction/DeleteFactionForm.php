@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
-use DateTime;
-use Error;
-use Exception;
 use jojoe77777\FormAPI\ModalForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
-use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
-use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\pmmpoutiserverbot\PMMPOutiServerBot;
@@ -46,7 +41,7 @@ class DeleteFactionForm
                         Server::getInstance()->broadcastMessage("§[システム] 派閥 $faction_name が崩壊しました");
                         PMMPOutiServerBot::getInstance()->getDiscordBotThread()->sendChatMessage("[システム] 派閥 $faction_name が崩壊しました");
                     }
-                } catch (Error|Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
 
@@ -58,7 +53,7 @@ class DeleteFactionForm
             $form->setButton1("はい");
             $form->setButton2("いいえ");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

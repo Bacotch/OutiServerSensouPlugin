@@ -31,12 +31,10 @@ class ChestShopDatabaseForm
                     if ($data === null or $data === 0) return;
                     elseif ($data === 1) {
                         (new BuyChestShopForm())->execute($player, $chestShopData);
-                    }
-                    elseif ($data === 2) {
+                    } elseif ($data === 2) {
                         $this->viewChestShopData($player, $chestShopData);
                     }
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -45,8 +43,7 @@ class ChestShopDatabaseForm
             $form->addButton("チェストショップ購入");
             $form->addButton("チェストショップ編集");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -59,12 +56,10 @@ class ChestShopDatabaseForm
                     if ($data === null) return;
                     elseif ($data === true) {
                         $this->execute($player, $chestShopData);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editChestShopData($player, $chestShopData);
                     }
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -74,8 +69,7 @@ class ChestShopDatabaseForm
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -89,8 +83,7 @@ class ChestShopDatabaseForm
                     elseif ($data[0]) {
                         $this->viewChestShopData($player, $chestShopData);
                         return;
-                    }
-                    elseif (!is_numeric($data[2]) or !is_numeric($data[3]) or !is_numeric($data[4]) or !is_numeric($data[5])) {
+                    } elseif (!is_numeric($data[2]) or !is_numeric($data[3]) or !is_numeric($data[4]) or !is_numeric($data[5])) {
                         $player->sendMessage("§a[システム] アイテムID・アイテムMeta・1個あたりの値段・関税は入力必須項目で数値である必要があります");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editChestShopData"], [$player, $chestShopData]), 20);
                         return;
@@ -103,8 +96,7 @@ class ChestShopDatabaseForm
                     $chestShopData->setDuty((int)$data[5]);
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player, $chestShopData]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -132,8 +124,7 @@ class ChestShopDatabaseForm
             $form->addInput("1個あたりの値段", "price", (string)$chestShopData->getPrice());
             $form->addInput("関税", "duty", (string)$chestShopData->getDuty());
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
 use ken_cir\outiserversensouplugin\Main;
@@ -39,7 +38,7 @@ class RoleManagerForm
                         $form = new EditMemberRole();
                         $form->execute($player);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -51,7 +50,7 @@ class RoleManagerForm
             $form->addButton("役職の編集");
             $form->addButton("派閥メンバー役職操作");
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }

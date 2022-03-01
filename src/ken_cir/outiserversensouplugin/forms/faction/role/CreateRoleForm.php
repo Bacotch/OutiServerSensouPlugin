@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
@@ -37,7 +36,7 @@ class CreateRoleForm
                     RoleDataManager::getInstance()->create($player_data->getFaction(), $data[1], (int)$data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8], $data[9], $data[10]);
                     $player->sendMessage("§a[システム]役職 $data[1] を作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
@@ -57,7 +56,7 @@ class CreateRoleForm
             $form->addToggle("派閥銀行管理権限");
             $form->addToggle("派閥ロール管理権限");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error);
         }
     }

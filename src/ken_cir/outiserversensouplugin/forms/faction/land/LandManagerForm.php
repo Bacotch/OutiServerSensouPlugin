@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\land;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\forms\faction\FactionForm;
@@ -40,7 +39,7 @@ class LandManagerForm
                         $form = new LandAbandonedForm();
                         $form->execute($player);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, $player);
                 }
 
@@ -54,7 +53,7 @@ class LandManagerForm
                 $form->addButton("現在立っているチャンクの詳細設定");
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }

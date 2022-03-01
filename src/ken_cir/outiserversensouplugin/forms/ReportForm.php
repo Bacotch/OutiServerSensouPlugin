@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
@@ -36,7 +35,7 @@ class ReportForm
                     } else {
                         $player->sendMessage("§a[システム] レポートを送信しました");
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -48,7 +47,7 @@ class ReportForm
             $form->addInput("§d内容", "content");
             $form->addLabel("§e[注意] 嘘のレポートは処罰される可能性があります\n処罰等が決定次第、内部メールで連絡致します");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

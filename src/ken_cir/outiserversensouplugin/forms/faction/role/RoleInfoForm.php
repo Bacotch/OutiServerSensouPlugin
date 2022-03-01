@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\role;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\ModalForm;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -39,7 +38,7 @@ class RoleInfoForm
                     } else {
                         $this->info($player, $factionRoles[$data - 1]);
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -52,7 +51,7 @@ class RoleInfoForm
                 $form->addButton(OutiServerUtilitys::getChatColor($factionRole->getColor()) . $factionRole->getName());
             }
             $player->sendForm($form);
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
         }
     }
@@ -66,7 +65,7 @@ class RoleInfoForm
                     elseif ($data === true) {
                         $this->execute($player);
                     }
-                } catch (Error|Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -78,7 +77,7 @@ class RoleInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

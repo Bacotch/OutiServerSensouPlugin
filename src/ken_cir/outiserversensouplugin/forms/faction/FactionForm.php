@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -104,7 +103,7 @@ class FactionForm
                             }
                         }
                     }
-                } catch (Error|Exception $e) {
+                } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
 
@@ -141,7 +140,7 @@ class FactionForm
                 }
             }
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }

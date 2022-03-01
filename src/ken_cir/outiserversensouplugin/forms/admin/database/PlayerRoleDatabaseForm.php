@@ -34,8 +34,7 @@ class PlayerRoleDatabaseForm
                     }
 
                     $this->viewPlayerRolesData($player, PlayerDataManager::getInstance()->getAll(true)[$data - 1]);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -47,8 +46,7 @@ class PlayerRoleDatabaseForm
                 $form->addButton("[" . FactionDataManager::getInstance()->get($playerData->getFaction())->getName() . "派閥] {$playerData->getName()} ");
             }
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -61,12 +59,10 @@ class PlayerRoleDatabaseForm
                     if ($data === null) return;
                     elseif ($data === true) {
                         $this->execute($player);
-                    }
-                    elseif ($data === false) {
+                    } elseif ($data === false) {
                         $this->editPlayerRolesData($player, $playerData);
                     }
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -80,8 +76,7 @@ class PlayerRoleDatabaseForm
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }
@@ -102,16 +97,14 @@ class PlayerRoleDatabaseForm
                     for ($i = 1; $i < count($data); $i++) {
                         if ($data[$i]) {
                             $playerData->addRole($factionRoles[$i]->getId());
-                        }
-                        else {
+                        } else {
                             $playerData->removeRole($factionRoles[$i]->getId());
                         }
                     }
 
                     $player->sendMessage("§a[システム] {$playerData->getName()}の役職を変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
-                }
-                catch (\Error | \Exception $exception) {
+                } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
             });
@@ -121,14 +114,12 @@ class PlayerRoleDatabaseForm
             foreach ($factionRoles as $factionRole) {
                 if (in_array($factionRole->getId(), $playerData->getRoles(), true)) {
                     $form->addToggle("{$factionRole->getName()}", true);
-                }
-                else {
+                } else {
                     $form->addToggle("{$factionRole->getName()}");
                 }
             }
             $player->sendForm($form);
-        }
-        catch (\Error | \Exception $exception) {
+        } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
         }
     }

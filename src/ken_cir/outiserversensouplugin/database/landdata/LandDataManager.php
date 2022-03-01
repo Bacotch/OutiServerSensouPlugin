@@ -10,8 +10,8 @@ use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_shift;
-use function count;
 use function array_values;
+use function count;
 
 /**
  * 土地データマネージャー

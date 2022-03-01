@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\commands;
 
-use Error;
-use Exception;
+
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\block\Air;
 use pocketmine\block\BlockFactory;
@@ -55,7 +54,7 @@ class BackupLoadCommand extends Command
             */
 
             $sender->sendMessage("全ては何事もなかったかのように");
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $sender);
         }
     }

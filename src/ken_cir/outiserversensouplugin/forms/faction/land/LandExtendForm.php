@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction\land;
 
-use Error;
-use Exception;
+
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
@@ -35,7 +34,7 @@ class LandExtendForm
                 LandDataManager::getInstance()->create($playerData->getFaction(), (int)$player->getPosition()->getX() >> 4, (int)$player->getPosition()->getZ() >> 4, $player->getWorld()->getFolderName());
                 $player->sendMessage("§a[システム] 現在いるチャンクを購入しました");
             }
-        } catch (Error|Exception $e) {
+        } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, $player);
         }
     }

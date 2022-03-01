@@ -13,10 +13,10 @@ use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
-use function count;
 use function array_filter;
 use function array_shift;
 use function array_values;
+use function count;
 
 /**
  * 派閥データマネージャー
@@ -167,9 +167,9 @@ class FactionDataManager
         $time = new DateTime("now");
         foreach ($factionPlayers as $factionPlayer) {
             MailDataManager::getInstance()->create($factionPlayer->getXuid(),
-            "派閥崩壊通知",
-            "所属派閥{$deleteFactionData->getName()}が{$time->format("Y年m月d日 H時i分")}}に崩壊しました",
-            "システム",
+                "派閥崩壊通知",
+                "所属派閥{$deleteFactionData->getName()}が{$time->format("Y年m月d日 H時i分")}}に崩壊しました",
+                "システム",
                 $time->format("Y年m月d日 H時i分"));
             $factionPlayer->setFaction(-1);
             $factionPlayer->setRoles([]);

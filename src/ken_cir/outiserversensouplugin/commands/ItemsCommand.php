@@ -2,8 +2,7 @@
 
 namespace ken_cir\outiserversensouplugin\commands;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\command\Command;
@@ -20,13 +19,14 @@ class ItemsCommand extends Command
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
+        if (!$sender instanceof Player) return;
         $items = json_decode(file_get_contents(Main::getInstance()->getDataFolder() . "test.json"), true);
         $form = new SimpleForm(function (Player $player, $data) use ($items) {
             try {
                 if ($data === null) return;
                 $idmeta = explode(":", $items[$data]["key"]);
                 $player->getInventory()->addItem(ItemFactory::getInstance()->get($idmeta[0], $idmeta[1]));
-            } catch (Exception|Error $e) {
+            } catch (\Error|\Exception $e) {
                 echo $e->getMessage() . PHP_EOL;
             }
         });

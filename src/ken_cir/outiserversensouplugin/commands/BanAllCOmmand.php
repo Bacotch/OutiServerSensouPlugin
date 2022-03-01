@@ -21,7 +21,7 @@ class BanAllCOmmand extends Command
         $playerData = PlayerDataManager::getInstance()->getName($args[0]);
         Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), new Language("jpn")), "ban {$playerData->getName()}");
         foreach ($playerData->getIp() as $ip) {
-            Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), new Language("jpn")), "ban-ip {$ip}");
+            Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), new Language("jpn")), "ban-ip $ip");
         }
 
         $sender->sendMessage("{$playerData->getName()}のBan処理が完了しました");

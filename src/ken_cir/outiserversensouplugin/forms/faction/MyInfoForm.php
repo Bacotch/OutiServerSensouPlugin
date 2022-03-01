@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
-use Error;
-use Exception;
+
 use jojoe77777\FormAPI\ModalForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
@@ -34,7 +33,7 @@ class MyInfoForm
                         $form = new FactionForm();
                         $form->execute($player);
                     }
-                } catch (Error|Exception $error) {
+                } catch (\Error|\Exception $error) {
                     Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
                 }
 
@@ -50,7 +49,7 @@ class MyInfoForm
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);
-        } catch (Error|Exception $error) {
+        } catch (\Error|\Exception $error) {
             Main::getInstance()->getOutiServerLogger()->error($error, true, $player);
         }
     }
