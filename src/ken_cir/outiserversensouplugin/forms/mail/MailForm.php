@@ -39,6 +39,9 @@ class MailForm
                         $form = new MailInfoForm();
                         $form->execute($player);
                     }
+                    elseif ($data === 3) {
+                        (new EditMailForm())->execute($player);
+                    }
                 } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
@@ -49,7 +52,8 @@ class MailForm
             $form->setTitle("メール");
             $form->addButton("戻る");
             $form->addButton("§aメールを作成");
-            $form->addButton("§bメールを閲覧・削除");
+            $form->addButton("§b受信メールを閲覧・削除");
+            $form->addButton("送信済みメールの編集・削除");
             $player->sendForm($form);
         } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);

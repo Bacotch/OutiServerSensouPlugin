@@ -9,6 +9,7 @@ use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
 use function array_values;
 use function count;
+use function array_reverse;
 
 /**
  * メールデータマネージャー
@@ -120,12 +121,29 @@ class MailDataManager
      * @return MailData[]
      * nameに届いているメールデータを取得する
      */
-    public function getPlayerXuid(string $xuid): array
+    public function getPlayerXuid(string $xuid, ?bool $keyValue = false): array
     {
         $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($xuid) {
             return $mailData->getSendtoXuid() === $xuid;
         });
 
+        if ($keyValue) return array_values($mail);
+        return array_reverse($mail, true);
+    }
+
+    /**
+     * @param string $xuid
+     * @return MailData[]
+     *
+     * $xuidが送信したメールデータを取得する
+     */
+    public function getPlayerAuthorXuid(string $xuid, ?bool $keyValue = false): array
+    {
+        $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($xuid) {
+            return $mailData->getAuthorXuid() === $xuid;
+        });
+
+        if ($keyValue) return array_values($mail);
         return array_reverse($mail, true);
     }
 
