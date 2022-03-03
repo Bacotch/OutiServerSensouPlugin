@@ -54,27 +54,6 @@ class PlayerCache
     private ?int $landConfig_StartZ;
 
     /**
-     * ワールドバックアップのワールド名
-     *
-     * @var string|null
-     */
-    private ?string $worldBackup_WorldName;
-
-    /**
-     * ワールドバックアップの開始X座標
-     *
-     * @var int|null
-     */
-    private ?int $worldBackup_StartX;
-
-    /**
-     * ワールドバックアップの開始Z座標
-     *
-     * @var int|null
-     */
-    private ?int $worldBackup_StartZ;
-
-    /**
      * Discord認証一時コード
      *
      * @var int|null
@@ -124,9 +103,6 @@ class PlayerCache
         $this->landConfig_WorldName = null;
         $this->landConfig_StartX = null;
         $this->landConfig_StartZ = null;
-        $this->worldBackup_WorldName = null;
-        $this->worldBackup_StartX = null;
-        $this->worldBackup_StartZ = null;
         $this->discordVerifyCode = null;
         $this->discordUserTag = null;
         $this->landConfigDatabase_WorldName = null;
@@ -249,54 +225,6 @@ class PlayerCache
     public function setLandConfigStartZ(?int $landConfig_SrartZ): void
     {
         $this->landConfig_StartZ = $landConfig_SrartZ;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getWorldBackupWorldName(): ?string
-    {
-        return $this->worldBackup_WorldName;
-    }
-
-    /**
-     * @param string|null $worldBackup_WorldName
-     */
-    public function setWorldBackupWorldName(?string $worldBackup_WorldName): void
-    {
-        $this->worldBackup_WorldName = $worldBackup_WorldName;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getWorldBackupStartX(): ?int
-    {
-        return $this->worldBackup_StartX;
-    }
-
-    /**
-     * @param int|null $worldBackup_StartX
-     */
-    public function setWorldBackupStartX(?int $worldBackup_StartX): void
-    {
-        $this->worldBackup_StartX = $worldBackup_StartX;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getWorldBackupStartZ(): ?int
-    {
-        return $this->worldBackup_StartZ;
-    }
-
-    /**
-     * @param int|null $worldBackup_StartZ
-     */
-    public function setWorldBackupStartZ(?int $worldBackup_StartZ): void
-    {
-        $this->worldBackup_StartZ = $worldBackup_StartZ;
     }
 
     /**
