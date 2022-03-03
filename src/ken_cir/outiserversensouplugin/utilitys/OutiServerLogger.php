@@ -11,6 +11,7 @@ use DateTimeZone;
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\Player\player;
+use pocketmine\Server;
 use function str_replace;
 
 /**
@@ -76,9 +77,7 @@ class OutiServerLogger
 
             Main::getInstance()->getLogger()->debug($message);
 
-            if ($player instanceof Player) {
-                $player->sendMessage("[DEBUG] $message");
-            }
+            Server::getInstance()->broadcastMessage("[デバッグ] $message");
 
             if (($webhookURL = (string)Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", "")) !== "") {
                 $webhook = new Webhook($webhookURL);

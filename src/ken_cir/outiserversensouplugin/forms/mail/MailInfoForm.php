@@ -32,11 +32,15 @@ class MailInfoForm
     public function execute(Player $player): void
     {
         try {
-            $mail_data = MailDataManager::getInstance()->getPlayerXuid($player->getXuid());
-            $form = new SimpleForm(function (Player $player, $data) use ($mail_data) {
+            $form = new SimpleForm(function (Player $player, $data) {
                 try {
                     if ($data === null) return true;
-                    $this->info($player, current(array_slice($mail_data, $data, $data + 1)));
+                    elseif ($data === 0) {
+                        (new MailForm())->execute($player);
+                        return true;
+                    }
+
+                    $this->info($player, MailDataManager::getInstance()->getPlayerXuid($player->getXuid(), true)[$data - 1]);
                 } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }
@@ -45,7 +49,8 @@ class MailInfoForm
             });
 
             $form->setTitle("メールフォーム");
-            foreach ($mail_data as $mail) {
+            $form->addButton("戻る");
+            foreach (MailDataManager::getInstance()->getPlayerXuid($player->getXuid()) as $mail) {
                 if ($mail->isRead()) {
                     $form->addButton("§0[{$mail->getDate()}] {$mail->getTitle()}");
                 } else {
