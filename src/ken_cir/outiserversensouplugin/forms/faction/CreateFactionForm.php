@@ -11,6 +11,8 @@ use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
+use function file_exists;
+use function mkdir;
 
 /**
  * 派閥作成フォーム
@@ -48,6 +50,10 @@ class CreateFactionForm
                         $id = FactionDataManager::getInstance()->create($data[0], $player->getXuid(), (int)$data[1]);
                         $player_data->setFaction($id);
                         $player->sendMessage("§a[システム]派閥 $data[0] を作成しました");
+
+                        if (!file_exists(Main::getInstance()->getDataFolder() . "worldBackups/$id/")) {
+                            mkdir(Main::getInstance()->getDataFolder() . "worldBackups/$id/");
+                        }
                     }
                 } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);

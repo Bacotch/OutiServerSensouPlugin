@@ -21,10 +21,10 @@ namespace ken_cir\outiserversensouplugin;
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
-use ken_cir\outiserversensouplugin\commands\BackupLoadCommand;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
+use ken_cir\outiserversensouplugin\commands\WorldBackupCommand;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
@@ -36,10 +36,10 @@ use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageD
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
+use ken_cir\outiserversensouplugin\tasks\Backup;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
-use pocketmine\console\ConsoleReaderThread;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntityDataHelper;
@@ -119,6 +119,11 @@ class Main extends PluginBase
         // ---バックアップ用のフォルダがなければ作成する---
         if (!file_exists(Main::getInstance()->getDataFolder() . "backups/")) {
             mkdir(Main::getInstance()->getDataFolder() . "backups/");
+        }
+
+        // ワールドバックアップ用のフォルダがなければ作成する
+        if (!file_exists(Main::getInstance()->getDataFolder() . "worldBackups/")) {
+            mkdir(Main::getInstance()->getDataFolder() . "worldBackups/");
         }
 
         // Commandoを機能させるために必要らしい
@@ -207,13 +212,20 @@ class Main extends PluginBase
         // 定期メッセージ
         $this->getScheduler()->scheduleDelayedRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20, $this->config->get("scheduleMessageDelay", 300) * 20);
 
+        // バックアップ
+        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
+            function (): void {
+                Server::getInstance()->getAsyncPool()->submitTask(new Backup());
+            }
+        ), $this->config->get("backup_delay", 3600) * 20);
+
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),
             [
-                new BackupLoadCommand(),
                 new BanAllCOmmand(),
                 new ItemsCommand(),
                 new OutiServerCommand($this),
+                new WorldBackupCommand($this)
             ]);
 
         // ---エンティティ系登録---
