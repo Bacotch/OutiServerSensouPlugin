@@ -6,6 +6,13 @@ enable_devmode: false
 # プレイヤーの初期所持金
 default_player_money: 10000
 
+# ---バックアップ設定---
+# バックアップをする間隔(秒)
+backup_delay: 3600
+
+# 派閥の土地をバックアップする間隔(秒)
+world_backup_delay: 3600
+
 # ---自動アップデート設定---
 # PMMPの自動アップデート・再起動を有効にするか
 pmmp_auto_update_enable: true

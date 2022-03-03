@@ -9,7 +9,6 @@ use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\forms\admin\cache\CacheManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\database\DatabaseManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\schedulemessage\ScheduleMessageManagerForm;
-use ken_cir\outiserversensouplugin\forms\admin\worldbackup\WorldBackupManager;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
@@ -33,12 +32,11 @@ class AdminForm
                         $form = new ScheduleMessageManagerForm();
                         $form->execute($player);
                     } elseif ($data === 2) {
-                        $form = new WorldBackupManager();
-                        $form->execute($player);
-                    } elseif ($data === 3) {
                         (new DatabaseManagerForm())->execute($player);
-                    } elseif ($data === 4) {
+                    } elseif ($data === 3) {
                         (new CacheManagerForm())->execute($player);
+                    } elseif ($data === 4) {
+                        (new BackupLoadForm())->execute($player);
                     }
                 } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
@@ -48,9 +46,9 @@ class AdminForm
             $form->setTitle("管理者");
             $form->addButton("戻る");
             $form->addButton("定期メッセージの管理");
-            $form->addButton("チャンクバックアップの管理");
             $form->addButton("データベース管理");
             $form->addButton("キャッシュ管理");
+            $form->addButton("ワールドバックアップの復元");
             $player->sendForm($form);
         } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
