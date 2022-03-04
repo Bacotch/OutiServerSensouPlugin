@@ -72,8 +72,6 @@ class OutiWatchForm
             if (Server::getInstance()->isOp($player->getName())) {
                 $form->addButton("管理者");
             }
-            $form->addButton("テスト", 0, "textures/items/facebook");
-            $form->addButton("テスト", 0, "textures/items/outiwatch");
             $player->sendForm($form);
         } catch (\Error|\Exception $e) {
             Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
