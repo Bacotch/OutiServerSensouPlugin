@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\forms\mail;
 
 use DateTime;
 use jojoe77777\FormAPI\CustomForm;
+use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
@@ -57,7 +58,6 @@ class CreateMailForm
                             }
                         }
 
-                        // OPの全員に送信する
                         if (($playerData->isSendmailAllFactionPlayer() and $data[5]) or (!$playerData->isSendmailAllFactionPlayer() and $data[4])) {
                             foreach (PlayerDataManager::getInstance()->getAll() as $playerData) {
                                 MailDataManager::getInstance()->create($playerData->getXuid(), $data[1], $data[2], $author, $time->format("Y年m月d日 H時i分"));
@@ -74,7 +74,7 @@ class CreateMailForm
                         }
 
                         MailDataManager::getInstance()->create($sendToPlayerData->getXuid(), $data[1], $data[2], $author, $time->format("Y年m月d日 H時i分"));
-                        $player->sendMessage("§a[システム] プレイヤー $data[2] にメールを送信しました");
+                        $player->sendMessage("§a[システム] プレイヤー $data[3] にメールを送信しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                     }
                 } catch (\Error|\Exception $e) {
