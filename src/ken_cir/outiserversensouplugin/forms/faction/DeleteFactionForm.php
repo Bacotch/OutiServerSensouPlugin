@@ -41,6 +41,9 @@ class DeleteFactionForm
                         Server::getInstance()->broadcastMessage("§[システム] 派閥 $faction_name が崩壊しました");
                         PMMPOutiServerBot::getInstance()->getDiscordBotThread()->sendChatMessage("[システム] 派閥 $faction_name が崩壊しました");
                     }
+                    elseif ($data === false) {
+                        (new FactionForm())->execute($player);
+                    }
                 } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
