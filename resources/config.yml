@@ -1,7 +1,4 @@
 ---
-# ---最重要設定---
-enable_devmode: false
-
 # ---プラグインメイン設定---
 # プレイヤーの初期所持金
 default_player_money: 10000
