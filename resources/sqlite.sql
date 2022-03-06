@@ -743,4 +743,81 @@ WHERE id = :id;
 DROP TABLE IF EXISTS chestshops;
 -- # }
 -- # }
+
+-- # { adminshops
+-- # { init
+CREATE TABLE IF NOT EXISTS adminshops
+(
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    item_id INTEGER NOT NULL ,
+    item_meta INTEGER NOT NULL ,
+    min_price INTEGER NOT NULL ,
+    max_price INTEGER NOT NULL ,
+    price INTEGER NOT NULL ,
+    rate_count INTEGER NOT NULL ,
+    rate_fluctuation INTEGER NOT NULL ,
+    sell_count INTEGER NOT NULL DEFAULT 0
+);
+-- # }
+
+-- # { create
+-- #    :item_id int
+-- #    :item_meta int
+-- #    :min_price int
+-- #    :max_price int
+-- #    :price int
+-- #    :rate_count int
+-- #    :rate_fluctuation int
+INSERT INTO adminshops (item_id, item_meta, min_price, max_price, price, rate_count, rate_fluctuation)
+VALUES (:item_id, :item_meta, :min_price, :max_price, :price, :rate_count, :rate_fluctuation)
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'adminshops';
+-- # }
+
+-- # { load
+SELECT *
+FROM adminshops;
+-- # }
+
+-- # { update
+-- #    :item_id int
+-- #    :item_meta int
+-- #    :min_price int
+-- #    :max_price int
+-- #    :price int
+-- #    :rate_count int
+-- #    :rate_fluctuation int
+-- #    :sell_count int
+-- #    :id int
+UPDATE adminshops
+SET item_id = :item_id,
+    item_meta = :item_meta,
+    min_price = :min_price,
+    max_price = :max_price,
+    price = :price,
+    rate_count = :rate_count,
+    rate_fluctuation = :rate_fluctuation,
+    sell_count = :sell_count
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM adminshops
+WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS adminshops;
+-- # }
+-- # }
 -- # }

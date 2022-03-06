@@ -48,7 +48,11 @@ class OutiWatchForm
                     } elseif ($data === 4) {
                         $form = new RequestForm();
                         $form->execute($player);
-                    } elseif ($data === 5 and Server::getInstance()->isOp($player->getName())) {
+                    }
+                    elseif ($data === 5) {
+                        (new AdminShopForm())->execute($player);
+                    }
+                    elseif ($data === 6 and Server::getInstance()->isOp($player->getName())) {
                         $form = new AdminForm();
                         $form->execute($player);
                     }
@@ -65,6 +69,7 @@ class OutiWatchForm
             $form->addButton("§eメール");
             $form->addButton("§4レポート");
             $form->addButton("§6要望");
+            $form->addButton("アドミンショップ");
             if (Server::getInstance()->isOp($player->getName())) {
                 $form->addButton("管理者");
             }
