@@ -63,7 +63,18 @@ class RoleDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["position"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
+                    $this->faction_role_datas[$data["id"]] = new RoleData($data["id"],
+                        $data["faction_id"],
+                        $data["name"],
+                        $data["color"],
+                        $data["position"],
+                        $data["sensen_hukoku"],
+                        $data["sendmail_all_faction_player"],
+                        $data["freand_faction_manager"],
+                        $data["member_manager"],
+                        $data["land_manager"],
+                        $data["bank_manager"],
+                        $data["role_manager"]);
                 }
             },
             function (SqlError $error) {
@@ -97,20 +108,20 @@ class RoleDataManager
     }
 
     /**
+     * ロール作成
+     *
      * @param int $faction_id
      * @param string $name
      * @param int $color
      * @param bool $sensen_hukoku
-     * @param bool $invite_player
      * @param bool $sendmail_all_faction_player
      * @param bool $freand_faction_manager
-     * @param bool $kick_faction_player
+     * @param bool $member_manager
      * @param bool $land_manager
      * @param bool $bank_manager
      * @param bool $role_manager
-     * ロール作成
      */
-    public function create(int $faction_id, string $name, int $color, bool $sensen_hukoku, bool $invite_player, bool $sendmail_all_faction_player, bool $freand_faction_manager, bool $kick_faction_player, bool $land_manager, bool $bank_manager, bool $role_manager)
+    public function create(int $faction_id, string $name, int $color, bool $sensen_hukoku, bool $sendmail_all_faction_player, bool $freand_faction_manager, bool $member_manager, bool $land_manager, bool $bank_manager, bool $role_manager)
     {
         Main::getInstance()->getDatabase()->executeInsert(
             "outiserver.roles.create",
@@ -122,10 +133,9 @@ class RoleDataManager
                         return $factionRoleData->getFactionId() === $faction_id;
                     })) + 1,
                 "sensen_hukoku" => (int)$sensen_hukoku,
-                "invite_player" => (int)$invite_player,
                 "sendmail_all_faction_player" => (int)$sendmail_all_faction_player,
                 "freand_faction_manager" => (int)$freand_faction_manager,
-                "kick_faction_player" => (int)$kick_faction_player,
+                "member_manager" => (int)$member_manager,
                 "land_manager" => (int)$land_manager,
                 "bank_manager" => (int)$bank_manager,
                 "role_manager" => (int)$role_manager,
@@ -138,7 +148,7 @@ class RoleDataManager
         $this->seq++;
         $this->faction_role_datas[$this->seq] = new RoleData($this->seq, $faction_id, $name, $color, count(array_filter($this->faction_role_datas, function ($factionRoleData) use ($faction_id) {
                 return $factionRoleData->getFactionId() === $faction_id;
-            })) + 1, (int)$sensen_hukoku, (int)$invite_player, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$kick_faction_player, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
+            })) + 1, (int)$sensen_hukoku, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$member_manager, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
     }
 
     /**

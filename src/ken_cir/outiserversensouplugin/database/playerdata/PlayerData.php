@@ -396,20 +396,6 @@ class PlayerData
 
     /**
      * @return bool
-     * 派閥にプレイヤー招待権限があるかどうか
-     */
-    public function isInvitePlayer(): bool
-    {
-        foreach ($this->roles as $role) {
-            $roleData = RoleDataManager::getInstance()->get($role);
-            if ($roleData->isInvitePlayer()) return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
      * 派閥プレイヤー全員に一括でメール送信権限があるかどうか
      */
     public function isSendmailAllFactionPlayer(): bool
@@ -437,14 +423,14 @@ class PlayerData
     }
 
     /**
+     * 派閥メンバー管理権限
      * @return bool
-     * 派閥からプレイヤーを追放権限
      */
-    public function isKickFactionPlayer(): bool
+    public function isFactionMenmerManager(): bool
     {
         foreach ($this->roles as $role) {
             $roleData = RoleDataManager::getInstance()->get($role);
-            if ($roleData->isKickFactionPlayer()) return true;
+            if ($roleData->isMemberManager()) return true;
         }
 
         return false;

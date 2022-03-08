@@ -50,12 +50,6 @@ class RoleData
 
     /**
      * @var int
-     * 派閥にプレイヤー招待権限
-     */
-    private int $invite_player;
-
-    /**
-     * @var int
      * 派閥プレイヤー全員に一括でメール送信権限
      */
     private int $sendmail_all_faction_player;
@@ -67,10 +61,11 @@ class RoleData
     private int $freand_faction_manager;
 
     /**
+     * 派閥メンバーの管理権限
+     *
      * @var int
-     * 派閥からプレイヤーを追放権限
      */
-    private int $kick_faction_player;
+    private int $member_manager;
 
     /**
      * @var int
@@ -90,22 +85,7 @@ class RoleData
      */
     private int $role_manager;
 
-    /**
-     * @param int $id
-     * @param int $faction_id
-     * @param string $name
-     * @param int $color
-     * @param int $position
-     * @param int $sensen_hukoku
-     * @param int $invite_player
-     * @param int $sendmail_all_faction_player
-     * @param int $freand_faction_manager
-     * @param int $kick_faction_player
-     * @param int $land_manager
-     * @param int $bank_manager
-     * @param int $role_manager
-     */
-    public function __construct(int $id, int $faction_id, string $name, int $color, int $position, int $sensen_hukoku, int $invite_player, int $sendmail_all_faction_player, int $freand_faction_manager, int $kick_faction_player, int $land_manager, int $bank_manager, int $role_manager)
+    public function __construct(int $id, int $faction_id, string $name, int $color, int $position, int $sensen_hukoku, int $sendmail_all_faction_player, int $freand_faction_manager, int $member_manager, int $land_manager, int $bank_manager, int $role_manager)
     {
         $this->id = $id;
         $this->faction_id = $faction_id;
@@ -113,10 +93,9 @@ class RoleData
         $this->color = $color;
         $this->position = $position;
         $this->sensen_hukoku = $sensen_hukoku;
-        $this->invite_player = $invite_player;
         $this->sendmail_all_faction_player = $sendmail_all_faction_player;
         $this->freand_faction_manager = $freand_faction_manager;
-        $this->kick_faction_player = $kick_faction_player;
+        $this->member_manager = $member_manager;
         $this->land_manager = $land_manager;
         $this->bank_manager = $bank_manager;
         $this->role_manager = $role_manager;
@@ -134,10 +113,9 @@ class RoleData
                 "color" => $this->color,
                 "position" => $this->position,
                 "sensen_hukoku" => $this->sensen_hukoku,
-                "invite_player" => $this->invite_player,
                 "sendmail_all_faction_player" => $this->sendmail_all_faction_player,
                 "freand_faction_manager" => $this->freand_faction_manager,
-                "kick_faction_player" => $this->kick_faction_player,
+                "member_manager" => $this->member_manager,
                 "land_manager" => $this->land_manager,
                 "bank_manager" => $this->bank_manager,
                 "role_manager" => $this->role_manager,
@@ -251,25 +229,6 @@ class RoleData
 
     /**
      * @return bool
-     * 派閥にプレイヤー招待権限があるかどうか
-     */
-    public function isInvitePlayer(): bool
-    {
-        return (bool)$this->invite_player;
-    }
-
-    /**
-     * @param bool $invite_player
-     * 派閥にプレイヤー招待権限を設定
-     */
-    public function setInvitePlayer(bool $invite_player): void
-    {
-        $this->invite_player = (int)$invite_player;
-        $this->update();
-    }
-
-    /**
-     * @return bool
      * 派閥プレイヤー全員に一括でメール送信権限があるかどうか
      */
     public function isSendmailAllFactionPlayer(): bool
@@ -307,22 +266,23 @@ class RoleData
     }
 
     /**
+     * 派閥メンバー管理権限
+     *
      * @return bool
-     * 派閥からプレイヤーを追放権限
      */
-    public function isKickFactionPlayer(): bool
+    public function isMemberManager(): bool
     {
-        return (bool)$this->kick_faction_player;
+        return (bool)$this->member_manager;
     }
 
     /**
-     * @param bool $kick_faction_player
-     * 派閥からプレイヤーを追放権限
+     * 派閥メンバー管理権限の設定
+     *
+     * @param bool $member_manager
      */
-    public function setKickFactionPlayer(bool $kick_faction_player): void
+    public function setMemberManager(bool $member_manager): void
     {
-        $this->kick_faction_player = (int)$kick_faction_player;
-        $this->update();
+        $this->member_manager = (int)$member_manager;
     }
 
     /**

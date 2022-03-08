@@ -285,10 +285,6 @@ CREATE TABLE IF NOT EXISTS roles
     INTEGER
     NOT
     NULL,
-    invite_player
-    INTEGER
-    NOT
-    NULL,
     sendmail_all_faction_player
     INTEGER
     NOT
@@ -297,7 +293,7 @@ CREATE TABLE IF NOT EXISTS roles
     INTEGER
     NOT
     NULL,
-    kick_faction_player
+    member_manager
     INTEGER
     NOT
     NULL,
@@ -322,17 +318,16 @@ CREATE TABLE IF NOT EXISTS roles
 -- #    :color int
 -- #    :position int
 -- #    :sensen_hukoku int
--- #    :invite_player int
 -- #    :sendmail_all_faction_player int
 -- #    :freand_faction_manager int
--- #    :kick_faction_player int
+-- #    :member_manager int
 -- #    :land_manager int
 -- #    :bank_manager int
 -- #    :role_manager int
-INSERT INTO roles (faction_id, name, color, position, sensen_hukoku, invite_player, sendmail_all_faction_player,
-                   freand_faction_manager, kick_faction_player, land_manager, bank_manager, role_manager)
-VALUES (:faction_id, :name, :color, :position, :sensen_hukoku, :invite_player, :sendmail_all_faction_player,
-        :freand_faction_manager, :kick_faction_player, :land_manager, :bank_manager, :role_manager);
+INSERT INTO roles (faction_id, name, color, position, sensen_hukoku, sendmail_all_faction_player,
+                   freand_faction_manager, member_manager, land_manager, bank_manager, role_manager)
+VALUES (:faction_id, :name, :color, :position, :sensen_hukoku, :sendmail_all_faction_player,
+        :freand_faction_manager, :member_manager, :land_manager, :bank_manager, :role_manager);
 -- # }
 
 -- # { seq
@@ -349,12 +344,11 @@ FROM roles;
 -- # { update
 -- #    :name string
 -- #    :color int
--- #     :position int
+-- #    :position int
 -- #    :sensen_hukoku int
--- #    :invite_player int
 -- #    :sendmail_all_faction_player int
 -- #    :freand_faction_manager int
--- #    :kick_faction_player int
+-- #    :member_manager int
 -- #    :land_manager int
 -- #    :bank_manager int
 -- #    :role_manager int
@@ -364,10 +358,9 @@ SET name                        = :name,
     color                       = :color,
     position                    = :position,
     sensen_hukoku               = :sensen_hukoku,
-    invite_player               = :invite_player,
     sendmail_all_faction_player = :sendmail_all_faction_player,
     freand_faction_manager      = :freand_faction_manager,
-    kick_faction_player         = :kick_faction_player,
+    member_manager         = :member_manager,
     land_manager                = :land_manager,
     bank_manager                = :bank_manager,
     role_manager                = :role_manager

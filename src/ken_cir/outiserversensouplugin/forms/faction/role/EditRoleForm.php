@@ -106,13 +106,12 @@ class EditRoleForm
                     $editRoleData->setColor($data[2]);
                     $editRoleData->setPosition($position);
                     $editRoleData->setSensenHukoku($data[4]);
-                    $editRoleData->setInvitePlayer($data[5]);
-                    $editRoleData->setSendmailAllFactionPlayer($data[6]);
-                    $editRoleData->setFreandFactionManager($data[7]);
-                    $editRoleData->setKickFactionPlayer($data[8]);
-                    $editRoleData->setLandManager($data[9]);
-                    $editRoleData->setBankManager($data[10]);
-                    $editRoleData->setRoleManager($data[11]);
+                    $editRoleData->setSendmailAllFactionPlayer($data[5]);
+                    $editRoleData->setFreandFactionManager($data[6]);
+                    $editRoleData->setMemberManager($data[7]);
+                    $editRoleData->setLandManager($data[8]);
+                    $editRoleData->setBankManager($data[9]);
+                    $editRoleData->setRoleManager($data[10]);
                     if ($oldRolePos !== $position) {
                         foreach (RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId(), false) as $factionRole) {
                             // 下がる式
@@ -144,10 +143,9 @@ class EditRoleForm
             $form->addDropdown("§e役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"], $editRoleData->getColor());
             $form->addInput("役職位置 1から" . count(RoleDataManager::getInstance()->getFactionRoles($editRoleData->getFactionId())) . "まで", "position", (string)$editRoleData->getPosition());
             $form->addToggle("宣戦布告権限", $editRoleData->isSensenHukoku());
-            $form->addToggle("派閥にプレイヤー招待権限", $editRoleData->isInvitePlayer());
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限", $editRoleData->isSendmailAllFactionPlayer());
             $form->addToggle("敵対派閥と友好派閥（制限あり）の設定権限", $editRoleData->isFreandFactionManager());
-            $form->addToggle("派閥からプレイヤーを追放権限", $editRoleData->isKickFactionPlayer());
+            $form->addToggle("派閥メンバー管理権限", $editRoleData->isMemberManager());
             $form->addToggle("派閥の土地管理権限", $editRoleData->isLandManager());
             $form->addToggle("派閥銀行管理権限", $editRoleData->isBankManager());
             $form->addToggle("派閥ロール管理権限", $editRoleData->isRoleManager());
