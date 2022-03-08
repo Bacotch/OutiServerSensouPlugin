@@ -3,27 +3,34 @@
 # プレイヤーの初期所持金
 default_player_money: 10000
 
-# ---バックアップ設定---
-# バックアップをする間隔(秒)
-backup_delay: 3600
-
-# 派閥の土地をバックアップする間隔(秒)
-world_backup_delay: 3600
-
-# ---自動アップデート設定---
+# --- 自動アップデート設定 ---
 # PMMPの自動アップデート・再起動を有効にするか
 pmmp_auto_update_enable: true
 
 # このプラグインの自動アップデート・再起動を有効にするか
 plugin_auto_update_enable: true
 
+# アドミンショップの値段変動時に減らす売った数の個数
+adminshop_fluctuation_count: 64
+
+
+# --- 定期実行系設定 ---
 # PMMP・プラグインのアップデートをチェックする間隔(秒)
 autoUpdateCheckDealy: 600
 
-# ---定期実行系設定---
 # 定期メッセージの間隔(秒)
 scheduleMessageDelay: 300
 
+# バックアップをする間隔(秒)
+backup_delay: 3600
+
+# 派閥の土地をバックアップする間隔(秒)
+world_backup_delay: 3600
+
+# アドミンショップの値段変動を行う間隔(秒)
+adminshop_fluctuation_delay: 3600
+
+# --- ---
 # サーバー関係ログを出力するWebhookURL
 Discord_Server_Webhook: ""
 

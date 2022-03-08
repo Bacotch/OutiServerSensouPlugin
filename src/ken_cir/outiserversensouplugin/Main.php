@@ -25,6 +25,7 @@ use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
 use ken_cir\outiserversensouplugin\commands\WorldBackupCommand;
+use ken_cir\outiserversensouplugin\database\adminshopdata\AdminShopDataManager;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
@@ -36,6 +37,7 @@ use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageD
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
+use ken_cir\outiserversensouplugin\tasks\AdminShopFluctuation;
 use ken_cir\outiserversensouplugin\tasks\Backup;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
@@ -153,6 +155,8 @@ class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
+        // $this->database->executeGeneric("outiserver.adminshops.drop");
+        // $this->database->waitAll();
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -161,6 +165,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.landconfigs.init");
         $this->database->executeGeneric("outiserver.schedulemessages.init");
         $this->database->executeGeneric("outiserver.chestshops.init");
+        $this->database->executeGeneric("outiserver.adminshops.init");
         $this->database->waitAll();
         PlayerDataManager::createInstance();
         FactionDataManager::createInstance();
@@ -170,6 +175,7 @@ class Main extends PluginBase
         LandConfigDataManager::createInstance();
         ScheduleMessageDataManager::createInstance();
         ChestShopDataManager::createInstance();
+        AdminShopDataManager::createInstance();
         $this->database->waitAll();
 
         // --- キャッシュ初期化 ---
@@ -210,6 +216,9 @@ class Main extends PluginBase
                 Server::getInstance()->getAsyncPool()->submitTask(new Backup());
             }
         ), $this->config->get("backup_delay", 3600) * 20);
+
+        // アドミンショップの値段変動
+        $this->getScheduler()->scheduleRepeatingTask(new AdminShopFluctuation($this->config->get("adminshop_fluctuation_count", 64)), $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
 
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),

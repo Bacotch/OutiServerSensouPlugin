@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\forms\admin;
 
 
 use jojoe77777\FormAPI\SimpleForm;
+use ken_cir\outiserversensouplugin\forms\admin\adminshop\AdminShopManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\cache\CacheManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\database\DatabaseManagerForm;
 use ken_cir\outiserversensouplugin\forms\admin\schedulemessage\ScheduleMessageManagerForm;
@@ -38,6 +39,9 @@ class AdminForm
                     } elseif ($data === 4) {
                         (new BackupLoadForm())->execute($player);
                     }
+                    elseif ($data === 5) {
+                        (new AdminShopManagerForm())->execute($player);
+                    }
                 } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
                 }
@@ -49,6 +53,7 @@ class AdminForm
             $form->addButton("データベース管理");
             $form->addButton("キャッシュ管理");
             $form->addButton("ワールドバックアップの復元");
+            $form->addButton("アドミンショップの設定");
             $player->sendForm($form);
         } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
