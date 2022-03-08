@@ -126,7 +126,12 @@ CREATE TABLE IF NOT EXISTS factions
     INTEGER
     NOT
     NULL,
-    invites TEXT NOT NULL DEFAULT 'a:0:{}'
+    invites
+    TEXT
+    NOT
+    NULL
+    DEFAULT
+    'a:0:{}'
 );
 -- # }
 
@@ -162,7 +167,7 @@ SET name       = :name,
     owner_xuid = :owner_xuid,
     color      = :color,
     money      = :money,
-    invites = :invites
+    invites    = :invites
 WHERE id = :id;
 -- # }
 
@@ -363,7 +368,7 @@ SET name                        = :name,
     sensen_hukoku               = :sensen_hukoku,
     sendmail_all_faction_player = :sendmail_all_faction_player,
     freand_faction_manager      = :freand_faction_manager,
-    member_manager         = :member_manager,
+    member_manager              = :member_manager,
     land_manager                = :land_manager,
     bank_manager                = :bank_manager,
     role_manager                = :role_manager
