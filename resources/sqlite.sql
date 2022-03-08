@@ -18,23 +18,41 @@ CREATE TABLE IF NOT EXISTS players
     NOT
     NULL,
     faction
-    INTEGER NOT NULL DEFAULT -1,
+    INTEGER
+    NOT
+    NULL
+    DEFAULT
+    -
+    1,
     chatmode
-    INTEGER NOT NULL DEFAULT -1,
+    INTEGER
+    NOT
+    NULL
+    DEFAULT
+    -
+    1,
     drawscoreboard
     INTEGER
     NOT
-    NULL DEFAULT 1,
+    NULL
+    DEFAULT
+    1,
     roles
     TEXT
     NOT
-    NULL DEFAULT 'a:0:{}',
+    NULL
+    DEFAULT
+    'a:0:{}',
     punishment
     INTEGER
     NOT
-    NULL DEFAULT 0,
+    NULL
+    DEFAULT
+    0,
     discord_userid
-    TEXT DEFAULT NULL
+    TEXT
+    DEFAULT
+    NULL
 );
 -- # }
 
@@ -112,7 +130,10 @@ CREATE TABLE IF NOT EXISTS factions
     INTEGER
     NOT
     NULL,
-    safe INTEGER NOT NULL ,
+    safe
+    INTEGER
+    NOT
+    NULL,
     invites
     TEXT
     NOT
@@ -156,7 +177,7 @@ SET name       = :name,
     owner_xuid = :owner_xuid,
     color      = :color,
     money      = :money,
-    safe = :safe,
+    safe       = :safe,
     invites    = :invites
 WHERE id = :id;
 -- # }
