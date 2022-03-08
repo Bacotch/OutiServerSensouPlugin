@@ -18,7 +18,6 @@ use pocketmine\player\Player;
 use function array_map;
 use function array_unshift;
 use function array_values;
-use function is_numeric;
 use function join;
 
 class PlayerDatabaseForm
@@ -72,7 +71,7 @@ class PlayerDatabaseForm
             });
 
             $form->setTitle("プレイヤーデータ {$playerData->getName()}");
-            $form->setContent("XUID: {$playerData->getXuid()}\nプレイヤー名: {$playerData->getName()}\nログインしたことのあるIPアドレス:\n" . join("\n", $playerData->getIp()) . "\n所属派閥: " . ($playerData->getFaction() !== -1 ? FactionDataManager::getInstance()->get($playerData->getFaction())->getName() : "所属なし") . "\nチャットモード: " . ($playerData->getChatmode() === -1 ? "全体" : "派閥") . "\nスコアボード表示: " . ($playerData->getDrawscoreboard() === 1 ? "表示" : "非表示") . "\n所持役職: \n" . join("\n", $playerData->getRoles(true)) . "\n処罰段階: {$playerData->getPunishment()}\n所持金: {$playerData->getMoney()}");
+            $form->setContent("XUID: {$playerData->getXuid()}\nプレイヤー名: {$playerData->getName()}\nログインしたことのあるIPアドレス:\n" . join("\n", $playerData->getIp()) . "\n所属派閥: " . ($playerData->getFaction() !== -1 ? FactionDataManager::getInstance()->get($playerData->getFaction())->getName() : "所属なし") . "\nチャットモード: " . ($playerData->getChatmode() === -1 ? "全体" : "派閥") . "\nスコアボード表示: " . ($playerData->getDrawscoreboard() === 1 ? "表示" : "非表示") . "\n所持役職: \n" . join("\n", $playerData->getRoles(true)) . "\n処罰段階: {$playerData->getPunishment()}");
             $form->setButton1("戻る");
             $form->setButton2("変更");
             $player->sendForm($form);
@@ -95,8 +94,8 @@ class PlayerDatabaseForm
                         $player->sendMessage("§a[システム] 削除しました");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
-                    } elseif (!isset($data[2], $data[7]) or !is_numeric($data[7])) {
-                        $player->sendMessage("§a[システム] プレイヤー名と所持金は入力必須項目で、所持金は数値入力です");
+                    } elseif (!isset($data[2])) {
+                        $player->sendMessage("§a[システム] プレイヤー名は入力必須項目です");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editPlayerData"], [$player, $playerData]), 20);
                         return;
                     }
@@ -107,7 +106,6 @@ class PlayerDatabaseForm
                     $playerData->setChatmode($data[4] === 0 ? -1 : $playerData->getFaction());
                     $playerData->setDrawscoreboard($data[5]);
                     $playerData->setPunishment($data[6]);
-                    $playerData->setMoney((int)$data[7]);
 
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
@@ -137,7 +135,6 @@ class PlayerDatabaseForm
             $form->addDropdown("チャットモード", ["全体", "所属派閥"], $playerData->getChatmode() === -1 ? 0 : 1);
             $form->addDropdown("スコアボード表示", ["OFF", "ON"], $playerData->getDrawscoreboard());
             $form->addDropdown("プレイヤーの処罰段階", ["なし", "注意", "警告", "一部機能制限", "被処罰プレイヤー一定期間アクセス禁止 or データ消去 or 両方", "被処罰プレイヤーアクセス永久禁止 and データ消去", "被処罰プレイヤーがログインしたことのある全IPアドレスアクセス永久禁止 and データ消去"], $playerData->getPunishment());
-            $form->addInput("所持金", "money", (string)$playerData->getMoney());
             $player->sendForm($form);
         } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);

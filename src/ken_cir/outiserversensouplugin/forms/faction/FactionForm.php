@@ -9,6 +9,7 @@ use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\forms\faction\land\LandManagerForm;
+use ken_cir\outiserversensouplugin\forms\faction\money\FactionMoneyManagerForm;
 use ken_cir\outiserversensouplugin\forms\faction\role\RoleInfoForm;
 use ken_cir\outiserversensouplugin\forms\faction\role\RoleManagerForm;
 use ken_cir\outiserversensouplugin\forms\OutiWatchForm;
@@ -102,6 +103,13 @@ class FactionForm
                                     (new MemberManagerForm())->execute($player);
                                 }
                             }
+                            elseif ($data === 9) {
+                                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
+                                    (new FactionMoneyManagerForm())->execute($player);
+                                } elseif ($player_data->isBankManager()) {
+                                    (new FactionMoneyManagerForm())->execute($player);
+                                }
+                            }
                         }
                     }
                 } catch (\Error|\Exception $e) {
@@ -132,23 +140,33 @@ class FactionForm
                 $form->addButton("自分の詳細表示");
                 $form->addButton("§eチャットモード変更");
                 $form->addButton("役職の詳細表示");
+
                 if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                     $form->addButton("§3役職の管理");
                 }
                 elseif ($player_data->isRoleManager()) {
                     $form->addButton("§3役職の管理");
                 }
+
                 if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                     $form->addButton("土地の管理");
                 }
                 elseif ($player_data->isLandManager()) {
                     $form->addButton("土地の管理");
                 }
+
                 if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
                     $form->addButton("派閥メンバーの管理");
                 }
                 elseif ($player_data->isFactionMenmerManager()) {
                     $form->addButton("派閥メンバーの管理");
+                }
+
+                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
+                    $form->addButton("派閥金庫");
+                }
+                elseif ($player_data->isBankManager()) {
+                    $form->addButton("派閥金庫");
                 }
             }
             $player->sendForm($form);

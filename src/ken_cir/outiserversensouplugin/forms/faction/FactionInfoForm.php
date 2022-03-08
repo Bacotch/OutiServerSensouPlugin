@@ -75,7 +75,7 @@ class FactionInfoForm
             }, $faction_players);
             $color = OutiServerUtilitys::getChatColor($faction_data->getColor());
             $form->setTitle("派閥 $color {$faction_data->getName()} の詳細");
-            $form->setContent("§6 派閥名: {$faction_data->getName()}\n所持金: {$faction_data->getMoney()}\n§aリーダー: " . PlayerDataManager::getInstance()->getXuid($faction_data->getOwnerXuid())->getName() . "\n§d総人数: " . count($faction_players) . "人\n§b派閥所属プレイヤー§f\n" . join("\n", $faction_players_name));
+            $form->setContent("§6 派閥名: {$faction_data->getName()}\n金庫: {$faction_data->getSafe()}円\n資金: {$faction_data->getMoney()}円\n§aリーダー: " . PlayerDataManager::getInstance()->getXuid($faction_data->getOwnerXuid())->getName() . "\n§d総人数: " . count($faction_players) . "人\n§b派閥所属プレイヤー§f\n" . join("\n", $faction_players_name));
             $form->setButton1("戻る");
             $form->setButton2("閉じる");
             $player->sendForm($form);

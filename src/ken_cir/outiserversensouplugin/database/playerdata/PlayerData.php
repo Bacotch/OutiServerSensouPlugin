@@ -67,13 +67,6 @@ class PlayerData
     private int $punishment;
 
     /**
-     * 所持金
-     *
-     * @var int
-     */
-    private int $money;
-
-    /**
      * Discordアカウントと連携している場合はDiscordユーザーID
      *
      * @var string|null
@@ -92,7 +85,7 @@ class PlayerData
      * @param int $money
      * @param string|null $discord_userid
      */
-    public function __construct(string $xuid, string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles, int $punishment, int $money, ?string $discord_userid = null)
+    public function __construct(string $xuid, string $name, string $ip, int $faction, int $chatmode, int $drawscoreboard, string $roles, int $punishment, ?string $discord_userid = null)
     {
         $this->xuid = $xuid;
         $this->name = strtolower($name);
@@ -102,7 +95,6 @@ class PlayerData
         $this->drawscoreboard = $drawscoreboard;
         $this->roles = unserialize($roles);
         $this->punishment = $punishment;
-        $this->money = $money;
         $this->discord_userid = $discord_userid;
     }
 
@@ -118,7 +110,6 @@ class PlayerData
                 "drawscoreboard" => $this->drawscoreboard,
                 "roles" => serialize($this->roles),
                 "punishment" => $this->punishment,
-                "money" => $this->money,
                 "discord_userid" => $this->discord_userid,
                 "xuid" => $this->xuid
             ],
@@ -341,23 +332,6 @@ class PlayerData
     public function setPunishment(int $punishment): void
     {
         $this->punishment = $punishment;
-        $this->update();
-    }
-
-    /**
-     * @return int
-     */
-    public function getMoney(): int
-    {
-        return $this->money;
-    }
-
-    /**
-     * @param int $money
-     */
-    public function setMoney(int $money): void
-    {
-        $this->money = $money;
         $this->update();
     }
 
