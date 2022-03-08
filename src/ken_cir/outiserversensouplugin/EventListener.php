@@ -178,12 +178,12 @@ class EventListener implements Listener
 
             // 無所属
             if ($playerData->getFaction() === -1) {
-                $event->setFormat("§f<無所属><{$player->getName()}>" . $playerCacheData->getDiscordUserTag() ? "<{$playerCacheData->getDiscordUserTag()}>" : " $message");
+                $event->setFormat("§f[無所属][{$player->getName()}]" . ($playerCacheData->getDiscordUserTag() ? "[{$playerCacheData->getDiscordUserTag()}]" : " $message"));
             } // どこかに所属してる
             else {
                 $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
                 $color = OutiServerUtilitys::getChatColor($factionData->getColor());
-                $event->setFormat("$color<{$factionData->getName()}>§f<{$player->getName()}>" . ($playerCacheData->getDiscordUserTag() ? "<{$playerCacheData->getDiscordUserTag()}>" : "") . " $message");
+                $event->setFormat("{$color}[{$factionData->getName()}]§f[{$player->getName()}]" . ($playerCacheData->getDiscordUserTag() ? "<{$playerCacheData->getDiscordUserTag()}>" : "") . " $message");
             }
 
             // 派閥専用チャットの場合は
