@@ -24,13 +24,15 @@ class AdminShopData
 
     private int $price;
 
+    private int $defaultPrice;
+
     private int $rateCount;
 
     private int $rateFluctuation;
 
     private int $sellCount;
 
-    public function __construct(int $id, int $itemId, int $itemMeta, int $minPrice, int $maxPrice, int $price, int $rateCount, int $rateFluctuation, int $sellCount)
+    public function __construct(int $id, int $itemId, int $itemMeta, int $minPrice, int $maxPrice, int $price, int $defaultPrice, int $rateCount, int $rateFluctuation, int $sellCount)
     {
         $this->id = $id;
         $this->itemId = $itemId;
@@ -38,6 +40,7 @@ class AdminShopData
         $this->minPrice = $minPrice;
         $this->maxPrice = $maxPrice;
         $this->price = $price;
+        $this->defaultPrice = $defaultPrice;
         $this->rateCount = $rateCount;
         $this->rateFluctuation = $rateFluctuation;
         $this->sellCount = $sellCount;
@@ -52,6 +55,7 @@ class AdminShopData
                 "min_price" => $this->minPrice,
                 "max_price" => $this->maxPrice,
                 "price" => $this->price,
+                "default_price" => $this->defaultPrice,
                 "rate_count" => $this->rateCount,
                 "rate_fluctuation" => $this->rateFluctuation,
                 "sell_count" => $this->sellCount,
@@ -136,6 +140,23 @@ class AdminShopData
     public function setPrice(int $price): void
     {
         $this->price = $price;
+        $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultPrice(): int
+    {
+        return $this->defaultPrice;
+    }
+
+    /**
+     * @param int $defaultPrice
+     */
+    public function setDefaultPrice(int $defaultPrice): void
+    {
+        $this->defaultPrice = $defaultPrice;
         $this->update();
     }
 

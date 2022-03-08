@@ -95,7 +95,7 @@ class AdminShopManagerForm
             $form->addInput("アイテムMeta", "itemmeta", "0");
             $form->addInput("最小買取価格", "minPrice");
             $form->addInput("最大買取価格", "maxPrice");
-            $form->addInput("現在の買取価格", "price");
+            $form->addInput("デフォルトの買取価格", "defaultPrice");
             $form->addInput("値段変動する個数", "rateCount");
             $form->addInput("値段変動パーセント", "rateFluctuation");
             $player->sendForm($form);
@@ -150,7 +150,7 @@ class AdminShopManagerForm
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 20);
                         return;
                     }
-                    elseif (!is_numeric($data[2]) or !is_numeric($data[3]) or !is_numeric($data[4]) or !is_numeric($data[5]) or !is_numeric($data[6]) or !is_numeric($data[7])) {
+                    elseif (!is_numeric($data[2]) or !is_numeric($data[3]) or !is_numeric($data[4]) or !is_numeric($data[5]) or !is_numeric($data[6]) or !is_numeric($data[7]) or !is_numeric($data[8])) {
                         $player->sendMessage("§a[システム] デフォルト買取値段と買取値段と買取価格調整用値は入力必須項目で数値である必要があります");
                         Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "editAdminShop"], [$player, $adminShopData]), 20);
                         return;
@@ -159,9 +159,10 @@ class AdminShopManagerForm
                     $adminShopData->setMinPrice((int)$data[2]);
                     $adminShopData->setMaxPrice((int)$data[3]);
                     $adminShopData->setPrice((int)$data[4]);
-                    $adminShopData->setRateCount((int)$data[5]);
-                    $adminShopData->setRateFluctuation((int)$data[6]);
-                    $adminShopData->setSellCount((int)$data[7]);
+                    $adminShopData->setDefaultPrice((int)$data[5]);
+                    $adminShopData->setRateCount((int)$data[6]);
+                    $adminShopData->setRateFluctuation((int)$data[7]);
+                    $adminShopData->setSellCount((int)$data[8]);
                     $player->sendMessage("§a[システム] 変更しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player, $adminShopData]), 20);
                 }
@@ -176,6 +177,7 @@ class AdminShopManagerForm
             $form->addInput("最小買取価格", "minPrice", (string)$adminShopData->getMinPrice());
             $form->addInput("最大買取価格", "minPrice", (string)$adminShopData->getMaxPrice());
             $form->addInput("現在の買取価格", "price", (string)$adminShopData->getPrice());
+            $form->addInput("デフォルトの買取価格", "defaultPrice", (string)$adminShopData->getDefaultPrice());
             $form->addInput("値段変動する個数", "rateCount", (string)$adminShopData->getRateCount());
             $form->addInput("値段変動パーセント", "rateFluctuation", (string)$adminShopData->getRateFluctuation());
             $form->addInput("買取価格調整用値", "sellCount", (string)$adminShopData->getSellCount());

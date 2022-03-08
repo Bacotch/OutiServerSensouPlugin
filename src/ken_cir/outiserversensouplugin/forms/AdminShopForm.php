@@ -87,7 +87,9 @@ class AdminShopForm
             });
 
             $form->setTitle("アドミンショップ 買取");
-            $form->addLabel("アイテム: " . ItemFactory::getInstance()->get($adminShopData->getItemId(), $adminShopData->getItemMeta())->getName() . "\n1個当たりの買取額: {$adminShopData->getPrice()}");
+            // ($adminShopData->getPrice() < $adminShopData->getDefaultPrice()) がtrueの時は価値下がってる
+            // ($adminShopData->getPrice() > $adminShopData->getDefaultPrice()) がtrueの時は価値上がってる
+            $form->addLabel("アイテム: " . ItemFactory::getInstance()->get($adminShopData->getItemId(), $adminShopData->getItemMeta())->getName() . "\n1個当たりの買取額: {$adminShopData->getPrice()}\n" . ($adminShopData->getPrice() < $adminShopData->getDefaultPrice() ? "§cDOWN " . (1 - ($adminShopData->getPrice() / $adminShopData->getDefaultPrice())) * 100 . "パーセント" : ($adminShopData->getPrice() > $adminShopData->getDefaultPrice() ? "§aUP " . ($adminShopData->getPrice() - $adminShopData->getDefaultPrice()) / $adminShopData->getDefaultPrice() * 100 . "パーセント" : "§7- 0.0パーセント")));
             $form->addToggle("キャンセルして戻る");
             $form->addInput("買取個数", "sellCount");
             $player->sendForm($form);

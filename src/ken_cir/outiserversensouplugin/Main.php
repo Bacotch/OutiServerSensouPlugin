@@ -37,6 +37,7 @@ use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageD
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
+use ken_cir\outiserversensouplugin\tasks\AdminShopFluctuation;
 use ken_cir\outiserversensouplugin\tasks\Backup;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
@@ -162,8 +163,8 @@ class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
-        $this->database->executeGeneric("outiserver.players.drop");
-        $this->database->waitAll();
+        // $this->database->executeGeneric("outiserver.adminshops.drop");
+        // $this->database->waitAll();
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -225,11 +226,7 @@ class Main extends PluginBase
         ), $this->config->get("backup_delay", 3600) * 20);
 
         // アドミンショップの値段変動
-        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
-            function (): void {
-
-            }
-        ), $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
+        $this->getScheduler()->scheduleRepeatingTask(new AdminShopFluctuation($this->config->get("adminshop_fluctuation_count", 64)), $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
 
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),

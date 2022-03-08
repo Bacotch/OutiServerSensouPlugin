@@ -54,6 +54,7 @@ class AdminShopDataManager
                         $data["min_price"],
                         $data["max_price"],
                         $data["price"],
+                        $data["default_price"],
                         $data["rate_count"],
                         $data["rate_fluctuation"],
                         $data["sell_count"]);
@@ -93,7 +94,7 @@ class AdminShopDataManager
         return $this->adminshopDatas;
     }
 
-    public function create(int $itemId, int $itemMeta, int $minPrice, int $maxprice, int $price, int $rateCount, int $rateFluctuation): AdminShopData
+    public function create(int $itemId, int $itemMeta, int $minPrice, int $maxprice, int $defaultPrice, int $rateCount, int $rateFluctuation): AdminShopData
     {
         Main::getInstance()->getDatabase()->executeInsert("outiserver.adminshops.create",
             [
@@ -101,7 +102,7 @@ class AdminShopDataManager
                 "item_meta" => $itemMeta,
                 "min_price" => $minPrice,
                 "max_price" => $maxprice,
-                "price" => $price,
+                "default_price" => $defaultPrice,
                 "rate_count" => $rateCount,
                 "rate_fluctuation" => $rateFluctuation
             ],
@@ -112,7 +113,7 @@ class AdminShopDataManager
         );
 
         $this->seq++;
-        return ($this->adminshopDatas[$this->seq] = new AdminShopData($this->seq, $itemId, $itemMeta, $minPrice, $maxprice, $price, $rateCount, $rateFluctuation, 0));
+        return ($this->adminshopDatas[$this->seq] = new AdminShopData($this->seq, $itemId, $itemMeta, $minPrice, $maxprice, $defaultPrice, $defaultPrice, $rateCount, $rateFluctuation, 0));
     }
 
     public function delete(int $id): void

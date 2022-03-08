@@ -238,9 +238,9 @@ FROM mails;
 -- #    :read int
 -- #    :id int
 UPDATE mails
-SET title = :title,
+SET title   = :title,
     content = :content,
-    read = :read
+    read    = :read
 WHERE id = :id;
 -- # }
 
@@ -635,7 +635,10 @@ CREATE TABLE IF NOT EXISTS chestshops
     PRIMARY
     KEY
     AUTOINCREMENT,
-    owner_xuid TEXT NOT NULL,
+    owner_xuid
+    TEXT
+    NOT
+    NULL,
     faction_id
     INTEGER
     NOT
@@ -701,9 +704,11 @@ CREATE TABLE IF NOT EXISTS chestshops
 -- #    :itemmeta int
 -- #    :price int
 -- #    :duty int
-INSERT INTO chestshops (owner_xuid, faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz, itemid,
+INSERT INTO chestshops (owner_xuid, faction_id, worldname, chestx, chesty, chestz, signboardx, signboardy, signboardz,
+                        itemid,
                         itemmeta, price, duty)
-VALUES (:owner_xuid, :faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid, :itemmeta,
+VALUES (:owner_xuid, :faction_id, :worldname, :chestx, :chesty, :chestz, :signboardx, :signboardy, :signboardz, :itemid,
+        :itemmeta,
         :price, :duty);
 -- # }
 
@@ -753,14 +758,44 @@ CREATE TABLE IF NOT EXISTS adminshops
     PRIMARY
     KEY
     AUTOINCREMENT,
-    item_id INTEGER NOT NULL ,
-    item_meta INTEGER NOT NULL ,
-    min_price INTEGER NOT NULL ,
-    max_price INTEGER NOT NULL ,
-    price INTEGER NOT NULL ,
-    rate_count INTEGER NOT NULL ,
-    rate_fluctuation INTEGER NOT NULL ,
-    sell_count INTEGER NOT NULL DEFAULT 0
+    item_id
+    INTEGER
+    NOT
+    NULL,
+    item_meta
+    INTEGER
+    NOT
+    NULL,
+    min_price
+    INTEGER
+    NOT
+    NULL,
+    max_price
+    INTEGER
+    NOT
+    NULL,
+    price
+    INTEGER
+    NOT
+    NULL,
+    default_price
+    INTEGER
+    NOT
+    NULL,
+    rate_count
+    INTEGER
+    NOT
+    NULL,
+    rate_fluctuation
+    INTEGER
+    NOT
+    NULL,
+    sell_count
+    INTEGER
+    NOT
+    NULL
+    DEFAULT
+    0
 );
 -- # }
 
@@ -769,11 +804,11 @@ CREATE TABLE IF NOT EXISTS adminshops
 -- #    :item_meta int
 -- #    :min_price int
 -- #    :max_price int
--- #    :price int
+-- #    :default_price int
 -- #    :rate_count int
 -- #    :rate_fluctuation int
-INSERT INTO adminshops (item_id, item_meta, min_price, max_price, price, rate_count, rate_fluctuation)
-VALUES (:item_id, :item_meta, :min_price, :max_price, :price, :rate_count, :rate_fluctuation)
+INSERT INTO adminshops (item_id, item_meta, min_price, max_price, price, default_price, rate_count, rate_fluctuation)
+VALUES (:item_id, :item_meta, :min_price, :max_price, :default_price, :default_price, :rate_count, :rate_fluctuation)
 -- # }
 
 -- # { seq
@@ -793,19 +828,21 @@ FROM adminshops;
 -- #    :min_price int
 -- #    :max_price int
 -- #    :price int
+-- #    :default_price int
 -- #    :rate_count int
 -- #    :rate_fluctuation int
 -- #    :sell_count int
 -- #    :id int
 UPDATE adminshops
-SET item_id = :item_id,
-    item_meta = :item_meta,
-    min_price = :min_price,
-    max_price = :max_price,
-    price = :price,
-    rate_count = :rate_count,
+SET item_id          = :item_id,
+    item_meta        = :item_meta,
+    min_price        = :min_price,
+    max_price        = :max_price,
+    price            = :price,
+    default_price    = :default_price,
+    rate_count       = :rate_count,
     rate_fluctuation = :rate_fluctuation,
-    sell_count = :sell_count
+    sell_count       = :sell_count
 WHERE id = :id;
 -- # }
 
