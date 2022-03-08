@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\forms\faction;
 
 
+use DateTime;
 use jojoe77777\FormAPI\CustomForm;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
+use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
@@ -49,6 +51,11 @@ class CreateFactionForm
                     } else {
                         $id = FactionDataManager::getInstance()->create($data[0], $player->getXuid(), (int)$data[1]);
                         $player_data->setFaction($id);
+
+                        // 招待全部キャンセルする
+                        foreach (FactionDataManager::getInstance()->getInvite($player->getXuid()) as $factionData) {
+                            $factionData->removeInvite($player->getXuid());
+                        }
                         $player->sendMessage("§a[システム]派閥 $data[0] を作成しました");
 
                         if (!file_exists(Main::getInstance()->getDataFolder() . "worldBackups/$id/")) {

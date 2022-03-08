@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\adminshopdata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function count;
 use function array_values;
@@ -15,6 +16,8 @@ use function array_values;
  */
 class AdminShopDataManager
 {
+    private DataConnector $connector;
+
     /**
      * @var AdminShopDataManager $this
      */
@@ -27,10 +30,15 @@ class AdminShopDataManager
      */
     private array $adminshopDatas;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
         $this->adminshopDatas = [];
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.adminshops.seq",
+
+        $this->connector->executeSelect("outiserver.adminshops.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -44,7 +52,7 @@ class AdminShopDataManager
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.adminshops.load",
+        $this->connector->executeSelect("outiserver.adminshops.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
@@ -63,12 +71,6 @@ class AdminShopDataManager
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-    }
-
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
-        self::$instance = new self();
     }
 
     /**
@@ -96,7 +98,7 @@ class AdminShopDataManager
 
     public function create(int $itemId, int $itemMeta, int $minPrice, int $maxprice, int $defaultPrice, int $rateCount, int $rateFluctuation): AdminShopData
     {
-        Main::getInstance()->getDatabase()->executeInsert("outiserver.adminshops.create",
+        $this->connector->executeInsert("outiserver.adminshops.create",
             [
                 "item_id" => $itemId,
                 "item_meta" => $itemMeta,
@@ -113,14 +115,23 @@ class AdminShopDataManager
         );
 
         $this->seq++;
-        return ($this->adminshopDatas[$this->seq] = new AdminShopData($this->seq, $itemId, $itemMeta, $minPrice, $maxprice, $defaultPrice, $defaultPrice, $rateCount, $rateFluctuation, 0));
+        return ($this->adminshopDatas[$this->seq] = new AdminShopData($this->seq,
+            $itemId,
+            $itemMeta,
+            $minPrice,
+            $maxprice,
+            $defaultPrice,
+            $defaultPrice,
+            $rateCount,
+            $rateFluctuation,
+            0));
     }
 
     public function delete(int $id): void
     {
         if (!$this->get($id)) return;
 
-        Main::getInstance()->getDatabase()->executeGeneric("outiserver.adminshops.delete",
+        $this->connector->executeGeneric("outiserver.adminshops.delete",
             [
                 "id" => $id
             ],

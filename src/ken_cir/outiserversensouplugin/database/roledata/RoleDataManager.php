@@ -8,6 +8,7 @@ use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function count;
@@ -21,6 +22,8 @@ use function ksort;
  */
 class RoleDataManager
 {
+    private DataConnector $connector;
+
     /**
      * @var RoleDataManager $this
      */
@@ -29,7 +32,7 @@ class RoleDataManager
     /**
      * @var RoleData[]
      */
-    private array $faction_role_datas;
+    private array $roleDatas;
 
     /**
      * 管理用ID
@@ -39,10 +42,15 @@ class RoleDataManager
 
     /**
      */
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
-        $this->faction_role_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect(
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
+        $this->roleDatas = [];
+
+        $this->connector->executeSelect(
             "outiserver.roles.seq",
             [],
             function (array $row) {
@@ -58,24 +66,29 @@ class RoleDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->executeSelect(
+        $this->connector->executeSelect(
             "outiserver.roles.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->faction_role_datas[$data["id"]] = new RoleData($data["id"], $data["faction_id"], $data["name"], $data["color"], $data["position"], $data["sensen_hukoku"], $data["invite_player"], $data["sendmail_all_faction_player"], $data["freand_faction_manager"], $data["kick_faction_player"], $data["land_manager"], $data["bank_manager"], $data["role_manager"]);
+                    $this->roleDatas[$data["id"]] = new RoleData($data["id"],
+                        $data["faction_id"],
+                        $data["name"],
+                        $data["color"],
+                        $data["position"],
+                        $data["sensen_hukoku"],
+                        $data["sendmail_all_faction_player"],
+                        $data["freand_faction_manager"],
+                        $data["member_manager"],
+                        $data["land_manager"],
+                        $data["bank_manager"],
+                        $data["role_manager"]);
                 }
             },
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-    }
-
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(RoleDataManager::class);
-        self::$instance = new self();
     }
 
     /**
@@ -97,35 +110,34 @@ class RoleDataManager
     }
 
     /**
+     * ロール作成
+     *
      * @param int $faction_id
      * @param string $name
      * @param int $color
      * @param bool $sensen_hukoku
-     * @param bool $invite_player
      * @param bool $sendmail_all_faction_player
      * @param bool $freand_faction_manager
-     * @param bool $kick_faction_player
+     * @param bool $member_manager
      * @param bool $land_manager
      * @param bool $bank_manager
      * @param bool $role_manager
-     * ロール作成
      */
-    public function create(int $faction_id, string $name, int $color, bool $sensen_hukoku, bool $invite_player, bool $sendmail_all_faction_player, bool $freand_faction_manager, bool $kick_faction_player, bool $land_manager, bool $bank_manager, bool $role_manager)
+    public function create(int $faction_id, string $name, int $color, bool $sensen_hukoku, bool $sendmail_all_faction_player, bool $freand_faction_manager, bool $member_manager, bool $land_manager, bool $bank_manager, bool $role_manager)
     {
-        Main::getInstance()->getDatabase()->executeInsert(
+        $this->connector->executeInsert(
             "outiserver.roles.create",
             [
                 "faction_id" => $faction_id,
                 "name" => $name,
                 "color" => $color,
-                "position" => count(array_filter($this->faction_role_datas, function ($factionRoleData) use ($faction_id) {
+                "position" => count(array_filter($this->roleDatas, function ($factionRoleData) use ($faction_id) {
                         return $factionRoleData->getFactionId() === $faction_id;
                     })) + 1,
                 "sensen_hukoku" => (int)$sensen_hukoku,
-                "invite_player" => (int)$invite_player,
                 "sendmail_all_faction_player" => (int)$sendmail_all_faction_player,
                 "freand_faction_manager" => (int)$freand_faction_manager,
-                "kick_faction_player" => (int)$kick_faction_player,
+                "member_manager" => (int)$member_manager,
                 "land_manager" => (int)$land_manager,
                 "bank_manager" => (int)$bank_manager,
                 "role_manager" => (int)$role_manager,
@@ -136,9 +148,18 @@ class RoleDataManager
             }
         );
         $this->seq++;
-        $this->faction_role_datas[$this->seq] = new RoleData($this->seq, $faction_id, $name, $color, count(array_filter($this->faction_role_datas, function ($factionRoleData) use ($faction_id) {
+        $this->roleDatas[$this->seq] = new RoleData($this->seq,
+            $faction_id, $name, $color,
+            count(array_filter($this->roleDatas, function ($factionRoleData) use ($faction_id) {
                 return $factionRoleData->getFactionId() === $faction_id;
-            })) + 1, (int)$sensen_hukoku, (int)$invite_player, (int)$sendmail_all_faction_player, (int)$freand_faction_manager, (int)$kick_faction_player, (int)$land_manager, (int)$bank_manager, (int)$role_manager);
+            })) + 1,
+            (int)$sensen_hukoku,
+            (int)$sendmail_all_faction_player,
+            (int)$freand_faction_manager,
+            (int)$member_manager,
+            (int)$land_manager,
+            (int)$bank_manager,
+            (int)$role_manager);
     }
 
     /**
@@ -164,7 +185,7 @@ class RoleDataManager
             }
         }
 
-        Main::getInstance()->getDatabase()->executeGeneric(
+        $this->connector->executeGeneric(
             "outiserver.roles.delete",
             [
                 "id" => $id
@@ -174,7 +195,7 @@ class RoleDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        unset($this->faction_role_datas[$id]);
+        unset($this->roleDatas[$id]);
     }
 
     /**
@@ -186,7 +207,7 @@ class RoleDataManager
     public function getFactionRoles(int $factionId, bool $sorted = true): array
     {
         if ($sorted) {
-            $sort = array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
+            $sort = array_filter($this->roleDatas, function ($roleData) use ($factionId) {
                 return $roleData->getFactionId() === $factionId;
             });
             $sort2 = [];
@@ -196,7 +217,7 @@ class RoleDataManager
             ksort($sort2);
             return $sort2;
         } else {
-            return array_filter($this->faction_role_datas, function ($roleData) use ($factionId) {
+            return array_filter($this->roleDatas, function ($roleData) use ($factionId) {
                 return $roleData->getFactionId() === $factionId;
             });
         }

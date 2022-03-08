@@ -6,6 +6,9 @@ namespace ken_cir\outiserversensouplugin\database\factiondata;
 
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\SqlError;
+use function unserialize;
+use function serialize;
+use function in_array;
 
 /**
  * 派閥データ
@@ -44,19 +47,27 @@ class FactionData
     private int $money;
 
     /**
+     * 派閥に招待されているプレイヤーXUID配列
+     *
+     * @var string[]
+     */
+    private array $invites;
+
+    /**
      * @param int $id
      * @param string $name
      * @param string $owner_xuid
      * @param int $color
      * @param int $money
      */
-    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money)
+    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money, string $invites)
     {
         $this->id = $id;
         $this->name = $name;
         $this->owner_xuid = $owner_xuid;
         $this->color = $color;
         $this->money = $money;
+        $this->invites = unserialize($invites);
     }
 
     /**
@@ -70,6 +81,7 @@ class FactionData
                 "owner_xuid" => $this->owner_xuid,
                 "color" => $this->color,
                 "money" => $this->money,
+                "invites" => serialize($this->invites),
                 "id" => $this->id
             ],
             null,
@@ -154,5 +166,58 @@ class FactionData
     {
         $this->money = $money;
         $this->update();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getInvites(): mixed
+    {
+        return $this->invites;
+    }
+
+    /**
+     * @param string[] $invites
+     */
+    public function setInvites(mixed $invites): void
+    {
+        $this->invites = $invites;
+        $this->update();
+    }
+
+    public function hasInvite(string $xuid): bool
+    {
+        return in_array($xuid, $this->invites, true);
+    }
+
+    public function addInvite(string $xuid): void
+    {
+        if ($this->hasInvite($xuid)) return;
+        $this->invites[] = $xuid;
+        $this->update();
+    }
+
+    public function addInvites(array $xuids): void
+    {
+        foreach ($xuids as $xuid) {
+            $this->addInvite($xuid);
+        }
+    }
+
+    public function removeInvite(string $xuid): void
+    {
+        if (!$this->hasInvite($xuid)) return;
+        foreach ($this->invites as $key => $invite) {
+            if ($invite !== $xuid) continue;
+            unset($this->invites[$key]);
+        }
+        $this->update();
+    }
+
+    public function removeInvites(array $xuids): void
+    {
+        foreach ($xuids as $xuid) {
+            $this->removeInvite($xuid);
+        }
     }
 }

@@ -33,7 +33,7 @@ class CreateRoleForm
                         $form->execute($player);
                         return true;
                     } elseif (!isset($data[1])) return true;
-                    RoleDataManager::getInstance()->create($player_data->getFaction(), $data[1], (int)$data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8], $data[9], $data[10]);
+                    RoleDataManager::getInstance()->create($player_data->getFaction(), $data[1], (int)$data[2], $data[3], $data[4], $data[5], $data[6], $data[7], $data[8], $data[9]);
                     $player->sendMessage("§a[システム]役職 $data[1] を作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player]), 10);
                 } catch (\Error|\Exception $e) {
@@ -48,10 +48,9 @@ class CreateRoleForm
             $form->addInput("§a役職名§c", "rolename");
             $form->addDropdown("§e役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"]);
             $form->addToggle("宣戦布告権限");
-            $form->addToggle("派閥にプレイヤー招待権限");
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限");
             $form->addToggle("敵対派閥と友好派閥（制限あり）の設定権限");
-            $form->addToggle("派閥からプレイヤーを追放権限");
+            $form->addToggle("派閥メンバー管理権限");
             $form->addToggle("派閥の土地管理権限");
             $form->addToggle("派閥銀行管理権限");
             $form->addToggle("派閥ロール管理権限");

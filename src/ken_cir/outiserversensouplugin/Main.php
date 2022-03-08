@@ -155,8 +155,6 @@ class Main extends PluginBase
         $this->database = libasynql::create($this, $databaseConfig->get("database"), [
             "sqlite" => "sqlite.sql"
         ]);
-        // $this->database->executeGeneric("outiserver.adminshops.drop");
-        // $this->database->waitAll();
         $this->database->executeGeneric("outiserver.players.init");
         $this->database->executeGeneric("outiserver.factions.init");
         $this->database->executeGeneric("outiserver.mails.init");
@@ -167,16 +165,17 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.chestshops.init");
         $this->database->executeGeneric("outiserver.adminshops.init");
         $this->database->waitAll();
-        PlayerDataManager::createInstance();
-        FactionDataManager::createInstance();
-        MailDataManager::createInstance();
-        RoleDataManager::createInstance();
-        LandDataManager::createInstance();
-        LandConfigDataManager::createInstance();
-        ScheduleMessageDataManager::createInstance();
-        ChestShopDataManager::createInstance();
-        AdminShopDataManager::createInstance();
+        (new PlayerDataManager($this->database));
+        (new FactionDataManager($this->database));
+        (new MailDataManager($this->database));
+        (new RoleDataManager($this->database));
+        (new LandDataManager($this->database));
+        (new LandConfigDataManager($this->database));
+        (new ScheduleMessageDataManager($this->database));
+        (new ChestShopDataManager($this->database));
+        (new AdminShopDataManager($this->database));
         $this->database->waitAll();
+
 
         // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();

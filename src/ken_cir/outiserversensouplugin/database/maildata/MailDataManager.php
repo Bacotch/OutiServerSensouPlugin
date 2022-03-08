@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\maildata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_values;
 use function count;
@@ -18,6 +19,8 @@ use function array_reverse;
  */
 class MailDataManager
 {
+    private DataConnector $connector;
+
     /**
      * @var MailDataManager $this
      */
@@ -28,12 +31,17 @@ class MailDataManager
     /**
      * @var MailData[]
      */
-    private array $mail_datas;
+    private array $mailDatas;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
-        $this->mail_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect(
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
+        $this->mailDatas = [];
+
+        $this->connector->executeSelect(
             "outiserver.mails.seq",
             [],
             function (array $row) {
@@ -49,28 +57,24 @@ class MailDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->executeSelect(
+        $this->connector->executeSelect(
             "outiserver.mails.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->mail_datas[$data["id"]] = new MailData($data["id"], $data["sendto_xuid"], $data["title"], $data["content"], $data["author_xuid"], $data["date"], $data["read"]);
+                    $this->mailDatas[$data["id"]] = new MailData($data["id"],
+                        $data["sendto_xuid"],
+                        $data["title"],
+                        $data["content"],
+                        $data["author_xuid"],
+                        $data["date"],
+                        $data["read"]);
                 }
             },
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-    }
-
-    /**
-     * クラスインスタンスを作成する
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(MailDataManager::class);
-        self::$instance = new self();
     }
 
     /**
@@ -88,8 +92,8 @@ class MailDataManager
      */
     public function get(int $id): bool|MailData
     {
-        if (!isset($this->mail_datas[$id])) return false;
-        return $this->mail_datas[$id];
+        if (!isset($this->mailDatas[$id])) return false;
+        return $this->mailDatas[$id];
     }
 
     /**
@@ -97,8 +101,8 @@ class MailDataManager
      */
     public function getAll(?bool $keyValue = false): array
     {
-        if ($keyValue) return array_values($this->mail_datas);
-        return $this->mail_datas;
+        if ($keyValue) return array_values($this->mailDatas);
+        return $this->mailDatas;
     }
 
     /**
@@ -108,7 +112,7 @@ class MailDataManager
      */
     public function getPlayerMailDatas(string $playerXuid, ?bool $keyValue = false): array
     {
-        $factionLands = array_filter($this->mail_datas, function (MailData $mailData) use ($playerXuid) {
+        $factionLands = array_filter($this->mailDatas, function (MailData $mailData) use ($playerXuid) {
             return $mailData->getSendtoXuid() === $playerXuid or $mailData->getAuthorXuid() === $playerXuid;
         });
 
@@ -123,7 +127,7 @@ class MailDataManager
      */
     public function getPlayerXuid(string $xuid, ?bool $keyValue = false): array
     {
-        $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($xuid) {
+        $mail = array_filter($this->mailDatas, function (MailData $mailData) use ($xuid) {
             return $mailData->getSendtoXuid() === $xuid;
         });
 
@@ -139,7 +143,7 @@ class MailDataManager
      */
     public function getPlayerAuthorXuid(string $xuid, ?bool $keyValue = false): array
     {
-        $mail = array_filter($this->mail_datas, function (MailData $mailData) use ($xuid) {
+        $mail = array_filter($this->mailDatas, function (MailData $mailData) use ($xuid) {
             return $mailData->getAuthorXuid() === $xuid;
         });
 
@@ -157,7 +161,7 @@ class MailDataManager
      */
     public function create(string $sendto_xuid, string $title, string $content, string $author_xuid, string $date)
     {
-        Main::getInstance()->getDatabase()->executeInsert(
+        $this->connector->executeInsert(
             "outiserver.mails.create",
             [
                 "sendto_xuid" => $sendto_xuid,
@@ -172,7 +176,13 @@ class MailDataManager
             }
         );
         $this->seq++;
-        $this->mail_datas[$this->seq] = new MailData($this->seq, $sendto_xuid, $title, $content, $author_xuid, $date, 0);
+        $this->mailDatas[$this->seq] = new MailData($this->seq,
+            $sendto_xuid,
+            $title,
+            $content,
+            $author_xuid,
+            $date,
+            0);
     }
 
     /**
@@ -180,7 +190,7 @@ class MailDataManager
      */
     public function delete(int $id)
     {
-        Main::getInstance()->getDatabase()->executeGeneric(
+        $this->connector->executeGeneric(
             "outiserver.mails.delete",
             [
                 "id" => $id
@@ -190,9 +200,8 @@ class MailDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        unset($this->mail_datas[$id]);
+        unset($this->mailDatas[$id]);
     }
-
     /**
      * @return int
      * 未読のメール数を返す

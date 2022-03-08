@@ -7,6 +7,8 @@ namespace ken_cir\outiserversensouplugin\database\schedulemessagedata;
 use InvalidArgumentException;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use pocketmine\plugin\PluginOwned;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_values;
 use function count;
@@ -16,6 +18,8 @@ use function count;
  */
 class ScheduleMessageDataManager
 {
+    private DataConnector $connector;
+
     /**
      * インスタンス
      *
@@ -35,11 +39,15 @@ class ScheduleMessageDataManager
      */
     private int $seq;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
         self::$instance = $this;
+
+        $this->connector = $connector;
         $this->scheduleMessageDatas = [];
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.schedulemessages.seq",
+
+        $this->connector->executeSelect("outiserver.schedulemessages.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -53,31 +61,16 @@ class ScheduleMessageDataManager
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.schedulemessages.load",
+        $this->connector->executeSelect("outiserver.schedulemessages.load",
             [],
             function (array $row) {
-                try {
-                    foreach ($row as $data) {
-                        $this->scheduleMessageDatas[$data["id"]] = new ScheduleMessageData($data["id"], $data["content"]);
-                    }
-                } catch (InvalidArgumentException $error) {
-                    Main::getInstance()->getOutiServerLogger()->error($error);
+                foreach ($row as $data) {
+                    $this->scheduleMessageDatas[$data["id"]] = new ScheduleMessageData($data["id"], $data["content"]);
                 }
             },
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-    }
-
-    /**
-     * インスタンスを作成する
-     *
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(ScheduleMessageDataManager::class);
-        self::$instance = new self();
     }
 
     /**
@@ -118,7 +111,7 @@ class ScheduleMessageDataManager
      */
     public function create(string $content): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("outiserver.schedulemessages.create",
+        $this->connector->executeInsert("outiserver.schedulemessages.create",
             [
                 "content" => $content,
             ],
@@ -139,7 +132,7 @@ class ScheduleMessageDataManager
      */
     public function delete(int $id): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("outiserver.schedulemessages.delete",
+        $this->connector->executeGeneric("outiserver.schedulemessages.delete",
             [
                 "id" => $id
             ],

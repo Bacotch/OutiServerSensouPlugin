@@ -37,16 +37,10 @@ class LeaveFactionForm
                         $time = new DateTime('now');
                         foreach ($faction_players as $faction_player) {
                             if ($faction_player->getName() === $player_data->getName()) continue;
-                            MailDataManager::getInstance()->create(
-                                $faction_player->getName(),
-                                "派閥脱退通知",
-                                "所属派閥 {$player_data->getFaction()} から {$player->getName()} が脱退しました",
-                                "システム",
-                                $time->format("Y年m月d日 H時i分")
-                            );
                         }
 
                         $player_data->setFaction(-1);
+                        $player_data->setRoles([]);
                         $player->sendMessage("§a[システム] 派閥 {$player_data->getFaction()} から脱退しました");
                     }
                 } catch (\Error|\Exception $exception) {

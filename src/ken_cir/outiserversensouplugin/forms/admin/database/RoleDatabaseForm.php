@@ -17,6 +17,7 @@ use ken_cir\outiserversensouplugin\utilitys\OutiServerUtilitys;
 use pocketmine\player\Player;
 use function array_filter;
 use function count;
+use function array_values;
 
 class RoleDatabaseForm
 {
@@ -35,9 +36,9 @@ class RoleDatabaseForm
                         return;
                     }
 
-                    $factionDatas = array_filter(FactionDataManager::getInstance()->getAll(true), function (FactionData $factionData) {
+                    $factionDatas = array_values(array_filter(FactionDataManager::getInstance()->getAll(), function (FactionData $factionData) {
                         return count(RoleDataManager::getInstance()->getFactionRoles($factionData->getId())) > 0;
-                    });
+                    }));
                     $this->selectRoleData($player, $factionDatas[$data - 1]);
                 } catch (\Error|\Exception $exception) {
                     Main::getInstance()->getOutiServerLogger()->error($exception, true, $player);
@@ -109,7 +110,7 @@ class RoleDatabaseForm
             });
 
             $form->setTitle("役職データ {$roleData->getName()} #{$roleData->getId()} {$factionData->getName()}派閥");
-            $form->setContent("役職ID: {$roleData->getId()}\n派閥: {$factionData->getName()}(ID: {$factionData->getId()})\n役職名: {$roleData->getName()}\n役職カラー: " . OutiServerUtilitys::getChatColor($roleData->getColor()) . OutiServerUtilitys::getChatString($roleData->getColor()) . "\n§f役職位置: {$roleData->getPosition()}\n\n宣戦布告権限: " . ($roleData->isSensenHukoku() ? '§bある' : '§cない') . "\n\n§f派閥にプレイヤー招待権限: " . ($roleData->isInvitePlayer() ? '§bある' : '§cない') . "\n\n§f派閥プレイヤー全員に一括でメール送信権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f敵対派閥と友好派閥（制限あり）の設定権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥からプレイヤーを追放権限: " . ($roleData->isKickFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥の土地管理権限: " . ($roleData->isLandManager() ? '§bある' : '§cない') . "\n\n§f派閥銀行管理権限: " . ($roleData->isBankManager() ? '§bある' : '§cない') . "\n\n§f派閥ロール管理権限: " . ($roleData->isRoleManager() ? '§bある' : '§cない'));
+            $form->setContent("役職ID: {$roleData->getId()}\n派閥: {$factionData->getName()}(ID: {$factionData->getId()})\n役職名: {$roleData->getName()}\n役職カラー: " . OutiServerUtilitys::getChatColor($roleData->getColor()) . OutiServerUtilitys::getChatString($roleData->getColor()) . "\n§f役職位置: {$roleData->getPosition()}\n\n宣戦布告権限: " . ($roleData->isSensenHukoku() ? '§bある' : '§cない') . "\n\n§f派閥プレイヤー全員に一括でメール送信権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f敵対派閥と友好派閥（制限あり）の設定権限: " . ($roleData->isSendmailAllFactionPlayer() ? '§bある' : '§cない') . "\n\n§f派閥メンバー管理権限: " . ($roleData->isMemberManager() ? '§bある' : '§cない') . "\n\n§f派閥の土地管理権限: " . ($roleData->isLandManager() ? '§bある' : '§cない') . "\n\n§f派閥銀行管理権限: " . ($roleData->isBankManager() ? '§bある' : '§cない') . "\n\n§f派閥ロール管理権限: " . ($roleData->isRoleManager() ? '§bある' : '§cない'));
             $form->setButton1("戻る");
             $form->setButton2("編集");
             $player->sendForm($form);
@@ -141,18 +142,17 @@ class RoleDatabaseForm
                     $position = (int)$data[6];
                     $oldRoleFaction = $roleData->getFactionId();
                     $oldRolePos = $roleData->getPosition();
-                    $roleData->setFactionId(FactionDataManager::getInstance()->getAll(true)[$data[3]]->getId());
+                    $roleData->setFactionId(FactionDataManager::getInstance()->getAll(true)[$data[3] + 1]->getId());
                     $roleData->setName($data[4]);
                     $roleData->setColor($data[5]);
                     $roleData->setPosition($oldRoleFaction !== $roleData->getFactionId() ? count(RoleDataManager::getInstance()->getFactionRoles($roleData->getFactionId())) + 1 : (int)$data[6]);
                     $roleData->setSensenHukoku($data[7]);
-                    $roleData->setInvitePlayer($data[8]);
-                    $roleData->setSendmailAllFactionPlayer($data[9]);
-                    $roleData->setFreandFactionManager($data[10]);
-                    $roleData->setKickFactionPlayer($data[11]);
-                    $roleData->setLandManager($data[12]);
-                    $roleData->setBankManager($data[13]);
-                    $roleData->setRoleManager($data[14]);
+                    $roleData->setSendmailAllFactionPlayer($data[8]);
+                    $roleData->setFreandFactionManager($data[9]);
+                    $roleData->setMemberManager($data[10]);
+                    $roleData->setLandManager($data[11]);
+                    $roleData->setBankManager($data[12]);
+                    $roleData->setRoleManager($data[13]);
 
                     if ($oldRolePos !== $position and $oldRoleFaction === $roleData->getFactionId()) {
                         foreach (RoleDataManager::getInstance()->getFactionRoles($roleData->getFactionId(), false) as $factionRole) {
@@ -180,7 +180,7 @@ class RoleDatabaseForm
             $factionDefault = 0;
             $factionDatas = FactionDataManager::getInstance()->getAll(true);
             foreach ($factionDatas as $key => $roleFactionData) {
-                if ($roleFactionData->getId() === $roleData->getId()) {
+                if ($roleFactionData->getId() === $roleData->getFactionId()) {
                     $factionDefault = $key - 1;
                     break;
                 }
@@ -198,10 +198,9 @@ class RoleDatabaseForm
             $form->addDropdown("役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"], $roleData->getColor());
             $form->addSlider("役職位置", 1, count(RoleDataManager::getInstance()->getFactionRoles($factionData->getId())), default: $roleData->getPosition());
             $form->addToggle("宣戦布告権限", $roleData->isSensenHukoku());
-            $form->addToggle("派閥にプレイヤー招待権限", $roleData->isInvitePlayer());
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限", $roleData->isSendmailAllFactionPlayer());
             $form->addToggle("敵対派閥と友好派閥（制限あり）の設定権限", $roleData->isFreandFactionManager());
-            $form->addToggle("派閥からプレイヤーを追放権限", $roleData->isKickFactionPlayer());
+            $form->addToggle("派閥メンバー管理権限", $roleData->isMemberManager());
             $form->addToggle("派閥の土地管理権限", $roleData->isLandManager());
             $form->addToggle("派閥銀行管理権限", $roleData->isBankManager());
             $form->addToggle("派閥ロール管理権限", $roleData->isRoleManager());
@@ -238,8 +237,7 @@ class RoleDatabaseForm
                         $data[6],
                         $data[7],
                         $data[8],
-                        $data[9],
-                        $data[10]);
+                        $data[9]);
 
                     $player->sendMessage("§a[システム] 作成しました");
                     Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "selectRoleData"], [$player, $factionData]), 20);
@@ -253,10 +251,9 @@ class RoleDatabaseForm
             $form->addInput("役職名", "rolename");
             $form->addDropdown("役職カラー", ["黒", "濃い青", "濃い緑", "濃い水色", "濃い赤色", "濃い紫", "金色", "灰色", "濃い灰色", "青", "緑", "水色", "赤", "ピンク", "黄色", "白色"]);
             $form->addToggle("宣戦布告権限");
-            $form->addToggle("派閥にプレイヤー招待権限");
             $form->addToggle("派閥プレイヤー全員に一括でメール送信権限");
             $form->addToggle("敵対派閥と友好派閥（制限あり）の設定権限");
-            $form->addToggle("派閥からプレイヤーを追放権限");
+            $form->addToggle("派閥メンバー管理権限");
             $form->addToggle("派閥の土地管理権限");
             $form->addToggle("派閥銀行管理権限");
             $form->addToggle("派閥ロール管理権限");
