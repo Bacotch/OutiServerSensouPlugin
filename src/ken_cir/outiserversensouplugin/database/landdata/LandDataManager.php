@@ -7,6 +7,7 @@ namespace ken_cir\outiserversensouplugin\database\landdata;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_shift;
@@ -22,6 +23,8 @@ use function count;
  */
 class LandDataManager
 {
+    private DataConnector $connector;
+
     /**
      * インスタンス
      * @var LandDataManager $this
@@ -31,7 +34,7 @@ class LandDataManager
     /**
      * @var LandData[]
      */
-    private array $land_datas;
+    private array $landDatas;
 
     /**
      * 現在の管理用ID
@@ -39,10 +42,15 @@ class LandDataManager
      */
     private int $seq;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
-        $this->land_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect(
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
+        $this->landDatas = [];
+
+        $this->connector->executeSelect(
             "outiserver.lands.seq",
             [],
             function (array $row) {
@@ -63,23 +71,17 @@ class LandDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->land_datas[$data["id"]] = new LandData($data["id"], $data["faction_id"], $data["x"], $data["z"], $data["world"]);
+                    $this->landDatas[$data["id"]] = new LandData($data["id"],
+                        $data["faction_id"],
+                        $data["x"],
+                        $data["z"],
+                        $data["world"]);
                 }
             },
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-    }
-
-    /**
-     * クラスインスタンスを作成する
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(LandDataManager::class);
-        self::$instance = new self();
     }
 
     /**
@@ -98,8 +100,8 @@ class LandDataManager
      */
     public function get(int $id): LandData|false
     {
-        if (!isset($this->land_datas[$id])) return false;
-        return $this->land_datas[$id];
+        if (!isset($this->landDatas[$id])) return false;
+        return $this->landDatas[$id];
     }
 
     /**
@@ -109,7 +111,7 @@ class LandDataManager
      */
     public function getFactionLands(int $factionId, ?bool $keyValue = false): array
     {
-        $factionLands = array_filter($this->land_datas, function (LandData $landData) use ($factionId) {
+        $factionLands = array_filter($this->landDatas, function (LandData $landData) use ($factionId) {
             return $landData->getFactionId() === $factionId;
         });
 
@@ -125,7 +127,7 @@ class LandDataManager
      */
     public function getChunk(int $x, int $z, string $world): LandData|false
     {
-        $landData = array_filter($this->land_datas, function ($landData) use ($x, $z, $world) {
+        $landData = array_filter($this->landDatas, function ($landData) use ($x, $z, $world) {
             return ($landData->getX() === $x && $landData->getZ() === $z && $landData->getWorld() === $world);
         });
 
@@ -141,7 +143,7 @@ class LandDataManager
      */
     public function hasChunk(int $x, int $z, string $world): bool
     {
-        $landData = array_filter($this->land_datas, function ($landData) use ($x, $z, $world) {
+        $landData = array_filter($this->landDatas, function ($landData) use ($x, $z, $world) {
             return ($landData->getX() === $x && $landData->getZ() === $z && $landData->getWorld() === $world);
         });
         if (count($landData) < 1) return false;
@@ -158,7 +160,7 @@ class LandDataManager
      */
     public function create(int $faction_id, int $x, int $z, string $world): void
     {
-        Main::getInstance()->getDatabase()->executeInsert(
+        $this->connector->executeInsert(
             "outiserver.lands.create",
             [
                 "faction_id" => $faction_id,
@@ -172,7 +174,11 @@ class LandDataManager
             }
         );
         $this->seq++;
-        $this->land_datas[$this->seq] = new LandData($this->seq, $faction_id, $x, $z, $world);
+        $this->landDatas[$this->seq] = new LandData($this->seq,
+            $faction_id,
+            $x,
+            $z,
+            $world);
     }
 
     public function delete(int $id)
@@ -184,7 +190,7 @@ class LandDataManager
             LandConfigDataManager::getInstance()->delete($landConfigData->getId());
         }
 
-        Main::getInstance()->getDatabase()->executeGeneric(
+        $this->connector->executeGeneric(
             "outiserver.lands.delete",
             [
                 "id" => $id
@@ -195,6 +201,6 @@ class LandDataManager
             }
         );
 
-        unset($this->land_datas[$id]);
+        unset($this->landDatas[$id]);
     }
 }

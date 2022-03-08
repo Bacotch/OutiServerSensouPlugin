@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\database\chestshopdata;
 
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_shift;
 use function array_values;
@@ -20,6 +21,8 @@ use function count;
  */
 class ChestShopDataManager
 {
+    private DataConnector $connector;
+
     /**
      * @var ChestShopDataManager $this
      */
@@ -35,10 +38,14 @@ class ChestShopDataManager
      */
     private array $chestShopDatas;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
         $this->chestShopDatas = [];
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.chestshops.seq",
+        $this->connector->executeSelect("outiserver.chestshops.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -52,7 +59,7 @@ class ChestShopDataManager
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.chestshops.load",
+        $this->connector->executeSelect("outiserver.chestshops.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
@@ -75,15 +82,6 @@ class ChestShopDataManager
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-    }
-
-    /**
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
-        self::$instance = new self();
     }
 
     /**
@@ -154,7 +152,7 @@ class ChestShopDataManager
 
     public function create(string $ownerXuid, int $factionId, string $worldName, int $chestx, int $chesty, int $chestz, int $signboardx, int $signboardy, int $signboardz, int $itemId, int $itemMeta, int $price, int $duty): void
     {
-        Main::getInstance()->getDatabase()->executeInsert("outiserver.chestshops.create",
+        $this->connector->executeInsert("outiserver.chestshops.create",
             [
                 "owner_xuid" => $ownerXuid,
                 "faction_id" => $factionId,
@@ -177,13 +175,26 @@ class ChestShopDataManager
         );
 
         $this->seq++;
-        $this->chestShopDatas[$this->seq] = new ChestShopData($this->seq, $ownerXuid, $factionId, $worldName, $chestx, $chesty, $chestz, $signboardx, $signboardy, $signboardz, $itemId, $itemMeta, $price, $duty);
+        $this->chestShopDatas[$this->seq] = new ChestShopData($this->seq,
+            $ownerXuid,
+            $factionId,
+            $worldName,
+            $chestx,
+            $chesty,
+            $chestz,
+            $signboardx,
+            $signboardy,
+            $signboardz,
+            $itemId,
+            $itemMeta,
+            $price,
+            $duty);
     }
 
     public function delete(int $id): void
     {
         if (!$this->getId($id)) return;
-        Main::getInstance()->getDatabase()->executeGeneric("outiserver.chestshops.delete",
+        $this->connector->executeGeneric("outiserver.chestshops.delete",
             [
                 "id" => $id
             ],

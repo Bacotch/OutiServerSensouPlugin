@@ -12,6 +12,7 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\player\Player;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_values;
@@ -31,6 +32,13 @@ use function strtolower;
 class PlayerDataManager
 {
     /**
+     * db接続オブジェクト
+     *
+     * @var DataConnector
+     */
+    private DataConnector $connector;
+
+    /**
      * @var PlayerDataManager $this
      */
     private static self $instance;
@@ -40,9 +48,14 @@ class PlayerDataManager
      */
     private array $playerDatas;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
         $this->playerDatas = [];
+
         Main::getInstance()->getDatabase()->executeSelect(
             "outiserver.players.load",
             [],
@@ -55,16 +68,6 @@ class PlayerDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-    }
-
-    /**
-     * クラスインスタンスを作成する
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
-        self::$instance = new self();
     }
 
     /**
@@ -115,7 +118,7 @@ class PlayerDataManager
         $data = $this->getXuid($player->getXuid());
         if ($data) return $data;
 
-        Main::getInstance()->getDatabase()->executeInsert(
+        $this->connector->executeInsert(
             "outiserver.players.create",
             [
                 "xuid" => $player->getXuid(),
@@ -167,7 +170,7 @@ class PlayerDataManager
             MailDataManager::getInstance()->delete($mailData->getId());
         }
 
-        Main::getInstance()->getDatabase()->executeGeneric(
+        $this->connector->executeGeneric(
             "outiserver.players.delete",
             [
                 "xuid" => $xuid

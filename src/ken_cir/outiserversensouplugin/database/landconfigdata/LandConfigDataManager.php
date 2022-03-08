@@ -7,6 +7,7 @@ namespace ken_cir\outiserversensouplugin\database\landconfigdata;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_values;
@@ -23,6 +24,8 @@ use function serialize;
  */
 class LandConfigDataManager
 {
+    private DataConnector $connector;
+
     /**
      * インスタンス
      * @var LandConfigDataManager $this
@@ -41,10 +44,14 @@ class LandConfigDataManager
      */
     private int $seq;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
         $this->landConfigDatas = [];
-        Main::getInstance()->getDatabase()->executeSelect(
+        $this->connector->executeSelect(
             "outiserver.landconfigs.seq",
             [],
             function (array $row) {
@@ -60,28 +67,26 @@ class LandConfigDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        Main::getInstance()->getDatabase()->executeSelect(
+        $this->connector->executeSelect(
             "outiserver.landconfigs.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->landConfigDatas[$data["id"]] = new LandConfigData($data["id"], $data["landid"], $data["startx"], $data["startz"], $data["endx"], $data["endz"], $data["defaultperms"], $data["roleperms"], $data["memberperms"]);
+                    $this->landConfigDatas[$data["id"]] = new LandConfigData($data["id"],
+                        $data["landid"],
+                        $data["startx"],
+                        $data["startz"],
+                        $data["endx"],
+                        $data["endz"],
+                        $data["defaultperms"],
+                        $data["roleperms"],
+                        $data["memberperms"]);
                 }
             },
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-    }
-
-    /**
-     * クラスインスタンスを作成する
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(LandConfigDataManager::class);
-        self::$instance = new self();
     }
 
     /**
@@ -98,7 +103,7 @@ class LandConfigDataManager
      */
     public function get(int $id): LandConfigData|false
     {
-        if (!isset($this->landConfigDatas[$id])) throw new InstanceOverwriteException(LandConfigDataManager::class . "has already been initialized");
+        if (!isset($this->landConfigDatas[$id])) return false;
         return $this->landConfigDatas[$id];
     }
 
@@ -142,7 +147,7 @@ class LandConfigDataManager
 
     public function create(int $landid, int $startx, int $startz, int $endx, int $endz, array $defaultPerms, array $rolePerms, array $memberPerms): LandConfigData
     {
-        Main::getInstance()->getDatabase()->executeInsert(
+        $this->connector->executeInsert(
             "outiserver.landconfigs.create",
             [
                 "landid" => $landid,
@@ -171,7 +176,7 @@ class LandConfigDataManager
      */
     public function delete(int $id): void
     {
-        Main::getInstance()->getDatabase()->executeGeneric(
+        $this->connector->executeGeneric(
             "outiserver.landconfigs.delete",
             [
                 "id" => $id

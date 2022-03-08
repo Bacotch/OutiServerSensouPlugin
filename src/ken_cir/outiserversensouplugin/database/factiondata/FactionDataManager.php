@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin\database\factiondata;
 
 use DateTime;
+use JetBrains\PhpStorm\Pure;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
@@ -12,6 +13,7 @@ use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
+use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
 use function array_filter;
 use function array_shift;
@@ -29,6 +31,8 @@ use function count;
  */
 class FactionDataManager
 {
+    private DataConnector $connector;
+
     /**
      * @var FactionDataManager $this
      */
@@ -37,17 +41,22 @@ class FactionDataManager
     /**
      * @var FactionData[]
      */
-    private array $faction_datas;
+    private array $factionDatas;
 
     /**
      * @var int
      */
     private int $seq;
 
-    public function __construct()
+    public function __construct(DataConnector $connector)
     {
-        $this->faction_datas = [];
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.seq",
+        if (isset(self::$instance)) throw new InstanceOverwriteException(self::class);
+        self::$instance = $this;
+
+        $this->connector = $connector;
+        $this->factionDatas = [];
+
+        $this->connector->executeSelect("outiserver.factions.seq",
             [],
             function (array $row) {
                 if (count($row) < 1) {
@@ -61,26 +70,21 @@ class FactionDataManager
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-        Main::getInstance()->getDatabase()->executeSelect("outiserver.factions.load",
+        $this->connector->executeSelect("outiserver.factions.load",
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->faction_datas[$data["id"]] = new FactionData($data["id"], $data["name"], $data["owner_xuid"], $data["color"], $data["money"]);
+                    $this->factionDatas[$data["id"]] = new FactionData($data["id"],
+                        $data["name"],
+                        $data["owner_xuid"],
+                        $data["color"],
+                        $data["money"],
+                        $data["invites"]);
                 }
             },
             function (SqlError $error) {
                 Main::getInstance()->getOutiServerLogger()->error($error);
             });
-    }
-
-    /**
-     * クラスインスタンスを作成する
-     * @return void
-     */
-    public static function createInstance(): void
-    {
-        if (isset(self::$instance)) throw new InstanceOverwriteException(FactionDataManager::class);
-        self::$instance = new self();
     }
 
     /**
@@ -98,8 +102,8 @@ class FactionDataManager
      */
     public function get(int $id): bool|FactionData
     {
-        if (!isset($this->faction_datas[$id])) return false;
-        return $this->faction_datas[$id];
+        if (!isset($this->factionDatas[$id])) return false;
+        return $this->factionDatas[$id];
     }
 
     /**
@@ -110,7 +114,7 @@ class FactionDataManager
      */
     public function getName(string $name): false|FactionData
     {
-        $factionData = array_filter($this->faction_datas, function (FactionData $factionData) use ($name) {
+        $factionData = array_filter($this->factionDatas, function (FactionData $factionData) use ($name) {
             return $factionData->getName() === $name;
         });
 
@@ -123,8 +127,8 @@ class FactionDataManager
      */
     public function getAll(?bool $keyValue = false): array
     {
-        if ($keyValue) return array_values($this->faction_datas);
-        return $this->faction_datas;
+        if ($keyValue) return array_values($this->factionDatas);
+        return $this->factionDatas;
     }
 
     /**
@@ -136,7 +140,7 @@ class FactionDataManager
      */
     public function create(string $name, string $owner_xuid, int $color): int
     {
-        Main::getInstance()->getDatabase()->executeInsert("outiserver.factions.create",
+        $this->connector->executeInsert("outiserver.factions.create",
             [
                 "name" => $name,
                 "owner_xuid" => $owner_xuid,
@@ -150,7 +154,12 @@ class FactionDataManager
         );
 
         $this->seq++;
-        $this->faction_datas[$this->seq] = new FactionData($this->seq, $name, $owner_xuid, $color, 0);
+        $this->factionDatas[$this->seq] = new FactionData($this->seq,
+            $name,
+            $owner_xuid,
+            $color,
+            0,
+        "a:0:{}");
 
         return $this->seq;
     }
@@ -190,7 +199,7 @@ class FactionDataManager
             ChestShopDataManager::getInstance()->delete($chestShopData->getId());
         }
 
-        Main::getInstance()->getDatabase()->executeGeneric("outiserver.factions.delete",
+        $this->connector->executeGeneric("outiserver.factions.delete",
             [
                 "id" => $id
             ],
@@ -199,6 +208,22 @@ class FactionDataManager
                 Main::getInstance()->getOutiServerLogger()->error($error);
             }
         );
-        unset($this->faction_datas[$id]);
+        unset($this->factionDatas[$id]);
+    }
+
+    /**
+     * @param string $xuid
+     * @return FactionData[]
+     */
+    #[Pure] public function getInvite(string $xuid): array
+    {
+        $inviteFactions = [];
+        foreach ($this->factionDatas as $faction_data) {
+            if ($faction_data->hasInvite($xuid)) {
+                $inviteFactions[] = $faction_data;
+            }
+        }
+
+        return $inviteFactions;
     }
 }
