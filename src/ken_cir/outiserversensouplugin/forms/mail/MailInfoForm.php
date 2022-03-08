@@ -13,8 +13,7 @@ use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
 use pocketmine\player\Player;
-use function array_slice;
-use function current;
+use function array_reverse;
 
 /**
  * メール閲覧フォーム
@@ -40,7 +39,7 @@ class MailInfoForm
                         return true;
                     }
 
-                    $this->info($player, MailDataManager::getInstance()->getPlayerXuid($player->getXuid(), true)[$data - 1]);
+                    $this->info($player, array_reverse(MailDataManager::getInstance()->getPlayerXuid($player->getXuid(), true))[$data - 1]);
                 } catch (\Error|\Exception $e) {
                     Main::getInstance()->getOutiServerLogger()->error($e, true, $player);
                 }

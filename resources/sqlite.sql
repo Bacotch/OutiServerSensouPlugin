@@ -125,7 +125,8 @@ CREATE TABLE IF NOT EXISTS factions
     money
     INTEGER
     NOT
-    NULL
+    NULL,
+    invites TEXT NOT NULL DEFAULT 'a:0:{}'
 );
 -- # }
 
@@ -154,12 +155,14 @@ FROM factions;
 -- #    :owner_xuid string
 -- #    :color int
 -- #    :money int
+-- #    :invites string
 -- #    :id int
 UPDATE factions
 SET name       = :name,
     owner_xuid = :owner_xuid,
     color      = :color,
-    money      = :money
+    money      = :money,
+    invites = :invites
 WHERE id = :id;
 -- # }
 
