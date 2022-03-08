@@ -40,18 +40,18 @@ class PlayerInfoScoreBoard extends Task
                     ScoreFactory::setScoreLine($player, 2, "§c現在時刻: " . date("G時i分s秒"));
                     ScoreFactory::setScoreLine($player, 3, "§6持ってるアイテムid: {$player->getInventory()->getItemInHand()->getId()}:{$player->getInventory()->getItemInHand()->getMeta()}");
                     ScoreFactory::setScoreLine($player, 4, "§dPing: {$player->getNetworkSession()->getPing()}ms");
-                    ScoreFactory::setScoreLine($player, 5, "所持金: {$player_data->getMoney()}円");
                     if ($player_data->getFaction() === -1) {
-                        ScoreFactory::setScoreLine($player, 6, "§a所属派閥: 無所属");
+                        ScoreFactory::setScoreLine($player, 5, "§a所属派閥: 無所属");
                     } else {
                         $factionData = FactionDataManager::getInstance()->get($player_data->getFaction());
-                        ScoreFactory::setScoreLine($player, 6, "§a所属派閥: {$factionData->getName()}");
+                        ScoreFactory::setScoreLine($player, 5, "§a所属派閥: {$factionData->getName()}");
+                        ScoreFactory::setScoreLine($player, 7, "§a派閥資金: {$factionData->getMoney()}");
                     }
                     if (!$factionLandData) {
-                        ScoreFactory::setScoreLine($player, 7, "チャンク所有: なし");
+                        ScoreFactory::setScoreLine($player, 6, "チャンク所有: なし");
                     } else {
                         $landFaction = FactionDataManager::getInstance()->get($factionLandData->getFactionId());
-                        ScoreFactory::setScoreLine($player, 7, "チャンク所有: {$landFaction->getName()}");
+                        ScoreFactory::setScoreLine($player, 6, "チャンク所有: {$landFaction->getName()}");
                     }
 
                     ScoreFactory::sendLines($player);

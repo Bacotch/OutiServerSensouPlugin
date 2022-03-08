@@ -61,7 +61,7 @@ class PlayerDataManager
             [],
             function (array $row) {
                 foreach ($row as $data) {
-                    $this->playerDatas[$data["xuid"]] = new PlayerData($data["xuid"], $data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"], $data["punishment"], $data["money"], $data["discord_userid"]);
+                    $this->playerDatas[$data["xuid"]] = new PlayerData($data["xuid"], $data["name"], $data["ip"], $data["faction"], $data["chatmode"], $data["drawscoreboard"], $data["roles"], $data["punishment"], $data["discord_userid"]);
                 }
             },
             function (SqlError $error) {
@@ -123,8 +123,7 @@ class PlayerDataManager
             [
                 "xuid" => $player->getXuid(),
                 "name" => strtolower($player->getName()),
-                "ip" => serialize([$player->getNetworkSession()->getIp()]),
-                "money" => 0
+                "ip" => serialize([$player->getNetworkSession()->getIp()])
             ],
             null,
             function (SqlError $error) {
@@ -132,7 +131,7 @@ class PlayerDataManager
             }
         );
 
-        $data = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]), 0, 0, null);
+        $data = new PlayerData($player->getXuid(), $player->getName(), serialize([$player->getNetworkSession()->getIp()]), -1, -1, 1, serialize([]), 0,null);
         $this->playerDatas[$player->getXuid()] = $data;
 
         return $data;

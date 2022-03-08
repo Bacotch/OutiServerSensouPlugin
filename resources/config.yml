@@ -1,7 +1,19 @@
 ---
-# ---プラグインメイン設定---
 # プレイヤーの初期所持金
 default_player_money: 10000
+
+# アドミンショップの値段変動時に減らす売った数の個数
+adminshop_fluctuation_count: 64
+
+# 派閥金庫のデフォルト所持金
+faction_default_safe: 11000
+
+# 派閥のデフォルト所持金
+faction_default_money: 0
+
+# 土地の値段
+land_price: 10000
+
 
 # --- 自動アップデート設定 ---
 # PMMPの自動アップデート・再起動を有効にするか
@@ -9,9 +21,6 @@ pmmp_auto_update_enable: true
 
 # このプラグインの自動アップデート・再起動を有効にするか
 plugin_auto_update_enable: true
-
-# アドミンショップの値段変動時に減らす売った数の個数
-adminshop_fluctuation_count: 64
 
 
 # --- 定期実行系設定 ---

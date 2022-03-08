@@ -79,6 +79,7 @@ class FactionDataManager
                         $data["owner_xuid"],
                         $data["color"],
                         $data["money"],
+                        $data["safe"],
                         $data["invites"]);
                 }
             },
@@ -145,7 +146,8 @@ class FactionDataManager
                 "name" => $name,
                 "owner_xuid" => $owner_xuid,
                 "color" => $color,
-                "money" => 0
+                "money" => 0,
+                "safe" => (int)Main::getInstance()->getConfig()->get("safe", 11000)
             ],
             null,
             function (SqlError $error) {
@@ -159,6 +161,7 @@ class FactionDataManager
             $owner_xuid,
             $color,
             0,
+            (int)Main::getInstance()->getConfig()->get("safe", 11000),
         "a:0:{}");
 
         return $this->seq;

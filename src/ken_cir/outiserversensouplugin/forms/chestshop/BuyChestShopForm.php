@@ -34,6 +34,8 @@ class BuyChestShopForm
                         $this->execute($player, $chestShopData);
                     } else {
                         $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+                        $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
+
                         // 関税
                         $duty = ($chestShopData->getPrice() * (int)$data[1]) * ($chestShopData->getDuty() * 0.01);
                         // 価格
@@ -41,14 +43,14 @@ class BuyChestShopForm
                         $duty = (int)floor($duty);
                         $price = (int)floor($price);
 
-                        if ($price > $playerData->getMoney()) {
-                            $player->sendMessage("§a[システム] 所持金があと" . $price - $playerData->getMoney() . "円足りていません");
+                        if ($price > $factionData->getMoney()) {
+                            $player->sendMessage("§a[システム] 派閥資金があと" . $price - $factionData->getMoney() . "円足りていません");
                             Main::getInstance()->getScheduler()->scheduleDelayedTask(new ReturnForm([$this, "execute"], [$player, $chestShopData]), 10);
                             return;
                         }
 
                         $item = ItemFactory::getInstance()->get($chestShopData->getItemId(), $chestShopData->getItemMeta(), (int)$data[1]);
-                        $factionData = FactionDataManager::getInstance()->get($chestShopData->getFactionId());
+                        $chestFactionData = FactionDataManager::getInstance()->get($chestShopData->getFactionId());
                         $chestTile = $player->getWorld()->getTileAt($chestShopData->getChestX(), $chestShopData->getChestY(), $chestShopData->getChestZ());
                         if (!$chestTile instanceof Chest) {
                             $player->sendMessage("§a[システム] チェストの検知に失敗しました");
@@ -64,9 +66,9 @@ class BuyChestShopForm
                         $ownerPlayerData = PlayerDataManager::getInstance()->getXuid($chestShopData->getOwnerXuid());
                         $player->getInventory()->addItem($item);
                         $chestTile->getInventory()->removeItem($item);
-                        $playerData->setMoney($playerData->getMoney() - $price);
-                        $factionData->setMoney($factionData->getMoney() + $duty);
-                        $ownerPlayerData->setMoney($ownerPlayerData->getMoney() + ((int)$data[1] * $chestShopData->getPrice()));
+                        $factionData->setMoney($factionData->getMoney() - $price);
+                        $chestFactionData->setSafe($factionData->getSafe() + $duty);
+                        $chestFactionData->setMoney($chestFactionData->getMoney() + ((int)$data[1] * $chestShopData->getPrice()));
                         $player->sendMessage("§a[システム] {$item->getName()}を$data[1]個、{$price}円で{$factionData->getName()}から購入しました");
                         $time = new DateTime('now');
                         MailDataManager::getInstance()->create($ownerPlayerData->getXuid(),

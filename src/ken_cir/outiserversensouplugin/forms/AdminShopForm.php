@@ -8,6 +8,7 @@ use jojoe77777\FormAPI\CustomForm;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\database\adminshopdata\AdminShopData;
 use ken_cir\outiserversensouplugin\database\adminshopdata\AdminShopDataManager;
+use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use ken_cir\outiserversensouplugin\tasks\ReturnForm;
@@ -68,6 +69,7 @@ class AdminShopForm
                     }
 
                     $playerData = PlayerDataManager::getInstance()->getXuid($player->getXuid());
+                    $factionData = FactionDataManager::getInstance()->get($playerData->getFaction());
                     $item = ItemFactory::getInstance()->get($adminShopData->getItemId(), $adminShopData->getItemMeta(), (int)$data[2]);
                     if (!$player->getInventory()->contains($item)) {
                         $player->sendMessage("§a[システム] 所持している個数以上売却できません");
@@ -75,7 +77,7 @@ class AdminShopForm
                         return;
                     }
 
-                    $playerData->setMoney($playerData->getMoney() + ($adminShopData->getPrice() * $item->getCount()));
+                    $factionData->setMoney($factionData->getMoney() + ($adminShopData->getPrice() * $item->getCount()));
                     $player->getInventory()->removeItem($item);
                     $adminShopData->setSellCount($adminShopData->getSellCount() + $item->getCount());
                     $player->sendMessage("§a[システム] {$item->getName()}を{$item->getCount()}個売却しました");

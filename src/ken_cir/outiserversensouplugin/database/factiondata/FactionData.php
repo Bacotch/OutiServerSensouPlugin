@@ -40,6 +40,12 @@ class FactionData
     private int $color;
 
     /**
+     * 派閥銀行
+     * @var int
+     */
+    private int $safe;
+
+    /**
      * 派閥所持金
      *
      * @var int
@@ -53,20 +59,14 @@ class FactionData
      */
     private array $invites;
 
-    /**
-     * @param int $id
-     * @param string $name
-     * @param string $owner_xuid
-     * @param int $color
-     * @param int $money
-     */
-    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money, string $invites)
+    public function __construct(int $id, string $name, string $owner_xuid, int $color, int $money, int $safe, string $invites)
     {
         $this->id = $id;
         $this->name = $name;
         $this->owner_xuid = $owner_xuid;
         $this->color = $color;
         $this->money = $money;
+        $this->safe = $safe;
         $this->invites = unserialize($invites);
     }
 
@@ -80,6 +80,7 @@ class FactionData
                 "name" => $this->name,
                 "owner_xuid" => $this->owner_xuid,
                 "color" => $this->color,
+                "safe" => $this->safe,
                 "money" => $this->money,
                 "invites" => serialize($this->invites),
                 "id" => $this->id
@@ -165,6 +166,23 @@ class FactionData
     public function setMoney(int $money): void
     {
         $this->money = $money;
+        $this->update();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSafe(): int
+    {
+        return $this->safe;
+    }
+
+    /**
+     * @param int $safe
+     */
+    public function setSafe(int $safe): void
+    {
+        $this->safe = $safe;
         $this->update();
     }
 

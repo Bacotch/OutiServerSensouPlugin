@@ -18,27 +18,23 @@ CREATE TABLE IF NOT EXISTS players
     NOT
     NULL,
     faction
-    INTEGER,
+    INTEGER NOT NULL DEFAULT -1,
     chatmode
-    INTEGER,
+    INTEGER NOT NULL DEFAULT -1,
     drawscoreboard
     INTEGER
     NOT
-    NULL,
+    NULL DEFAULT 1,
     roles
     TEXT
     NOT
-    NULL,
+    NULL DEFAULT 'a:0:{}',
     punishment
     INTEGER
     NOT
-    NULL,
-    money
-    INTEGER
-    NOT
-    NULL,
+    NULL DEFAULT 0,
     discord_userid
-    TEXT
+    TEXT DEFAULT NULL
 );
 -- # }
 
@@ -46,18 +42,10 @@ CREATE TABLE IF NOT EXISTS players
 -- #    :xuid string
 -- #    :name string
 -- #    :ip string
--- #    :money int
-INSERT INTO players
+INSERT INTO players (xuid, name, ip)
 VALUES (:xuid,
         :name,
-        :ip,
-        -1,
-        -1,
-        1,
-        "a:0:{}",
-        0,
-        :money,
-        NULL);
+        :ip);
 -- # }
 
 -- # { load
@@ -73,7 +61,6 @@ FROM players;
 -- #    :drawscoreboard int
 -- #    :roles string
 -- #    :punishment int
--- #    :money int
 -- #    :discord_userid ?string
 -- #    :xuid string
 UPDATE players
@@ -84,7 +71,6 @@ SET name           = :name,
     drawscoreboard = :drawscoreboard,
     roles          = :roles,
     punishment     = :punishment,
-    money          = :money,
     discord_userid = :discord_userid
 WHERE xuid = :xuid;
 -- # }
@@ -126,6 +112,7 @@ CREATE TABLE IF NOT EXISTS factions
     INTEGER
     NOT
     NULL,
+    safe INTEGER NOT NULL ,
     invites
     TEXT
     NOT
@@ -140,8 +127,9 @@ CREATE TABLE IF NOT EXISTS factions
 -- #    :owner_xuid string
 -- #    :color int
 -- #    :money int
-INSERT INTO factions (name, owner_xuid, color, money)
-VALUES (:name, :owner_xuid, :color, :money);
+-- #    :safe int
+INSERT INTO factions (name, owner_xuid, color, money, safe)
+VALUES (:name, :owner_xuid, :color, :money, :safe);
 -- # }
 
 -- # { seq
@@ -160,6 +148,7 @@ FROM factions;
 -- #    :owner_xuid string
 -- #    :color int
 -- #    :money int
+-- #    :safe int
 -- #    :invites string
 -- #    :id int
 UPDATE factions
@@ -167,6 +156,7 @@ SET name       = :name,
     owner_xuid = :owner_xuid,
     color      = :color,
     money      = :money,
+    safe = :safe,
     invites    = :invites
 WHERE id = :id;
 -- # }
