@@ -32,13 +32,23 @@ class Backup extends AsyncTask
         $zip = new ZipArchive;
         if ($zip->open($this->pluginDataFloder . "backups/" . date("Y-m-d-H-i-s") . ".backup.zip", ZipArchive::CREATE) === TRUE) {
             $this->zipSub($zip, $this->serverDataFloder);
-            $zip->close();
+            if (!@$zip->close()) {
+                $this->setResult(false);
+                return;
+            }
         }
+
+        $this->setResult(true);
     }
 
     public function onCompletion(): void
     {
-        Main::getInstance()->getLogger()->info("バックアップの作成が完了しました");
+        if (!$this->getResult()) {
+            Main::getInstance()->getLogger()->info("バックアップの作成に失敗しました");
+        }
+        else {
+            Main::getInstance()->getLogger()->info("バックアップの作成が完了しました");
+        }
     }
 
     /**
