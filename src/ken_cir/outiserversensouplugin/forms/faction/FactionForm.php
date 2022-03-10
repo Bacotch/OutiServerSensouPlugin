@@ -110,6 +110,13 @@ class FactionForm
                                     (new FactionMoneyManagerForm())->execute($player);
                                 }
                             }
+                            elseif ($data === 10) {
+                                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
+                                    (new FactionMoneyManagerForm())->execute($player);
+                                } elseif ($player_data->isSensenHukoku()) {
+                                    (new FactionMoneyManagerForm())->execute($player);
+                                }
+                            }
                         }
                     }
                 } catch (\Error|\Exception $e) {
@@ -167,6 +174,13 @@ class FactionForm
                 }
                 elseif ($player_data->isBankManager()) {
                     $form->addButton("派閥金庫");
+                }
+
+                if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
+                    $form->addButton("宣戦布告");
+                }
+                elseif ($player_data->isSensenHukoku()) {
+                    $form->addButton("宣戦布告");
                 }
             }
             $player->sendForm($form);

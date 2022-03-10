@@ -11,6 +11,7 @@ use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
+use ken_cir\outiserversensouplugin\database\wardata\WarDataManager;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\DataConnector;
@@ -200,6 +201,11 @@ class FactionDataManager
         // 派閥のチェストショップを全て削除する
         foreach (ChestShopDataManager::getInstance()->getFactionChestShops($deleteFactionData->getId()) as $chestShopData) {
             ChestShopDataManager::getInstance()->delete($chestShopData->getId());
+        }
+
+        // 戦争データを全て削除する
+        foreach (WarDataManager::getInstance()->getFaction($deleteFactionData->getId()) as $warData) {
+            WarDataManager::getInstance()->delete($warData->getId());
         }
 
         $this->connector->executeGeneric("outiserver.factions.delete",

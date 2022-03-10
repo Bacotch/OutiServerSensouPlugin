@@ -869,4 +869,80 @@ WHERE id = :id;
 DROP TABLE IF EXISTS adminshops;
 -- # }
 -- # }
+
+-- # { wars
+-- # { init
+CREATE TABLE IF NOT EXISTS wars
+(
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    declaration_faction_id
+    INTEGER
+    NOT
+    NULL,
+    enemy_faction_id
+    INTEGER
+    NOT
+    NULL,
+    start_time
+    INTEGER
+    NOT
+    NULL,
+    started INTEGER NOT NULL DEFAULT 0,
+    winner_faction_id
+    INTEGER
+    DEFAULT
+    NULL
+);
+-- # }
+
+-- # { create
+-- #    :declaration_faction_id int
+-- #    :enemy_faction_id int
+-- #    :start_time int
+INSERT INTO wars (declaration_faction_id, enemy_faction_id, start_time)
+VALUES (:declaration_faction_id, :enemy_faction_id, :start_time);
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'wars';
+-- # }
+
+-- # { load
+SELECT *
+FROM wars;
+-- # }
+
+
+-- # { update
+-- #    :declaration_faction_id int
+-- #    :enemy_faction_id int
+-- #    :start_time int
+-- #    :winner_faction_id ?int
+-- #    :id int
+UPDATE wars
+SET declaration_faction_id = :declaration_faction_id,
+    enemy_faction_id       = :enemy_faction_id,
+    start_time             = :start_time,
+    winner_faction_id      = :winner_faction_id
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM wars
+WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS wars;
+-- # }
+-- # }
+
 -- # }
