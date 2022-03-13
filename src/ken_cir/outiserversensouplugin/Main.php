@@ -24,6 +24,7 @@ use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
+use ken_cir\outiserversensouplugin\commands\StartWarCommand;
 use ken_cir\outiserversensouplugin\commands\WorldBackupCommand;
 use ken_cir\outiserversensouplugin\database\adminshopdata\AdminShopDataManager;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
@@ -42,7 +43,7 @@ use ken_cir\outiserversensouplugin\tasks\AdminShopFluctuation;
 use ken_cir\outiserversensouplugin\tasks\Backup;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
-use ken_cir\outiserversensouplugin\tasks\WarCheckerAsyncTask;
+use ken_cir\outiserversensouplugin\tasks\WarCheckerTask;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -168,6 +169,7 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.chestshops.init");
         $this->database->executeGeneric("outiserver.adminshops.init");
         $this->database->executeGeneric("outiserver.wars.init");
+        $this->database->executeGeneric("outiserver.war_historys.init");
         $this->database->waitAll();
         (new PlayerDataManager($this->database));
         (new FactionDataManager($this->database));
@@ -179,14 +181,13 @@ class Main extends PluginBase
         (new ChestShopDataManager($this->database));
         (new AdminShopDataManager($this->database));
         (new WarDataManager($this->database));
-        $this->database->waitAll();
 
         // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();
 
         // --- Task登録 ---
         // プレイヤーのスコアボード表示Task
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 10);
+        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
 
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
@@ -228,7 +229,7 @@ class Main extends PluginBase
 
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
-                Server::getInstance()->getAsyncPool()->submitTask(new WarCheckerAsyncTask());
+                Server::getInstance()->getAsyncPool()->submitTask(new WarCheckerTask(WarDataManager::getInstance()->getAll()));
             }
         ), $this->config->get("war_check_delay", 60) * 20);
 
@@ -238,7 +239,8 @@ class Main extends PluginBase
                 new BanAllCOmmand(),
                 new ItemsCommand(),
                 new OutiServerCommand($this),
-                new WorldBackupCommand($this)
+                new WorldBackupCommand($this),
+                new StartWarCommand($this)
             ]);
 
         // ---エンティティ系登録---

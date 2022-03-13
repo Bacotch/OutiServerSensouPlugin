@@ -38,7 +38,7 @@ class OutiServerLogger
                 $emergency = false;
             }
 
-            $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
+            $time = new DateTime('NOW');
 
             if ($player instanceof Player) {
                 if ($emergency) {
@@ -70,6 +70,22 @@ class OutiServerLogger
         }
     }
 
+    public function plugin(string $message): void
+    {
+        try {
+            if (($webhookURL = (string)Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", "")) !== "") {
+                $webhook = new Webhook($webhookURL);
+                $time = new DateTime('NOW');
+                $msg = new Message();
+                $msg->setContent("[{$time->format('Y-m-d H:i:sP')}] $message");
+                $webhook->send($msg);
+            }
+        }
+        catch (\Error|\Exception $error_) {
+            Main::getInstance()->getLogger()->emergency("予期せぬエラーが発生しました、開発者に連絡してください\nFile: {$error_->getFile()}\nLine: {$error_->getLine()}\nMessage: {$error_->getMessage()}");
+        }
+    }
+
     public function debug(string $message, ?Player $player = null): void
     {
         try {
@@ -81,7 +97,7 @@ class OutiServerLogger
 
             if (($webhookURL = (string)Main::getInstance()->getPluginConfig()->get("Discord_Plugin_Webhook", "")) !== "") {
                 $webhook = new Webhook($webhookURL);
-                $time = new DateTime('NOW', new DateTimeZone("Asia/Tokyo"));
+                $time = new DateTime('NOW');
                 $msg = new Message();
                 $msg->setContent("```[DEUUG] [{$time->format('Y-m-d H:i:sP')}] $message```");
                 $webhook->send($msg);

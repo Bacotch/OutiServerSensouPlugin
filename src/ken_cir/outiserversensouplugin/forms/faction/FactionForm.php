@@ -112,9 +112,9 @@ class FactionForm
                             }
                             elseif ($data === 10) {
                                 if ($faction_data->getOwnerXuid() === $player_data->getXuid()) {
-                                    (new FactionMoneyManagerForm())->execute($player);
+                                    (new DeclarationWarForm())->execute($player);
                                 } elseif ($player_data->isSensenHukoku()) {
-                                    (new FactionMoneyManagerForm())->execute($player);
+                                    (new DeclarationWarForm())->execute($player);
                                 }
                             }
                         }

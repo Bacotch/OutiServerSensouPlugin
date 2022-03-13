@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\wardata;
 
+use JetBrains\PhpStorm\ArrayShape;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
@@ -18,21 +19,44 @@ class WarData
 
     private int $enemyFactionId;
 
-    private int $startTime;
+    private ?int $warType;
+
+    private ?int $startDay;
+
+    private ?int $startHour;
+
+    private ?int $startMinutes;
 
     private int $started;
 
-    private ?int $winnerFactionId;
-
-    public function __construct(DataConnector $connector, int $id, int $declarationFactionId, int $enemyFactionId, int $startTime, int $started, ?int $winnerFactionId)
+    public function __construct(DataConnector $connector, int $id, int $declarationFactionId, int $enemyFactionId, ?int $warType, ?int $startDay, ?int $startHour, ?int $startMinutes, int $started)
     {
         $this->connector = $connector;
         $this->id = $id;
         $this->declarationFactionId = $declarationFactionId;
         $this->enemyFactionId = $enemyFactionId;
-        $this->startTime = $startTime;
+        $this->warType = $warType;
+        $this->startDay = $startDay;
+        $this->startHour = $startHour;
+        $this->startMinutes = $startMinutes;
         $this->started = $started;
-        $this->winnerFactionId = $winnerFactionId;
+    }
+
+
+
+    #[ArrayShape(["id" => "int", "declarationFactionId" => "int", "enemyFactionId" => "int", "warType" => "int|null", "startDay" => "int|null", "startHour" => "int|null", "startMinutes" => "int|null", "started" => "int"])]
+    public function toArray(): array
+    {
+        return array(
+            "id" => $this->id,
+            "declarationFactionId" => $this->declarationFactionId,
+            "enemyFactionId" => $this->enemyFactionId,
+            "warType" => $this->warType,
+            "startDay" => $this->startDay,
+            "startHour" => $this->startHour,
+            "startMinutes" => $this->startMinutes,
+            "started" => $this->started
+        );
     }
 
     private function update(): void
@@ -42,8 +66,11 @@ class WarData
             [
                 "declaration_faction_id" => $this->declarationFactionId,
                 "enemy_faction_id" => $this->enemyFactionId,
-                "start_time" => $this->startTime,
-                "winner_faction_id" => $this->winnerFactionId,
+                "war_type" => $this->warType,
+                "start_day" => $this->startDay,
+                "start_hour" => $this->startHour,
+                "start_minutes" => $this->startMinutes,
+                "started" => $this->started,
                 "id" => $this->id
             ],
             null,
@@ -96,26 +123,77 @@ class WarData
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStartTime(): int
+    public function getWarType(): ?int
     {
-        return $this->startTime;
+        return $this->warType;
     }
 
     /**
-     * @param int $startTime
+     * @param int|null $warType
      */
-    public function setStartTime(int $startTime): void
+    public function setWarType(?int $warType): void
     {
-        $this->startTime = $startTime;
+        $this->warType = $warType;
         $this->update();
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStarted(): bool
+    public function getStartDay(): ?int
+    {
+        return $this->startDay;
+    }
+
+    /**
+     * @param int|null $startDay
+     */
+    public function setStartDay(?int $startDay): void
+    {
+        $this->startDay = $startDay;
+        $this->update();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStartHour(): ?int
+    {
+        return $this->startHour;
+    }
+
+    /**
+     * @param int|null $startHour
+     */
+    public function setStartHour(?int $startHour): void
+    {
+        $this->startHour = $startHour;
+        $this->update();
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getStartMinutes(): ?int
+    {
+        return $this->startMinutes;
+    }
+
+    /**
+     * @param int|null $startMinutes
+     */
+    public function setStartMinutes(?int $startMinutes): void
+    {
+        $this->startMinutes = $startMinutes;
+        $this->update();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStarted(): bool
     {
         return (bool)$this->started;
     }
@@ -126,23 +204,6 @@ class WarData
     public function setStarted(bool $started): void
     {
         $this->started = (int)$started;
-        $this->update();
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getWinnerFactionId(): ?int
-    {
-        return $this->winnerFactionId;
-    }
-
-    /**
-     * @param int|null $winnerFactionId
-     */
-    public function setWinnerFactionId(?int $winnerFactionId): void
-    {
-        $this->winnerFactionId = $winnerFactionId;
         $this->update();
     }
 }

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace ken_cir\outiserversensouplugin\database\wardata;
 
+use JetBrains\PhpStorm\Pure;
 use ken_cir\outiserversensouplugin\exception\InstanceOverwriteException;
 use ken_cir\outiserversensouplugin\Main;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlError;
-use function array_filter;
-use function array_merge;
 
 /**
  * 戦争データマネージャー
@@ -60,9 +59,11 @@ class WarDataManager
                         $data["id"],
                         $data["declaration_faction_id"],
                         $data["enemy_faction_id"],
-                        $data["start_time"],
-                        $data["started"],
-                        $data["winner_faction_id"]);
+                        $data["war_type"],
+                        $data["start_day"],
+                        $data["start_hour"],
+                        $data["start_minutes"],
+                        $data["started"]);
                 }
             },
             function (SqlError $error) {
@@ -93,14 +94,13 @@ class WarDataManager
         return $this->warDatas;
     }
 
-    public function create(int $declarationFactionId, int $enemyFactionId, int $startTime): WarData
+    public function create(int $declarationFactionId, int $enemyFactionId): WarData
     {
         $this->connector->executeInsert(
             "outiserver.wars.create",
             [
                 "declaration_faction_id" => $declarationFactionId,
                 "enemy_faction_id" => $enemyFactionId,
-                "start_time" => $startTime
             ],
             null,
             function (SqlError $error) {
@@ -109,7 +109,7 @@ class WarDataManager
         );
 
         $this->seq++;
-        return (new WarData($this->connector, $this->seq, $declarationFactionId, $enemyFactionId, $startTime, 0, null));
+        return ($this->warDatas[$this->seq] = new WarData($this->connector, $this->seq, $declarationFactionId, $enemyFactionId, null, null, null, null, 0));
     }
 
     public function delete(int $id): void
@@ -127,32 +127,23 @@ class WarDataManager
         unset($this->warDatas[$id]);
     }
 
-    public function getDeclarationFaction(int $factionId, ?bool $keyValue = false): array
+    #[Pure]
+    public function getDeclarationFaction(int $factionId): ?WarData
     {
-        $warData = array_filter($this->warDatas, function (WarData $warData) use ($factionId) {
-            return $warData->getDeclarationFactionId() === $factionId;
-        });
+        foreach ($this->warDatas as $warData) {
+            if ($warData->getDeclarationFactionId() === $factionId) return $warData;
+        }
 
-        if ($keyValue) return array_values($warData);
-        return $warData;
+        return null;
     }
 
-    public function getEnemyFaction(int $factionId, ?bool $keyValue): array
+    #[Pure]
+    public function getEnemyFaction(int $factionId): ?WarData
     {
-        $warData = array_filter($this->warDatas, function (WarData $warData) use ($factionId) {
-            return $warData->getEnemyFactionId() === $factionId;
-        });
+        foreach ($this->warDatas as $warData) {
+            if ($warData->getEnemyFactionId() === $factionId) return $warData;
+        }
 
-        if ($keyValue) return array_values($warData);
-        return $warData;
-    }
-
-    /**
-     * @param int $factionId
-     * @return WarData[]
-     */
-    public function getFaction(int $factionId): array
-    {
-        return array_merge($this->getDeclarationFaction($factionId, true), $this->getEnemyFaction($factionId, true));
+        return null;
     }
 }

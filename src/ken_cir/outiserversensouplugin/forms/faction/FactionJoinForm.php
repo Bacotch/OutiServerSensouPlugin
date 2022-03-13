@@ -58,8 +58,8 @@ class FactionJoinForm
             $form->setTitle("派閥招待 {$factionData->getName()}");
             $form->setContent("{$factionData->getName()}から招待されました、この招待を承諾しますか？\n\n派閥の情報\n派閥主: " . PlayerDataManager::getInstance()->getXuid($factionData->getOwnerXuid())->getName() . "\n資金: {$factionData->getMoney()}\n派閥に所属しているメンバー: " . count($factionPlayers) . "\n" . join("\n", $factionPlayers));
             $form->addButton("戻る");
-            $form->addButton("承諾");
-            $form->addButton("拒否");
+            $form->addButton("§a承諾");
+            $form->addButton("§c拒否");
             $player->sendForm($form);
         }
         catch (\Error|\Exception $e) {
