@@ -21,6 +21,7 @@ namespace ken_cir\outiserversensouplugin;
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
+use ken_cir\outiserversensouplugin\cache\warcache\WarCacheManager;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
@@ -184,6 +185,7 @@ class Main extends PluginBase
 
         // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();
+        (new WarCacheManager());
 
         // --- Task登録 ---
         // プレイヤーのスコアボード表示Task
@@ -227,11 +229,7 @@ class Main extends PluginBase
         $this->getScheduler()->scheduleRepeatingTask(new AdminShopFluctuation($this->config->get("adminshop_fluctuation_count", 64)),
             $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
 
-        $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
-            function (): void {
-                Server::getInstance()->getAsyncPool()->submitTask(new WarCheckerTask(WarDataManager::getInstance()->getAll()));
-            }
-        ), $this->config->get("war_check_delay", 60) * 20);
+        $this->getScheduler()->scheduleRepeatingTask(new WarCheckerTask(), $this->config->get("war_check_delay", 60) * 20);
 
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),

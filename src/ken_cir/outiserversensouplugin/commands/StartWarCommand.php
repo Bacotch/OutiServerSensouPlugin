@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\commands;
 
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\BaseCommand;
+use ken_cir\outiserversensouplugin\database\wardata\WarDataManager;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
@@ -29,6 +30,12 @@ class StartWarCommand extends BaseCommand
             return;
         }
 
-
+        $warData = WarDataManager::getInstance()->get($args["id"]);
+        if (!$warData or !$warData->isStarted()) {
+            $warData->setStartDay((int)date("d"));
+            $warData->setStartHour((int)date("H"));
+            $warData->setStartMinutes((int)date("i"));
+            $sender->sendMessage("強制開始");
+        }
     }
 }
