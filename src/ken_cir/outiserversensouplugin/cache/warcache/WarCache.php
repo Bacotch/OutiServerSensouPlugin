@@ -30,12 +30,21 @@ class WarCache
      */
     private ?Player $killLeader;
 
+    /**
+     * キルリーダーがキルした数
+     *
+     * @var int
+     */
+    private int $killLeaderCount;
+
     public function __construct(int $id, int $remainingTime, array $declarationFactionPlayers, array $enemyFactionPlayers)
     {
         $this->id = $id;
         $this->remainingTime = $remainingTime;
         $this->declarationFactionPlayers = $declarationFactionPlayers;
         $this->enemyFactionPlayers = $enemyFactionPlayers;
+        $this->killLeader = null;
+        $this->killLeaderCount = 0;
     }
 
     /**
@@ -142,5 +151,37 @@ class WarCache
                 unset($this->enemyFactionPlayers[$key]);
             }
         }
+    }
+
+    /**
+     * @return Player|null
+     */
+    public function getKillLeader(): ?Player
+    {
+        return $this->killLeader;
+    }
+
+    /**
+     * @param Player|null $killLeader
+     */
+    public function setKillLeader(?Player $killLeader): void
+    {
+        $this->killLeader = $killLeader;
+    }
+
+    /**
+     * @return int
+     */
+    public function getKillLeaderCount(): int
+    {
+        return $this->killLeaderCount;
+    }
+
+    /**
+     * @param int $killLeaderCount
+     */
+    public function setKillLeaderCount(int $killLeaderCount): void
+    {
+        $this->killLeaderCount = $killLeaderCount;
     }
 }
