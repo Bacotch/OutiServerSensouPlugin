@@ -6,6 +6,7 @@ namespace ken_cir\outiserversensouplugin\cache\warcache;
 
 use JetBrains\PhpStorm\Pure;
 use pocketmine\player\Player;
+use pocketmine\world\sound\XpLevelUpSound;
 
 class WarCache
 {
@@ -31,11 +32,10 @@ class WarCache
     private ?Player $killLeader;
 
     /**
-     * キルリーダーがキルした数
-     *
-     * @var int
+     * キル数をカウントする配列
+     * @var array
      */
-    private int $killLeaderCount;
+    private array $killCounts;
 
     public function __construct(int $id, int $remainingTime, array $declarationFactionPlayers, array $enemyFactionPlayers)
     {
@@ -44,7 +44,7 @@ class WarCache
         $this->declarationFactionPlayers = $declarationFactionPlayers;
         $this->enemyFactionPlayers = $enemyFactionPlayers;
         $this->killLeader = null;
-        $this->killLeaderCount = 0;
+        $this->killCounts = [];
     }
 
     /**
@@ -170,18 +170,21 @@ class WarCache
     }
 
     /**
-     * @return int
+     * @param string $xuid
+     * @return int|null
      */
-    public function getKillLeaderCount(): int
+    public function getKillCount(string $xuid): ?int
     {
-        return $this->killLeaderCount;
+        if (!isset($this->killCounts[$xuid])) return null;
+        return $this->killCounts[$xuid];
     }
 
     /**
-     * @param int $killLeaderCount
+     * @param string $xuid
+     * @param int $killCount
      */
-    public function setKillLeaderCount(int $killLeaderCount): void
+    public function setKillCount(string $xuid, int $killCount): void
     {
-        $this->killLeaderCount = $killLeaderCount;
+        $this->killCounts[$xuid] = $killCount;
     }
 }

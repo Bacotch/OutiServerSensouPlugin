@@ -452,15 +452,42 @@ class EventListener implements Listener
     public function onPlayerDeath(PlayerDeathEvent $event): void
     {
         $player = $event->getPlayer();
-        $warCaches = WarCacheManager::getInstance()->getAll();
-        if (count($warCaches) < 1) return;
-        foreach ($warCaches as $warCache) {
-            if ($warCache->hasDeclarationFactionPlayer($player->getXuid()) or $warCache->hasEnemyFactionPlayer($player->getXuid())) {
-                $warCache->removeDeclarationFactionPlayer($player);
-                $warCache->removeEnemyFactionPlayer($player);
-                Server::getInstance()->broadcastMessage("§a[] {$player->getName()}");
+        /**
+         * @var Player
+         */
+        $killer_ = $player->getLastDamageCause();
+        if($killer_ instanceof EntityDamageByEntityEvent and ($killer = $killer_->getDamager()) instanceof Player) {
+            $warCaches = WarCacheManager::getInstance()->getAll();
+            if (count($warCaches) > 0) {
+                foreach ($warCaches as $warCache) {
+                    // もし倒されたやつが宣戦布告した側のやつで、倒したやつが相手なら
+                    if ($warCache->hasDeclarationFactionPlayer($player->getXuid()) and $warCache->hasEnemyFactionPlayer($killer->getXuid())) {
+                        $warCache->removeDeclarationFactionPlayer($player);
+
+                        // 勝利判定
+                        if (count($warCache->getDeclarationFactionPlayers()) < 1) {
+                            $warData = WarDataManager::getInstance()->get($warCache->getId());
+                            $winnerFaction = FactionDataManager::getInstance()->get($warData->getEnemyFactionId());
+                            Server::getInstance()->broadcastMessage("§a[システム] 戦争が終了しました！{$winnerFaction->getName()}の勝利です！");
+                            WarDataManager::getInstance()->delete($warData->getId());
+                            WarCacheManager::getInstance()->delete($warCache->getId());
+                        }
+                    }
+                    elseif ($warCache->hasEnemyFactionPlayer($player->getXuid()) and $warCache->hasDeclarationFactionPlayer($killer->getXuid())) {
+                        $warCache->removeEnemyFactionPlayer($player);
+
+                        // 勝利判定
+                        if (count($warCache->getEnemyFactionPlayers()) < 1) {
+                            $warData = WarDataManager::getInstance()->get($warCache->getId());
+                            $winnerFaction = FactionDataManager::getInstance()->get($warData->getDeclarationFactionId());
+                            Server::getInstance()->broadcastMessage("§a[システム] 戦争が終了しました！{$winnerFaction->getName()}の勝利です！");
+                            WarDataManager::getInstance()->delete($warData->getId());
+                            WarCacheManager::getInstance()->delete($warCache->getId());
+                        }
+                    }
+                }
+                $event->setKeepInventory(true);
             }
         }
-        $event->setKeepInventory(true);
     }
 }

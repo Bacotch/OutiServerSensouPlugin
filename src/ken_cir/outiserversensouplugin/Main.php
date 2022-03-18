@@ -229,7 +229,7 @@ class Main extends PluginBase
         $this->getScheduler()->scheduleRepeatingTask(new AdminShopFluctuation($this->config->get("adminshop_fluctuation_count", 64)),
             $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
 
-        $this->getScheduler()->scheduleRepeatingTask(new WarCheckerTask(), $this->config->get("war_check_delay", 60) * 20);
+        $this->getScheduler()->scheduleRepeatingTask(new WarCheckerTask(), $this->config->get("war_check_delay", 20) * 20);
 
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),
