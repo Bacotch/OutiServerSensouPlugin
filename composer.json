@@ -1,6 +1,6 @@
 {
   "name": "ken_cir/outiserverplugin",
-  "description": "おうち鯖専属プラグイン",
+  "description": "おうち鯖戦争プラグイン",
   "autoload": {
     "psr-4": {
       "": "src/"
