@@ -2,7 +2,7 @@ name: OutiServerSensouPlugin
 main: ken_cir\outiserversensouplugin\Main
 description: おうちサーバー用プラグイン 戦争
 author: Ken_Cir
-version: 1.0.0-BETA
+version: 1.0.0
 api: 4.2.3
 mcpe-protocol: 486
 extensions:
