@@ -8,10 +8,12 @@ use jackmd\scorefactory\ScoreFactory;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
+use ken_cir\outiserversensouplugin\database\wardata\WarDataManager;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 use function date;
+use function array_shift;
 
 /**
  * プレイヤーの詳細を表示するスコアボード
@@ -52,6 +54,15 @@ class PlayerInfoScoreBoard extends Task
                     } else {
                         $landFaction = FactionDataManager::getInstance()->get($factionLandData->getFactionId());
                         ScoreFactory::setScoreLine($player, 6, "チャンク所有: {$landFaction->getName()}");
+                    }
+
+                    $nextWarData = WarDataManager::getInstance()->getAll();
+                    $nextWarData = array_shift($nextWarData);
+                    if (!$nextWarData or !$nextWarData->getStartDay()) {
+                        ScoreFactory::setScoreLine($player, 7, "次の戦争はありません");
+                    }
+                    else {
+                        ScoreFactory::setScoreLine($player, 7, "次の戦争開始は{$nextWarData->getStartDay()}日{$nextWarData->getStartHour()}時{$nextWarData->getStartMinutes()}分から " . FactionDataManager::getInstance()->get($nextWarData->getDeclarationFactionId())->getName() . " vs " . FactionDataManager::getInstance()->get($nextWarData->getEnemyFactionId())->getName());
                     }
 
                     ScoreFactory::sendLines($player);

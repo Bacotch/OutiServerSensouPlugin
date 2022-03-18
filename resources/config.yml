@@ -39,6 +39,9 @@ world_backup_delay: 3600
 # アドミンショップの値段変動を行う間隔(秒)
 adminshop_fluctuation_delay: 3600
 
+# 戦争開始のチェックを行う間隔(秒)
+war_check_delay: 60
+
 # --- ---
 # サーバー関係ログを出力するWebhookURL
 Discord_Server_Webhook: ""

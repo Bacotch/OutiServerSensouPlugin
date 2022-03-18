@@ -21,9 +21,11 @@ namespace ken_cir\outiserversensouplugin;
 use CortexPE\Commando\exception\HookAlreadyRegistered;
 use CortexPE\Commando\PacketHooker;
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
+use ken_cir\outiserversensouplugin\cache\warcache\WarCacheManager;
 use ken_cir\outiserversensouplugin\commands\BanAllCOmmand;
 use ken_cir\outiserversensouplugin\commands\ItemsCommand;
 use ken_cir\outiserversensouplugin\commands\OutiServerCommand;
+use ken_cir\outiserversensouplugin\commands\StartWarCommand;
 use ken_cir\outiserversensouplugin\commands\WorldBackupCommand;
 use ken_cir\outiserversensouplugin\database\adminshopdata\AdminShopDataManager;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
@@ -34,6 +36,7 @@ use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
 use ken_cir\outiserversensouplugin\database\roledata\RoleDataManager;
 use ken_cir\outiserversensouplugin\database\schedulemessagedata\ScheduleMessageDataManager;
+use ken_cir\outiserversensouplugin\database\wardata\WarDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\entitys\Zombie;
 use ken_cir\outiserversensouplugin\network\OutiServerSocket;
@@ -41,6 +44,7 @@ use ken_cir\outiserversensouplugin\tasks\AdminShopFluctuation;
 use ken_cir\outiserversensouplugin\tasks\Backup;
 use ken_cir\outiserversensouplugin\tasks\PlayerInfoScoreBoard;
 use ken_cir\outiserversensouplugin\tasks\ScheduleMessage;
+use ken_cir\outiserversensouplugin\tasks\WarCheckerTask;
 use ken_cir\outiserversensouplugin\utilitys\OutiServerLogger;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\Entity;
@@ -53,6 +57,7 @@ use pocketmine\item\ItemIds;
 use pocketmine\item\SpawnEgg;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\Server;
@@ -164,6 +169,8 @@ class Main extends PluginBase
         $this->database->executeGeneric("outiserver.schedulemessages.init");
         $this->database->executeGeneric("outiserver.chestshops.init");
         $this->database->executeGeneric("outiserver.adminshops.init");
+        $this->database->executeGeneric("outiserver.wars.init");
+        $this->database->executeGeneric("outiserver.war_historys.init");
         $this->database->waitAll();
         (new PlayerDataManager($this->database));
         (new FactionDataManager($this->database));
@@ -174,15 +181,15 @@ class Main extends PluginBase
         (new ScheduleMessageDataManager($this->database));
         (new ChestShopDataManager($this->database));
         (new AdminShopDataManager($this->database));
-        $this->database->waitAll();
-
+        (new WarDataManager($this->database));
 
         // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();
+        (new WarCacheManager());
 
         // --- Task登録 ---
         // プレイヤーのスコアボード表示Task
-        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 10);
+        $this->getScheduler()->scheduleRepeatingTask(new PlayerInfoScoreBoard(), 5);
 
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
             function (): void {
@@ -207,7 +214,9 @@ class Main extends PluginBase
         }
 
         // 定期メッセージ
-        $this->getScheduler()->scheduleDelayedRepeatingTask(new ScheduleMessage(), $this->config->get("scheduleMessageDelay", 300) * 20, $this->config->get("scheduleMessageDelay", 300) * 20);
+        $this->getScheduler()->scheduleDelayedRepeatingTask(new ScheduleMessage(),
+            $this->config->get("scheduleMessageDelay", 300) * 20,
+            $this->config->get("scheduleMessageDelay", 300) * 20);
 
         // バックアップ
         $this->getScheduler()->scheduleRepeatingTask(new ClosureTask(
@@ -217,7 +226,10 @@ class Main extends PluginBase
         ), $this->config->get("backup_delay", 3600) * 20);
 
         // アドミンショップの値段変動
-        $this->getScheduler()->scheduleRepeatingTask(new AdminShopFluctuation($this->config->get("adminshop_fluctuation_count", 64)), $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
+        $this->getScheduler()->scheduleRepeatingTask(new AdminShopFluctuation($this->config->get("adminshop_fluctuation_count", 64)),
+            $this->config->get("adminshop_fluctuation_delay", 3600) * 20);
+
+        $this->getScheduler()->scheduleRepeatingTask(new WarCheckerTask(), $this->config->get("war_check_delay", 20) * 20);
 
         // --- コマンド登録 ---
         $this->getServer()->getCommandMap()->registerAll($this->getName(),
@@ -225,7 +237,8 @@ class Main extends PluginBase
                 new BanAllCOmmand(),
                 new ItemsCommand(),
                 new OutiServerCommand($this),
-                new WorldBackupCommand($this)
+                new WorldBackupCommand($this),
+                new StartWarCommand($this)
             ]);
 
         // ---エンティティ系登録---
