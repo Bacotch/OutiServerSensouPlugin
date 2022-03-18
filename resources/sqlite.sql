@@ -869,4 +869,165 @@ WHERE id = :id;
 DROP TABLE IF EXISTS adminshops;
 -- # }
 -- # }
+
+-- # { wars
+-- # { init
+CREATE TABLE IF NOT EXISTS wars
+(
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    declaration_faction_id
+    INTEGER
+    NOT
+    NULL,
+    enemy_faction_id
+    INTEGER
+    NOT
+    NULL,
+    war_type
+    INTEGER
+    DEFAULT
+    NULL,
+    start_day
+    INTEGER
+    DEFAULT
+    NULL,
+    start_hour
+    INTEGER
+    DEFAULT
+    NULL,
+    start_minutes
+    INTEGER
+    DEFAULT
+    NULL,
+    started
+    INTEGER
+    NOT
+    NULL
+    DEFAULT
+    0
+);
+-- # }
+
+-- # { create
+-- #    :declaration_faction_id int
+-- #    :enemy_faction_id int
+INSERT INTO wars (declaration_faction_id, enemy_faction_id)
+VALUES (:declaration_faction_id, :enemy_faction_id);
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'wars';
+-- # }
+
+-- # { load
+SELECT *
+FROM wars;
+-- # }
+
+
+-- # { update
+-- #    :declaration_faction_id int
+-- #    :enemy_faction_id int
+-- #    :war_type ?int
+-- #    :start_day ?int
+-- #    :start_hour ?int
+-- #    :start_minutes ?int
+-- #    :started int
+-- #    :id int
+UPDATE wars
+SET declaration_faction_id = :declaration_faction_id,
+    enemy_faction_id       = :enemy_faction_id,
+    war_type               = :war_type,
+    start_day            = :start_day,
+    start_hour           = :start_hour,
+    start_minutes        = :start_minutes,
+    started                = :started
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM wars
+WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS wars;
+-- # }
+-- # }
+
+-- # { war_historys
+-- # { init
+CREATE TABLE IF NOT EXISTS war_historys
+(
+    id
+    INTEGER
+    PRIMARY
+    KEY
+    AUTOINCREMENT,
+    winner_faction_id
+    INTEGER
+    NOT
+    NULL,
+    loser_faction_id
+    INTEGER
+    NOT
+    NULL,
+    time
+    INTEGER
+    NOT
+    NULL
+);
+-- # }
+
+-- # { create
+-- #    :winner_faction_id int
+-- #    :loser_faction_id int
+-- #    :time int
+INSERT INTO war_historys (winner_faction_id, loser_faction_id, time)
+VALUES (:winner_faction_id, :loser_faction_id, :time);
+-- # }
+
+-- # { seq
+SELECT seq
+FROM sqlite_sequence
+WHERE name = 'war_historys';
+-- # }
+
+-- # { load
+SELECT *
+FROM war_historys;
+-- # }
+
+-- # { update
+-- #    :winner_faction_id int
+-- #    :loser_faction_id int
+-- #    :time int
+-- #    :id int
+UPDATE war_historys
+SET winner_faction_id = :winner_faction_id,
+    loser_faction_id  = :loser_faction_id,
+    time              = :time
+WHERE id = :id;
+-- # }
+
+-- # { delete
+-- #    :id int
+DELETE
+FROM war_historys
+WHERE id = :id;
+-- # }
+
+-- # { drop
+DROP TABLE IF EXISTS war_historys;
+-- # }
+-- # }
+
 -- # }

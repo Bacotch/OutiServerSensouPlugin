@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace ken_cir\outiserversensouplugin;
 
 use ken_cir\outiserversensouplugin\cache\playercache\PlayerCacheManager;
+use ken_cir\outiserversensouplugin\cache\warcache\WarCacheManager;
 use ken_cir\outiserversensouplugin\database\chestshopdata\ChestShopDataManager;
 use ken_cir\outiserversensouplugin\database\factiondata\FactionDataManager;
 use ken_cir\outiserversensouplugin\database\landconfigdata\LandConfigDataManager;
 use ken_cir\outiserversensouplugin\database\landdata\LandDataManager;
 use ken_cir\outiserversensouplugin\database\maildata\MailDataManager;
 use ken_cir\outiserversensouplugin\database\playerdata\PlayerDataManager;
+use ken_cir\outiserversensouplugin\database\wardata\WarDataManager;
 use ken_cir\outiserversensouplugin\entitys\Skeleton;
 use ken_cir\outiserversensouplugin\forms\admin\database\ChestShopDatabaseForm;
 use ken_cir\outiserversensouplugin\forms\chestshop\BuyChestShopForm;
@@ -26,11 +28,13 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\event\server\UpdateNotifyEvent;
 use pocketmine\math\Facing;
 use pocketmine\player\Player;
@@ -442,6 +446,48 @@ class EventListener implements Listener
             }
         } catch (\Error|\Exception $exception) {
             Main::getInstance()->getOutiServerLogger()->error($exception, true);
+        }
+    }
+
+    public function onPlayerDeath(PlayerDeathEvent $event): void
+    {
+        $player = $event->getPlayer();
+        /**
+         * @var Player
+         */
+        $killer_ = $player->getLastDamageCause();
+        if($killer_ instanceof EntityDamageByEntityEvent and ($killer = $killer_->getDamager()) instanceof Player) {
+            $warCaches = WarCacheManager::getInstance()->getAll();
+            if (count($warCaches) > 0) {
+                foreach ($warCaches as $warCache) {
+                    // もし倒されたやつが宣戦布告した側のやつで、倒したやつが相手なら
+                    if ($warCache->hasDeclarationFactionPlayer($player->getXuid()) and $warCache->hasEnemyFactionPlayer($killer->getXuid())) {
+                        $warCache->removeDeclarationFactionPlayer($player);
+
+                        // 勝利判定
+                        if (count($warCache->getDeclarationFactionPlayers()) < 1) {
+                            $warData = WarDataManager::getInstance()->get($warCache->getId());
+                            $winnerFaction = FactionDataManager::getInstance()->get($warData->getEnemyFactionId());
+                            Server::getInstance()->broadcastMessage("§a[システム] 戦争が終了しました！{$winnerFaction->getName()}の勝利です！");
+                            WarDataManager::getInstance()->delete($warData->getId());
+                            WarCacheManager::getInstance()->delete($warCache->getId());
+                        }
+                    }
+                    elseif ($warCache->hasEnemyFactionPlayer($player->getXuid()) and $warCache->hasDeclarationFactionPlayer($killer->getXuid())) {
+                        $warCache->removeEnemyFactionPlayer($player);
+
+                        // 勝利判定
+                        if (count($warCache->getEnemyFactionPlayers()) < 1) {
+                            $warData = WarDataManager::getInstance()->get($warCache->getId());
+                            $winnerFaction = FactionDataManager::getInstance()->get($warData->getDeclarationFactionId());
+                            Server::getInstance()->broadcastMessage("§a[システム] 戦争が終了しました！{$winnerFaction->getName()}の勝利です！");
+                            WarDataManager::getInstance()->delete($warData->getId());
+                            WarCacheManager::getInstance()->delete($warCache->getId());
+                        }
+                    }
+                }
+                $event->setKeepInventory(true);
+            }
         }
     }
 }
