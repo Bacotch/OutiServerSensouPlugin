@@ -204,7 +204,10 @@ class FactionDataManager
         }
 
         // 戦争データを全て削除する
-        foreach (WarDataManager::getInstance()->getFaction($deleteFactionData->getId()) as $warData) {
+        foreach (WarDataManager::getInstance()->getEnemyFaction($deleteFactionData->getId()) as $warData) {
+            WarDataManager::getInstance()->delete($warData->getId());
+        }
+        foreach (WarDataManager::getInstance()->getDeclarationFaction($deleteFactionData->getId()) as $warData) {
             WarDataManager::getInstance()->delete($warData->getId());
         }
 
