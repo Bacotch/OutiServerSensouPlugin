@@ -151,6 +151,7 @@ class Main extends PluginBase
 
         // ---イベント処理クラスを登録--
         Server::getInstance()->getPluginManager()->registerEvents(new EventListener(), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new LoggerHandler($this), $this);
 
         // ---Logger初期化---
         $this->outiServerLogger = new OutiServerLogger();
@@ -182,6 +183,7 @@ class Main extends PluginBase
         (new ChestShopDataManager($this->database));
         (new AdminShopDataManager($this->database));
         (new WarDataManager($this->database));
+        $this->database->waitAll();
 
         // --- キャッシュ初期化 ---
         PlayerCacheManager::createInstance();
