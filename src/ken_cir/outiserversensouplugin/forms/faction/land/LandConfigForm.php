@@ -80,8 +80,8 @@ class LandConfigForm
                                 $endZ,
                                 array(
                                     "entry" => true,
-                                    "blockTap_Place" => true,
-                                    "blockBreak" => true,
+                                    "blockTap_Place" => false,
+                                    "blockBreak" => false,
                                 ),
                                 array(),
                                 array()
