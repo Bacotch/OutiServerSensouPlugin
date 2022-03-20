@@ -52,7 +52,7 @@ class LoggerHandler implements Listener
         $msg->setContent("```プレイヤー: {$player->getName()}(XUID: {$player->getXuid()}\n時間{$time->format('Y-m-d H:i:sP')}\n$content```");
         $webhook->send($msg);
         $this->playerCount++;
-        if ($this->playerCount > 10) {
+        if ($this->playerCount >= 10) {
             $this->playerCount = 0;
         }
     }
@@ -69,7 +69,7 @@ class LoggerHandler implements Listener
         $msg->setContent("```ブロック: {$block->getName()}({$block->getId()}:{$block->getMeta()})\n座標: {$pos->getWorld()->getFolderName()}:{$pos->getX()}:{$pos->getY()}:{$pos->getZ()}\n時間{$time->format('Y-m-d H:i:sP')}\n$content```");
         $webhook->send($msg);
         $this->blockCount++;
-        if ($this->blockCount > 10) {
+        if ($this->blockCount >= 10) {
             $this->blockCount = 0;
         }
     }
