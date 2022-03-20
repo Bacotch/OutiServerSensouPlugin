@@ -3,21 +3,29 @@
 namespace ken_cir\outiserversensouplugin\commands;
 
 
+use CortexPE\Commando\BaseCommand;
 use jojoe77777\FormAPI\SimpleForm;
 use ken_cir\outiserversensouplugin\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
+use pocketmine\plugin\Plugin;
 
-class ItemsCommand extends Command
+class ItemsCommand extends BaseCommand
 {
-    public function __construct()
+    public function __construct(Plugin $plugin)
     {
-        parent::__construct("items");
+        parent::__construct($plugin, "items");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args): void
+    protected function prepare(): void
+    {
+        $this->setPermission("outiserver.op");
+        $this->setPermissionMessage("このコマンドはOPのみ使用可能");
+    }
+
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
         if (!$sender instanceof Player) return;
         $items = json_decode(file_get_contents(Main::getInstance()->getDataFolder() . "test.json"), true);

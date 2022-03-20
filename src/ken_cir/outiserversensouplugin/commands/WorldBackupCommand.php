@@ -29,6 +29,8 @@ class WorldBackupCommand extends BaseCommand
 
     protected function prepare(): void
     {
+        $this->setPermission("outiserver.op");
+        $this->setPermissionMessage("このコマンドはOPのみ使用可能");
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void

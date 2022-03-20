@@ -16,6 +16,6 @@ permissions:
   outiserver.default:
     description: おうち鯖 デフォルト権限
     default: true
-  outiserver.test:
+  outiserver.op:
     description: テスト権限
     default: op

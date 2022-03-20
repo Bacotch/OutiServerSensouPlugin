@@ -53,10 +53,12 @@ Discord_Error_Webhook: ""
 Discord_Plugin_Webhook: ""
 
 # Playerログを出力するWebhookURL
-Discord_Player_Webhook: ""
+Discord_Player_Webhook:
+  - ""
 
 # Playerログを出力するWebhookURL
-Discord_Block_Webhook: ""
+Discord_Block_Webhooks:
+  - ""
 
 # レポート・要望を送信するWebhookURL
 Report_Request_Webhook: ""
