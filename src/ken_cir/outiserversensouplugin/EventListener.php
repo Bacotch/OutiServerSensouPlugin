@@ -451,6 +451,8 @@ class EventListener implements Listener
 
     public function onPlayerDeath(PlayerDeathEvent $event): void
     {
+        $event->setKeepInventory(true);
+
         $player = $event->getPlayer();
         /**
          * @var Player
