@@ -29,21 +29,31 @@ class LoggerHandler implements Listener
 {
     private Main $plugin;
 
+    private int $playerCount;
+
+    private int $blockCount;
+
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
+        $this->playerCount = 0;
+        $this->blockCount = 0;
     }
 
     private function sendPlayerLog(Player $player, string $content): void
     {
         if ($content === "") throw new InvalidArgumentException("\$content a cannot be an empty string");
 
-        if (($webhookURL = (string)$this->plugin->getPluginConfig()->get("Discord_Player_Webhook", "")) !== "") {
-            $webhook = new Webhook($webhookURL);
-            $time = new DateTime('NOW');
-            $msg = new Message();
-            $msg->setContent("```プレイヤー: {$player->getName()}(XUID: {$player->getXuid()}\n時間{$time->format('Y-m-d H:i:sP')}\n$content```");
-            $webhook->send($msg);
+        if (count((array)$this->plugin->getPluginConfig()->get("Discord_Player_Webhook", [])) < 10) return;
+        $webhookURLs = (array)$this->plugin->getPluginConfig()->get("Discord_Player_Webhook", []);
+        $webhook = new Webhook($webhookURLs[$this->playerCount]);
+        $time = new DateTime('NOW');
+        $msg = new Message();
+        $msg->setContent("```プレイヤー: {$player->getName()}(XUID: {$player->getXuid()}\n時間{$time->format('Y-m-d H:i:sP')}\n$content```");
+        $webhook->send($msg);
+        $this->playerCount++;
+        if ($this->playerCount > 10) {
+            $this->playerCount = 0;
         }
     }
 
@@ -51,12 +61,16 @@ class LoggerHandler implements Listener
     {
         if ($content === "") throw new InvalidArgumentException("\$content a cannot be an empty string");
 
-        if (($webhookURL = (string)$this->plugin->getPluginConfig()->get("Discord_Block_Webhook", "")) !== "") {
-            $webhook = new Webhook($webhookURL);
-            $time = new DateTime('NOW');
-            $msg = new Message();
-            $msg->setContent("```ブロック: {$block->getName()}({$block->getId()}:{$block->getMeta()})\n座標: {$pos->getWorld()->getFolderName()}:{$pos->getX()}:{$pos->getY()}:{$pos->getZ()}\n時間{$time->format('Y-m-d H:i:sP')}\n$content```");
-            $webhook->send($msg);
+        if (count((array)$this->plugin->getPluginConfig()->get("Discord_Block_Webhook", [])) < 10) return;
+        $webhookURLs = (array)$this->plugin->getPluginConfig()->get("Discord_Block_Webhook", []);
+        $webhook = new Webhook($webhookURLs[$this->blockCount]);
+        $time = new DateTime('NOW');
+        $msg = new Message();
+        $msg->setContent("```ブロック: {$block->getName()}({$block->getId()}:{$block->getMeta()})\n座標: {$pos->getWorld()->getFolderName()}:{$pos->getX()}:{$pos->getY()}:{$pos->getZ()}\n時間{$time->format('Y-m-d H:i:sP')}\n$content```");
+        $webhook->send($msg);
+        $this->blockCount++;
+        if ($this->blockCount > 10) {
+            $this->blockCount = 0;
         }
     }
 
