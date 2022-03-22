@@ -1,6 +1,14 @@
 parameters:
     paths:
-        - /src
+        - src
     level: 0
     bootstrapFiles:
         - vendor/autoload.php
+    scanDirectories:
+        - phar://../../virions/Commando.phar/src
+        - phar://../../virions/apibossbar.phar/src
+        - phar://../../virions/DiscordWebhookAPI.phar/src
+        - phar://../../virions/libasynql.phar/src
+        - phar://../../virions/libFormAPI.phar/src
+        - phar://../../virions/LibSkin.phar/src
+        - phar://../../virions/ScoreFactory.phar/src

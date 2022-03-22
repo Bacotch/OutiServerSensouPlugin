@@ -23,4 +23,7 @@ projects:
         version: ^2.1.0
       - src: Ifera/ScoreFactory/ScoreFactory
         version: ^3.1.0
+
+    lint:
+      phpstan: false
 ...
